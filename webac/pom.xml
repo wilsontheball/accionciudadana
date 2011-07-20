@@ -5,13 +5,11 @@
 	<artifactId>webac</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<!-- TODO project name  -->
+	<!-- TODO project name -->
 	<name>quickstart</name>
 	<description></description>
-	<!--
-		TODO <organization> <name>company name</name> <url>company url</url>
-		</organization>
-	-->
+	<!-- TODO <organization> <name>company name</name> <url>company url</url> 
+		</organization> -->
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -26,17 +24,14 @@
 		<log4j.version>1.2.14</log4j.version>
 	</properties>
 	<dependencies>
-		<!--  WICKET DEPENDENCIES -->
+		<!-- WICKET DEPENDENCIES -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
-		<!--
-			OPTIONAL <dependency> <groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-extensions</artifactId>
-			<version>${wicket.version}</version> </dependency>
-		-->
+		<!-- OPTIONAL <dependency> <groupId>org.apache.wicket</groupId> <artifactId>wicket-extensions</artifactId> 
+			<version>${wicket.version}</version> </dependency> -->
 
 		<!-- LOGGING DEPENDENCIES - LOG4J -->
 		<dependency>
@@ -50,7 +45,7 @@
 			<version>1.2.14</version>
 		</dependency>
 
-		<!--  JUNIT DEPENDENCY FOR TESTING -->
+		<!-- JUNIT DEPENDENCY FOR TESTING -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -58,7 +53,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--  JETTY DEPENDENCIES FOR TESTING  -->
+		<!-- JETTY DEPENDENCIES FOR TESTING -->
 		<dependency>
 			<groupId>org.mortbay.jetty</groupId>
 			<artifactId>jetty</artifactId>
@@ -77,6 +72,17 @@
 			<version>${jetty.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+
+		<!-- DEPENDENCIAS DE PROYECTOS WILSON -->
+
+		<dependency>
+			<groupId>ar.com.thinksoft.ac</groupId>
+			<artifactId>intac</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+
 	</dependencies>
 	<build>
 		<resources>
@@ -133,4 +139,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	</project>
+</project>
