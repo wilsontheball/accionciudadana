@@ -1,5 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="hello">Hello andrac!</string>
+    <string name="hello">Pantalla HOME</string>
     <string name="app_name">andrac</string>
+<string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
+    <string name="login_titulo">Autenticación</string>
+    <string name="nick_name">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="label_ok">Aceptar</string>
+    <string name="login_sugerencia">No está registrado?</string>
+    <string name="label_salir">Salir</string>
+    <string name="label_registro">Registro</string>
+    
+    
+<string name="registro_titulo">Registración</string>
 </resources>
