@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GUI de pantalla Login -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:gravity="center"
+	android:isScrollContainer="true" android:background="@color/color_fondo">
+	<ImageView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:scaleType="centerInside"
+		android:layout_marginLeft="2dip" android:layout_marginRight="2dip"
+		android:layout_weight="1" android:src="@drawable/icon" />
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:gravity="center_horizontal" android:layout_marginTop="5dip"
+		android:layout_marginLeft="20dip" android:layout_marginRight="20dip"
+		android:layout_marginBottom="15dip" android:padding="10dip"
+		android:background="@color/color_fondo">
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:gravity="center"
+			android:paddingBottom="2dip" android:textAppearance="@android:style/TextAppearance.Large"
+			android:textColor="@color/color_texto" android:text="@string/login_titulo" />
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:gravity="center"
+			android:paddingBottom="2dip" android:textColor="@color/color_texto"
+			android:textAppearance="@android:style/TextAppearance.Small"
+			android:text="@string/login_sub_titulo" />
+		<EditText android:id="@+id/campo_nick" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:inputType="text"
+			android:textAppearance="@android:style/TextAppearance.Large"
+			android:hint="@string/nick_name" />
+		<EditText android:id="@+id/campo_pass" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:inputType="textPassword"
+			android:imeOptions="actionDone" android:textAppearance="@android:style/TextAppearance.Large"
+			android:hint="@string/password" />
+		<Button android:id="@+id/boton_ok" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:gravity="center"
+			android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
+			android:text="@string/label_ok" android:onClick="validar" />
+		<TextView android:id="@+id/newAccountTextView"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:gravity="right" android:paddingBottom="2dip"
+			android:textAppearance="@android:style/TextAppearance.Small"
+			android:textColor="@color/color_texto" android:text="@string/login_sugerencia" />
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:gravity="center_horizontal" android:layout_marginTop="5dip"
+			android:layout_marginLeft="20dip" android:layout_marginRight="20dip"
+			android:layout_marginBottom="15dip" android:padding="10dip">
+			<Button android:id="@+id/boton_salir" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:gravity="center"
+				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Small"
+				android:text="@string/label_salir" android:onClick="salir" />
+			<Button android:id="@+id/boton_registro" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:gravity="center"
+				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Small"
+				android:text="@string/label_registro" android:onClick="registro" />
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>
