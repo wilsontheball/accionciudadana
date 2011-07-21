@@ -1,6 +1,6 @@
 package ar.com.thinksoft.ac.webac.seguridad;
 
-import ar.com.thinksoft.ac.intac.Usuario;
+import ar.com.thinksoft.ac.intac.IUsuario;
 
 /**
  * 
@@ -20,7 +20,7 @@ public abstract class Permitible {
 	 * el permiso que debe tener la pagina web implementeda.
 	 * @return
 	 */
-	public abstract String getPermisoNecesario();
+	public abstract Permiso getPermisoNecesario();
 	
 	
 	
@@ -28,7 +28,7 @@ public abstract class Permitible {
 	 * Verifica si el usuario posee permisos suficientes para poder acceder a dicha pagina.
 	 * @return
 	 */
-	public boolean isValido(Usuario usuario){
+	public boolean isValido(IUsuario usuario){
 
 		return usuario.tenesPermisosPara(this.getPermisoNecesario());
 	
