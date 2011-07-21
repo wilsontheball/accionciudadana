@@ -1,5 +1,7 @@
 package ar.com.thinksoft.ac.webac.seguridad;
 
+import org.apache.wicket.markup.html.WebPage;
+
 import ar.com.thinksoft.ac.intac.IUsuario;
 
 /**
@@ -13,7 +15,7 @@ import ar.com.thinksoft.ac.intac.IUsuario;
  * TODO: falta que la clase herede de WebPage asi que valido para todas las paginas webs del sistema. 
  *
  */
-public abstract class Permitible {
+public abstract class Permitible extends WebPage{
 	
 	/**
 	 * Este metodo tiene que ser implementado en las subclases y debe devolver
