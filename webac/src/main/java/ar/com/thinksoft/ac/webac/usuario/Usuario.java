@@ -28,6 +28,10 @@ public class Usuario implements IUsuario {
 
 	
 	
+	@Override
+	public void addPermiso(IPermiso permiso) {
+		this.permisos.add(permiso);
+	}	
 	
 	
 	
@@ -36,5 +40,7 @@ public class Usuario implements IUsuario {
 	private List<IPermiso> getPermisos() {
 		return this.permisos;
 	}
+
+
 
 }

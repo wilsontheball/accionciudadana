@@ -9,4 +9,6 @@ public interface IUsuario {
 	 */
 	boolean tenesPermisosPara(IPermiso permiso);
 
+	void addPermiso(IPermiso permiso);
+
 }

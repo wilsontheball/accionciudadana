@@ -8,5 +8,5 @@ public class HomePagePermiso extends Permiso {
 	public String getCodigoSeguridad() {
 		return "home-page";
 	}
-
+	
 }
