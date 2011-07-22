@@ -6,8 +6,16 @@
 	<TextView android:gravity="center_horizontal"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:text="@string/hello" />
-	<Button android:id="@+id/boton_ok" android:layout_width="fill_parent"
+	<Button android:id="@+id/boton_reclamo" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:gravity="center"
 		android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
-		android:text="Pantalla Login" />
+		android:text="Iniciar Reclamo" android:onClick="iniciarReclamo" />
+	<Button android:id="@+id/boton_historial" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:gravity="center"
+		android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
+		android:text="Reclamos Realizados" android:onClick="mostrarReclamos" />
+	<Button android:id="@+id/boton_perfil" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:gravity="center"
+		android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
+		android:text="Perfil Usuario" android:onClick="mostrarPerfil" />
 </LinearLayout>

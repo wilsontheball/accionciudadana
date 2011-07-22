@@ -34,7 +34,7 @@
 		<Button android:id="@+id/boton_ok" android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:gravity="center"
 			android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
-			android:text="@string/label_ok" android:onClick="validar" />
+			android:text="@string/ok" android:onClick="validar" />
 		<TextView android:id="@+id/newAccountTextView"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:gravity="right" android:paddingBottom="2dip"
@@ -48,11 +48,11 @@
 			<Button android:id="@+id/boton_salir" android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:gravity="center"
 				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Small"
-				android:text="@string/label_salir" android:onClick="salir" />
+				android:text="@string/salir" android:onClick="salir" />
 			<Button android:id="@+id/boton_registro" android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:gravity="center"
 				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Small"
-				android:text="@string/label_registro" android:onClick="registro" />
+				android:text="@string/registro" android:onClick="registro" />
 		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>
