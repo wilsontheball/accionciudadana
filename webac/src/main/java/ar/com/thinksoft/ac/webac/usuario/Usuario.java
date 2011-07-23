@@ -15,7 +15,6 @@ public class Usuario implements IUsuario {
 	}
 
 	
-	@Override
 	public boolean tenesPermisosPara(IPermiso permiso) {
 
 		for (IPermiso permisoPropio : this.getPermisos()) {
@@ -28,7 +27,6 @@ public class Usuario implements IUsuario {
 
 	
 	
-	@Override
 	public void addPermiso(IPermiso permiso) {
 		this.permisos.add(permiso);
 	}	
