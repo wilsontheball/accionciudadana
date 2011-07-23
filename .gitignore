@@ -23,3 +23,10 @@ intac/.project
 intac/.settings
 intac/target/
 
+repository/.classpath
+repository/.project
+repository/target/
+repositor/.settings
+
+
+.metadata/

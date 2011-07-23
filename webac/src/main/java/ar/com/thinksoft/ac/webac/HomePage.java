@@ -2,12 +2,14 @@ package ar.com.thinksoft.ac.webac;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.WebPage;
+
+import ar.com.thinksoft.ac.webac.seguridad.Permiso;
+import ar.com.thinksoft.ac.webac.seguridad.Permitible;
 
 /**
  * Homepage
  */
-public class HomePage extends WebPage {
+public class HomePage extends Permitible {
 
 	private static final long serialVersionUID = 1L;
 
@@ -17,7 +19,7 @@ public class HomePage extends WebPage {
 	 * Constructor that is invoked when page is invoked without a session.
 	 * 
 	 * @param parameters
-	 *            Page parameters
+	 *            Page parameterPages
 	 */
     public HomePage(final PageParameters parameters) {
 
@@ -26,4 +28,14 @@ public class HomePage extends WebPage {
 
         // TODO Add your page's components here
     }
+
+    
+    
+    
+    
+    // ****************** SEGURIDAD *******************
+	@Override
+	public Permiso getPermisoNecesario() {
+		return new HomePagePermiso();
+	}
 }
