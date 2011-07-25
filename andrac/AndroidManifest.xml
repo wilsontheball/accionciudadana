@@ -13,6 +13,7 @@
 		<activity android:name=".Login" />
 		<activity android:name=".Registro" />
 		<activity android:name=".DetalleReclamo" />
-		<activity android:name=".ListaReclamos"></activity>
+		<activity android:name=".ListaReclamos" />
+		<activity android:name=".IniciarReclamo" />
 	</application>
 </manifest>

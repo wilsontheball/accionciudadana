@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:gravity="center_horizontal"
-	android:isScrollContainer="true" android:background="@color/color_fondo">
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:gravity="center"
-		android:paddingBottom="2dip" android:textAppearance="@android:style/TextAppearance.Large"
-		android:textColor="@color/color_texto" android:text="@string/registro_titulo" />
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:gravity="center"
-		android:paddingBottom="2dip" android:textColor="@color/color_texto"
-		android:textAppearance="@android:style/TextAppearance.Small"
-		android:text="@string/registro_sub_titulo" />
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="vertical" android:layout_width="fill_parent"
-		android:layout_height="fill_parent" android:gravity="center_horizontal"
-		android:layout_marginLeft="20dip" android:layout_marginRight="20dip"
-		android:isScrollContainer="true" android:background="@color/color_fondo">
-		<EditText android:id="@+id/nombre"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:inputType="text" android:textAppearance="@android:style/TextAppearance.Large"
+	android:layout_height="fill_parent" android:layout_gravity="center_horizontal"
+	android:scrollbarAlwaysDrawVerticalTrack="true" android:background="@color/color_fondo">
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:gravity="center_horizontal" android:layout_marginLeft="20dip"
+		android:layout_marginRight="5dip" android:background="@color/color_fondo">
+		<TextView android:layout_width="wrap_content"
+			android:textColor="@color/color_texto" android:textAppearance="@android:style/TextAppearance.Large"
+			android:layout_height="wrap_content" android:paddingBottom="2dip"
+			android:text="@string/registro_titulo" android:gravity="center" />
+		<TextView android:layout_width="wrap_content"
+			android:textColor="@color/color_texto" android:textAppearance="@android:style/TextAppearance.Small"
+			android:layout_height="wrap_content" android:paddingBottom="2dip"
+			android:text="@string/registro_sub_titulo" android:gravity="center" />
+		<EditText android:id="@+id/nombre" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:inputType="text"
+			android:textAppearance="@android:style/TextAppearance.Large"
 			android:hint="@string/nombre" />
-		<EditText android:id="@+id/apellido"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:inputType="text" android:textAppearance="@android:style/TextAppearance.Large"
+		<EditText android:id="@+id/apellido" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:inputType="text"
+			android:textAppearance="@android:style/TextAppearance.Large"
 			android:hint="@string/apellido" />
 		<EditText android:id="@+id/nick" android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:inputType="text"
@@ -54,9 +52,18 @@
 			android:inputType="textPassword" android:imeOptions="actionDone"
 			android:textAppearance="@android:style/TextAppearance.Large"
 			android:hint="@string/password_confirm" />
-		<Button android:id="@+id/boton_registrar" android:gravity="center"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
-			android:text="@string/ok" android:onClick="registrar" />
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent" android:layout_height="wrap_content">
+			<Button android:id="@+id/boton_salir" android:gravity="center"
+				android:layout_height="wrap_content" android:layout_width="fill_parent"
+				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
+				android:text="@string/salir" android:onClick="salir"
+				android:layout_weight="1" />
+			<Button android:id="@+id/boton_registrar" android:gravity="center"
+				android:layout_height="wrap_content" android:layout_width="fill_parent"
+				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
+				android:text="@string/ok" android:onClick="registrar"
+				android:layout_weight="1" />
+		</LinearLayout>
 	</LinearLayout>
-</LinearLayout>
+</ScrollView>

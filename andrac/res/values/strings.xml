@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="hello">Pantalla HOME</string>
-    <string name="app_name">Acción Ciudadana</string>
+	<string name="hello">Pantalla HOME</string>
+	<string name="app_name">Acción Ciudadana</string>
 	<string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
 	<string name="registro_sub_titulo">Proyecto Acción Ciudadana</string>
-    <string name="login_titulo">Autenticación</string>
-    <string name="nick_name">Usuario</string>
-    <string name="password">Contraseña</string>
-    <string name="password_confirm">Repetir contraseña</string>
-    <string name="ok">Aceptar</string>
-    <string name="login_sugerencia">No está registrado?</string>
-    <string name="salir">Salir</string>
-    <string name="registro">Registro</string>    
+	<string name="login_titulo">Autenticación</string>
+	<string name="nick_name">Usuario</string>
+	<string name="password">Contraseña</string>
+	<string name="password_confirm">Repetir contraseña</string>
+	<string name="ok">Aceptar</string>
+	<string name="login_sugerencia">No está registrado?</string>
+	<string name="salir">Salir</string>
+	<string name="registro">Registro</string>    
 	<string name="registro_titulo">Registración</string>
 	<string name="dni">DNI</string>
 	<string name="mail">e-mail</string>
@@ -19,4 +19,10 @@
 	<string name="nombre">Nombre</string>
 	<string name="apellido">Apellido</string>
 	<string name="telefono">Teléfono</string>
+	<string name="calle">Calle</string>
+	<string name="altura">Altura</string>
+<string name="login_exito">Autentificación Exitosa!</string>
+    <string name="login_cancel">Cerrando la aplicación...</string>
+<string name="advertencia">Error!</string>
+    <string name="nick_pass_fail">Usuario y/o contraseña no valida.</string>
 </resources>

@@ -1,10 +1,13 @@
 package ar.com.thinksoft.ac.andrac;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * La clase se encarga de manejar la pantalla Home.
@@ -34,24 +37,27 @@ public class Main extends Activity {
 		this.mostrarLogin();
 	}
 
-	// @Override
-	// protected void onActivityResult(int requestCode, int resultCode, Intent
-	// data) {
-	// super.onActivityResult(requestCode, resultCode, data);
-	// // TODO
-	// }
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == Activity.RESULT_CANCELED) {
+			Toast.makeText(this, R.string.login_cancel, Toast.LENGTH_LONG)
+					.show();
+			this.finish();
+		} else {
+			Toast.makeText(this, R.string.login_exito, Toast.LENGTH_LONG)
+					.show();
+		}
+	}
 
 	/**
-	 * Muestra la ventana de Login.
+	 * Muestra la ventana de Login esperando resultado de ejecucion.
 	 * 
 	 * @since 19-07-2011
 	 * @author Paul
 	 */
 	private void mostrarLogin() {
-		Intent intent = new Intent(this, Login.class);
-		startActivity(intent);
-		// TODO
-		// startActivityForResult(new Intent(this, Login.class), 0);
+		this.startActivityForResult(new Intent(this, Login.class), 0);
 	}
 
 	/**
@@ -61,8 +67,7 @@ public class Main extends Activity {
 	 * @author Paul
 	 */
 	public void iniciarReclamo(View v) {
-		// TODO falta hacer la ventana
-
+		startActivity(new Intent(v.getContext(), IniciarReclamo.class));
 	}
 
 	/**
@@ -72,7 +77,7 @@ public class Main extends Activity {
 	 * @author Paul
 	 */
 	public void mostrarReclamos(View v) {
-		// TODO
+		// TODO falta hacer la ventan
 	}
 
 	/**
@@ -82,11 +87,31 @@ public class Main extends Activity {
 	 * @author Paul
 	 */
 	public void mostrarPerfil(View v) {
-		// TODO falta hacer la ventana
-
+		// TODO falta hacer la ventana,
 	}
-	
-	public String getRepo(){
-		return "Hola";
+
+	/**
+	 * Muestra una ventana de dialogo con un boton que la cierra
+	 * 
+	 * @since 22-07-2011
+	 * @author Paul
+	 * @param titulo
+	 *            titulo que se va a mostrar en la ventana
+	 * @param mensaje
+	 *            mensaje que se va a mostrar
+	 */
+	private void mostrarAdvertencia(String titulo, String mensaje) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(titulo)
+				.setMessage(mensaje)
+				.setCancelable(false)
+				.setPositiveButton(R.string.ok,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
 }

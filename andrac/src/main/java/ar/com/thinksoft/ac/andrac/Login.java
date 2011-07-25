@@ -7,21 +7,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import ar.com.thinksoft.ac.intac.IUsuario;
 
 /**
- * La clase se encarga de manejar la pantalla de Autentificacion
+ * La clase se encarga de manejar la pantalla de Autentificacion. Desde esta
+ * pantalla se puede acceder a la pantalla de Registracion o cerrar la
+ * aplicacion.
  * 
  * @since 19-07-2011
  * @author Paul
  * 
  */
 public class Login extends Activity {
-
-	// TODO Definir que variables van!!!
-	// private static String TAG = "andrac";
-	// private static Activity hilo = null;
-	// private int resultado = Activity.RESULT_OK;
 
 	/**
 	 * Se encarga de la creacion de la ventana. Le asigna Layout.
@@ -37,7 +33,7 @@ public class Login extends Activity {
 	}
 
 	/**
-	 * Muestra una ventana de dialogo con un boton que la cierra
+	 * Muestra una ventana de dialogo con un boton para cerrarla.
 	 * 
 	 * @since 22-07-2011
 	 * @author Paul
@@ -62,23 +58,8 @@ public class Login extends Activity {
 	}
 
 	/**
-	 * Se ejecuta cuando se cierra la ventana. Devuelve resultado de su
-	 * ejecucion al proceso padre.
-	 * 
-	 * @since 19-07-2011
-	 * @author Paul
-	 */
-	@Override
-	public void onDestroy() {
-		// TODO Hacer que devuelva un valor a la ventana padre!!!
-		// setResult(this.resultado);
-		super.onDestroy();
-
-	}
-
-	/**
-	 * Valida el Usuario y Contraseña ingresados contra la base de datos. Metodo
-	 * llamado por el boton Aceptar.
+	 * Valida el Usuario y Contraseña ingresados contra la base de datos. En
+	 * caso de exito devuelve resultado positivo a la Activity padre.
 	 * 
 	 * @since 22-07-2011
 	 * @author Paul
@@ -89,11 +70,19 @@ public class Login extends Activity {
 		try {
 			String nick = this.getUsuario();
 			String pass = this.getPassword();
-			IUsuario usuario = this.getAplicacion().getRepositorio()
-					.getUsuario(nick, pass);
-			this.getAplicacion().setUsuarioActual(usuario);
+			if (this.getAplicacion().getRepositorio()
+					.validarUsuario(nick, pass)) {
+				this.getAplicacion().setNombreUsuario(nick);
+				this.setResult(Activity.RESULT_OK);
+				this.finish();
+			} else {
+				this.mostrarAdvertencia(getString(R.string.advertencia),
+						getString(R.string.nick_pass_fail));
+				this.limpiarDatosIngresados();
+			}
 		} catch (Exception e) {
-			this.mostrarAdvertencia("Atención!", e.toString());
+			this.mostrarAdvertencia(getString(R.string.advertencia),
+					e.toString());
 			this.limpiarDatosIngresados();
 		}
 	}
@@ -112,7 +101,7 @@ public class Login extends Activity {
 	}
 
 	/**
-	 * Cierra la ventana. Asigna resultado negativo.
+	 * Cierra la ventana. Devuelve resultado negativo al padre.
 	 * 
 	 * @since 19-07-2011
 	 * @author Paul
@@ -120,7 +109,7 @@ public class Login extends Activity {
 	 *            una View
 	 */
 	public void salir(View v) {
-		// TODO Hacer que se devuelva una valor CANCELADO al salir!
+		this.setResult(Activity.RESULT_CANCELED);
 		this.finish();
 	}
 

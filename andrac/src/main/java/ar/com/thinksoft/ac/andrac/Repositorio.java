@@ -26,4 +26,31 @@ public class Repositorio {
 		return null;
 	}
 
+	/**
+	 * valida un usuario y contraseña
+	 * 
+	 * @param nick
+	 * @param pass
+	 * @return
+	 */
+	public boolean validarUsuario(String nick, String pass) {
+		// TODO no esta implementada la conexion a la BD
+		if (nick.isEmpty() || pass.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean publicarReclamoDireccion(String nick, String tipo, String calle, String altura,
+			String observacion) {
+		// TODO falta implementar
+		return true;
+	}
+	
+	public boolean publicarReclamoGPS(String nick, String tipo, String coordenada,
+			String observacion) {
+		// TODO falta implementar
+		return true;
+	}
+
 }
