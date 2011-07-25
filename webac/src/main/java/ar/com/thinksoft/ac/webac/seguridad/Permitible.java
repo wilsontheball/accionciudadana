@@ -1,6 +1,8 @@
 package ar.com.thinksoft.ac.webac.seguridad;
 
-import ar.com.thinksoft.ac.intac.Usuario;
+import org.apache.wicket.markup.html.WebPage;
+
+import ar.com.thinksoft.ac.intac.IUsuario;
 
 /**
  * 
@@ -13,14 +15,14 @@ import ar.com.thinksoft.ac.intac.Usuario;
  * TODO: falta que la clase herede de WebPage asi que valido para todas las paginas webs del sistema. 
  *
  */
-public abstract class Permitible {
+public abstract class Permitible extends WebPage{
 	
 	/**
 	 * Este metodo tiene que ser implementado en las subclases y debe devolver
 	 * el permiso que debe tener la pagina web implementeda.
 	 * @return
 	 */
-	public abstract String getPermisoNecesario();
+	public abstract Permiso getPermisoNecesario();
 	
 	
 	
@@ -28,7 +30,7 @@ public abstract class Permitible {
 	 * Verifica si el usuario posee permisos suficientes para poder acceder a dicha pagina.
 	 * @return
 	 */
-	public boolean isValido(Usuario usuario){
+	public boolean isValido(IUsuario usuario){
 
 		return usuario.tenesPermisosPara(this.getPermisoNecesario());
 	
