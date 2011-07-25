@@ -27,7 +27,7 @@ public class Repositorio {
 	}
 
 	/**
-	 * valida un usuario y contraseña
+	 * Valida un nick y password
 	 * 
 	 * @param nick
 	 * @param pass
@@ -41,16 +41,38 @@ public class Repositorio {
 		return true;
 	}
 
-	public boolean publicarReclamoDireccion(String nick, String tipo, String calle, String altura,
-			String observacion) {
-		// TODO falta implementar
-		return true;
-	}
-	
-	public boolean publicarReclamoGPS(String nick, String tipo, String coordenada,
-			String observacion) {
+	/**
+	 * Registra a un nuevo usuario en el sistema.
+	 * 
+	 * @since 25-07-2011
+	 * @author Paul
+	 * 
+	 * @param nombre
+	 * @param apellido
+	 * @param nick
+	 * @param dni
+	 * @param mail
+	 * @param telefono
+	 * @param password
+	 * @return <Code>true</Code> si el usuario se registro correctamente o
+	 *         <Code>false</Code> si el usuario no se pudo registrar.
+	 */
+	public boolean registrarUsuario(String nombre, String apellido,
+			String nick, String dni, String mail, String telefono,
+			String password) {
 		// TODO falta implementar
 		return true;
 	}
 
+	public boolean publicarReclamoDireccion(String nick, String tipo,
+			String calle, String altura, String observacion) {
+		// TODO falta implementar
+		return true;
+	}
+
+	public boolean publicarReclamoGPS(String nick, String tipo,
+			String coordenada, String observacion) {
+		// TODO falta implementar
+		return true;
+	}
 }

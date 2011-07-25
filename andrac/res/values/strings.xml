@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 	<string name="hello">Pantalla HOME</string>
 	<string name="app_name">Acción Ciudadana</string>
@@ -21,8 +21,13 @@
 	<string name="telefono">Teléfono</string>
 	<string name="calle">Calle</string>
 	<string name="altura">Altura</string>
-<string name="login_exito">Autentificación Exitosa!</string>
-    <string name="login_cancel">Cerrando la aplicación...</string>
-<string name="advertencia">Error!</string>
-    <string name="nick_pass_fail">Usuario y/o contraseña no valida.</string>
+	<string name="login_exito">Autentificación Exitosa!</string>
+	<string name="login_cancel">Cerrando la aplicación...</string>
+	<string name="advertencia">Error!</string>
+	<string name="nick_pass_fail">Usuario y/o contraseña no valida.</string>
+	<string name="atencion">Atención!</string>
+	<string name="campo_vacio">Todos los campos deben ser completados!</string>
+	<string name="mail_no_coincide">Mail ingresado no coincide con su repetición!</string>
+	<string name="pass_no_coincide">Contraseña ingresada no coincide con su repetición!</string>
+	<string name="confirmar_registro">Se mandó un e-mail a su casilla de correo. Tiene que abrirlo para continuar con el proceso de registración.</string>
 </resources>
