@@ -6,6 +6,7 @@ import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IPermitible;
 import ar.com.thinksoft.ac.intac.IUsuario;
 
+
 /**
  * 
  * Esta clase es la representacion de una pagina que tiene permisos de seguridad.
@@ -14,18 +15,15 @@ import ar.com.thinksoft.ac.intac.IUsuario;
  * @author Wilson
  *
  *
- * TODO: falta que la clase herede de WebPage asi que valido para todas las paginas webs del sistema. 
- *
  */
 public abstract class Permitible extends WebPage implements IPermitible{
 	
-	/**
-	 * Este metodo tiene que ser implementado en las subclases y debe devolver
-	 * el permiso que debe tener la pagina web implementeda.
-	 * @return
-	 */
+	
 	public abstract IPermiso getPermisoNecesario();
 	
+	/**
+	 * Determina si un usuario puede acceder a dicha pagina
+	 */
 	public boolean puedeAcceder(IUsuario usuario){
 		return usuario.tenesPermisosPara(this);
 	}

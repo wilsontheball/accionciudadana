@@ -23,9 +23,6 @@ public class Usuario implements IUsuario {
 	/**
 	 * Determina si el permiso que se le pasa por parametro esta dentro de su
 	 * coleccion de permisos
-	 * 
-	 * @param permiso
-	 * @return
 	 */
 	private boolean posee(IPermiso permiso) {
 

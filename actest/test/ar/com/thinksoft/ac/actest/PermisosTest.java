@@ -49,6 +49,11 @@ public class PermisosTest {
 		assertFalse(page.puedeAcceder(usuario));
 	}
 	
+	/**
+	 * Convierte una pagina wicket a una permitible creada por nosotros
+	 * @param clazz
+	 * @return
+	 */
 	private IPermitible startPage(Class<? extends Page> clazz){
 		return (IPermitible) tester.startPage(clazz);
 	}
