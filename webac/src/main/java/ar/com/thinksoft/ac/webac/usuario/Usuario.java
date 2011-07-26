@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thinksoft.ac.intac.IPermiso;
+import ar.com.thinksoft.ac.intac.IPermitible;
 import ar.com.thinksoft.ac.intac.IUsuario;
 
 public class Usuario implements IUsuario {
@@ -14,8 +15,19 @@ public class Usuario implements IUsuario {
 		this.permisos = new ArrayList<IPermiso>();
 	}
 
-	
-	public boolean tenesPermisosPara(IPermiso permiso) {
+	@Override
+	public boolean tenesPermisosPara(IPermitible permitible) {
+		return this.posee(permitible.getPermisoNecesario());
+	}
+
+	/**
+	 * Determina si el permiso que se le pasa por parametro esta dentro de su
+	 * coleccion de permisos
+	 * 
+	 * @param permiso
+	 * @return
+	 */
+	private boolean posee(IPermiso permiso) {
 
 		for (IPermiso permisoPropio : this.getPermisos()) {
 			if (permisoPropio.equals(permiso))
@@ -25,26 +37,19 @@ public class Usuario implements IUsuario {
 		return false;
 	}
 
-	
-	
 	public void addPermiso(IPermiso permiso) {
 		this.permisos.add(permiso);
-	}	
-	
-	
-	
+	}
+
 	// ************************* GETTERS & SETTERS ***********************
 
 	private List<IPermiso> getPermisos() {
 		return this.permisos;
 	}
 
-
 	@Override
 	public int cantidadPermisos() {
 		return this.getPermisos().size();
 	}
-
-
 
 }
