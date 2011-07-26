@@ -10,4 +10,6 @@ public interface IUsuario {
 
 	void addPermiso(IPermiso permiso);
 
+	int cantidadPermisos();
+
 }

@@ -40,5 +40,11 @@ public class Usuario implements IUsuario {
 	}
 
 
+	@Override
+	public int cantidadPermisos() {
+		return this.getPermisos().size();
+	}
+
+
 
 }
