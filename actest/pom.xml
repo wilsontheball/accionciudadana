@@ -1,29 +1,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>ar.com.thinksoft.ac</groupId>
-  <artifactId>actest</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+	<groupId>ar.com.thinksoft.ac</groupId>
+	<artifactId>actest</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
-  <name>actest</name>
-  <url>http://maven.apache.org</url>
+	<name>actest</name>
+	<url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-  <dependencies>
-  
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    
-    <!-- DEPENDENCIAS DE PROYECTOS WILSON -->
+	<dependencies>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- DEPENDENCIAS DE PROYECTOS WILSON -->
 
 		<dependency>
 			<groupId>ar.com.thinksoft.ac</groupId>
@@ -46,6 +46,10 @@
 			<artifactId>wilsond</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-    
-  </dependencies>
+
+	</dependencies>
+
+	<build>
+		<testSourceDirectory>test</testSourceDirectory>
+	</build>
 </project>
