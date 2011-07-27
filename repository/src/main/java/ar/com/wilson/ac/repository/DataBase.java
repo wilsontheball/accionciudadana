@@ -13,7 +13,7 @@ public class DataBase {
 	 * Arranca el motor del repositorio
 	 */
 	public void start() {
-		this.server = Db4oClientServer.openServer("repository", port);
+		this.server = Db4oClientServer.openServer("repository.db", port);
 		this.server.grantAccess("wilson", "wilson");
 	}
 	
