@@ -54,15 +54,15 @@
 			android:hint="@string/password_confirm" />
 		<LinearLayout android:orientation="horizontal"
 			android:layout_width="fill_parent" android:layout_height="wrap_content">
-			<Button android:id="@+id/boton_salir" android:gravity="center"
-				android:layout_height="wrap_content" android:layout_width="fill_parent"
-				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
-				android:text="@string/salir" android:onClick="salir"
-				android:layout_weight="1" />
 			<Button android:id="@+id/boton_registrar" android:gravity="center"
 				android:layout_height="wrap_content" android:layout_width="fill_parent"
 				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
 				android:text="@string/ok" android:onClick="registrar"
+				android:layout_weight="1" />
+			<Button android:id="@+id/boton_salir" android:gravity="center"
+				android:layout_height="wrap_content" android:layout_width="fill_parent"
+				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
+				android:text="@string/cancelar" android:onClick="cancelar"
 				android:layout_weight="1" />
 		</LinearLayout>
 	</LinearLayout>

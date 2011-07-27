@@ -75,7 +75,7 @@ public class Registro extends Activity {
 	 * @author Paul
 	 * @param v
 	 */
-	public void salir(View v) {
+	public void cancelar(View v) {
 		this.finish();
 	}
 
