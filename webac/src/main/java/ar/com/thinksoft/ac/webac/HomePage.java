@@ -1,15 +1,17 @@
 package ar.com.thinksoft.ac.webac;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.basic.Label;
 
 import ar.com.thinksoft.ac.webac.seguridad.Permiso;
 import ar.com.thinksoft.ac.webac.seguridad.Permitible;
+import ar.com.thinksoft.ac.webac.web.base.BasePage;
 
 /**
  * Homepage
  */
-public class HomePage extends Permitible {
+public class HomePage extends BasePage {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,15 +24,13 @@ public class HomePage extends Permitible {
 	 *            Page parameterPages
 	 */
     public HomePage(final PageParameters parameters) {
-
+    	
         // Add the simplest type of label
         add(new Label("message", "If you see this message wicket is properly configured and running"));
 
         // TODO Add your page's components here
     }
 
-    
-    
     
     
     // ****************** SEGURIDAD *******************
