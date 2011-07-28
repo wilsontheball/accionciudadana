@@ -57,6 +57,7 @@ html {
 
 a {
 	color: white;
+	
 }
 
 a:link {
@@ -73,4 +74,6 @@ a:hover {
 
 a:active {
 	text-decoration: underline;
+	font-weight:bold;
+	
 }
