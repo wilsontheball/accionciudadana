@@ -17,13 +17,33 @@ public class Reclamo implements IReclamo{
 	private int alturaReclamo = 0;
 	private int latitudReclamo = 0;
 	private int longitudReclamo = 0;
-	private Date fechaYHoraReclamo = null;
+	private Date fechaYHoraReclamo = new Date();
 	private String tipoReclamo = "";
-	private String ciudadano = "";
+	private String ciudadanoReclamo = "";
 	private String observaciones = "";
 	private Image imagen;
 	private IEstadoReclamo estado;
 	
+	
+	public Reclamo(){
+		
+	}
+	
+	public Reclamo (String calle,int altura,int latitud,int longitud,Date fechaYHora, String tipo, String ciudadano,
+					String observaciones, Image imagen, IEstadoReclamo estado){
+		
+		this.setCalleIncidente(calle);
+		this.setAlturaIncidente(altura);
+		this.setLatitudIncidente(latitud);
+		this.setLongitudIncidente(longitud);
+		this.setFechaYHoraReclamo(fechaYHora);
+		this.setTipoIncidente(tipo);
+		this.setCiudadanoGeneradorReclamo(ciudadano);
+		this.setObservaciones(observaciones);
+		this.setImagen(imagen);
+		this.setEstado(estado);
+		
+	}
 
 	// get ATRIBUTOS
 	
@@ -52,7 +72,7 @@ public class Reclamo implements IReclamo{
 	}
 
 	public String getCiudadanoGeneradorReclamo() {
-		return this.ciudadano;
+		return this.ciudadanoReclamo;
 	}
 
 	public String getObservaciones() {
@@ -101,7 +121,7 @@ public class Reclamo implements IReclamo{
 	}
 
 	public void setCiudadanoGeneradorReclamo(String ciudadano) {
-		this.ciudadano = ciudadano;
+		this.ciudadanoReclamo = ciudadano;
 		
 	}
 
