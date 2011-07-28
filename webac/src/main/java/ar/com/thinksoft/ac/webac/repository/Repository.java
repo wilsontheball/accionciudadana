@@ -1,7 +1,6 @@
 package ar.com.thinksoft.ac.webac.repository;
 
 import java.util.Comparator;
-
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.cs.Db4oClientServer;
@@ -13,6 +12,12 @@ import com.db4o.query.Predicate;
 import com.db4o.query.Query;
 import com.db4o.query.QueryComparator;
 
+
+/**
+ * Implementación del repositorio para poder acceder a la base de datos desde cualquier lado del proyecto.
+ * @author Matias
+ * 
+ */
 public class Repository implements ObjectContainer{
 	
 	private static Repository repository = null;
@@ -69,7 +74,6 @@ public class Repository implements ObjectContainer{
 
 	public <TargetType> ObjectSet<TargetType> query(Predicate<TargetType> arg0, QueryComparator<TargetType> arg1) 
 			throws Db4oIOException,	DatabaseClosedException {
-		
 		return objectContainer.query(arg0, arg1);
 	}
 

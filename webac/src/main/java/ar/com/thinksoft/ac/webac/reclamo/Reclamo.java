@@ -6,6 +6,11 @@ import java.util.Date;
 import ar.com.thinksoft.ac.intac.IEstadoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 
+/**
+ * Implementación de IReclamo en intac
+ * @author Matias
+ *
+ */
 public class Reclamo implements IReclamo{
 	
 	private String calleReclamo = "";
