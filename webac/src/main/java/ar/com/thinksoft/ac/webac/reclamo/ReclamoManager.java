@@ -3,7 +3,6 @@ package ar.com.thinksoft.ac.webac.reclamo;
 import java.util.*;
 
 import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.webac.predicates.PredicateReclamo;
 import ar.com.thinksoft.ac.webac.repository.Repository;
 
 /**
@@ -33,9 +32,9 @@ public class ReclamoManager {
 	}
 	
 	/**
-	 * Método para guardar una colección de Reclamos.
-	 * Justificación de este método: si quiero guardar una colección de Reclamos la guarda como tal,
-	 * por eso me interesa guardar cada uno de los reclamos que conforma la colección.
+	 * Metodo para guardar una coleccion de Reclamos.
+	 * Justificacion de este metodo: si quiero guardar una coleccion de Reclamos la guarda como tal,
+	 * por eso me interesa guardar cada uno de los reclamos que conforma la coleccion.
 	 * @param listaReclamos
 	 * @author Matias
 	 */
@@ -64,16 +63,16 @@ public class ReclamoManager {
 	 * @param predicate
 	 * @return
 	 */
-	public List<Reclamo> obtenerReclamosFiltrados(PredicateReclamo predicate){
-		return Repository.getInstance().query(predicate);
+	public List<IReclamo> obtenerReclamosFiltrados(IReclamo reclamo){
+		return Repository.getInstance().queryByExample(reclamo);
 	}
 	
 	/**
 	 * @author Matias
 	 */
 	public void eliminarTodosReclamos(){
-		List<Reclamo> objs = Repository.getInstance().queryByExample(Reclamo.class);
-		for(Reclamo reclamo : objs){
+		List<IReclamo> objs = Repository.getInstance().queryByExample(IReclamo.class);
+		for(IReclamo reclamo : objs){
 			Repository.getInstance().delete(reclamo);
 		}
 	}

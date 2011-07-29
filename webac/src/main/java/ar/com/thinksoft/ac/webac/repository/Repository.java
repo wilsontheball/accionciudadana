@@ -14,7 +14,7 @@ import com.db4o.query.QueryComparator;
 
 
 /**
- * Implementación del repositorio para poder acceder a la base de datos desde cualquier lado del proyecto.
+ * Implementacion del repositorio para poder acceder a la base de datos desde cualquier lado del proyecto.
  * @author Matias
  * 
  */

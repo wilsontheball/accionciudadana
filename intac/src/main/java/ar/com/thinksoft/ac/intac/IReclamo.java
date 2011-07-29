@@ -32,6 +32,8 @@ public interface IReclamo {
 	
 	public IEstadoReclamo getEstado();
 	
+	public String getPrioridad();
+	
 	// Fin obtención de atributos
 	
 	// Setear atributos
@@ -54,6 +56,8 @@ public interface IReclamo {
 	public void setImagen(Image imagen);
 	
 	public void setEstado(IEstadoReclamo estado);
+	
+	public void setPrioridad(String prioridad);
 	
 	// Fin seteo atributos
 	
