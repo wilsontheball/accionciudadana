@@ -81,9 +81,26 @@
 			<artifactId>intac</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
+		
+		<!-- BD DEPENDENCY - DB40 -->  
+		
+		<dependency>
+			<groupId>com.db4o</groupId>
+			<artifactId>db4o-full-java5</artifactId>
+			<version>8.1-SNAPSHOT</version>
+		</dependency>
+
 
 
 	</dependencies>
+	
+	<repositories>
+		<repository>
+			<id>source.db4o</id>
+			<url>http://source.db4o.com/maven</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<resources>
 			<resource>
