@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.webac.web.login;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 
@@ -15,7 +16,7 @@ public class Login extends BasePage {
 	}
 
 	public Login(final PageParameters parameters) {
-
+		add(CSSPackageResource.getHeaderContribution(Login.class,"Login.css"));
 		add( new Button("accederButton"));
 		add( new Button("registrarButton"));
 		

@@ -1,13 +1,24 @@
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 	<head>
+		
 		<title>Login</title>
+		
+		<wicket:head>
+			<wicket:link>
+				<link rel="stylesheet" type="text/css" href="BasePage.css"/>
+			</wicket:link>
+		</wicket:head>
+		
+		
 	</head>
 	<body>
 		<wicket:extend>
-
-			<input type="submit" wicket:id="accederButton" value="Acceder" />
-			<input type="submit" wicket:id="registrarButton" value="Registrarse" />
-			
+		<div>
+			<div id="botoneraLogin">
+				<input id="buttonAcceder" type="submit" wicket:id="accederButton" value="Acceder" />
+				<input id="buttonRegistrar" type="submit" wicket:id="registrarButton" value="Registrarse" />
+			</div>
+		</div>
 		</wicket:extend>
 	</body>
 </html>
