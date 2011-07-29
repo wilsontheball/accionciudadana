@@ -13,17 +13,17 @@ import ar.com.thinksoft.ac.intac.IReclamo;
  */
 public class Reclamo implements IReclamo{
 	
-	private String calleReclamo = "";
-	private int alturaReclamo = 0;
-	private int latitudReclamo = 0;
-	private int longitudReclamo = 0;
-	private Date fechaYHoraReclamo = new Date();
-	private String tipoReclamo = "";
-	private String ciudadanoReclamo = "";
-	private String observaciones = "";
+	private String calleReclamo;
+	private int alturaReclamo;
+	private int latitudReclamo;
+	private int longitudReclamo;
+	private Date fechaYHoraReclamo;
+	private String tipoReclamo;
+	private String ciudadanoReclamo;
+	private String observaciones;
 	private Image imagen;
 	private IEstadoReclamo estado;
-	private String prioridad = "";
+	private String prioridad;
 	
 	
 	public Reclamo(){

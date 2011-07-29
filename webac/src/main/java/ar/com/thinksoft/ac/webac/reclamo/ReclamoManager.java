@@ -2,6 +2,9 @@ package ar.com.thinksoft.ac.webac.reclamo;
 
 import java.util.*;
 
+import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
+
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.repository.Repository;
 
@@ -38,8 +41,8 @@ public class ReclamoManager {
 	 * @param listaReclamos
 	 * @author Matias
 	 */
-	public void guardarColeccionReclamos(List<IReclamo> listaReclamos){
-		for(IReclamo reclamo : listaReclamos){
+	public void guardarColeccionReclamos(List<Reclamo> listaReclamos){
+		for(Reclamo reclamo : listaReclamos){
 			guardarReclamo(reclamo);
 		}
 	}
@@ -63,8 +66,8 @@ public class ReclamoManager {
 	 * @param predicate
 	 * @return
 	 */
-	public List<IReclamo> obtenerReclamosFiltrados(IReclamo reclamo){
-		return Repository.getInstance().queryByExample(reclamo);
+	public ObjectSet<Reclamo> obtenerReclamosFiltrados(Predicate<Reclamo> predicate){
+		return Repository.getInstance().query(predicate);
 	}
 	
 	/**

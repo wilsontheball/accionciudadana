@@ -5,8 +5,12 @@ import static org.junit.Assert.*;
 import java.util.*;
 import org.junit.*;
 
+import com.db4o.ObjectSet;
+
 import ar.com.thinksoft.ac.estadosReclamo.*;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.predicates.PredicateReclamoPorCiudadano;
+import ar.com.thinksoft.ac.webac.predicates.PredicateReclamoPorLatitudYLongitud;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.repository.Repository;
@@ -16,7 +20,7 @@ import ar.com.thinksoft.ac.webac.repository.Repository;
  */
 public class TestReclamo {
 
-	private List<IReclamo> lista = new ArrayList<IReclamo>();
+	private List<Reclamo> lista = new ArrayList<Reclamo>();
 	
 	@Before
 	public void SetUp(){
@@ -40,9 +44,7 @@ public class TestReclamo {
 		ReclamoManager.getInstance().guardarColeccionReclamos(this.lista);
 		
 		List<IReclamo> objs = Repository.getInstance().queryByExample(IReclamo.class);
-		/*for(IReclamo reclamo : objs){
-			 System.out.println(reclamo.getCiudadanoGeneradorReclamo());
-		}*/
+		
 		assertTrue(objs.size() == 3);
 	}
 	
@@ -52,9 +54,7 @@ public class TestReclamo {
 		ReclamoManager.getInstance().guardarColeccionReclamos(this.lista);
 		
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerTodosReclamos();
-		/*for(IReclamo reclamo : lista){
-			 System.out.println(reclamo.getCiudadanoGeneradorReclamo());
-		}*/
+
 		assertTrue(lista.size() == 3);
 	}
 	
@@ -67,23 +67,12 @@ public class TestReclamo {
 		
 		ReclamoManager.getInstance().guardarColeccionReclamos(this.lista);
 		
-		Reclamo reclamoFiltro = new Reclamo();
-		reclamoFiltro.setCiudadanoGeneradorReclamo("Matias");
+		ObjectSet<Reclamo> listaReclamos = ReclamoManager.getInstance().obtenerReclamosFiltrados(new PredicateReclamoPorCiudadano("Matias"));
 		
-		List<IReclamo> listaReclamos = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamoFiltro);
-		
-		for(IReclamo reclamo : listaReclamos){
-		 	System.out.println(reclamo.getCiudadanoGeneradorReclamo());
-		}
 		assertTrue(listaReclamos.size() == 0);
 		
-		Reclamo reclamoFiltro2 = new Reclamo("",0,0,0,new Date(),"","Rocio","", null, null, "");
+		List<Reclamo> listaReclamos2 = ReclamoManager.getInstance().obtenerReclamosFiltrados(new PredicateReclamoPorCiudadano("Rocio"));
 		
-		List<IReclamo> listaReclamos2 = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamoFiltro2);
-		
-		for(IReclamo reclamo : listaReclamos2){
-		 	System.out.println(reclamo.getCiudadanoGeneradorReclamo());
-		}
 		assertTrue(listaReclamos2.size() == 0);
 		
 	}
@@ -93,11 +82,7 @@ public class TestReclamo {
 		
 		ReclamoManager.getInstance().guardarColeccionReclamos(this.lista);
 		
-		Reclamo reclamoFiltro = new Reclamo();
-		reclamoFiltro.setLatitudIncidente(50);
-		reclamoFiltro.setLongitudIncidente(40);
-		
-		List<IReclamo> listaReclamos = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamoFiltro);
+		List<Reclamo> listaReclamos = ReclamoManager.getInstance().obtenerReclamosFiltrados(new PredicateReclamoPorLatitudYLongitud(40, 60));
 		
 		assertTrue(listaReclamos.size() == 1);
 		
