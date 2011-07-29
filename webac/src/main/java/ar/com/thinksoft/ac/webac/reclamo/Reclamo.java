@@ -23,6 +23,7 @@ public class Reclamo implements IReclamo{
 	private String observaciones = "";
 	private Image imagen;
 	private IEstadoReclamo estado;
+	private String prioridad = "";
 	
 	
 	public Reclamo(){
@@ -30,7 +31,7 @@ public class Reclamo implements IReclamo{
 	}
 	
 	public Reclamo (String calle,int altura,int latitud,int longitud,Date fechaYHora, String tipo, String ciudadano,
-					String observaciones, Image imagen, IEstadoReclamo estado){
+					String observaciones, Image imagen, IEstadoReclamo estado, String prioridad){
 		
 		this.setCalleIncidente(calle);
 		this.setAlturaIncidente(altura);
@@ -42,6 +43,7 @@ public class Reclamo implements IReclamo{
 		this.setObservaciones(observaciones);
 		this.setImagen(imagen);
 		this.setEstado(estado);
+		this.setPrioridad(prioridad);
 		
 	}
 
@@ -86,6 +88,10 @@ public class Reclamo implements IReclamo{
 	public IEstadoReclamo getEstado() {
 		return this.estado;
 	}	
+	
+	public String getPrioridad(){
+		return this.prioridad;
+	}
 	
 		
 	//SET ATRIBUTOS
@@ -138,6 +144,10 @@ public class Reclamo implements IReclamo{
 	public void setEstado(IEstadoReclamo estado) {
 		this.estado = estado;
 		
+	}
+	
+	public void setPrioridad(String prioridad){
+		this.prioridad = prioridad;
 	}
 
 
