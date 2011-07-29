@@ -8,15 +8,15 @@ import org.apache.wicket.markup.html.form.Form;
 import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 
-public class Login extends BasePage {
+public class LoginPage extends BasePage {
 
 	@Override
 	public IPermiso getPermisoNecesario() {
 		return new LoginPermiso();
 	}
 
-	public Login(final PageParameters parameters) {
-		add(CSSPackageResource.getHeaderContribution(Login.class,"Login.css"));
+	public LoginPage(final PageParameters parameters) {
+		add(CSSPackageResource.getHeaderContribution(LoginPage.class,"Login.css"));
 		add( new Button("accederButton"));
 		add( new Button("registrarButton"));
 		
