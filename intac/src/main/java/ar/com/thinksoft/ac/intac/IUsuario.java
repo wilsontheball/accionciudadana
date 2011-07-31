@@ -19,4 +19,15 @@ public interface IUsuario {
 	 */
 	int cantidadPermisos();
 
+	boolean hasUsuarioYContrasenia(String nombreUsuario, String contrasenia);
+
+	public String getContrasenia();
+
+	public String getNombreUsuario();
+
+	public void setContrasenia(String contrasenia);
+
+	public void setNombreUsuario(String nombreUsuario);
+	
+
 }
