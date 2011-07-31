@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public interface IReclamo {
 
-	// Obtención de atributos que deben tener los reclamos.
+	// Obtencion de atributos que deben tener los reclamos.
 	
 	public String getCalleIncidente();
 	
@@ -34,7 +34,7 @@ public interface IReclamo {
 	
 	public String getPrioridad();
 	
-	// Fin obtención de atributos
+	// Fin obtencion de atributos
 	
 	// Setear atributos
 	public void setCalleIncidente(String calle);

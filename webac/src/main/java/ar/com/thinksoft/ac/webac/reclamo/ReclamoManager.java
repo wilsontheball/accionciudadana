@@ -2,7 +2,8 @@ package ar.com.thinksoft.ac.webac.reclamo;
 
 import java.util.*;
 
-import ar.com.thinksoft.ac.intac.IReclamo;
+import com.db4o.query.Predicate;
+
 import ar.com.thinksoft.ac.webac.repository.Repository;
 
 /**
@@ -27,7 +28,7 @@ public class ReclamoManager {
 	/**
 	 * @author Matias
 	 */
-	public void guardarReclamo(IReclamo reclamo){
+	public void guardarReclamo(Reclamo reclamo){
 		Repository.getInstance().store(reclamo);
 	}
 	
@@ -38,41 +39,41 @@ public class ReclamoManager {
 	 * @param listaReclamos
 	 * @author Matias
 	 */
-	public void guardarColeccionReclamos(List<IReclamo> listaReclamos){
-		for(IReclamo reclamo : listaReclamos){
+	public void guardarColeccionReclamos(List<Reclamo> listaReclamos){
+		for(Reclamo reclamo : listaReclamos){
 			guardarReclamo(reclamo);
 		}
+		
 	}
 	
 	/**
 	 * Devuelve una lista de Reclamos
 	 * @author Matias
 	 */
-	public List<IReclamo> obtenerTodosReclamos(){
-		List<IReclamo> listaReclamos = new ArrayList<IReclamo>();
-		List<IReclamo> setReclamos = Repository.getInstance().query(IReclamo.class);
+	public List<Reclamo> obtenerTodosReclamos(){
+		List<Reclamo> listaReclamos = new ArrayList<Reclamo>();
+		List<Reclamo> setReclamos = Repository.getInstance().query(Reclamo.class);
 		
-		for(IReclamo reclamo:setReclamos){
+		for(Reclamo reclamo:setReclamos){
 			listaReclamos.add(reclamo);
 		}
 		
 		return listaReclamos;
 	}
+	
 	/**
-	 * Se le pasa un predicate por parametro y devuelve una coleccion de reclamos que cumplen con dicho predicate.
-	 * @param predicate
-	 * @return
+	 * @author Matias
 	 */
-	public List<IReclamo> obtenerReclamosFiltrados(IReclamo reclamo){
-		return Repository.getInstance().queryByExample(reclamo);
+	public List<Reclamo> obtenerReclamosFiltrados(Predicate<Reclamo> predicado){
+		return  Repository.getInstance().query(predicado);
 	}
 	
 	/**
 	 * @author Matias
 	 */
 	public void eliminarTodosReclamos(){
-		List<IReclamo> objs = Repository.getInstance().queryByExample(IReclamo.class);
-		for(IReclamo reclamo : objs){
+		List<Reclamo> objs = Repository.getInstance().queryByExample(Reclamo.class);
+		for(Reclamo reclamo : objs){
 			Repository.getInstance().delete(reclamo);
 		}
 	}
