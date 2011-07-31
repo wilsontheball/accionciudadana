@@ -1,0 +1,14 @@
+ INFO [ar.com.thinksoft.ac.webac.repository.Repository:<init>] (Repository.java:31) - Inicio de BD
+ INFO [ar.com.thinksoft.ac.webac.TestReclamo:obtenerReclamoPorUUID] (TestReclamo.java:62) - 294e6b5a-59c1-49b5-ba6d-fa41bab5b9cf
+ INFO [ar.com.thinksoft.ac.webac.TestReclamo:obtenerReclamoPorUUID] (TestReclamo.java:63) - 1910007a-118b-42db-b8b6-830e5498f62b
+ INFO [ar.com.thinksoft.ac.webac.TestReclamo:obtenerReclamoPorUUID] (TestReclamo.java:64) - d4abaed6-8eaf-4cfe-900e-82f23726c751
+ INFO [ar.com.thinksoft.ac.webac.TestReclamo:obtenerReclamoPorUUID] (TestReclamo.java:66) - 294e6b5a-59c1-49b5-ba6d-fa41bab5b9cf
+ INFO [ar.com.thinksoft.ac.webac.TestReclamo:obtenerReclamoPorUUID] (TestReclamo.java:69) - 294e6b5a-59c1-49b5-ba6d-fa41bab5b9cf
+ INFO [ar.com.thinksoft.ac.webac.repository.Repository:<init>] (Repository.java:31) - Inicio de BD
+ INFO [ar.com.thinksoft.ac.webac.TestReclamo:obtenerReclamoPorUUID] (TestReclamo.java:62) - 9045c8fe-d98e-4dea-8a78-5ece0c446b48
+ INFO [ar.com.thinksoft.ac.webac.TestReclamo:obtenerReclamoPorUUID] (TestReclamo.java:63) - c75f9e21-6ab3-426b-a451-76ad50f19793
+ INFO [ar.com.thinksoft.ac.webac.TestReclamo:obtenerReclamoPorUUID] (TestReclamo.java:64) - a63dc880-04c9-4bab-b2f9-ba4eb976a733
+ INFO [ar.com.thinksoft.ac.webac.TestReclamo:obtenerReclamoPorUUID] (TestReclamo.java:66) - 9045c8fe-d98e-4dea-8a78-5ece0c446b48
+ INFO [ar.com.thinksoft.ac.webac.TestReclamo:obtenerReclamoPorUUID] (TestReclamo.java:69) - 9045c8fe-d98e-4dea-8a78-5ece0c446b48
+ INFO [ar.com.thinksoft.ac.webac.repository.Repository:<init>] (Repository.java:31) - Inicio de BD
+ INFO [ar.com.thinksoft.ac.webac.repository.Repository:<init>] (Repository.java:31) - Inicio de BD

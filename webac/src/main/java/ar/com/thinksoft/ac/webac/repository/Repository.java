@@ -1,6 +1,9 @@
 package ar.com.thinksoft.ac.webac.repository;
 
 import java.util.Comparator;
+
+import ar.com.thinksoft.ac.webac.logging.LogFwk;
+
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.cs.Db4oClientServer;
@@ -25,6 +28,7 @@ public class Repository implements ObjectContainer{
 	
 	public Repository(){
 		objectContainer = Db4oClientServer.openClient("localhost", 5555, "wilson", "wilson");
+		LogFwk.getInstance(this.getClass()).info("Inicio de BD");
 	}
 	
 	public static Repository getInstance(){

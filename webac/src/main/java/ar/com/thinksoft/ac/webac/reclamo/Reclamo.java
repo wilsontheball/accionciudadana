@@ -28,15 +28,13 @@ public class Reclamo implements IReclamo{
 	
 	
 	public Reclamo(){
-		
+		this.setId();
 	}
 	
 	public Reclamo (String calle,int altura,int latitud,int longitud,Date fechaYHora, String tipo, String ciudadano,
 					String observaciones, Image imagen, IEstadoReclamo estado, String prioridad){
 		
-		
-		
-		this.setId("");
+		this.setId();
 		this.setCalleIncidente(calle);
 		this.setAlturaIncidente(altura);
 		this.setLatitudIncidente(latitud);
@@ -53,8 +51,8 @@ public class Reclamo implements IReclamo{
 
 	// get ATRIBUTOS
 	
-	public String getId(){
-		return this.id;
+	public String getId() {
+		return id;
 	}
 	
 	public String getCalleIncidente() {
@@ -104,8 +102,8 @@ public class Reclamo implements IReclamo{
 		
 	//SET ATRIBUTOS
 	
-	public void setId(String id){
-		this.id = id;
+	public void setId() {
+		this.id = java.util.UUID.randomUUID().toString();;
 	}
 	
 	public void setCalleIncidente(String calle) {
@@ -161,6 +159,5 @@ public class Reclamo implements IReclamo{
 	public void setPrioridad(String prioridad){
 		this.prioridad = prioridad;
 	}
-
 
 }

@@ -12,6 +12,8 @@ public interface IReclamo {
 
 	// Obtencion de atributos que deben tener los reclamos.
 	
+	public String getId();
+	
 	public String getCalleIncidente();
 	
 	public int getAlturaIncidente();
@@ -37,6 +39,9 @@ public interface IReclamo {
 	// Fin obtencion de atributos
 	
 	// Setear atributos
+	
+	public void setId();
+	
 	public void setCalleIncidente(String calle);
 	
 	public void setAlturaIncidente(int altura);

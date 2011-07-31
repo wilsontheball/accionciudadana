@@ -17,24 +17,23 @@ import ar.com.thinksoft.ac.webac.repository.Repository;
  */
 public class TestReclamo {
 
-	private List<Reclamo> lista = new ArrayList<Reclamo>();
+	private List<Reclamo> listaReclamosTest = new ArrayList<Reclamo>();
 	
 	@Before
 	public void SetUp(){
 		ReclamoManager.getInstance().eliminarTodosReclamos();
 		
 		Reclamo reclamoPrueba = new Reclamo("Avellaneda",3905,50,40,new Date(),"bache","Matias","Observaciones vacias",null,new EstadoActivo(), "alta");
-		
+
 		Reclamo reclamoPrueba1 = new Reclamo("Beiro",4000,40,60,new Date(),"Caida de objetos","Rocio","Rompio la vereda",null,new EstadoEnProgreso(), "media");
 
 		Reclamo reclamoPrueba2 = new Reclamo("Segurola",300,10,20,new Date(),"Caida de objetos","Matias","Se cayo el balcon", null, new EstadoSuspendido(), "media");
+
+		listaReclamosTest.add(reclamoPrueba);
+		listaReclamosTest.add(reclamoPrueba1);
+		listaReclamosTest.add(reclamoPrueba2);
 		
-		lista.add(reclamoPrueba);
-		lista.add(reclamoPrueba1);
-		lista.add(reclamoPrueba2);
-		
-		ReclamoManager.getInstance().guardarColeccionReclamos(this.lista);
-		
+		ReclamoManager.getInstance().guardarColeccionReclamos(this.listaReclamosTest);
 	}
 	
 	@Test
@@ -53,7 +52,13 @@ public class TestReclamo {
 		assertTrue(lista.size() == 3);
 	}
 	
-	
+	@Test
+	public void obtenerReclamoPorUUID(){
+		
+		List<Reclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados((new PredicatePorUUID()).filtrar(this.listaReclamosTest.get(0).getId()));
+		
+		assertTrue(lista.size() == 1);
+	}
 	
 	@Test
 	public void obtenerReclamosPorCiudadano(){
@@ -65,7 +70,7 @@ public class TestReclamo {
 	
 	@Test
 	public void obtenerReclamosPorLatitudYLongitud(){
-
+		
 		List<Reclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados((new PredicatePorLatitudYLongitud()).filtrar(40, 60));
 	
 		assertTrue(lista.size() == 1);
