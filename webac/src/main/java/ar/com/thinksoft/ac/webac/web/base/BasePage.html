@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type"	content="text/html; charset=UTF-8">
+		<title>Acción Ciudadana</title>
+		<wicket:head>
+			<wicket:link>
+				<link rel="stylesheet" type="text/css" href="BasePage.css"/>
+			</wicket:link>
+		</wicket:head>
+	</head>
+	<body>
+		<div id="header">
+			<div id="titles">
+				<div id="titleRow">
+					<div id="leftTitle">
+						<h1>Acción Ciudadana</h1>
+					</div>
+					<div id="rightTitle">
+						<h2>Thinksoft</h2>
+					</div>
+				</div>
+			</div>
+			<div id="menu">
+				<div id="menuRow">
+					<div id="menuIzquierda">
+						<a  href="">Home</a>
+						<a href="">Reclamos</a>
+						<a href="">Usuarios</a>
+						<a href="">Configuración</a>
+					</div>
+					<div id="menuDerecha">
+						<a wicket:id="loginLink" >Login</a>
+					</div>
+				</div>
+				<div id="submenu"></div>
+			</div>
+		</div>
+		<div id="content">
+			<wicket:child />
+		</div>
+		<div id="footer"></div>
+	</body>
+</html>

@@ -98,5 +98,9 @@ public class Repository implements ObjectContainer{
 		objectContainer.store(arg0);
 		
 	}
+
+	public void truncate() {
+		objectContainer.delete(new Object());
+	}
 	
 }
