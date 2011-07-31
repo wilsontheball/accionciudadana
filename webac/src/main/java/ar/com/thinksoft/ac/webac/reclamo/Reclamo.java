@@ -7,12 +7,13 @@ import ar.com.thinksoft.ac.intac.IEstadoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 
 /**
- * Implementación de IReclamo en intac
+ * Implementacion de IReclamo en intac
  * @author Matias
  *
  */
 public class Reclamo implements IReclamo{
 	
+	private String id;
 	private String calleReclamo;
 	private int alturaReclamo;
 	private int latitudReclamo;
@@ -33,6 +34,9 @@ public class Reclamo implements IReclamo{
 	public Reclamo (String calle,int altura,int latitud,int longitud,Date fechaYHora, String tipo, String ciudadano,
 					String observaciones, Image imagen, IEstadoReclamo estado, String prioridad){
 		
+		
+		
+		this.setId("");
 		this.setCalleIncidente(calle);
 		this.setAlturaIncidente(altura);
 		this.setLatitudIncidente(latitud);
@@ -48,6 +52,10 @@ public class Reclamo implements IReclamo{
 	}
 
 	// get ATRIBUTOS
+	
+	public String getId(){
+		return this.id;
+	}
 	
 	public String getCalleIncidente() {
 		return this.calleReclamo;
@@ -95,6 +103,10 @@ public class Reclamo implements IReclamo{
 	
 		
 	//SET ATRIBUTOS
+	
+	public void setId(String id){
+		this.id = id;
+	}
 	
 	public void setCalleIncidente(String calle) {
 		this.calleReclamo = calle;
