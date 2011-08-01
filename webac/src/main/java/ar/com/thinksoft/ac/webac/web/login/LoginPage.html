@@ -14,10 +14,22 @@
 	<body>
 		<wicket:extend>
 		<div>
-			<div id="botoneraLogin">
-				<input id="buttonAcceder" type="submit" wicket:id="accederButton" value="Acceder" />
-				<input id="buttonRegistrar" type="submit" wicket:id="registrarButton" value="Registrarse" />
-			</div>
+			<form wicket:id="loginForm">
+				<div id="camposLogin">
+					<div>
+						Nickname 
+						<input type="text" id="nick" wicket:id="nickname" />
+					</div>
+					<div>
+						Password
+						<input type="text" id="pass" wicket:id="password" />
+					</div>
+				</div>
+				<div id="botoneraLogin">
+					<input id="buttonAcceder" type="submit" wicket:id="accederButton" value="Acceder" />
+					<input id="buttonRegistrar" type="submit" wicket:id="registrarButton" value="Registrarse" />
+				</div>
+			</form>
 		</div>
 		</wicket:extend>
 	</body>

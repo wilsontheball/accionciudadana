@@ -37,7 +37,7 @@
 	<repositories>
 		<repository>
 			<id>source.db4o</id>
-			<url>http://source.db4o.com/maven</url>
+			<url>https://source.db4o.com/maven</url>
 		</repository>
 
 	</repositories>

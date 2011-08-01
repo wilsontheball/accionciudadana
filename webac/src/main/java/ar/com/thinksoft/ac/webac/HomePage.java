@@ -1,11 +1,9 @@
 package ar.com.thinksoft.ac.webac;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.basic.Label;
 
 import ar.com.thinksoft.ac.webac.seguridad.Permiso;
-import ar.com.thinksoft.ac.webac.seguridad.Permitible;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 
 /**
@@ -26,7 +24,7 @@ public class HomePage extends BasePage {
     public HomePage(final PageParameters parameters) {
     	
         // Add the simplest type of label
-        add(new Label("message", "Bienvenidos a AcciÃ³n Ciudadana"));
+        add(new Label("message", "Bienvenidos a Acción Ciudadana"));
 
         // TODO Add your page's components here
     }

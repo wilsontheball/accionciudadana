@@ -51,7 +51,7 @@
 
 	<build>
 		<testSourceDirectory>test</testSourceDirectory>
-
+		
 		<plugins>
 			<plugin>
 				<inherited>true</inherited>
@@ -65,6 +65,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
+		
 	</build>
 </project>
