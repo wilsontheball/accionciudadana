@@ -1,0 +1,101 @@
+@CHARSET "UTF-8";
+
+html, body {
+
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 100%;
+    overflow: hidden;
+	font-family: "Calibri", "Tahoma", Arial, Helvetica, sans-serif;
+	background:	#1a2532;
+	font-size: 12px;
+}
+
+
+.titles {
+
+	background-color: #172546;
+	color: white;
+	display: inline-table;
+	width: 99%;
+	height: 17px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.titleRow {
+	
+}
+
+.applicationLogo {
+	display: inline;
+}
+
+.companyLogo {
+	/*display: inline;
+	height:17px;
+	position:fixed;
+	right:15px;
+	top:5px;
+	width:106px;*/
+	background-image: url('thinksoft.jpg');
+	height: 100px;
+	width: 100px;
+	 
+}
+
+#menu {
+	text-decoration: none;
+	display: table;
+	width: 99%;
+	color: white;
+	background-color: #214977;
+	height: 17px;
+	padding: 1px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 15px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#menuRow {
+	display: table-row;
+}
+
+#menuIzquierda {
+	display: table-cell;
+}
+
+
+#menuDerecha {
+	display: table-cell;
+	align: right;
+	text-align: right;
+}
+
+a {
+	color: white;
+	font-weight: bold;
+	padding: 10px;
+	
+}
+
+a:link {
+	text-decoration: none;
+}
+
+a:visited {
+	text-decoration: none;
+}
+
+a:hover {
+	color: #ffbb00;
+}
+a:
+a:active {
+	font-weight:bold;
+	
+}

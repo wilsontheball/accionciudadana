@@ -5,7 +5,8 @@
 		
 		<wicket:head>
 			<wicket:link>
-				<link rel="stylesheet" type="text/css" href="BasePage.css"/>
+				<link rel="stylesheet" type="text/css" href="../css/BasePage.css"/>
+				<link rel="stylesheet" type="text/css" href="../css/style.css"/>
 			</wicket:link>
 		</wicket:head>
 		
@@ -13,7 +14,9 @@
 	</head>
 	<body>
 		<wicket:extend>
-		<div>
+		
+		
+<!--  		<div>
 			<form wicket:id="loginForm">
 				<div id="camposLogin">
 					<div>
@@ -31,6 +34,29 @@
 				</div>
 			</form>
 		</div>
+-->
+
+		<div class="mainwrapper">
+	
+		    <div class="loginbox">
+		        <div class="right">
+		        	<form wicket:id="loginForm" class="loginform">
+		            	<p>
+		                	<label for="username" id="usernamelabel">Username:</label>
+		                    <input type="text" wicket:id="nickname" id="nickname" class="username" />
+		                </p>
+		                
+		                <p>
+		                	<label for="password" id="passwordlabel">Password:</label>
+		                    <input type="text" wicket:id="password" id="password" class="password" />
+		                </p>
+		                
+		            </form>
+		        </div><!--right-->
+		    </div><!--loginbox-->
+	    
+		</div><!--loginbox-->		
+		
 		</wicket:extend>
 	</body>
 </html>

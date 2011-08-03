@@ -18,7 +18,8 @@ public class LoginPage extends BasePage {
 
 	public LoginPage(final PageParameters parameters) {
 		
-		add(CSSPackageResource.getHeaderContribution(LoginPage.class,"Login.css"));
+		add(CSSPackageResource.getHeaderContribution(LoginPage.class,"LoginPage.css"));
+		add(CSSPackageResource.getHeaderContribution(LoginPage.class,"style.css"));
 		
 		Form loginForm = new Form("loginForm"); 
 		loginForm.setOutputMarkupId(true); 
@@ -33,8 +34,8 @@ public class LoginPage extends BasePage {
         passwordString.setRequired(true); 
         loginForm.add(passwordString); 
         
-        loginForm.add(new Button("accederButton"));
-        loginForm.add(new Button("registrarButton"));
+        //loginForm.add(new Button("accederButton"));
+        //loginForm.add(new Button("registrarButton"));
         
         add(loginForm);
 	}

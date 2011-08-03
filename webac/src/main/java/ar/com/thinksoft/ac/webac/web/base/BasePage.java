@@ -12,8 +12,7 @@ public abstract class BasePage extends Permitible {
 
 	public BasePage() {
 		
-		add(CSSPackageResource.getHeaderContribution(BasePage.class,"BasePage.css"));
-		
+		add(CSSPackageResource.getHeaderContribution(BasePage.class,"../css/BasePage.css"));
 		
 		this.appendLinks();
 		
