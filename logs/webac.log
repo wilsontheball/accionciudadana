@@ -16205,3 +16205,8 @@ DEBUG [org.mortbay.log.Slf4jLog:debug] (Slf4jLog.java:40) - RESOURCE=file:/C:/Us
 DEBUG [org.mortbay.log.Slf4jLog:debug] (Slf4jLog.java:40) - resource=file:/C:/Users/mtarrio.BARCELONA/Desktop/Workspace/accionciudadana/webac/src/main/webapp/images/thinksoft.jpg
 DEBUG [org.mortbay.log.Slf4jLog:debug] (Slf4jLog.java:40) - RESPONSE /images/thinksoft.jpg  404
 DEBUG [org.mortbay.log.Slf4jLog:debug] (Slf4jLog.java:40) - RESPONSE /resources/ar.com.thinksoft.ac.webac.web.base.BasePage/null/css/BasePage.css  200
+ INFO [ar.com.thinksoft.ac.webac.repository.Repository:<init>] (Repository.java:31) - Inicio de BD
+ INFO [ar.com.thinksoft.ac.webac.repository.Repository:<init>] (Repository.java:31) - Inicio de BD
+ INFO [ar.com.thinksoft.ac.webac.repository.Repository:<init>] (Repository.java:31) - Inicio de BD
+ INFO [ar.com.thinksoft.ac.webac.repository.Repository:<init>] (Repository.java:31) - Inicio de BD
+ INFO [ar.com.thinksoft.ac.webac.repository.Repository:<init>] (Repository.java:31) - Inicio de BD
