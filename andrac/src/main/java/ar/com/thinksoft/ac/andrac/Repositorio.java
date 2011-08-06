@@ -35,7 +35,7 @@ public class Repositorio {
 	 */
 	public boolean validarUsuario(String nick, String pass) {
 		// TODO no esta implementada la conexion a la BD
-		if (nick.isEmpty() || pass.isEmpty()) {
+		if (nick.length() == 0 || pass.length() == 0) {
 			return false;
 		}
 		return true;

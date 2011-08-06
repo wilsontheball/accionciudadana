@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * La clase se encarga de manejar la pantalla de Registro.
@@ -128,11 +129,11 @@ public class Registro extends Activity {
 	}
 
 	private boolean camposIncompletos() {
-		return getNombre().isEmpty() || getApellido().isEmpty()
-				|| getUsuario().isEmpty() || getDNI().isEmpty()
-				|| getMail().isEmpty() || getMailConfirm().isEmpty()
-				|| getTelefono().isEmpty() || getPass().isEmpty()
-				|| getPassConfirm().isEmpty();
+		return getNombre().length() == 0 || getApellido().length() == 0
+				|| getUsuario().length() == 0 || getDNI().length() == 0
+				|| getMail().length() == 0 || getMailConfirm().length() == 0
+				|| getTelefono().length() == 0 || getPass().length() == 0
+				|| getPassConfirm().length() == 0;
 	}
 
 	/**
@@ -146,17 +147,8 @@ public class Registro extends Activity {
 	 *            mensaje que se va a mostrar en el dialogo.
 	 */
 	private void mostrarAdvertencia(String titulo, String mensaje) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(titulo)
-				.setMessage(mensaje)
-				.setCancelable(false)
-				.setPositiveButton(R.string.ok,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
-		AlertDialog alert = builder.create();
-		alert.show();
+		// TODO Aca se deberia mostrar advertencia
+		Toast.makeText(this, "Aca se deberia mostrar advertencia",
+				Toast.LENGTH_LONG).show();
 	}
 }

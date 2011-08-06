@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.location.Criteria;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -63,17 +65,29 @@ class MyLocationListener implements LocationListener {
 	public void onLocationChanged(Location location) {
 		// Called when a new location is found by the network location
 		// provider.
+
+		Toast.makeText(view.getRootView().getContext(), "onLocationChanged",
+				Toast.LENGTH_LONG).show();
+
 		((EditText) this.view.getRootView().findViewById(R.id.coordenada))
-				.setText(location.getLatitude() + "," + location.getLongitude());
+				.setText("Latitude: " + location.getLatitude()
+						+ ", Longitude: " + location.getLongitude());
+
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
+		Toast.makeText(view.getRootView().getContext(), "onStatusChanged",
+				Toast.LENGTH_LONG).show();
 	}
 
 	public void onProviderEnabled(String provider) {
+		Toast.makeText(view.getRootView().getContext(), "onProviderEnabled",
+				Toast.LENGTH_LONG).show();
 	}
 
 	public void onProviderDisabled(String provider) {
+		Toast.makeText(view.getRootView().getContext(), "onProviderDisabled",
+				Toast.LENGTH_LONG).show();
 	}
 }
 
@@ -104,8 +118,6 @@ public class IniciarReclamo extends Activity {
 
 		spinnerUbicacion
 				.setOnItemSelectedListener(new MyOnItemSelectedListener());
-
-		// ((EditText) findViewById(R.id.calle)).setEnabled(true);
 	}
 
 	public void crearReclamo(View v) {
@@ -115,6 +127,8 @@ public class IniciarReclamo extends Activity {
 		String nick = ((Aplicacion) this.getApplication()).getNombreUsuario();
 		String tipo = ((Spinner) findViewById(R.id.tipo_incidente))
 				.getSelectedItem().toString();
+
+		// Este campo puede ser nulo
 		String observ = ((EditText) findViewById(R.id.observaciones)).getText()
 				.toString();
 
@@ -122,26 +136,43 @@ public class IniciarReclamo extends Activity {
 
 			// TODO chequear q la coordenada no este vacia
 
-			String coord = ((EditText) findViewById(R.id.coordenada)).getText()
-					.toString();
-			((Aplicacion) this.getApplication()).getRepositorio()
-					.publicarReclamoGPS(nick, tipo, coord, observ);
+			if (((EditText) findViewById(R.id.coordenada)).getText().toString()
+					.length() == 0) {
 
+				mostrarAdvertencia(getString(R.string.advertencia),
+						getString(R.string.campo_coord_vacio));
+
+			} else {
+				String coord = ((EditText) findViewById(R.id.coordenada))
+						.getText().toString();
+				((Aplicacion) this.getApplication()).getRepositorio()
+						.publicarReclamoGPS(nick, tipo, coord, observ);
+				this.finish();
+			}
 		} else {
+			if (((EditText) findViewById(R.id.calle)).getText().toString()
+					.length() == 0) {
+				mostrarAdvertencia(getString(R.string.advertencia),
+						getString(R.string.campo_calle_vacio));
+			} else {
 
-			// TODO chequear q la calle y altura no esten vacios
-			// getText.ToString.isempty()
-			String calle = ((EditText) findViewById(R.id.calle)).getText()
-					.toString();
-			String altura = ((EditText) findViewById(R.id.altura)).getText()
-					.toString();
+				if (((EditText) findViewById(R.id.altura)).getText().toString()
+						.length() == 0) {
+					mostrarAdvertencia(getString(R.string.advertencia),
+							getString(R.string.campo_altura_vacio));
+				} else {
+					String calle = ((EditText) findViewById(R.id.calle))
+							.getText().toString();
+					String altura = ((EditText) findViewById(R.id.altura))
+							.getText().toString();
 
-			((Aplicacion) this.getApplication())
-					.getRepositorio()
-					.publicarReclamoDireccion(nick, tipo, calle, altura, observ);
+					((Aplicacion) this.getApplication()).getRepositorio()
+							.publicarReclamoDireccion(nick, tipo, calle,
+									altura, observ);
+					this.finish();
+				}
+			}
 		}
-		
-		this.finish();
 	}
 
 	public void obtenerCoordenada(View v) {
@@ -154,15 +185,21 @@ public class IniciarReclamo extends Activity {
 
 		// Register the listener with the Location Manager to receive location
 		// updates
+		// locationManager.requestLocationUpdates(
+		// LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
 		locationManager.requestLocationUpdates(
-				LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+				locationManager.getBestProvider(new Criteria(), true), 0, 0,
+				locationListener);
+
+		// Desactiva el boton una vez que lo apretas
+		((Button) findViewById(R.id.boton_gps)).setEnabled(false);
 	}
-	
+
 	public void cancelar(View v) {
 		this.finish();
 	}
-	
-	
+
 	/**
 	 * Muestra una ventana de dialogo con un boton que la cierra
 	 * 
@@ -174,17 +211,8 @@ public class IniciarReclamo extends Activity {
 	 *            mensaje que se va a mostrar
 	 */
 	private void mostrarAdvertencia(String titulo, String mensaje) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(titulo)
-				.setMessage(mensaje)
-				.setCancelable(false)
-				.setPositiveButton(R.string.ok,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
-		AlertDialog alert = builder.create();
-		alert.show();
+		// TODO Aca se deberia mostrar advertencia
+		Toast.makeText(this, "Aca se deberia mostrar advertencia",
+				Toast.LENGTH_LONG).show();
 	}
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:gravity="center_horizontal"
@@ -44,8 +44,22 @@
 			android:layout_height="wrap_content" android:id="@+id/tipo_incidente"></Spinner>
 		<EditText android:id="@+id/observaciones"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:inputType="text" android:textAppearance="@android:style/TextAppearance.Large"
-			android:hint="@string/observaciones" android:lines="4" />
+			android:textAppearance="@android:style/TextAppearance.Large"
+			android:hint="@string/observaciones" android:inputType="textMultiLine"
+			android:maxLines="2" />
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:weightSum="1">
+
+			<ImageView android:layout_width="wrap_content"
+											android:layout_height="wrap_content" android:src="@drawable/icon"
+								android:id="@+id/imageView1" android:layout_weight="1">
+			</ImageView>
+			<Button android:onClick="tomarFoto" android:gravity="center"
+				android:id="@+id/boton_foto" android:text="@string/cargar_foto"
+				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
+				android:layout_height="wrap_content" android:layout_width="wrap_content" />
+		</LinearLayout>
 		<QuickContactBadge android:id="@+id/quickContactBadge1"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"></QuickContactBadge>
 		<LinearLayout android:orientation="horizontal"

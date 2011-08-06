@@ -101,17 +101,8 @@ public class Main extends Activity {
 	 *            mensaje que se va a mostrar
 	 */
 	private void mostrarAdvertencia(String titulo, String mensaje) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(titulo)
-				.setMessage(mensaje)
-				.setCancelable(false)
-				.setPositiveButton(R.string.ok,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
-		AlertDialog alert = builder.create();
-		alert.show();
+		// TODO Aca se deberia mostrar advertencia
+		Toast.makeText(this, "Aca se deberia mostrar advertencia",
+				Toast.LENGTH_LONG).show();
 	}
 }

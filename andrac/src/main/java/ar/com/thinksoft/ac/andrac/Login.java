@@ -2,11 +2,13 @@ package ar.com.thinksoft.ac.andrac;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * La clase se encarga de manejar la pantalla de Autentificacion. Desde esta
@@ -43,18 +45,53 @@ public class Login extends Activity {
 	 *            mensaje que se va a mostrar
 	 */
 	private void mostrarAdvertencia(String titulo, String mensaje) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(titulo)
-				.setMessage(mensaje)
-				.setCancelable(false)
-				.setPositiveButton(R.string.ok,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
-		AlertDialog alert = builder.create();
-		alert.show();
+		// TODO corregir, mostrar advertencia
+		// AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		// builder.setTitle(titulo)
+		// .setMessage(mensaje)
+		// .setCancelable(false)
+		// .setPositiveButton(R.string.ok,
+		// new DialogInterface.OnClickListener() {
+		// public void onClick(DialogInterface dialog, int id) {
+		// dialog.cancel();
+		// }
+		// });
+		// AlertDialog alert = builder.create();
+		// alert.show();
+
+		this.showDialog(1);
+
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		return new AlertDialog.Builder(Login.this)
+				.setTitle("Aca iria un Titulo")
+				.setMessage("Aca iria un Mensaje")
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+
+						/* User clicked OK so do some stuff */
+					}
+				})
+				// .setNeutralButton("Neutro",
+				// new DialogInterface.OnClickListener() {
+				// public void onClick(DialogInterface dialog,
+				// int whichButton) {
+				//
+				// /* User clicked Something so do some stuff */
+				// }
+				// })
+				// .setNegativeButton("cancelar",
+				// new DialogInterface.OnClickListener() {
+				// public void onClick(DialogInterface dialog,
+				// int whichButton) {
+				//
+				// /* User clicked Cancel so do some stuff */
+				// }
+				// })
+				//
+				.create();
 	}
 
 	/**
@@ -70,6 +107,7 @@ public class Login extends Activity {
 		try {
 			String nick = this.getUsuario();
 			String pass = this.getPassword();
+
 			if (this.getAplicacion().getRepositorio()
 					.validarUsuario(nick, pass)) {
 				this.getAplicacion().setNombreUsuario(nick);
