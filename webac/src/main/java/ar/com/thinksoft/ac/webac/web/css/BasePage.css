@@ -11,11 +11,9 @@ html,body {
 }
 
 .thinksoft {
-	background-image: url(/webac/src/main/java/ar/com/thinksoft/ac/webac/web/images/loader.gif);
+	background-image: url(/webac/src/main/java/ar/com/thinksoft/ac/webac/web/images/thinksoft.jpg);
 	background-repeat: no-repeat;
 	background-position: left top;
-	padding-top: 68px;
-	margin-bottom: 50px;
 }
 
 /******************ACA EMPIEZA EL ESTILO DEL MENU*******************/
