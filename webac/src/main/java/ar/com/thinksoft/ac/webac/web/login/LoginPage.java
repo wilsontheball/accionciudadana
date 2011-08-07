@@ -18,7 +18,7 @@ public class LoginPage extends BasePage {
 	public LoginPage(final PageParameters parameters) {
 		
 		add(CSSPackageResource.getHeaderContribution(LoginPage.class,"LoginPage.css"));
-		add(CSSPackageResource.getHeaderContribution(LoginPage.class,"style.css"));
+//		add(CSSPackageResource.getHeaderContribution(LoginPage.class,"style.css"));
 		
 		Form loginForm = new Form("loginForm"); 
 		loginForm.setOutputMarkupId(true); 
