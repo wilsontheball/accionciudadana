@@ -24,7 +24,7 @@ public class HomePage extends BasePage {
     public HomePage(final PageParameters parameters) {
     	
         // Add the simplest type of label
-        add(new Label("message", "Bienvenidos a Acción Ciudadana"));
+        add(new Label("message", "Bienvenidos a Accion Ciudadana"));
 
         // TODO Add your page's components here
     }

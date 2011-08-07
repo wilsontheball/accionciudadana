@@ -17,25 +17,36 @@
 					<div class="applicationLogo">
 						<h1>Acci&oacute;n Ciudadana</h1>
 					</div>
-					<div>
-						<img src="../images/thinksoft.jpg">
-					</div>
+					<div class="thinksoft"></div>
 				</div>
 			</div>
-			<div id="menu">
-				<div id="menuRow">
-					<div id="menuIzquierda">
-						<a wicket:id="homeLink" class="textMenu">Home</a>
-						<a href="" class="textMenu">Reclamos</a>
-						<a href="" class="textMenu">Usuarios</a>
-						<a href="" class="textMenu">Configuraci&oacute;n</a>
-					</div>
-					<div id="menuDerecha">
-						<a wicket:id="loginLink" class="textMenu">Login</a>
-					</div>
-				</div>
-				<div id="submenu"></div>
+			
+			
+			<!-- ACA EMPIEZA EL MENU -->
+			<div class="menu">
+				<ul>
+					<li><a wicket:id="homeLink" href="#" >Home</a></li>
+					
+					<li><a href="#" id="current">Usuarios</a>
+						<ul>
+							<li><a href="#">Aca submenu 1</a></li>
+							<li><a href="#">Aca submenu 2</a></li>
+					   </ul>
+				  </li>
+					<li><a href="#">Reclamos</a>
+		                <ul>
+		                <li><a href="#">Aca van las cosas de reclamos 1</a></li>
+		                <li><a href="#">Aca van las cosas de reclamos 1</a></li>
+		                </ul>
+		          </li>
+					<li><a wicket:id="loginLink" href="#">Login</a></li>
+				</ul>
 			</div>
+			<!-- ACA EMPIEZA EL MENU -->
+			
+			
+			
+			
 		</div>
 		
 		<div id="content">
