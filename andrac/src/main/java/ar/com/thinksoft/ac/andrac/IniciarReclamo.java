@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.GpsStatus;
 import android.location.Location;
@@ -16,6 +17,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -124,7 +126,6 @@ public class IniciarReclamo extends Activity {
 
 		// TODO falta agregar parametro de la foto
 
-		String nick = ((Aplicacion) this.getApplication()).getNombreUsuario();
 		String tipo = ((Spinner) findViewById(R.id.tipo_incidente))
 				.getSelectedItem().toString();
 
@@ -145,8 +146,7 @@ public class IniciarReclamo extends Activity {
 			} else {
 				String coord = ((EditText) findViewById(R.id.coordenada))
 						.getText().toString();
-				((Aplicacion) this.getApplication()).getRepositorio()
-						.publicarReclamoGPS(nick, tipo, coord, observ);
+				this.getRepo().publicarReclamoGPS(tipo, coord, observ);
 				this.finish();
 			}
 		} else {
@@ -166,9 +166,8 @@ public class IniciarReclamo extends Activity {
 					String altura = ((EditText) findViewById(R.id.altura))
 							.getText().toString();
 
-					((Aplicacion) this.getApplication()).getRepositorio()
-							.publicarReclamoDireccion(nick, tipo, calle,
-									altura, observ);
+					this.getRepo().publicarReclamoDireccion(tipo, calle,
+							altura, observ);
 					this.finish();
 				}
 			}
@@ -200,6 +199,25 @@ public class IniciarReclamo extends Activity {
 		this.finish();
 	}
 
+	public void tomarFoto(View v) {
+
+		this.startActivityForResult(new Intent(this, CamaraView.class), 0);
+
+		// this.startActivity(new Intent(v.getContext(), CamaraView.class));
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode != Activity.RESULT_CANCELED) {
+
+			Toast.makeText(this, "Se saco la foto!", Toast.LENGTH_LONG).show();
+			ImageView preview = (ImageView) this.findViewById(R.id.fotoPreview);
+			preview.setImageBitmap(((Aplicacion) this.getApplication())
+					.getRepositorio().getImagen());
+		}
+	}
+
 	/**
 	 * Muestra una ventana de dialogo con un boton que la cierra
 	 * 
@@ -215,4 +233,17 @@ public class IniciarReclamo extends Activity {
 		Toast.makeText(this, "Aca se deberia mostrar advertencia",
 				Toast.LENGTH_LONG).show();
 	}
+
+	/**
+	 * Devuelve el Repositorio
+	 * 
+	 * @since 22-07-2011
+	 * @author Paul
+	 * @return repositorio
+	 */
+
+	private Repositorio getRepo() {
+		return ((Aplicacion) this.getApplication()).getRepositorio();
+	}
+
 }

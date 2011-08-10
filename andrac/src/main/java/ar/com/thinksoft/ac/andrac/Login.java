@@ -95,7 +95,7 @@ public class Login extends Activity {
 	}
 
 	/**
-	 * Valida el Usuario y Contraseña ingresados contra la base de datos. En
+	 * Valida el Usuario y Contraseï¿½a ingresados contra la base de datos. En
 	 * caso de exito devuelve resultado positivo a la Activity padre.
 	 * 
 	 * @since 22-07-2011
@@ -108,9 +108,8 @@ public class Login extends Activity {
 			String nick = this.getUsuario();
 			String pass = this.getPassword();
 
-			if (this.getAplicacion().getRepositorio()
-					.validarUsuario(nick, pass)) {
-				this.getAplicacion().setNombreUsuario(nick);
+			if (this.getRepo().validarUsuario(nick, pass)) {
+				this.getRepo().setNombreUsuario(nick);
 				this.setResult(Activity.RESULT_OK);
 				this.finish();
 			} else {
@@ -159,8 +158,8 @@ public class Login extends Activity {
 	 * @return aplicacion
 	 */
 
-	public Aplicacion getAplicacion() {
-		return ((Aplicacion) this.getApplication());
+	public Repositorio getRepo() {
+		return ((Aplicacion) this.getApplication()).getRepositorio();
 	}
 
 	/**

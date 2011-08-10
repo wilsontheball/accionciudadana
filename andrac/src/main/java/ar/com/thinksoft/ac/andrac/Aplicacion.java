@@ -25,20 +25,20 @@ public class Aplicacion extends Application {
 		this.repositorio = repo;
 	}
 
-	public IUsuario getUsuarioActual() {
-		return this.usuarioActual;
-	}
-
-	public void setUsuarioActual(IUsuario usuario) {
-		this.usuarioActual = usuario;
-	}
-	
-	public String getNombreUsuario() {
-		return this.nombreUsuario;
-	}
-
-	public void setNombreUsuario(String usuario) {
-		this.nombreUsuario = usuario;
-	}
+//	public IUsuario getUsuarioActual() {
+//		return this.usuarioActual;
+//	}
+//
+//	public void setUsuarioActual(IUsuario usuario) {
+//		this.usuarioActual = usuario;
+//	}
+//	
+//	public String getNombreUsuario() {
+//		return this.nombreUsuario;
+//	}
+//
+//	public void setNombreUsuario(String usuario) {
+//		this.nombreUsuario = usuario;
+//	}
 
 }

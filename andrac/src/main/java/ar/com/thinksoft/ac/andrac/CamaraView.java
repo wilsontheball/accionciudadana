@@ -45,7 +45,7 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.main);
+		setContentView(R.layout.camera_surface);
 		mSurfaceView = (SurfaceView) findViewById(R.id.surface_camera);
 		mSurfaceView.setOnClickListener(this);
 		mSurfaceHolder = mSurfaceView.getHolder();
@@ -65,11 +65,13 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 
 				Intent mIntent = new Intent();
 
-				StoreByteImage(mContext, imageData, 50,
-						"ImageName");
+				storeByteImage(mContext, imageData, 50, "ImageName");
 				mCamera.startPreview();
 
-				setResult(FOTO_MODE, mIntent);
+				// Pasa la imagen al repo
+				guardarImagenEnRepo(imageData);
+
+				setResult(Activity.RESULT_OK, mIntent);
 				finish();
 
 			}
@@ -132,26 +134,25 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 		mCamera.takePicture(null, mPictureCallback, mPictureCallback);
 
 	}
-	
-	public static boolean StoreByteImage(Context mContext, byte[] imageData,
+
+	public static boolean storeByteImage(Context mContext, byte[] imageData,
 			int quality, String expName) {
 
-        File sdImageMainDirectory = new File("/sdcard");
+		File sdImageMainDirectory = new File("/sdcard");
 		FileOutputStream fileOutputStream = null;
 		String nameFile;
+
 		try {
 
-			BitmapFactory.Options options=new BitmapFactory.Options();
+			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inSampleSize = 5;
-			
-			Bitmap myImage = BitmapFactory.decodeByteArray(imageData, 0,
-					imageData.length,options);
 
-			
+			Bitmap myImage = BitmapFactory.decodeByteArray(imageData, 0,
+					imageData.length, options);
+
 			fileOutputStream = new FileOutputStream(
-					sdImageMainDirectory.toString() +"/image.jpg");
-							
-  
+					sdImageMainDirectory.toString() + "/image.jpg");
+
 			BufferedOutputStream bos = new BufferedOutputStream(
 					fileOutputStream);
 
@@ -169,6 +170,15 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 		}
 
 		return true;
+	}
+
+	public void guardarImagenEnRepo(byte[] imagen) {
+		BitmapFactory.Options opts = new BitmapFactory.Options();
+		opts.outWidth = 640;
+		opts.outHeight = 480;
+		Bitmap bitmap = BitmapFactory.decodeByteArray(imagen, 0, imagen.length,opts);
+
+		((Aplicacion) this.getApplication()).getRepositorio().setImagen(bitmap);
 	}
 
 }

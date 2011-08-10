@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 	<string name="hello">Pantalla HOME</string>
 	<string name="app_name">Acción Ciudadana</string>
@@ -31,9 +31,12 @@
 	<string name="campo_vacio">Todos los campos deben ser completados!</string>
 	<string name="campo_calle_vacio">El campo calle debe ser completado!</string>
 	<string name="campo_altura_vacio">El campo altura debe ser completado!</string>
-	<string name="campo_coord_vacio">El campo coordenada GPS debe ser completado!</string>
-	<string name="mail_no_coincide">Mail ingresado no coincide con su repetición!</string>
-	<string name="pass_no_coincide">Contraseña ingresada no coincide con su repetición!</string>
+	<string name="campo_coord_vacio">El campo coordenada GPS debe ser completado!
+	</string>
+	<string name="mail_no_coincide">Mail ingresado no coincide con su repetición!
+	</string>
+	<string name="pass_no_coincide">Contraseña ingresada no coincide con su repetición!
+	</string>
 	<string name="confirmar_registro">Se mandó un e-mail a su casilla de correo. Tiene
 		que abrirlo para continuar con el proceso de registración.</string>
 	<string name="observaciones">Observaciones</string>
@@ -52,7 +55,7 @@
 		<item>Transporte Publico</item>
 		<item>Accesibilidad</item>
 	</string-array>
-	<string name="ubicacion_prompt">Ubicacion</string>
+	<string name="atras">Atrás</string>
 	<string-array name="ubicacion_array">
 		<item>Ubicación por Coordenada GPS</item>
 		<item>Ubicación por Calle y Altura</item>

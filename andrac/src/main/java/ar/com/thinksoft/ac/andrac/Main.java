@@ -30,7 +30,7 @@ public class Main extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i(TAG, "onCreate");
+//		Log.i(TAG, "onCreate");
 		setContentView(R.layout.main);
 
 		// Muestra la ventana Login
@@ -67,17 +67,17 @@ public class Main extends Activity {
 	 * @author Paul
 	 */
 	public void iniciarReclamo(View v) {
-		startActivity(new Intent(v.getContext(), IniciarReclamo.class));
+		this.startActivity(new Intent(v.getContext(), IniciarReclamo.class));
 	}
 
 	/**
 	 * Muestra la ventana con listado de reclamos realizados por el usuario.
 	 * 
-	 * @since 19-07-2011
+	 * @since 06-08-2011
 	 * @author Paul
 	 */
 	public void mostrarReclamos(View v) {
-		// TODO falta hacer la ventan
+		this.startActivity(new Intent(v.getContext(), ListaReclamos.class));
 	}
 
 	/**
