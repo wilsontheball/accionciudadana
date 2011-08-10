@@ -15,6 +15,7 @@
 		<activity android:name=".DetalleReclamo" />
 		<activity android:name=".ListaReclamos" />
 		<activity android:name=".IniciarReclamo" />
+		<activity android:name=".CamaraView" />
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
