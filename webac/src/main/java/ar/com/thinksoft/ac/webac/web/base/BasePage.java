@@ -6,7 +6,6 @@ import org.apache.wicket.markup.html.link.IPageLink;
 import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.seguridad.Permitible;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
-import ar.com.thinksoft.ac.webac.web.reclamo.AltaReclamoPage;
 
 public abstract class BasePage extends Permitible {
 
