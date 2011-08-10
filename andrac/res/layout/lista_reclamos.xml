@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@color/color_fondo"
+	android:gravity="center">
+	<LinearLayout android:orientation="vertical"
+		android:layout_marginLeft="20dip" android:layout_marginRight="20dip"
+		android:layout_height="fill_parent" android:layout_width="fill_parent"
+		android:layout_marginTop="10dip" android:layout_marginBottom="10dip"
+		android:background="@color/color_fondo" android:layout_weight="1">
+		<ListView android:id="@android:id/list" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+	</LinearLayout>
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="wrap_content" android:gravity="center_horizontal"
+		android:layout_height="wrap_content">
+		<Button android:onClick="salir" android:text="atras"
+			android:id="@+id/boton_cancelar" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:enabled="true"
+			android:textAppearance="@android:style/TextAppearance.Large"></Button>
+	</LinearLayout>
+</LinearLayout>

@@ -1,65 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:gravity="center_horizontal"
-	android:isScrollContainer="true" android:background="@color/color_fondo">
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:gravity="center"
-		android:paddingBottom="2dip" android:textAppearance="@android:style/TextAppearance.Large"
-		android:textColor="@color/color_texto" android:text="@string/iniciar_reclamo" />
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:gravity="center"
-		android:paddingBottom="2dip" android:textColor="@color/color_texto"
-		android:textAppearance="@android:style/TextAppearance.Small"
-		android:text="@string/registro_sub_titulo" />
+	android:layout_height="fill_parent" android:gravity="center"
+	android:scrollbarAlwaysDrawVerticalTrack="true" android:background="@color/color_fondo">
 	<LinearLayout android:orientation="vertical"
-		android:layout_width="fill_parent" android:gravity="center_horizontal"
-		android:layout_marginLeft="20dip" android:layout_marginRight="20dip"
-		android:isScrollContainer="true" android:background="@color/color_fondo"
-		android:layout_height="match_parent" android:weightSum="1"
-		android:layout_weight="0.58">
-		<Spinner android:layout_width="match_parent"
-			android:layout_height="wrap_content" android:id="@+id/ubicacion"></Spinner>
-		<LinearLayout android:orientation="horizontal"
-			android:layout_width="fill_parent" android:layout_height="wrap_content">
-			<EditText android:id="@+id/coordenada" android:layout_width="fill_parent"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:gravity="center_horizontal" android:isScrollContainer="true"
+		android:background="@color/color_fondo">
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:gravity="center"
+			android:paddingBottom="2dip" android:textAppearance="@android:style/TextAppearance.Large"
+			android:textColor="@color/color_texto" android:text="@string/iniciar_reclamo" />
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:gravity="center"
+			android:paddingBottom="2dip" android:textColor="@color/color_texto"
+			android:textAppearance="@android:style/TextAppearance.Small"
+			android:text="@string/registro_sub_titulo" />
+		<LinearLayout android:orientation="vertical"
+			android:layout_width="fill_parent" android:gravity="center_horizontal"
+			android:layout_marginLeft="20dip" android:layout_marginRight="20dip"
+			android:isScrollContainer="true" android:background="@color/color_fondo"
+			android:layout_height="match_parent" android:weightSum="1"
+			android:layout_weight="0.58">
+			<Spinner android:layout_height="wrap_content" android:id="@+id/tipo_incidente"
+				android:layout_width="match_parent" />
+			<Spinner android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/ubicacion" />
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<EditText android:id="@+id/coordenada"
+					android:layout_width="fill_parent" android:layout_height="wrap_content"
+					android:inputType="text" android:editable="false"
+					android:textAppearance="@android:style/TextAppearance.Large"
+					android:hint="@string/coordenada_gps" android:enabled="false"
+					android:focusable="false" android:clickable="false"
+					android:layout_weight="1" />
+				<Button android:onClick="obtenerCoordenada" android:gravity="center"
+					android:id="@+id/boton_gps" android:text="@string/gps"
+					android:enabled="false" android:textAppearance="@android:style/TextAppearance.Large"
+					android:layout_height="wrap_content" android:layout_width="85dp" />
+			</LinearLayout>
+			<EditText android:id="@+id/calle" android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:inputType="text"
-				android:editable="false" android:textAppearance="@android:style/TextAppearance.Large"
-				android:hint="@string/coordenada_gps" android:enabled="false"
-				android:layout_weight="1" />
-			<Button android:onClick="obtenerCoordenada" android:gravity="center"
-				android:id="@+id/boton_gps" android:text="@string/gps"
-				android:enabled="false" android:textAppearance="@android:style/TextAppearance.Large"
-				android:layout_height="wrap_content" android:layout_width="85dp" />
-		</LinearLayout>
-		<EditText android:id="@+id/calle" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:inputType="text"
-			android:textAppearance="@android:style/TextAppearance.Large"
-			android:hint="@string/calle" android:enabled="false" />
-		<EditText android:id="@+id/altura" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:inputType="number"
-			android:textAppearance="@android:style/TextAppearance.Large"
-			android:hint="@string/altura" android:enabled="false" />
-		<Spinner android:layout_width="match_parent"
-			android:layout_height="wrap_content" android:id="@+id/tipo_incidente"></Spinner>
-		<EditText android:id="@+id/observaciones"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:inputType="text" android:textAppearance="@android:style/TextAppearance.Large"
-			android:hint="@string/observaciones" android:lines="4" />
-		<QuickContactBadge android:id="@+id/quickContactBadge1"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"></QuickContactBadge>
-		<LinearLayout android:orientation="horizontal"
-			android:layout_width="fill_parent" android:layout_height="wrap_content">
-			<Button android:onClick="crearReclamo" android:gravity="center"
-				android:id="@+id/boton_registrar" android:text="@string/ok"
-				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
-				android:layout_height="wrap_content" android:layout_width="fill_parent"
-				android:layout_weight="1" />
-			<Button android:id="@+id/boton_cancelar" android:gravity="center"
-				android:layout_height="wrap_content" android:layout_width="fill_parent"
-				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
-				android:text="@string/cancelar" android:onClick="cancelar"
-				android:layout_weight="1" />
+				android:textAppearance="@android:style/TextAppearance.Large"
+				android:hint="@string/calle" android:enabled="false" />
+			<EditText android:id="@+id/altura" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:inputType="number"
+				android:textAppearance="@android:style/TextAppearance.Large"
+				android:hint="@string/altura" android:enabled="false" />
+			<LinearLayout android:orientation="vertical"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:weightSum="1" android:gravity="center">
+				<ImageView android:id="@+id/fotoPreview"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:src="@drawable/icon" android:layout_weight="1"
+					android:adjustViewBounds="true" />
+				<Button android:onClick="tomarFoto" android:gravity="center"
+					android:id="@+id/boton_foto" android:text="@string/cargar_foto"
+					android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
+					android:layout_height="wrap_content" android:layout_width="wrap_content" />
+			</LinearLayout>
+			<EditText android:id="@+id/observaciones"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:textAppearance="@android:style/TextAppearance.Large"
+				android:hint="@string/observaciones" android:inputType="textMultiLine"
+				android:maxLines="2" />
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<Button android:onClick="crearReclamo" android:gravity="center"
+					android:id="@+id/boton_registrar" android:text="@string/ok"
+					android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
+					android:layout_height="wrap_content" android:layout_width="fill_parent"
+					android:layout_weight="1" />
+				<Button android:id="@+id/boton_cancelar" android:gravity="center"
+					android:layout_height="wrap_content" android:layout_width="fill_parent"
+					android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
+					android:text="@string/cancelar" android:onClick="cancelar"
+					android:layout_weight="1" />
+			</LinearLayout>
 		</LinearLayout>
 	</LinearLayout>
-</LinearLayout>
+</ScrollView>

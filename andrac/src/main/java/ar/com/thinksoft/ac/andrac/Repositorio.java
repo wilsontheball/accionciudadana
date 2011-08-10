@@ -1,5 +1,9 @@
 package ar.com.thinksoft.ac.andrac;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.graphics.Bitmap;
 import ar.com.thinksoft.ac.intac.IUsuario;
 
 /**
@@ -10,6 +14,10 @@ import ar.com.thinksoft.ac.intac.IUsuario;
  */
 public class Repositorio {
 
+	Bitmap imagen = null;
+	private IUsuario usuarioActual = null;
+	private String nombreUsuario = null;
+
 	/**
 	 * Devuelve un objeto Usuario desde la base de datos
 	 * 
@@ -18,7 +26,7 @@ public class Repositorio {
 	 * @param nick
 	 *            nombre del usuario
 	 * @param pass
-	 *            contraseña del usuario
+	 *            contraseï¿½a del usuario
 	 * @return Usuario o null si la operacion fallo
 	 */
 	public IUsuario getUsuario(String nick, String pass) {
@@ -35,7 +43,7 @@ public class Repositorio {
 	 */
 	public boolean validarUsuario(String nick, String pass) {
 		// TODO no esta implementada la conexion a la BD
-		if (nick.isEmpty() || pass.isEmpty()) {
+		if (nick.length() == 0 || pass.length() == 0) {
 			return false;
 		}
 		return true;
@@ -64,15 +72,59 @@ public class Repositorio {
 		return true;
 	}
 
+	/**
+	 * Obtiene los reclamos realizados del usuario.
+	 * 
+	 * @since 06-08-2011
+	 * @author Paul
+	 * @param nick
+	 *            NickName del usuario.
+	 * @return Array de reclamos.
+	 */
+	public String[] getReclamosUsuario() {
+		// TODO Falta implementar la conexion al servidor.
+		// TODO Probando... Es un generador bobo de reclamos.
+		List<String> lista = new ArrayList<String>();
+		for (int i = 0; i < 100; i++) {
+			lista.add("Reclamo" + i);
+		}
+		return (String[]) lista.toArray();
+	}
+
 	public boolean publicarReclamoDireccion(String nick, String tipo,
-			String calle, String altura, String observacion) {
+			String calle, String altura) {
 		// TODO falta implementar
 		return true;
 	}
 
 	public boolean publicarReclamoGPS(String nick, String tipo,
-			String coordenada, String observacion) {
+			String coordenada) {
 		// TODO falta implementar
 		return true;
 	}
+
+	public void setImagen(Bitmap imagen) {
+		this.imagen = imagen;
+	}
+
+	public Bitmap getImagen() {
+		return this.imagen;
+	}
+
+	public IUsuario getUsuarioActual() {
+		return this.usuarioActual;
+	}
+
+	public void setUsuarioActual(IUsuario usuario) {
+		this.usuarioActual = usuario;
+	}
+
+	public String getNombreUsuario() {
+		return this.nombreUsuario;
+	}
+
+	public void setNombreUsuario(String usuario) {
+		this.nombreUsuario = usuario;
+	}
+
 }
