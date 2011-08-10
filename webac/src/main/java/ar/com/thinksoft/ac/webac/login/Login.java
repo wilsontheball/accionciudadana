@@ -10,16 +10,19 @@ public class Login {
 	private String nombreUsuario;
 	private String contrasenia;
 
-	public Login(String nombreUsuario, String contrasenia) {
-		this.setNombreUsuario(nombreUsuario);
-		this.setContarsenia(contrasenia);
+	public String getContrasenia() {
+		return contrasenia;
 	}
 
-	private void setContarsenia(String contrasenia) {
+	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
 
-	private void setNombreUsuario(String nombreUsuario) {
+	public void setContarsenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+
+	public void setNombreUsuario(String nombreUsuario) {
 		this.nombreUsuario = nombreUsuario;
 	}
 
@@ -34,6 +37,18 @@ public class Login {
 			throw new UserNotFoundException(this.nombreUsuario);
 		}
 
+	}
+
+	public boolean isUsuarioExistente() {
+		try {
+			IUsuario usuario = Repository
+					.getInstance()
+					.query(new PredicateLogin().filtrar(this.nombreUsuario,
+							this.contrasenia)).get(0);
+			return usuario.getNombreUsuario().equals(this.nombreUsuario);
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }
