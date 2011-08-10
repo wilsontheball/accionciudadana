@@ -10,6 +10,10 @@ public class Login {
 	private String nombreUsuario;
 	private String contrasenia;
 
+	public Login(String nombreUsuario,String contrasenia) {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public String getContrasenia() {
 		return contrasenia;
 	}

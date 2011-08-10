@@ -37,9 +37,7 @@ public class LoginForm extends Form<Void> {
 	@Override
 	protected void onSubmit() {
 
-		Login login = new Login();
-		login.setContarsenia(this.contrasenia);
-		login.setNombreUsuario(this.nombreUsuario);
+		Login login = new Login(this.nombreUsuario,this.contrasenia);
 
 		try {
 			login.login();
