@@ -10,8 +10,8 @@ html,body {
 	font-size: 12px;
 }
 
-.thinksoft {
-	background-image: url(/webac/src/main/java/ar/com/thinksoft/ac/webac/web/images/thinksoft.jpg);
+.thinksoftT {
+	background-image: url(../images/thinksoft.jpg);
 	background-repeat: no-repeat;
 	background-position: left top;
 }
