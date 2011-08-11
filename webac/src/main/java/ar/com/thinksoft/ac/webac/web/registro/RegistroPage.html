@@ -6,6 +6,7 @@
 		<wicket:head>
 			<wicket:link>
 			<!-- ACA VA LO DE CSS -->
+			<link rel="stylesheet" type="text/css" href="../css/RegistroPage.css"/>
 			</wicket:link>
 		</wicket:head>
 		
@@ -14,15 +15,19 @@
 	<body>
 		<wicket:extend>
 
-		<div>
+		<div class="registro">
 			<form wicket:id="registroForm">
 				<p>
-					<label>Username:</label>
+					<label>Nombre de Usuario:</label>
 			 		<input type="text" wicket:id="username" id="nickname" class="username" />
 		 		</p>
 		 		<p>
-					<label>Password:</label>
+					<label>Contraseña:</label>
 			 		<input type="password" wicket:id="password" id="password" class="password" />
+		 		</p>
+		 		<p>
+					<label>Reescriba la Contraseña:</label>
+			 		<input type="password" wicket:id="re-password" id="password" class="password" />
 		 		</p>
 		 		
 		 		<p> <input type="submit" value="Registrarse"/> </p>
