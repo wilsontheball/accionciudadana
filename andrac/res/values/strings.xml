@@ -26,7 +26,7 @@
 	<string name="login_exito">Autentificación Exitosa!</string>
 	<string name="login_cancel">Cerrando la aplicación...</string>
 	<string name="advertencia">Error!</string>
-	<string name="nick_pass_fail">Usuario y/o contraseña no valida.</string>
+	<string name="nick_pass_fail">Usuario y/o contraseña no validos.</string>
 	<string name="atencion">Atención!</string>
 	<string name="campo_vacio">Todos los campos deben ser completados!</string>
 	<string name="campo_calle_vacio">El campo calle debe ser completado!</string>

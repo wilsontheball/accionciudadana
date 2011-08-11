@@ -1,24 +1,19 @@
 package ar.com.thinksoft.ac.andrac;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 /**
  * La clase se encarga de manejar la pantalla Home.
  * 
- * @since 19-07-2011
+ * @since 10-08-2011
  * @author Paul
  * 
  */
 public class Main extends Activity {
-
-	private static String TAG = "andrac";
 
 	/**
 	 * Se encarga de la creacion de la ventana. Hace que ventana de Login
@@ -30,13 +25,18 @@ public class Main extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		Log.i(TAG, "onCreate");
-		setContentView(R.layout.main);
+		this.setContentView(R.layout.main);
 
 		// Muestra la ventana Login
 		this.mostrarLogin();
 	}
 
+	/**
+	 * Captura la respuesta de la ventana Login
+	 * 
+	 * @author Paul
+	 * @since 22-07-2011
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -88,21 +88,5 @@ public class Main extends Activity {
 	 */
 	public void mostrarPerfil(View v) {
 		// TODO falta hacer la ventana,
-	}
-
-	/**
-	 * Muestra una ventana de dialogo con un boton que la cierra
-	 * 
-	 * @since 22-07-2011
-	 * @author Paul
-	 * @param titulo
-	 *            titulo que se va a mostrar en la ventana
-	 * @param mensaje
-	 *            mensaje que se va a mostrar
-	 */
-	private void mostrarAdvertencia(String titulo, String mensaje) {
-		// TODO Aca se deberia mostrar advertencia
-		Toast.makeText(this, "Aca se deberia mostrar advertencia",
-				Toast.LENGTH_LONG).show();
 	}
 }

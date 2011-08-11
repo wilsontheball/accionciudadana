@@ -2,20 +2,25 @@ package ar.com.thinksoft.ac.andrac;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 /**
  * La clase se encarga de manejar la pantalla de Registro.
  * 
- * @since 19-07-2011
+ * @since 10-08-2011
  * @author Paul
  * 
  */
 public class Registro extends Activity {
+	// Almacena titulo de la ventana de alerta
+	private String tituloAlerta = "";
+	// Almacena texto de la ventana de alerta
+	private String mensageAlerta = "";
+
 	/**
 	 * Se encarga de la creacion de la ventana.
 	 * 
@@ -139,16 +144,34 @@ public class Registro extends Activity {
 	/**
 	 * Muestra una ventana de dialogo con un boton para cerrarla.
 	 * 
-	 * @since 22-07-2011
+	 * @since 10-08-2011
 	 * @author Paul
-	 * @param titulo
-	 *            titulo que se va a mostrar en el dialogo.
-	 * @param mensaje
-	 *            mensaje que se va a mostrar en el dialogo.
 	 */
 	private void mostrarAdvertencia(String titulo, String mensaje) {
-		// TODO Aca se deberia mostrar advertencia
-		Toast.makeText(this, "Aca se deberia mostrar advertencia",
-				Toast.LENGTH_LONG).show();
+		// No se puede pasar los atributos directamente al Dialogo
+		this.tituloAlerta = titulo;
+		this.mensageAlerta = mensaje;
+		this.showDialog(1);
+	}
+
+	/**
+	 * Crea la ventana de Alerta. (Se hace de esta forma en Android 2.2)
+	 * 
+	 * @since 10-08-2011
+	 * @author Paul
+	 */
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		return new AlertDialog.Builder(Registro.this)
+				.setIcon(R.drawable.alert_dialog_icon)
+				.setTitle(tituloAlerta)
+				.setMessage(mensageAlerta)
+				.setPositiveButton(R.string.ok,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								/* User clicked OK so do some stuff */
+							}
+						}).create();
 	}
 }

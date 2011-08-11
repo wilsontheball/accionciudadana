@@ -8,18 +8,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 /**
  * La clase se encarga de manejar la pantalla de Autentificacion. Desde esta
  * pantalla se puede acceder a la pantalla de Registracion o cerrar la
  * aplicacion.
  * 
- * @since 19-07-2011
+ * @since 10-09-2011
  * @author Paul
  * 
  */
 public class Login extends Activity {
+
+	// Almacena titulo de la ventana de alerta
+	private String tituloAlerta = "";
+	// Almacena texto de la ventana de alerta
+	private String mensageAlerta = "";
 
 	/**
 	 * Se encarga de la creacion de la ventana. Le asigna Layout.
@@ -37,61 +41,35 @@ public class Login extends Activity {
 	/**
 	 * Muestra una ventana de dialogo con un boton para cerrarla.
 	 * 
-	 * @since 22-07-2011
+	 * @since 10-08-2011
 	 * @author Paul
-	 * @param titulo
-	 *            titulo que se va a mostrar en la ventana
-	 * @param mensaje
-	 *            mensaje que se va a mostrar
 	 */
 	private void mostrarAdvertencia(String titulo, String mensaje) {
-		// TODO corregir, mostrar advertencia
-		// AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		// builder.setTitle(titulo)
-		// .setMessage(mensaje)
-		// .setCancelable(false)
-		// .setPositiveButton(R.string.ok,
-		// new DialogInterface.OnClickListener() {
-		// public void onClick(DialogInterface dialog, int id) {
-		// dialog.cancel();
-		// }
-		// });
-		// AlertDialog alert = builder.create();
-		// alert.show();
-
+		// No se puede pasar los atributos directamente al Dialogo
+		this.tituloAlerta = titulo;
+		this.mensageAlerta = mensaje;
 		this.showDialog(1);
-
 	}
 
+	/**
+	 * Crea la ventana de Alerta. (Se hace de esta forma en Android 2.2)
+	 * 
+	 * @since 10-08-2011
+	 * @author Paul
+	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		return new AlertDialog.Builder(Login.this)
-				.setTitle("Aca iria un Titulo")
-				.setMessage("Aca iria un Mensaje")
-				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-
-						/* User clicked OK so do some stuff */
-					}
-				})
-				// .setNeutralButton("Neutro",
-				// new DialogInterface.OnClickListener() {
-				// public void onClick(DialogInterface dialog,
-				// int whichButton) {
-				//
-				// /* User clicked Something so do some stuff */
-				// }
-				// })
-				// .setNegativeButton("cancelar",
-				// new DialogInterface.OnClickListener() {
-				// public void onClick(DialogInterface dialog,
-				// int whichButton) {
-				//
-				// /* User clicked Cancel so do some stuff */
-				// }
-				// })
-				//
-				.create();
+				.setIcon(R.drawable.alert_dialog_icon)
+				.setTitle(tituloAlerta)
+				.setMessage(mensageAlerta)
+				.setPositiveButton(R.string.ok,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								/* User clicked OK so do some stuff */
+							}
+						}).create();
 	}
 
 	/**
@@ -157,7 +135,6 @@ public class Login extends Activity {
 	 * @author Paul
 	 * @return aplicacion
 	 */
-
 	public Repositorio getRepo() {
 		return ((Aplicacion) this.getApplication()).getRepositorio();
 	}
