@@ -15,17 +15,17 @@
 		<wicket:extend>
 
 		<div>
-			<form>
+			<form wicket:id="registroForm">
 				<p>
 					<label>Username:</label>
-			 		<input type="text" id="nickname" class="username" />
+			 		<input type="text" wicket:id="username" id="nickname" class="username" />
 		 		</p>
 		 		<p>
 					<label>Password:</label>
-			 		<input type="text" id="password" class="password" />
+			 		<input type="password" wicket:id="password" id="password" class="password" />
 		 		</p>
 		 		
-		 		<p> <input type="submit" value="Login"/> </p>
+		 		<p> <input type="submit" value="Registrarse"/> </p>
 		 		
 			</form>
 		</div>

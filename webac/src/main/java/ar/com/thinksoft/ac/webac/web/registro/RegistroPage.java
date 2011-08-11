@@ -13,6 +13,8 @@ public class RegistroPage extends BasePage {
 	}
 	
 	public RegistroPage(final PageParameters parameters) {
+		
+		add(new RegistroForm("registroForm"));
 	}
 	
 	
