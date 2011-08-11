@@ -16,7 +16,8 @@ public class AltaReclamoPage extends BasePage{
 	
 	public AltaReclamoPage(final PageParameters parameters) {
 		
-		add(CSSPackageResource.getHeaderContribution(BasePage.class,"../css/AltaReclamo.css"));
+		add(CSSPackageResource.getHeaderContribution(AltaReclamoPage.class,"../css/AltaReclamo.css"));
+		
 	}
 
 }

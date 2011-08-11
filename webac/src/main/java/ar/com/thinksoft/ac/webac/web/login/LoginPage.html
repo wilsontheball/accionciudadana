@@ -6,7 +6,6 @@
 		<wicket:head>
 			<wicket:link>
 				<link rel="stylesheet" type="text/css" href="../css/BasePage.css"/>
-				<!--  <link rel="stylesheet" type="text/css" href="../css/style.css"/> -->
 			</wicket:link>
 		</wicket:head>
 		
@@ -36,11 +35,11 @@
 		</div>
 -->
 
-		<div class="mainwrapper">
-	
-		    <div class="loginbox">
-		        <div class="right">
-		        	<form wicket:id="loginForm" class="loginform">
+		<div >
+		    <div>
+		        <div>
+		         <span wicket:id = "feedback" class="error"/>
+		        	<form wicket:id="loginForm">
 		            	<p>
 		                	<label for="username" id="usernamelabel">Username:</label>
 		                    <input type="text" wicket:id="nickname" id="nickname" class="username" />
@@ -48,8 +47,10 @@
 		                
 		                <p>
 		                	<label for="password" id="passwordlabel">Password:</label>
-		                    <input type="text" wicket:id="password" id="password" class="password" />
+		                    <input type="password" wicket:id="password" id="password" class="password" />
 		                </p>
+		                
+		                <p> <input type="submit" value="Login"/> </p>
 		                
 		            </form>
 		        </div><!--right-->

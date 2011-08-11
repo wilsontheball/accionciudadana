@@ -16,6 +16,13 @@ html,body {
 	background-position: left top;
 }
 
+
+/******************NOTIFICACIONES****************************/
+.error{
+	color: red;
+}
+
+
 /******************ACA EMPIEZA EL ESTILO DEL MENU*******************/
 .menu {
 	border: none;
