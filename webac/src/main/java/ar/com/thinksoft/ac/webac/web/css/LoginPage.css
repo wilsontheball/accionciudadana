@@ -1,9 +1,11 @@
 @CHARSET "UTF-8";
 
 
-#botoneraLogin {
+.login {
 	width:100%;
 	text-align: center;
 	padding-top: 100px;
 }
+
+
 
