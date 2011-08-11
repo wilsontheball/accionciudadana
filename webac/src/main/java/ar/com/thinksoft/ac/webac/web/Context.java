@@ -22,4 +22,9 @@ public class Context {
 		return this.usuario;
 	}
 
+	// mejor crear un null user
+	public boolean isUserSignedIn() {
+		return this.getUsuario() != null;
+	}
+
 }
