@@ -3,16 +3,16 @@
  */
 
 
-function validacionUbicacion(){
+$(document).ready(function() {
 	
 	$('#coordenadasRadioButton').click(function(){
-		alert('hola!');
+		$('#direccionRadioButton').attr('checked',false);
 		
 	});
 	
 	$('#direccionRadioButton').click(function(){
-		alert('chau!');
+		$('#coordenadasRadioButton').attr('checked',false);
 		
 	});
 	
-}
+});
