@@ -10,6 +10,8 @@ import ar.com.thinksoft.ac.intac.IUsuario;
 public class Usuario implements IUsuario {
 
 	private List<IPermiso> permisos;
+	private String nombreUsuario;
+	private String contrasenia;
 
 	public Usuario() {
 		this.permisos = new ArrayList<IPermiso>();
@@ -47,6 +49,32 @@ public class Usuario implements IUsuario {
 	@Override
 	public int cantidadPermisos() {
 		return this.getPermisos().size();
+	}
+
+	@Override
+	public boolean hasUsuarioYContrasenia(String usuario, String contrasenia) {
+		return this.getNombreUsuario().equals(usuario)
+				&& this.getContrasenia().equals(contrasenia);
+	}
+
+	@Override
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
+
+	@Override
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+
+	@Override
+	public String getNombreUsuario() {
+		return this.nombreUsuario;
+	}
+
+	@Override
+	public String getContrasenia() {
+		return this.contrasenia;
 	}
 
 }
