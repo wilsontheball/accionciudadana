@@ -16,6 +16,12 @@ html,body {
 	background-position: left top;
 }
 
+.loginAndLogout{
+	text-align: right;
+	padding-right: 10px;
+	font-size: 13px;
+}
+
 
 /******************NOTIFICACIONES****************************/
 .error{
