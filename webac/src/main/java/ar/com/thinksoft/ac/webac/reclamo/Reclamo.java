@@ -3,6 +3,13 @@ package ar.com.thinksoft.ac.webac.reclamo;
 import java.awt.Image;
 import java.util.Date;
 
+import ar.com.thinksoft.ac.estadosReclamo.EstadoActivo;
+import ar.com.thinksoft.ac.estadosReclamo.EstadoBaja;
+import ar.com.thinksoft.ac.estadosReclamo.EstadoCancelado;
+import ar.com.thinksoft.ac.estadosReclamo.EstadoDemorado;
+import ar.com.thinksoft.ac.estadosReclamo.EstadoEnProgreso;
+import ar.com.thinksoft.ac.estadosReclamo.EstadoSuspendido;
+import ar.com.thinksoft.ac.estadosReclamo.EstadoTerminado;
 import ar.com.thinksoft.ac.intac.IEstadoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 
@@ -47,6 +54,69 @@ public class Reclamo implements IReclamo{
 		this.setEstado(estado);
 		this.setPrioridad(prioridad);
 		
+	}
+	
+	/**
+	 * Setea el estado de Cancelado al Reclamo
+	 * @author Matias
+	 */
+	public void cancelarReclamo(){
+		this.setEstado(new EstadoCancelado());
+		ReclamoManager.getInstance().guardarReclamo(this);
+	}
+	
+	/**
+	 * Setea el estado de Baja al Reclamo
+	 * @author Matias
+	 */
+	public void darDeBajaReclamo(){
+		this.setEstado(new EstadoBaja());
+		ReclamoManager.getInstance().guardarReclamo(this);
+	}
+	
+	/**
+	 * Setea el estado de Suspendido al Reclamo
+	 * @author Matias
+	 */
+	public void suspender(){
+		this.setEstado(new EstadoSuspendido());
+		ReclamoManager.getInstance().guardarReclamo(this);
+	}
+	
+	/**
+	 * Setea el estado de Activo al Reclamo
+	 * @author Matias
+	 */
+	public void activar(){
+		this.setEstado(new EstadoActivo());
+		ReclamoManager.getInstance().guardarReclamo(this);
+	}
+	
+	/**
+	 * Setea el estado de En Progreso al Reclamo
+	 * @author Matias 
+	 */
+	public void enProgreso(){
+		this.setEstado(new EstadoEnProgreso());
+		ReclamoManager.getInstance().guardarReclamo(this);
+	}
+	
+	/**
+	 * Setea el estado de Demorado al Reclamo
+	 * @author Matias 
+	 */
+	public void demorar(){
+		this.setEstado(new EstadoDemorado());
+		ReclamoManager.getInstance().guardarReclamo(this);
+	}
+	
+	/**
+	 * Setea el estado de Terminado al Reclamo
+	 * @author Matias 
+	 */
+	public void terminar(){
+		this.setEstado(new EstadoTerminado());
+		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 
 	// get ATRIBUTOS

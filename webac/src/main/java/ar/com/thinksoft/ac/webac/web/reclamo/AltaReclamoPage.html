@@ -7,22 +7,36 @@
 
 <body>
 	<wicket:extend>
-	gfds
-		<div class="contenedorFormulario">
-		dsadsa
-			<form id="formularioAlta" class="formulario">
-				<div id="ubicacionIncidente">
-					<span> Ubicaci&oacute;n del Incidente </span>
+
+		<div class="altaReclamo">
+			<form wicket:id="altaReclamoForm">
+			
+					<label>Calle:</label>
+			 		<input type="text" wicket:id="calleIncidente" id="calleIncidente"/>
 					
-					<div id="tiposUbicaciones">
-						<input type="radio" id="coordenadasRadioButton" checked="checked""/> Coordenadas
-						<input type="radio" id="direccionRadioButton""/> Dirección
-					</div>
-				</div>
-					dsadsa
-		
+					<label>Altura:</label>
+			 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente"/>
+			
+					<label>Coordenada de Latitud:</label>
+			 		<input type="text" wicket:id="latitudIncidente" id="latitudIncidente"/>
+					
+					<label>Coordenada de Longitud:</label>
+			 		<input type="text" wicket:id="longitudIncidente" id="longitudIncidente"/>
+			 		
+			 		<label>Ciudadano:</label>
+			 		<input type="text" wicket:id="ciudadanoIncidente" id="ciudadanoIncidente"/>
+			
+					<label>Tipo de Incidente:</label>
+			 		<input type="text" wicket:id="tipoIncidente" id="tipoIncidente"/>
+					
+					<label>Observaciones:</label>
+			 		<input type="text" wicket:id="observaciones" id="observaciones"/>
+		 		
+		 		<p> <input type="submit" value="Alta de reclamo"/> </p>
+		 		
 			</form>
 		</div>
+		
 	</wicket:extend>
 </body>
 </html>
