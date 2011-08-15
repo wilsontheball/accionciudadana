@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -14,7 +15,7 @@ import android.widget.EditText;
  * pantalla se puede acceder a la pantalla de Registracion o cerrar la
  * aplicacion.
  * 
- * @since 10-09-2011
+ * @since 12-08-2011
  * @author Paul
  * 
  */
@@ -36,6 +37,18 @@ public class Login extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+	}
+
+	/**
+	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
+	 * 
+	 * @since 12-08-2011
+	 * @author Paul
+	 * @param newConfig
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
 	}
 
 	/**

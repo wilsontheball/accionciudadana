@@ -24,7 +24,7 @@
 	<string name="calle">Calle</string>
 	<string name="altura">Altura</string>
 	<string name="login_exito">Autentificación Exitosa!</string>
-	<string name="login_cancel">Cerrando la aplicación...</string>
+	<string name="cerrar_aplicacion">Aplicación Finalizada.</string>
 	<string name="advertencia">Error!</string>
 	<string name="nick_pass_fail">Usuario y/o contraseña no validos.</string>
 	<string name="atencion">Atención!</string>
@@ -45,17 +45,18 @@
 	<string name="iniciar_reclamo">Iniciar Reclamo</string>
 	<string name="tipodeincidente_prompt">Tipo de Incidente</string>
 	<string name="gps">GPS</string>
+	<string name="titulo_detalle_reclamo">Detalle de Reclamo</string>
+	<string name="atras">Atrás</string>
 	<string-array name="tipoincidente_array">
 		<item>Bache</item>
-		<item>Caida de Objetos</item>
+		<item>Caída de Objetos</item>
 		<item>ABL</item>
-		<item>Rotura de elementos publicos</item>
+		<item>Rotura de elementos públicos</item>
 		<item>Elementos viales</item>
 		<item>Inundaciones</item>
-		<item>Transporte Publico</item>
+		<item>Transporte Público</item>
 		<item>Accesibilidad</item>
 	</string-array>
-	<string name="atras">Atrás</string>
 	<string-array name="ubicacion_array">
 		<item>Ubicación por Coordenada GPS</item>
 		<item>Ubicación por Calle y Altura</item>

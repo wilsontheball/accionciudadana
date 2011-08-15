@@ -1,8 +1,5 @@
 package ar.com.thinksoft.ac.andrac;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.graphics.Bitmap;
 import ar.com.thinksoft.ac.intac.IUsuario;
 
@@ -81,14 +78,33 @@ public class Repositorio {
 	 *            NickName del usuario.
 	 * @return Array de reclamos.
 	 */
-	public String[] getReclamosUsuario() {
+	public ReclamoItem[] getReclamosUsuario() {
 		// TODO Falta implementar la conexion al servidor.
 		// TODO Probando... Es un generador bobo de reclamos.
-		List<String> lista = new ArrayList<String>();
-		for (int i = 0; i < 100; i++) {
-			lista.add("Reclamo" + i);
-		}
-		return (String[]) lista.toArray();
+
+		return new ReclamoItem[] {
+				new ReclamoItem("Tipo de Incidente 1",
+						"Direccion de de Incidente 1"),
+				new ReclamoItem("Tipo de Incidente  2",
+						"Direccion de de Incidente 2"),
+				new ReclamoItem("Tipo de Incidente  3",
+						"Direccion de de Incidente 3"),
+				new ReclamoItem("Tipo de Incidente  4",
+						"Direccion de de Incidente 4"),
+				new ReclamoItem("Tipo de Incidente  5",
+						"Direccion de de Incidente 5"),
+				new ReclamoItem("Tipo de Incidente  6",
+						"Direccion de de Incidente 6"),
+				new ReclamoItem("Tipo de Incidente  7",
+						"Direccion de de Incidente 7"),
+				new ReclamoItem("Tipo de Incidente  8",
+						"Direccion de de Incidente 8"),
+				new ReclamoItem("Tipo de Incidente  9",
+						"Direccion de de Incidente 9"),
+				new ReclamoItem("Tipo de Incidente  10",
+						"Direccion de de Incidente 10"),
+				new ReclamoItem("Tipo de Incidente  11",
+						"Direccion de de Incidente 11") };
 	}
 
 	public boolean publicarReclamoDireccion(String nick, String tipo,
@@ -103,6 +119,11 @@ public class Repositorio {
 		return true;
 	}
 
+	/**
+	 * Almacen para la foto. De esta forma no hace falta un archivo.
+	 * 
+	 * @param imagen
+	 */
 	public void setImagen(Bitmap imagen) {
 		this.imagen = imagen;
 	}

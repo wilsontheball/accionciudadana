@@ -11,9 +11,11 @@ import android.widget.Toast;
  * 
  * @since 10-08-2011
  * @author Paul
- * 
  */
 public class Main extends Activity {
+
+	// Flag que asegura que Login se muestre una sola vez
+	private int resultadoLogin = Activity.RESULT_FIRST_USER;
 
 	/**
 	 * Se encarga de la creacion de la ventana. Hace que ventana de Login
@@ -27,8 +29,10 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.main);
 
-		// Muestra la ventana Login
-		this.mostrarLogin();
+		// Muestra la ventana Login una sola vez
+		if (this.resultadoLogin == Activity.RESULT_FIRST_USER) {
+			this.mostrarLogin();
+		}
 	}
 
 	/**
@@ -40,8 +44,9 @@ public class Main extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == Activity.RESULT_CANCELED) {
-			Toast.makeText(this, R.string.login_cancel, Toast.LENGTH_LONG)
+		this.resultadoLogin = resultCode;
+		if (resultadoLogin == Activity.RESULT_CANCELED) {
+			Toast.makeText(this, R.string.cerrar_aplicacion, Toast.LENGTH_LONG)
 					.show();
 			this.finish();
 		} else {

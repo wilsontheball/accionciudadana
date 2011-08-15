@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -11,11 +12,14 @@ import android.widget.EditText;
 /**
  * La clase se encarga de manejar la pantalla de Registro.
  * 
- * @since 10-08-2011
+ * @since 12-08-2011
  * @author Paul
- * 
  */
 public class Registro extends Activity {
+
+	private final int ERROR_DIALOG = 1;
+	private final int CONFIRM_DIALOG = 2;
+
 	// Almacena titulo de la ventana de alerta
 	private String tituloAlerta = "";
 	// Almacena texto de la ventana de alerta
@@ -34,43 +38,55 @@ public class Registro extends Activity {
 	}
 
 	/**
-	 * Registra al usuario y cierra la ventana. Responde al boton Aceptar.
+	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
 	 * 
-	 * @since 19-07-2011
+	 * @since 12-08-2011
+	 * @author Paul
+	 * @param newConfig
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+	}
+
+	/**
+	 * Registra al usuario y muestra confirmacion. Responde al boton Aceptar.
+	 * 
+	 * @since 12-08-2011
 	 * @author Paul
 	 * @param v
 	 */
 	public void registrar(View v) {
 		try {
 			if (this.camposIncompletos()) {
-				this.mostrarAdvertencia(getString(R.string.atencion),
-						getString(R.string.campo_vacio));
+				this.mostrarDialogo(getString(R.string.atencion),
+						getString(R.string.campo_vacio), this.ERROR_DIALOG);
 			} else {
 				if (!this.getMail().equals(this.getMailConfirm())) {
-					this.mostrarAdvertencia(getString(R.string.atencion),
-							getString(R.string.mail_no_coincide));
+					this.mostrarDialogo(getString(R.string.atencion),
+							getString(R.string.mail_no_coincide),
+							this.ERROR_DIALOG);
 					this.limpiarMail();
 				} else {
 					if (!this.getPass().equals(this.getPassConfirm())) {
-						this.mostrarAdvertencia(getString(R.string.atencion),
-								getString(R.string.pass_no_coincide));
+						this.mostrarDialogo(getString(R.string.atencion),
+								getString(R.string.pass_no_coincide),
+								this.ERROR_DIALOG);
 						this.limpiarPass();
 					} else {
 						((Aplicacion) this.getApplication()).getRepositorio()
 								.registrarUsuario(getNombre(), getApellido(),
 										getUsuario(), getDNI(), getMail(),
 										getTelefono(), getPass());
-						// TODO Hacer que la Activity espere el cierre del
-						// dialogo
-						this.mostrarAdvertencia(getString(R.string.atencion),
-								getString(R.string.confirmar_registro));
-						this.finish();
+						this.mostrarDialogo(getString(R.string.atencion),
+								getString(R.string.confirmar_registro),
+								this.CONFIRM_DIALOG);
 					}
 				}
 			}
 		} catch (Exception e) {
-			this.mostrarAdvertencia(getString(R.string.advertencia),
-					e.toString());
+			this.mostrarDialogo(getString(R.string.advertencia), e.toString(),
+					this.ERROR_DIALOG);
 		}
 	}
 
@@ -84,6 +100,101 @@ public class Registro extends Activity {
 	public void cancelar(View v) {
 		this.finish();
 	}
+
+	/**
+	 * Muestra una ventana de dialogo con un boton para cerrarla.
+	 * 
+	 * @since 12-08-2011
+	 * @author Paul
+	 */
+	private void mostrarDialogo(String titulo, String mensaje, int tipo) {
+		// No se puede pasar los atributos directamente al Dialogo
+		this.tituloAlerta = titulo;
+		this.mensageAlerta = mensaje;
+		this.showDialog(tipo);
+	}
+
+	/**
+	 * Crea la ventana de Alerta. (Se hace de esta forma en Android 2.2)
+	 * 
+	 * @since 12-08-2011
+	 * @author Paul
+	 */
+	@Override
+	protected Dialog onCreateDialog(int tipo) {
+		Dialog unDialog = null;
+		switch (tipo) {
+		case CONFIRM_DIALOG:
+			unDialog = new AlertDialog.Builder(Registro.this)
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(tituloAlerta)
+					.setMessage(mensageAlerta)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									finish();
+								}
+							}).create();
+			break;
+		case ERROR_DIALOG:
+			unDialog = new AlertDialog.Builder(Registro.this)
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(tituloAlerta)
+					.setMessage(mensageAlerta)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									/* Solo cierra el dialogo */
+								}
+							}).create();
+			break;
+		default:
+			break;
+		}
+		return unDialog;
+	}
+
+	/**
+	 * Bussca si hay campos sin completar en la pantalla.
+	 * 
+	 * @since 19-07-2011
+	 * @author Paul
+	 * @return <Code>true</Code> si falta completar alguno, <Code>false</Code>
+	 *         si todos estan completos.
+	 */
+	private boolean camposIncompletos() {
+		return getNombre().length() == 0 || getApellido().length() == 0
+				|| getUsuario().length() == 0 || getDNI().length() == 0
+				|| getMail().length() == 0 || getMailConfirm().length() == 0
+				|| getTelefono().length() == 0 || getPass().length() == 0
+				|| getPassConfirm().length() == 0;
+	}
+
+	/**
+	 * Limpia el contenido de los campos Mail y RepetirMail
+	 * 
+	 * @since 19-07-2011
+	 * @author Paul
+	 */
+	private void limpiarMail() {
+		((EditText) findViewById(R.id.mail)).setText("");
+		((EditText) findViewById(R.id.mail_confirm)).setText("");
+	}
+
+	/**
+	 * Limpia el contenido de los campos Password y RepetirPassword
+	 * 
+	 * @since 19-07-2011
+	 * @author Paul
+	 */
+	private void limpiarPass() {
+		((EditText) findViewById(R.id.pass)).setText("");
+		((EditText) findViewById(R.id.pass_confirm)).setText("");
+	}
+
+	/* Metodos que obtienen el contenido de los campos de la pantalla */
 
 	private String getNombre() {
 		return ((EditText) findViewById(R.id.nombre)).getText().toString();
@@ -121,57 +232,5 @@ public class Registro extends Activity {
 	private String getPassConfirm() {
 		return ((EditText) findViewById(R.id.pass_confirm)).getText()
 				.toString();
-	}
-
-	private void limpiarMail() {
-		((EditText) findViewById(R.id.mail)).setText("");
-		((EditText) findViewById(R.id.mail_confirm)).setText("");
-	}
-
-	private void limpiarPass() {
-		((EditText) findViewById(R.id.pass)).setText("");
-		((EditText) findViewById(R.id.pass_confirm)).setText("");
-	}
-
-	private boolean camposIncompletos() {
-		return getNombre().length() == 0 || getApellido().length() == 0
-				|| getUsuario().length() == 0 || getDNI().length() == 0
-				|| getMail().length() == 0 || getMailConfirm().length() == 0
-				|| getTelefono().length() == 0 || getPass().length() == 0
-				|| getPassConfirm().length() == 0;
-	}
-
-	/**
-	 * Muestra una ventana de dialogo con un boton para cerrarla.
-	 * 
-	 * @since 10-08-2011
-	 * @author Paul
-	 */
-	private void mostrarAdvertencia(String titulo, String mensaje) {
-		// No se puede pasar los atributos directamente al Dialogo
-		this.tituloAlerta = titulo;
-		this.mensageAlerta = mensaje;
-		this.showDialog(1);
-	}
-
-	/**
-	 * Crea la ventana de Alerta. (Se hace de esta forma en Android 2.2)
-	 * 
-	 * @since 10-08-2011
-	 * @author Paul
-	 */
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		return new AlertDialog.Builder(Registro.this)
-				.setIcon(R.drawable.alert_dialog_icon)
-				.setTitle(tituloAlerta)
-				.setMessage(mensageAlerta)
-				.setPositiveButton(R.string.ok,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								/* User clicked OK so do some stuff */
-							}
-						}).create();
 	}
 }

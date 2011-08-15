@@ -10,12 +10,16 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".Login" />
-		<activity android:name=".Registro" />
-		<activity android:name=".DetalleReclamo" />
-		<activity android:name=".ListaReclamos" />
-		<activity android:name=".IniciarReclamo" />
-		<activity android:name=".CamaraView" />
+		<activity android:name=".Login" android:configChanges="keyboard|keyboardHidden|orientation"
+			android:icon="@drawable/alert_dialog_icon" />
+		<activity android:name=".Registro" android:configChanges="keyboard|keyboardHidden|orientation" />
+		<activity android:name=".DetalleReclamo"
+			android:configChanges="keyboard|keyboardHidden|orientation" />
+		<activity android:name=".ListaReclamos"
+			android:configChanges="keyboard|keyboardHidden|orientation" />
+		<activity android:name=".IniciarReclamo"
+			android:configChanges="keyboard|keyboardHidden|orientation" />
+		<activity android:name=".CamaraView" android:configChanges="keyboard|keyboardHidden|orientation" />
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
