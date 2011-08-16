@@ -8,6 +8,7 @@ import org.apache.wicket.model.IModel;
 
 import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.HomePage;
+import ar.com.thinksoft.ac.webac.registro.RegistroManager;
 import ar.com.thinksoft.ac.webac.repository.Repository;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
 
@@ -44,15 +45,12 @@ public class RegistroForm extends Form<IUsuario> {
 	protected void onSubmit() {
 
 		IUsuario usuario = getModelObject();
-		System.out.println(usuario.getNombreUsuario());
-		System.out.println(usuario.getContrasenia());
-
 		if (!usuario.getContrasenia().equals(this.repassword)) {
 			System.out.println("NO SON IGUALES");
 			error("no son iguales");
 		}
 
-		Repository.getInstance().store(usuario);
+		new RegistroManager().registrar(usuario);
 		setResponsePage(HomePage.class);
 
 	}
