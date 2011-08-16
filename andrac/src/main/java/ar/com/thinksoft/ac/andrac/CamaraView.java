@@ -9,23 +9,29 @@ import java.io.IOException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
-import android.graphics.Bitmap.CompressFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 
+/**
+ * Pantalla de la camara de fotos. Saca foto si se hace un clic sobre la
+ * pantalla o se presiona el boton de la camara.
+ * 
+ * @since 16-08-2010
+ * @author Paul
+ */
 public class CamaraView extends Activity implements SurfaceHolder.Callback,
 		OnClickListener {
 	static final int FOTO_MODE = 0;
@@ -33,13 +39,13 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 	Camera mCamera;
 	boolean mPreviewRunning = false;
 	private Context mContext = this;
+	private SurfaceView mSurfaceView;
+	private SurfaceHolder mSurfaceHolder;
 
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 
 		Log.e(TAG, "onCreate");
-
-		Bundle extras = getIntent().getExtras();
 
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -126,13 +132,48 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 		mCamera.release();
 	}
 
-	private SurfaceView mSurfaceView;
-	private SurfaceHolder mSurfaceHolder;
+	/**
+	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
+	 * 
+	 * @since 12-08-2011
+	 * @author Paul
+	 * @param newConfig
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+	}
 
-	public void onClick(View arg0) {
-
+	/**
+	 * Saca foto cuando se hace clic sobre la pantalla.
+	 * 
+	 * @since 15-08-2011
+	 * @author Hernan
+	 * @param v
+	 *            La View.
+	 */
+	public void onClick(View v) {
 		mCamera.takePicture(null, mPictureCallback, mPictureCallback);
+	}
 
+	/**
+	 * Saca foto cuando se pulsa el BOTON DE CAMARA.
+	 * 
+	 * @since 16-08-2011
+	 * @author Paul
+	 * @param keyCode
+	 *            Codigo del boton presionado.
+	 * @param event
+	 *            Evento del boton presionado.
+	 * @return Siempre true.
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+			this.mCamera.takePicture(null, this.mPictureCallback,
+					this.mPictureCallback);
+		}
+		return true;
 	}
 
 	public static boolean storeByteImage(Context mContext, byte[] imageData,
@@ -140,7 +181,6 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 
 		File sdImageMainDirectory = new File("/sdcard");
 		FileOutputStream fileOutputStream = null;
-		String nameFile;
 
 		try {
 
@@ -176,7 +216,8 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 		BitmapFactory.Options opts = new BitmapFactory.Options();
 		opts.outWidth = 640;
 		opts.outHeight = 480;
-		Bitmap bitmap = BitmapFactory.decodeByteArray(imagen, 0, imagen.length,opts);
+		Bitmap bitmap = BitmapFactory.decodeByteArray(imagen, 0, imagen.length,
+				opts);
 
 		((Aplicacion) this.getApplication()).getRepositorio().setImagen(bitmap);
 	}
