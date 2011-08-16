@@ -4,13 +4,6 @@ import java.util.*;
 
 import com.db4o.query.Predicate;
 
-import ar.com.thinksoft.ac.estadosReclamo.EstadoActivo;
-import ar.com.thinksoft.ac.estadosReclamo.EstadoBaja;
-import ar.com.thinksoft.ac.estadosReclamo.EstadoCancelado;
-import ar.com.thinksoft.ac.estadosReclamo.EstadoDemorado;
-import ar.com.thinksoft.ac.estadosReclamo.EstadoEnProgreso;
-import ar.com.thinksoft.ac.estadosReclamo.EstadoSuspendido;
-import ar.com.thinksoft.ac.estadosReclamo.EstadoTerminado;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.repository.Repository;
 
@@ -90,66 +83,5 @@ public class ReclamoManager {
 		}
 	}
 	
-	/**
-	 * Setea el estado de Cancelado al Reclamo
-	 * @author Matias
-	 */
-	public void cancelarReclamo(IReclamo reclamo){
-		reclamo.setEstado(new EstadoCancelado());
-		this.guardarReclamo(reclamo);
-	}
 	
-	/**
-	 * Setea el estado de Baja al Reclamo
-	 * @author Matias
-	 */
-	public void darDeBajaReclamo(IReclamo reclamo){
-		reclamo.setEstado(new EstadoBaja());
-		this.guardarReclamo(reclamo);
-	}
-	
-	/**
-	 * Setea el estado de Suspendido al Reclamo
-	 * @author Matias
-	 */
-	public void suspenderReclamo(IReclamo reclamo){
-		reclamo.setEstado(new EstadoSuspendido());
-		this.guardarReclamo(reclamo);
-	}
-	
-	/**
-	 * Setea el estado de Activo al Reclamo
-	 * @author Matias
-	 */
-	public void activarReclamo(IReclamo reclamo){
-		reclamo.setEstado(new EstadoActivo());
-		this.guardarReclamo(reclamo);
-	}
-	
-	/**
-	 * Setea el estado de En Progreso al Reclamo
-	 * @author Matias 
-	 */
-	public void enProgresoReclamo(IReclamo reclamo){
-		reclamo.setEstado(new EstadoEnProgreso());
-		this.guardarReclamo(reclamo);
-	}
-	
-	/**
-	 * Setea el estado de Demorado al Reclamo
-	 * @author Matias 
-	 */
-	public void demorarReclamo(IReclamo reclamo){
-		reclamo.setEstado(new EstadoDemorado());
-		this.guardarReclamo(reclamo);
-	}
-	
-	/**
-	 * Setea el estado de Terminado al Reclamo
-	 * @author Matias 
-	 */
-	public void terminarReclamo(IReclamo reclamo){
-		reclamo.setEstado(new EstadoTerminado());
-		this.guardarReclamo(reclamo);
-	}
 }	

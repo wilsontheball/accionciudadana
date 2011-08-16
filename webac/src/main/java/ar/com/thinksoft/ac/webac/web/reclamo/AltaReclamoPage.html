@@ -7,22 +7,48 @@
 
 <body>
 	<wicket:extend>
-	gfds
-		<div class="contenedorFormulario">
-		dsadsa
-			<form id="formularioAlta" class="formulario">
-				<div id="ubicacionIncidente">
-					<span> Ubicaci&oacute;n del Incidente </span>
-					
-					<div id="tiposUbicaciones">
-						<input type="radio" id="coordenadasRadioButton" checked="checked""/> Coordenadas
-						<input type="radio" id="direccionRadioButton""/> Dirección
-					</div>
+
+		<div class="altaReclamo">
+			<div class="imagenIncidente">
+				
+			
+			</div>
+			
+			<form wicket:id="altaReclamoForm">
+				<div>
+					<label>Calle:</label>
+			 		<input type="text" wicket:id="calleIncidente" id="calleIncidente"/>
 				</div>
-					dsadsa
-		
+				<div>
+					<label>Altura:</label>
+			 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente"/>
+				</div>
+				<div>
+					<label>Coordenada de Latitud:</label>
+			 		<input type="text" wicket:id="latitudIncidente" id="latitudIncidente"/>
+				</div>
+				<div>
+					<label>Coordenada de Longitud:</label>
+			 		<input type="text" wicket:id="longitudIncidente" id="longitudIncidente"/>
+				</div>
+				<div>			 		
+			 		<label>Ciudadano:</label>
+			 		<input type="text" wicket:id="ciudadanoIncidente" id="ciudadanoIncidente"/>
+				</div>
+				<div>
+					<label>Tipo de Incidente:</label>
+			 		<input type="text" wicket:id="tipoIncidente" id="tipoIncidente"/>
+				</div>
+				<div>
+					<label>Observaciones:</label>
+			 		<input type="text" wicket:id="observaciones" id="observaciones"/>
+		 		</div>
+		 		
+		 		<p> <input type="submit" value="Alta de reclamo"/> </p>
+		 		
 			</form>
 		</div>
+		
 	</wicket:extend>
 </body>
 </html>

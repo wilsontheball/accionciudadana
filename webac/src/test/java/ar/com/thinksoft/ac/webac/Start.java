@@ -4,7 +4,7 @@ import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
-
+import ar.com.thinksoft.ac.webac.procesoUnificador.Unificador;
 import ar.com.thinksoft.ac.webac.repository.Repository;
 
 public class Start {
@@ -35,6 +35,8 @@ public class Start {
 		try {
 			System.out.println(">>> STARTING EMBEDDED JETTY SERVER, PRESS ANY KEY TO STOP");
 			server.start();
+			new Unificador();
+			
 			System.in.read();
 			System.out.println(">>> STOPPING EMBEDDED JETTY SERVER"); 
             // while (System.in.available() == 0) {

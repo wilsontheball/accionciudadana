@@ -30,7 +30,7 @@ public class LoginPage extends BasePage {
 	public LoginPage(final PageParameters parameters) {
 
 		add(CSSPackageResource.getHeaderContribution(LoginPage.class,
-				"LoginPage.css"));
+				"../css/LoginPage.css"));
 		if (Context.getInstance().getUsuario() != null)
 			setResponsePage(HomePage.class);
 		else {
