@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+
+form
+{
+   position: inherited;
+   padding:2px;
+   width:290px;
+   margin:auto;
+   text-align:right;
+}
+
+label
+{
+   padding:2px;
+   margin:10px 2px; 
+}
+
+input,select{
+   margin:10px 2px; 
+   font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
+   font-size: 12px;
+   
+}

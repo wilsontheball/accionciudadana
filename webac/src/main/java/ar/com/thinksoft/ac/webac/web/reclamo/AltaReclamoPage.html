@@ -9,28 +9,40 @@
 	<wicket:extend>
 
 		<div class="altaReclamo">
-			<form wicket:id="altaReclamoForm">
+			<div class="imagenIncidente">
+				
 			
+			</div>
+			
+			<form wicket:id="altaReclamoForm">
+				<div>
 					<label>Calle:</label>
 			 		<input type="text" wicket:id="calleIncidente" id="calleIncidente"/>
-					
+				</div>
+				<div>
 					<label>Altura:</label>
 			 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente"/>
-			
+				</div>
+				<div>
 					<label>Coordenada de Latitud:</label>
 			 		<input type="text" wicket:id="latitudIncidente" id="latitudIncidente"/>
-					
+				</div>
+				<div>
 					<label>Coordenada de Longitud:</label>
 			 		<input type="text" wicket:id="longitudIncidente" id="longitudIncidente"/>
-			 		
+				</div>
+				<div>			 		
 			 		<label>Ciudadano:</label>
 			 		<input type="text" wicket:id="ciudadanoIncidente" id="ciudadanoIncidente"/>
-			
+				</div>
+				<div>
 					<label>Tipo de Incidente:</label>
 			 		<input type="text" wicket:id="tipoIncidente" id="tipoIncidente"/>
-					
+				</div>
+				<div>
 					<label>Observaciones:</label>
 			 		<input type="text" wicket:id="observaciones" id="observaciones"/>
+		 		</div>
 		 		
 		 		<p> <input type="submit" value="Alta de reclamo"/> </p>
 		 		
