@@ -17,20 +17,57 @@
 
 		<div class="registro">
 			<form wicket:id="registroForm">
-				<p>
-					<label>Nombre de Usuario:</label>
-			 		<input type="text" wicket:id="username" id="nickname" class="username" />
-		 		</p>
-		 		<p>
-					<label>Contraseña:</label>
-			 		<input type="password" wicket:id="password" id="password" class="password" />
-		 		</p>
-		 		<p>
-					<label>Reescriba la Contraseña:</label>
-			 		<input type="password" wicket:id="re-password" id="password" class="password" />
-		 		</p>
+
+				<div >
+					<label class="item">Nombre de Usuario:</label>
+					<input type="text" wicket:id="username" class="itemRight"/>
+				</div>
+
+				<div>
+					<label class="item">Contraseña:</label>
+			 		<input type="password" wicket:id="password" class="itemRight"/>				
+				</div>
+					
+				<div>				
+					<label class="item">Reescriba la Contraseña:</label>
+					<input type="password" wicket:id="re-password" class="itemRight"/>
+				</div>
+				
+				<div>
+					<label class="item">Apellido:</label>
+					<input type="text" wicket:id="apellido"  class="itemRight"/>
+				</div>
+				
+				<div>
+					<label class="item">Nombre:</label>
+					<input type="text" wicket:id="nombre" class="itemRight"/>
+				</div>
+				
+				<div>
+					<label class="item">DNI:</label>
+					<input type="text" wicket:id="dni" class="itemRight"/>
+				</div>
+				
+				<div>
+					<label class="item">E-Mail:</label>
+					<input type="text" wicket:id="mail" class="itemRight"/>
+				</div>
+				
+				<div> 
+					<label class="item">Telefono:</label>
+					<input type="text" wicket:id="telefono" class="itemRight"/>
+				</div>
+				
+					
+
+
+			 		
+			 		
+			 		
+			 		
+			 		
 		 		
-		 		<p> <input type="submit" value="Registrarse"/> </p>
+		 		<div> <input type="submit" value="Registrarse"/> </div>
 		 		
 			</form>
 		</div>

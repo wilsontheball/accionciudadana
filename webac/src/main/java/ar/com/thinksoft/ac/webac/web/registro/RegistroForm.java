@@ -8,29 +8,32 @@ import org.apache.wicket.model.IModel;
 
 import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.HomePage;
+import ar.com.thinksoft.ac.webac.registro.RegistroManager;
 import ar.com.thinksoft.ac.webac.repository.Repository;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
 
 public class RegistroForm extends Form<IUsuario> {
 
 	private String repassword;
-	
-	
+
 	public RegistroForm(String id) {
 		super(id);
 		CompoundPropertyModel<IUsuario> model = new CompoundPropertyModel<IUsuario>(
 				new Usuario());
 		setModel(model);
+
+		add(new TextField<String>("username", this.createStringBind(model,
+				"nombreUsuario")));
+		add(new PasswordTextField("password", this.createStringBind(model,
+				"contrasenia")));
 		
-		TextField<String> username = new TextField<String>("username",this.createBind(model,"nombreUsuario"));
-		add(username);
-		
-		PasswordTextField password = new PasswordTextField("password",this.createBind(model, "contrasenia"));
-		add(password);
-		
-		PasswordTextField rePassword = new PasswordTextField("re-password",this.createRePasswordModel());
-		add(rePassword);
-		
+		add(new PasswordTextField("re-password", this.createRePasswordModel()));
+		add(new TextField<String>("apellido", createStringBind(model, "apellido")));
+		add(new TextField<String>("nombre", createStringBind(model, "nombre")));
+		add(new TextField<Long>("dni", createLongBind(model, "dni")));
+		add(new TextField<String>("mail", createStringBind(model, "mail")));
+		add(new TextField<Long>("telefono", createLongBind(model, "telefono")));
+
 	}
 
 	/**
@@ -42,24 +45,27 @@ public class RegistroForm extends Form<IUsuario> {
 	protected void onSubmit() {
 
 		IUsuario usuario = getModelObject();
-		System.out.println(usuario.getNombreUsuario());
-		System.out.println(usuario.getContrasenia());
-
-		if(!usuario.getContrasenia().equals(this.repassword)) {
+		if (!usuario.getContrasenia().equals(this.repassword)) {
 			System.out.println("NO SON IGUALES");
 			error("no son iguales");
 		}
-		
-		Repository.getInstance().store(usuario);
+
+		new RegistroManager().registrar(usuario);
 		setResponsePage(HomePage.class);
 
 	}
-	
-	private IModel<String> createBind(CompoundPropertyModel<IUsuario> model,String property){
+
+	private IModel<String> createStringBind(CompoundPropertyModel<IUsuario> model,
+			String property) {
 		return model.bind(property);
 	}
 	
-	private IModel<String> createRePasswordModel(){
+	private IModel<Long> createLongBind(CompoundPropertyModel<IUsuario> model,
+			String property) {
+		return model.bind(property);
+	}
+	
+	private IModel<String> createRePasswordModel() {
 		return new IModel<String>() {
 
 			/**
@@ -70,7 +76,7 @@ public class RegistroForm extends Form<IUsuario> {
 			@Override
 			public void detach() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
