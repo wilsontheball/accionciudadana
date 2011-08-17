@@ -13,8 +13,6 @@
 		<activity android:name=".Login" android:configChanges="keyboard|keyboardHidden|orientation"
 			android:icon="@drawable/alert_dialog_icon" />
 		<activity android:name=".Registro" android:configChanges="keyboard|keyboardHidden|orientation" />
-		<activity android:name=".DetalleReclamo"
-			android:configChanges="keyboard|keyboardHidden|orientation" />
 		<activity android:name=".ListaReclamos"
 			android:configChanges="keyboard|keyboardHidden|orientation" />
 		<activity android:name=".IniciarReclamo"

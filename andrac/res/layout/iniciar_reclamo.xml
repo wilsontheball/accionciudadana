@@ -29,26 +29,35 @@
 				android:layout_height="wrap_content" android:id="@+id/ubicacion" />
 			<LinearLayout android:orientation="horizontal"
 				android:layout_width="fill_parent" android:layout_height="wrap_content">
-				<EditText android:id="@+id/coordenada"
+				<LinearLayout android:orientation="vertical"
 					android:layout_width="fill_parent" android:layout_height="wrap_content"
-					android:inputType="text" android:editable="false"
-					android:textAppearance="@android:style/TextAppearance.Large"
-					android:hint="@string/coordenada_gps" android:enabled="false"
-					android:focusable="false" android:clickable="false"
-					android:layout_weight="1" />
+					android:layout_weight="1">
+					<EditText android:id="@+id/latitud" android:layout_width="fill_parent"
+						android:layout_height="wrap_content" android:inputType="text"
+						android:editable="false" android:textAppearance="@android:style/TextAppearance.Large"
+						android:hint="@string/latitud" android:enabled="false"
+						android:focusable="false" android:clickable="false"
+						android:layout_weight="1" />
+					<EditText android:id="@+id/longitud" android:layout_width="fill_parent"
+						android:layout_height="wrap_content" android:inputType="text"
+						android:editable="false" android:textAppearance="@android:style/TextAppearance.Large"
+						android:hint="@string/longitud" android:enabled="false"
+						android:focusable="false" android:clickable="false"
+						android:layout_weight="1" />
+				</LinearLayout>
 				<Button android:onClick="obtenerCoordenada" android:gravity="center"
 					android:id="@+id/boton_gps" android:text="@string/gps"
 					android:enabled="false" android:textAppearance="@android:style/TextAppearance.Large"
-					android:layout_height="wrap_content" android:layout_width="85dp" />
+					android:layout_height="match_parent" android:layout_width="wrap_content" />
 			</LinearLayout>
 			<EditText android:id="@+id/calle" android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:inputType="text"
 				android:textAppearance="@android:style/TextAppearance.Large"
-				android:hint="@string/calle" android:enabled="false" />
+				android:hint="@string/calle" />
 			<EditText android:id="@+id/altura" android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:inputType="number"
 				android:textAppearance="@android:style/TextAppearance.Large"
-				android:hint="@string/altura" android:enabled="false" />
+				android:hint="@string/altura" android:maxLength="5"/>
 			<LinearLayout android:orientation="vertical"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:weightSum="1" android:gravity="center">
@@ -65,7 +74,7 @@
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:textAppearance="@android:style/TextAppearance.Large"
 				android:hint="@string/observaciones" android:inputType="textMultiLine"
-				android:maxLines="2" />
+				android:maxLines="3" />
 			<LinearLayout android:orientation="horizontal"
 				android:layout_width="fill_parent" android:layout_height="wrap_content">
 				<Button android:onClick="crearReclamo" android:gravity="center"

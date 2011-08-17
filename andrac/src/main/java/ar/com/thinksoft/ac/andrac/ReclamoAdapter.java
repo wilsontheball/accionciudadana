@@ -43,11 +43,11 @@ public class ReclamoAdapter extends ArrayAdapter<ReclamoItem> {
 
 		// Asigna el tipo de incidente
 		TextView titulo = (TextView) item.findViewById(R.id.item_tipo);
-		titulo.setText(this.reclamos[position].getTitulo());
+		titulo.setText(this.reclamos[position].getTipo());
 
 		// Asigna la direccion
 		TextView subTitulo = (TextView) item.findViewById(R.id.item_direccion);
-		subTitulo.setText(this.reclamos[position].getSubtitulo());
+		subTitulo.setText(this.reclamos[position].getDireccion());
 
 		return (item);
 	}

@@ -41,7 +41,9 @@
 		que abrirlo para continuar con el proceso de registración.</string>
 	<string name="observaciones">Observaciones</string>
 	<string name="cargar_foto">Cargar Foto</string>
-	<string name="coordenada_gps">Coordenada GPS</string>
+	<string name="latitud">Latitud</string>
+	<string name="longitud">Longitud</string>
+	<string name="reclamo_enviado">Su reclamo ha sido enviado.</string>
 	<string name="iniciar_reclamo">Iniciar Reclamo</string>
 	<string name="tipodeincidente_prompt">Tipo de Incidente</string>
 	<string name="gps">GPS</string>

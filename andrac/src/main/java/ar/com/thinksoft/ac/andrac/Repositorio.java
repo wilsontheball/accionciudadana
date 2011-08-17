@@ -83,38 +83,50 @@ public class Repositorio {
 		// TODO Probando... Es un generador bobo de reclamos.
 
 		return new ReclamoItem[] {
-				new ReclamoItem("Tipo de Incidente 1",
-						"Direccion de de Incidente 1"),
-				new ReclamoItem("Tipo de Incidente  2",
-						"Direccion de de Incidente 2"),
-				new ReclamoItem("Tipo de Incidente  3",
-						"Direccion de de Incidente 3"),
-				new ReclamoItem("Tipo de Incidente  4",
-						"Direccion de de Incidente 4"),
-				new ReclamoItem("Tipo de Incidente  5",
-						"Direccion de de Incidente 5"),
-				new ReclamoItem("Tipo de Incidente  6",
-						"Direccion de de Incidente 6"),
-				new ReclamoItem("Tipo de Incidente  7",
-						"Direccion de de Incidente 7"),
-				new ReclamoItem("Tipo de Incidente  8",
-						"Direccion de de Incidente 8"),
-				new ReclamoItem("Tipo de Incidente  9",
-						"Direccion de de Incidente 9"),
-				new ReclamoItem("Tipo de Incidente  10",
-						"Direccion de de Incidente 10"),
-				new ReclamoItem("Tipo de Incidente  11",
-						"Direccion de de Incidente 11") };
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1"),
+				new ReclamoItem("Estado 1", "Tipo de Incidente 1",
+						"Direccion de Incidente 1", "Fecha 1") };
 	}
 
-	public boolean publicarReclamoDireccion(String nick, String tipo,
-			String calle, String altura) {
+	public boolean publicarReclamoDireccion(String tipo, String calle,
+			String altura, String observacion) {
 		// TODO falta implementar
 		return true;
 	}
 
-	public boolean publicarReclamoGPS(String nick, String tipo,
-			String coordenada) {
+	public boolean publicarReclamoGPS(String tipo, String latitud,
+			String longitud, String observacion) {
 		// TODO falta implementar
 		return true;
 	}

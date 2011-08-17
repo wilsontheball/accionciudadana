@@ -104,7 +104,7 @@ public class ListaReclamos extends Activity {
 		if (this.reclamo != null) {
 			return new AlertDialog.Builder(ListaReclamos.this)
 					.setIcon(R.drawable.icon)
-					.setTitle(R.string.titulo_detalle_reclamo)
+					.setTitle("Estado: " + this.reclamo.getEstado())
 					.setMessage(this.reclamo.getResumen())
 					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {

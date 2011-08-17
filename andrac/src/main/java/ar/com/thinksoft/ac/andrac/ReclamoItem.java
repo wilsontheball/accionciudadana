@@ -7,24 +7,39 @@ package ar.com.thinksoft.ac.andrac;
  * @since 11-08-2011
  */
 public class ReclamoItem {
-	private String titulo;
-	private String subtitulo;
+	private String estadoReclamo;
+	private String tipoReclamo;
+	private String direccion;
+	private String fechaHora;
 
-	public ReclamoItem(String tit, String sub) {
-		titulo = tit;
-		subtitulo = sub;
+	// TODO falta obtener imagen
+	public ReclamoItem(String estado, String tipo, String direccion,
+			String fecha) {
+		this.estadoReclamo = estado;
+		this.tipoReclamo = tipo;
+		this.direccion = direccion;
+		this.fechaHora = fecha;
 	}
 
-	public String getTitulo() {
-		return titulo;
+	public String getEstado() {
+		return this.estadoReclamo;
 	}
 
-	public String getSubtitulo() {
-		return subtitulo;
+	public String getTipo() {
+		return this.tipoReclamo;
+	}
+
+	public String getDireccion() {
+		return this.direccion;
+	}
+
+	public String getFechaHora() {
+		return this.fechaHora;
 	}
 
 	public CharSequence getResumen() {
 		// TODO Falta implementar
-		return this.getTitulo() + " " + this.getSubtitulo();
+		return this.getTipo() + "\n" + this.getDireccion() + "\n"
+				+ this.getFechaHora();
 	}
 }
