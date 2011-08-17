@@ -12,68 +12,115 @@
 				<h1>Alta de Reclamo</h1>
 			</div>
 			<form wicket:id="altaReclamoForm">
+			
+				<table width="65%" align="center">
+					<tr>
+						<td>
+			<!------------------------- FORMULARIO DE ALTA ------------------------->
+							<table>
+								<tr>
+									<td>
+										<label>Seleccione tipo de ubicacion:</label>
+									</td>
+									<td class="radioOptions">
+										<div><input type="radio" name="group1" id="gpsOption" value="GPS" checked="checked"> Coordenadas GPS</div>
+										<div><input type="radio" name="group1" id="direccionOption" value="Direccion"> Direccion y altura</div>
+									</td>
+								</tr>
+							
+								<tr>
+									<td>
+										<label>Calle:</label>
+									</td>
+									<td>
+								 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" class="block"/>
+									</td>
+								</tr>	
+								
+								<tr>
+									<td>
+										<label>Altura:</label>
+									</td>
+									<td>
+								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" class="block"/>
+									</td>
+								</tr>
+								
+								<tr>
+									<td>
+										<label>Coordenada de Latitud:</label>
+									</td>
+									<td>
+								 		<input type="text" wicket:id="latitudIncidente" id="latitudIncidente" class="block"/>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+										<label>Coordenada de Longitud:</label>
+									</td>
+									<td>
+								 		<input type="text" wicket:id="longitudIncidente" id="longitudIncidente" class="block"/>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Ciudadano:</label>
+								 	</td>
+									<td>
+								 		<input type="text" wicket:id="ciudadanoIncidente" id="ciudadanoIncidente" class="block"/>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+										<label>Tipo de Incidente:</label>
+									</td>
+									<td>
+								 		<select wicket:id="tipoIncidente" class="block"> </select>
+								 	</td>
+								</tr>		
+								<tr>
+									<td >
+										<label style="vertical-align: top;">Observaciones:</label>
+									</td>
+									<td>
+										<textarea rows="4" cols="60" wicket:id="observaciones" id="observaciones" class="block"></textarea>
+								 	</td>
+								</tr>
+							</table>
+			
+						</td>
+						<td class="uploaderCell">	
+			<!------------------------- UPLOADER DE IMAGEN ------------------------->
+							<table align="left">
+								<tr>
+									<td>
+										<label>Seleccione el archivo:</label>
+									</td>
+									<td>
+										<input wicket:id="fileUpload" type="file" id="rutaArchivo" class="block"/>
+									</td>
+								</tr>
+								<td>
+									<div class="imagePreviewer"></div>
+								</td>
+							</table>
+						</td>
+					</tr>
+				</table>			
+			<!------------------------- BOTON SUBMIT ------------------------->
 				<table align="center">
 					<tr>
 						<td>
 							<div>
-								<label>Calle:</label>
-						 		<input type="text" wicket:id="calleIncidente" id="calleIncidente"/>
+								<input type="submit" value="Alta de reclamo" class="block"/>
 							</div>
 						</td>
-						
-						<td>
-							<div class="uploader">
-								<label>Seleccione el archivo:</label>
-								<input wicket:id="fileUpload" type="file"/>
-							</div>
-						</td>
-					</tr>	
-					
-					<tr>
-						<td>
-							<label>Altura:</label>
-					 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente"/>
-						</td>
 					</tr>
-					
-					<tr>
-						<td>
-							<label>Coordenada de Latitud:</label>
-					 		<input type="text" wicket:id="latitudIncidente" id="latitudIncidente"/>
-					 	</td>
-					</tr>
-					
-					<tr>
-						<td>
-							<label>Coordenada de Longitud:</label>
-					 		<input type="text" wicket:id="longitudIncidente" id="longitudIncidente"/>
-					 	</td>
-					</tr>
-					
-					<tr>
-						<td>
-					 		<label>Ciudadano:</label>
-					 		<input type="text" wicket:id="ciudadanoIncidente" id="ciudadanoIncidente"/>
-					 	</td>
-					</tr>
-					
-					<tr>
-						<td>
-							<label>Tipo de Incidente:</label>
-					 		<input type="text" wicket:id="tipoIncidente" id="tipoIncidente"/>
-					 	</td>
-					</tr>					
 				</table>
-				
-				<div class="observaciones" align="center">
-					<label style="vertical-align: top;">Observaciones:</label>
-					<textarea rows="4" cols="30" wicket:id="observaciones" id="observaciones" ></textarea>
-			 	</div>
-			 	
-			 	<div align="center">	
- 					<input type="submit" value="Alta de reclamo"/>
-		 		</div>
-		 		
+
 			</form>
 		</div>
 	</wicket:extend>

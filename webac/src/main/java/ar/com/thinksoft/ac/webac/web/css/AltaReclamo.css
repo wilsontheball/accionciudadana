@@ -4,7 +4,6 @@ form
 {
    position: inherited;
    padding:2px;
-   text-align:right;
    display: inline;
    
 }
@@ -12,23 +11,41 @@ form
 label
 {
    padding:2px;
+   text-align:left;
 }
 
-input,select{
+.block{
    margin:10px 2px; 
    font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
    font-size: 12px;
+   display: block;
    
 }
 
+td{
+	text-align: right;	
+}
+
 .observaciones{
-	position: inherited;
+	position: absolute;
    	padding:2px;
    	text-align:left;
-   	margin-left: 340px;	
+   	margin-left: 3%;	
 
 }
 
-.uploader{
-	margin-left: 200px;	
+.uploaderCell{
+	vertical-align: top;
+}
+
+.radioOptions{
+	text-align: left;	
+	
+}
+
+.imagePreviewer{
+	width: 300px;
+	height: 300px;
+	background: transparent url(/images/thinksoftLogo.jpg) 0 3px no-repeat;
+	
 }
