@@ -1,7 +1,9 @@
 package ar.com.thinksoft.ac.webac.web.reclamo;
 
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
@@ -30,7 +32,10 @@ public class AltaReclamoForm extends Form<IReclamo> {
 		add(ciudadanoTextBox);
 		
 		add(new TextField<String>("tipoIncidente",this.createBind(model,"tipoIncidente")));
-		add(new TextField<String>("observaciones",this.createBind(model, "observaciones")));
+		add(new TextArea<String>("observaciones",this.createBind(model, "observaciones")));
+		
+		setMultiPart(true);
+		add(new FileUploadField("fileUpload"));
 		
 	}
 	

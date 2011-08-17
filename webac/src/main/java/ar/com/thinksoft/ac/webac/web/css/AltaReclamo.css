@@ -4,15 +4,14 @@ form
 {
    position: inherited;
    padding:2px;
-   width:290px;
-   margin:auto;
    text-align:right;
+   display: inline;
+   
 }
 
 label
 {
    padding:2px;
-   margin:10px 2px; 
 }
 
 input,select{
@@ -20,4 +19,16 @@ input,select{
    font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
    font-size: 12px;
    
+}
+
+.observaciones{
+	position: inherited;
+   	padding:2px;
+   	text-align:left;
+   	margin-left: 340px;	
+
+}
+
+.uploader{
+	margin-left: 200px;	
 }
