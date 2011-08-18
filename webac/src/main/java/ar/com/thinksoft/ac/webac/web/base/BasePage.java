@@ -52,7 +52,6 @@ public abstract class BasePage extends Permitible {
 	}
 
 	private void appendLinks() {
-		add(new BookmarkablePageLink<IPageLink>("loginLink", LoginPage.class));
 		add(new BookmarkablePageLink<IPageLink>("homeLink", HomePage.class));
 		add(new BookmarkablePageLink<IPageLink>("altaReclamoLink",
 				AltaReclamoPage.class));
