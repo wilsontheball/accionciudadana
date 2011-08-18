@@ -18,8 +18,7 @@ public class Main extends Activity {
 	private int resultadoLogin = Activity.RESULT_FIRST_USER;
 
 	/**
-	 * Se encarga de la creacion de la ventana. Hace que ventana de Login
-	 * aparezca primero.
+	 * Se encarga de la creacion de la ventana.
 	 * 
 	 * @since 19-07-2011
 	 * @author Paul
@@ -28,10 +27,21 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.main);
+	}
 
+	/**
+	 * Hace que ventana de Login aparezca primero.
+	 * 
+	 * @since 17-08-2011
+	 * @author Paul
+	 */
+	@Override
+	protected void onStart() {
+		super.onStart();
 		// Muestra la ventana Login una sola vez
 		if (this.resultadoLogin == Activity.RESULT_FIRST_USER) {
 			this.mostrarLogin();
+			this.resultadoLogin = Activity.RESULT_CANCELED;
 		}
 	}
 

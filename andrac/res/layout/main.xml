@@ -12,9 +12,6 @@
 			android:layout_marginRight="20dip" android:weightSum="1"
 			android:layout_weight="0.58" android:background="@color/color_fondo"
 			android:layout_width="fill_parent">
-			<TextView android:gravity="center_horizontal"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:text="@string/hello" />
 			<Button android:id="@+id/boton_reclamo" android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:gravity="center"
 				android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"

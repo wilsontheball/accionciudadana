@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-	<string name="hello">Pantalla HOME</string>
-	<string name="app_name">Acción Ciudadana</string>
+	<string name="version">1.1</string>
+	<string name="app_name">Acción Ciudadana 1.1</string>
 	<string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
 	<string name="registro_sub_titulo">Proyecto Acción Ciudadana</string>
 	<string name="login_titulo">Autenticación</string>
