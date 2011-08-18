@@ -5,9 +5,10 @@ html,body {
 	padding: 0;
 	border: 0;
 	height: 100%;
-	overflow: hidden;
+	overflow: auto;
 	font-family: "Calibri", "Tahoma", Arial, Helvetica, sans-serif;
 	font-size: 12px;
+	
 }
 
 .thinksoft {
