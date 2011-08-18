@@ -1,4 +1,4 @@
-package ar.com.thinksoft.ac.webac.web.reclamo;
+package ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.CSSPackageResource;
@@ -15,8 +15,8 @@ public class AltaReclamoPage extends BasePage{
 	
 	public AltaReclamoPage(final PageParameters parameters) {
 		
-		add(CSSPackageResource.getHeaderContribution(AltaReclamoPage.class,"../css/AltaReclamo.css"));
-		add(JavascriptPackageResource.getHeaderContribution(AltaReclamoPage.class,"../js/altaReclamo.js"));
+		add(CSSPackageResource.getHeaderContribution(AltaReclamoPage.class,"../../css/AltaReclamo.css"));
+		add(JavascriptPackageResource.getHeaderContribution(AltaReclamoPage.class,"../../js/altaReclamo.js"));
 		add(new AltaReclamoForm("altaReclamoForm"));
 	}
 	

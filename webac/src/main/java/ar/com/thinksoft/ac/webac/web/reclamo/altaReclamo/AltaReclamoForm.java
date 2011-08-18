@@ -1,4 +1,4 @@
-package ar.com.thinksoft.ac.webac.web.reclamo;
+package ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo;
 
 
 import org.apache.wicket.markup.html.form.DropDownChoice;

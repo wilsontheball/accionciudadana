@@ -10,6 +10,7 @@ import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.predicates.*;
 import ar.com.thinksoft.ac.webac.reclamo.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.webac.reclamo.EnumTipoReclamo;
+import ar.com.thinksoft.ac.webac.reclamo.NullReclamo;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.repository.Repository;
@@ -57,7 +58,7 @@ public class TestReclamo {
 	@Test
 	public void obtenerReclamoPorUUID(){
 		
-		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados((new PredicatePorUUID()).filtrar(this.listaReclamosTest.get(0).getId()));
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates((new PredicatePorUUID()).filtrar(this.listaReclamosTest.get(0).getId()));
 		
 		assertTrue(lista.size() == 1);
 	}
@@ -65,7 +66,9 @@ public class TestReclamo {
 	@Test
 	public void obtenerReclamosPorCiudadano(){
 
-		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados((new PredicatePorCiudadano()).filtrar("Matias"));
+		NullReclamo reclamo = new NullReclamo();
+		reclamo.setCiudadanoGeneradorReclamo("Matias");
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
 		
 		assertTrue(lista.size() == 2);
 	}
@@ -73,7 +76,10 @@ public class TestReclamo {
 	@Test
 	public void obtenerReclamosPorLatitudYLongitud(){
 		
-		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados((new PredicatePorLatitudYLongitud()).filtrar(40, 60));
+		NullReclamo reclamo = new NullReclamo();
+		reclamo.setLatitudIncidente(40);
+		reclamo.setLongitudIncidente(60);
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
 	
 		assertTrue(lista.size() == 1);
 	}
@@ -81,7 +87,9 @@ public class TestReclamo {
 	@Test
 	public void obtenerReclamosPorCalle(){
 		
-		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados((new PredicatePorCalle()).filtrar("Avellaneda"));
+		NullReclamo reclamo = new NullReclamo();
+		reclamo.setCalleIncidente("Avellaneda");
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
 		
 		assertTrue(lista.size() == 1);
 	}
@@ -89,7 +97,10 @@ public class TestReclamo {
 	@Test
 	public void obtenerReclamosPorCalleYAltura(){
 		
-		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados((new PredicatePorCalleYAltura()).filtrar("Beiro",4000));
+		NullReclamo reclamo = new NullReclamo();
+		reclamo.setCalleIncidente("Beiro");
+		reclamo.setAlturaIncidente(4000);
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
 		
 		assertTrue(lista.size() == 1);
 	}
@@ -97,7 +108,9 @@ public class TestReclamo {
 	@Test
 	public void obtenerReclamosPorTipo(){
 		
-		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados((new PredicatePorTipo()).filtrar(EnumTipoReclamo.caidaObjetos.getTipo()));
+		NullReclamo reclamo = new NullReclamo();
+		reclamo.setTipoIncidente(EnumTipoReclamo.caidaObjetos.getTipo());
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
 		
 		assertTrue(lista.size() == 2);
 		
@@ -106,7 +119,9 @@ public class TestReclamo {
 	@Test
 	public void obtenerReclamosPorPrioridad(){
 		
-		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados((new PredicatePorPrioridad()).filtrar(EnumPrioridadReclamo.media.getPrioridad()));
+		NullReclamo reclamo = new NullReclamo();
+		reclamo.setPrioridad(EnumPrioridadReclamo.media.getPrioridad());
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
 		
 		assertTrue(lista.size() == 1);
 	}
@@ -114,26 +129,32 @@ public class TestReclamo {
 	@Test
 	public void obtenerReclamosPorEstado(){
 		
-		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados((new PredicatePorEstado()).filtrar(new EstadoEnProgreso().getDescripcionEstado()));
+		NullReclamo reclamo = new NullReclamo();
+		reclamo.setEstado(new EstadoEnProgreso());
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
 	
 		assertTrue(lista.size() == 1);
 	}
 	
 	@Test
 	public void modificarReclamo(){
-	
-		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados((new PredicatePorPrioridad()).filtrar(EnumPrioridadReclamo.media.getPrioridad()));
+		
+		NullReclamo reclamo = new NullReclamo();
+		reclamo.setPrioridad(EnumPrioridadReclamo.media.getPrioridad());
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
 		
 		assertTrue(lista.size() == 1);
 		
-		for(IReclamo reclamo : lista){
-			reclamo.setPrioridad(EnumPrioridadReclamo.baja.getPrioridad());			
-			ReclamoManager.getInstance().guardarReclamo(reclamo);
+		for(IReclamo reclamo2 : lista){
+			reclamo2.setPrioridad(EnumPrioridadReclamo.baja.getPrioridad());			
+			ReclamoManager.getInstance().guardarReclamo(reclamo2);
 		}
 		
 		assertTrue(ReclamoManager.getInstance().obtenerTodosReclamos().size() == 3);
 		
-		assertTrue(ReclamoManager.getInstance().obtenerReclamosFiltrados((new PredicatePorPrioridad()).filtrar(EnumPrioridadReclamo.baja.getPrioridad())).size() == 2);
+		reclamo = new NullReclamo();
+		reclamo.setPrioridad(EnumPrioridadReclamo.baja.getPrioridad());
+		assertTrue(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo).size() == 2);
 		
 		
 	

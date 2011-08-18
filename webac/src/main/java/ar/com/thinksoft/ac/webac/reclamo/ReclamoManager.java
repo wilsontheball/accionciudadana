@@ -68,8 +68,18 @@ public class ReclamoManager {
 	 * @author Matias
 	 * @param predicado = Filtro por un campo que cumple con una condicion
 	 */
-	public List<IReclamo> obtenerReclamosFiltrados(Predicate<IReclamo> predicado){
+	public List<IReclamo> obtenerReclamosFiltradosConPredicates(Predicate<IReclamo> predicado){
 		return  Repository.getInstance().query(predicado);
+	}
+	
+	/**
+	 * Devuelve un conjunto de reclamos que cumplen con los atributos seteados en el reclamo
+	 * que se pasa por parametro
+	 * @param reclamo (type NullReclamo)
+	 * @return
+	 */
+	public List<IReclamo> obtenerReclamosFiltrados(IReclamo reclamo){
+		return  Repository.getInstance().queryByExample(reclamo);
 	}
 	
 	/**

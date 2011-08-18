@@ -10,7 +10,7 @@ import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.seguridad.Permitible;
 import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
-import ar.com.thinksoft.ac.webac.web.reclamo.AltaReclamoPage;
+import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
 
 public abstract class BasePage extends Permitible {
 

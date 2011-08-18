@@ -23,44 +23,28 @@
 										<label>Seleccione tipo de ubicacion:</label>
 									</td>
 									<td class="radioOptions">
-										<div><input type="radio" name="group1" id="gpsOption" value="GPS" checked="checked"> Coordenadas GPS</div>
-										<div><input type="radio" name="group1" id="direccionOption" value="Direccion"> Direccion y altura</div>
+										<div><input type="radio" name="group1" id="direccionOption" value="Direccion"  checked="checked"> Direccion y altura</div>
+										<div><input type="radio" name="group1" id="gpsOption" value="GPS"> Coordenadas GPS</div>
 									</td>
 								</tr>
 							
 								<tr>
 									<td>
-										<label>Calle:</label>
+										<label>Calle - Altura:</label>
 									</td>
-									<td>
-								 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" class="block"/>
+									<td  class="block">
+								 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" /> - 
+								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" size="5"/>
 									</td>
 								</tr>	
 								
 								<tr>
 									<td>
-										<label>Altura:</label>
+										<label>Coordenadas Latitud - Longitud</label>
 									</td>
-									<td>
-								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" class="block"/>
-									</td>
-								</tr>
-								
-								<tr>
-									<td>
-										<label>Coordenada de Latitud:</label>
-									</td>
-									<td>
-								 		<input type="text" wicket:id="latitudIncidente" id="latitudIncidente" class="block"/>
-								 	</td>
-								</tr>
-								
-								<tr>
-									<td>
-										<label>Coordenada de Longitud:</label>
-									</td>
-									<td>
-								 		<input type="text" wicket:id="longitudIncidente" id="longitudIncidente" class="block"/>
+									<td style="text-align:left;" class="block">
+								 		<input type="text" wicket:id="latitudIncidente" id="latitudIncidente" size="6"/> - 
+								 		<input type="text" wicket:id="longitudIncidente" id="longitudIncidente" size="6"/>
 								 	</td>
 								</tr>
 								
