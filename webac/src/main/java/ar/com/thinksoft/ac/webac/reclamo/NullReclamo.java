@@ -8,17 +8,18 @@ import ar.com.thinksoft.ac.intac.IReclamo;
 
 
 /**
+ * @deprecated
  * Reclamo solo para filtro
  * @author mtarrio
  *
  */
-public class NullReclamo implements IReclamo{
+public class NullReclamo extends Reclamo implements IReclamo{
 
 	private String id;
 	private String calleReclamo;
-	private int alturaReclamo;
-	private int latitudReclamo;
-	private int longitudReclamo;
+	private String alturaReclamo;
+	private String latitudReclamo;
+	private String longitudReclamo;
 	private Date fechaYHoraReclamo;
 	private String tipoReclamo;
 	private String ciudadanoReclamo;
@@ -29,6 +30,7 @@ public class NullReclamo implements IReclamo{
 	
 // get ATRIBUTOS
 	
+	@Override
 	public String getId() {
 		return id;
 	}
@@ -37,15 +39,15 @@ public class NullReclamo implements IReclamo{
 		return this.calleReclamo;
 	}
 
-	public int getAlturaIncidente() {
+	public String getAlturaIncidente() {
 		return this.alturaReclamo;
 	}
 
-	public int getLatitudIncidente() {
+	public String getLatitudIncidente() {
 		return this.latitudReclamo;
 	}
 
-	public int getLongitudIncidente() {
+	public String getLongitudIncidente() {
 		return this.longitudReclamo;
 	}
 
@@ -79,7 +81,6 @@ public class NullReclamo implements IReclamo{
 	
 		
 	//SET ATRIBUTOS
-	
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -89,17 +90,17 @@ public class NullReclamo implements IReclamo{
 		
 	}
 
-	public void setAlturaIncidente(int altura) {
+	public void setAlturaIncidente(String altura) {
 		this.alturaReclamo = altura;
 		
 	}
 
-	public void setLatitudIncidente(int latitud) {
+	public void setLatitudIncidente(String latitud) {
 		this.latitudReclamo = latitud;
 		
 	}
 
-	public void setLongitudIncidente(int longitud) {
+	public void setLongitudIncidente(String longitud) {
 		this.longitudReclamo = longitud;
 		
 	}

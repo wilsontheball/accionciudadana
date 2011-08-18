@@ -1,0 +1,31 @@
+@CHARSET "UTF-8";
+
+form
+{
+   position: inherited;
+   padding:2px;
+   display: inline;
+   
+}
+
+label
+{
+   padding:2px;
+   text-align:right;
+   margin:10px 2px; 
+   display: block;
+   
+}
+
+.block{
+   margin:10px 2px; 
+   font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
+   font-size: 12px;
+   display: block;
+   text-align: left;
+   
+}
+
+td{
+	text-align: right;	
+}

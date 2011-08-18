@@ -1,5 +1,6 @@
 package ar.com.thinksoft.ac.estadosReclamo;
 
+import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.IEstadoReclamo;
 
 /**
@@ -8,7 +9,7 @@ import ar.com.thinksoft.ac.intac.IEstadoReclamo;
 public class EstadoCancelado implements IEstadoReclamo{
 
 	public String getDescripcionEstado() {
-		return "cancelado";
+		return EnumEstadosReclamo.cancelado.getEstado();
 	}
 
 }

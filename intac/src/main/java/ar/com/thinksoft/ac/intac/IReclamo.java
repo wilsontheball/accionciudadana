@@ -16,11 +16,11 @@ public interface IReclamo {
 	
 	public String getCalleIncidente();
 	
-	public int getAlturaIncidente();
+	public String getAlturaIncidente();
 	
-	public int getLatitudIncidente();
+	public String getLatitudIncidente();
 	
-	public int getLongitudIncidente();
+	public String getLongitudIncidente();
 	
 	public String getTipoIncidente();
 	
@@ -44,11 +44,11 @@ public interface IReclamo {
 	
 	public void setCalleIncidente(String calle);
 	
-	public void setAlturaIncidente(int altura);
+	public void setAlturaIncidente(String altura);
 	
-	public void setLatitudIncidente(int latitud);
+	public void setLatitudIncidente(String latitud);
 	
-	public void setLongitudIncidente(int longitud);
+	public void setLongitudIncidente(String longitud);
 	
 	public void setTipoIncidente(String tipo);
 	

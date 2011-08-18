@@ -15,8 +15,8 @@ public class BusquedaReclamoPage extends BasePage{
 	
 	public BusquedaReclamoPage(final PageParameters parameters) {
 		
-		add(CSSPackageResource.getHeaderContribution(BusquedaReclamoPage.class,"../../css/AltaReclamo.css"));
-		add(JavascriptPackageResource.getHeaderContribution(BusquedaReclamoPage.class,"../../js/altaReclamo.js"));
+		add(CSSPackageResource.getHeaderContribution(BusquedaReclamoPage.class,"../../css/BusquedaReclamo.css"));
+		add(JavascriptPackageResource.getHeaderContribution(BusquedaReclamoPage.class,"../../js/busquedaReclamo.js"));
 		add(new BusquedaReclamoForm("busquedaReclamoForm"));
 	}
 	

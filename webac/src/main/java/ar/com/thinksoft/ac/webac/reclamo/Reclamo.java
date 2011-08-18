@@ -22,9 +22,9 @@ public class Reclamo implements IReclamo{
 	
 	private String id;
 	private String calleReclamo;
-	private int alturaReclamo;
-	private int latitudReclamo;
-	private int longitudReclamo;
+	private String alturaReclamo;
+	private String latitudReclamo;
+	private String longitudReclamo;
 	private Date fechaYHoraReclamo;
 	private String tipoReclamo;
 	private String ciudadanoReclamo;
@@ -35,10 +35,9 @@ public class Reclamo implements IReclamo{
 	
 	
 	public Reclamo(){
-		this.setId();
 	}
 	
-	public Reclamo (String calle,int altura,int latitud,int longitud,Date fechaYHora, String tipo, String ciudadano,
+	public Reclamo (String calle,String altura,String latitud,String longitud,Date fechaYHora, String tipo, String ciudadano,
 					String observaciones, Image imagen, IEstadoReclamo estado, String prioridad){
 		
 		this.setId();
@@ -129,15 +128,15 @@ public class Reclamo implements IReclamo{
 		return this.calleReclamo;
 	}
 
-	public int getAlturaIncidente() {
+	public String getAlturaIncidente() {
 		return this.alturaReclamo;
 	}
 
-	public int getLatitudIncidente() {
+	public String getLatitudIncidente() {
 		return this.latitudReclamo;
 	}
 
-	public int getLongitudIncidente() {
+	public String getLongitudIncidente() {
 		return this.longitudReclamo;
 	}
 
@@ -181,17 +180,17 @@ public class Reclamo implements IReclamo{
 		
 	}
 
-	public void setAlturaIncidente(int altura) {
+	public void setAlturaIncidente(String altura) {
 		this.alturaReclamo = altura;
 		
 	}
 
-	public void setLatitudIncidente(int latitud) {
+	public void setLatitudIncidente(String latitud) {
 		this.latitudReclamo = latitud;
 		
 	}
 
-	public void setLongitudIncidente(int longitud) {
+	public void setLongitudIncidente(String longitud) {
 		this.longitudReclamo = longitud;
 		
 	}
