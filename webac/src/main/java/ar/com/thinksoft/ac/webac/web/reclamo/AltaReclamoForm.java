@@ -1,5 +1,7 @@
 package ar.com.thinksoft.ac.webac.web.reclamo;
 
+
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
@@ -9,13 +11,14 @@ import org.apache.wicket.model.IModel;
 
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.HomePage;
+import ar.com.thinksoft.ac.webac.reclamo.EnumTipoReclamo;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.Context;
 
 @SuppressWarnings("serial")
 public class AltaReclamoForm extends Form<IReclamo> {
-
+	
 	public AltaReclamoForm(String id) {
 		super(id);
 		CompoundPropertyModel<IReclamo> model = new CompoundPropertyModel<IReclamo>(new Reclamo());
@@ -31,7 +34,9 @@ public class AltaReclamoForm extends Form<IReclamo> {
 		ciudadanoTextBox.setEnabled(false);
 		add(ciudadanoTextBox);
 		
-		add(new TextField<String>("tipoIncidente",this.createBind(model,"tipoIncidente")));
+		DropDownChoice<String> dropDownList = new DropDownChoice<String>("tipoIncidente", this.createBind(model,"tipoIncidente"),EnumTipoReclamo.getListaTiposReclamo());
+		dropDownList.setNullValid(true);
+		add(dropDownList);
 		add(new TextArea<String>("observaciones",this.createBind(model, "observaciones")));
 		
 		setMultiPart(true);
