@@ -6,36 +6,45 @@ import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.IPageLink;
+
 import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.seguridad.Permitible;
 import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
+import ar.com.thinksoft.ac.webac.web.logout.LogoutPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.AltaReclamoPage;
 
 public abstract class BasePage extends Permitible {
 
 	public BasePage() {
 
-		add(CSSPackageResource.getHeaderContribution(BasePage.class,
-				"../css/BasePage.css"));
-		add(JavascriptPackageResource.getHeaderContribution(BasePage.class,
-				"../js/jquery.js"));
-		this.appendLinks();
-
-		add(this.userNameComponent());
-
-		Label logout = new Label("logout", "Logout");
-		BookmarkablePageLink<IPageLink> login = new BookmarkablePageLink<IPageLink>(
-				"login", LoginPage.class);
-		add(logout);
-		add(login);
-
-		if (Context.getInstance().isUserSignedIn()) {
-			login.setVisible(false);
-			logout.setVisible(true);
+		if (!Context.getInstance().isUserSignedIn()) {
+			System.out.println(Context.getInstance().getUsuario());
+			setResponsePage(LoginPage.class);
 		} else {
-			login.setVisible(true);
-			logout.setVisible(false);
+
+			add(CSSPackageResource.getHeaderContribution(BasePage.class,
+					"../css/BasePage.css"));
+			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,
+					"../js/jquery.js"));
+			this.appendLinks();
+
+			add(this.userNameComponent());
+
+			BookmarkablePageLink<IPageLink> logout = new BookmarkablePageLink<IPageLink>(
+					"logout", LogoutPage.class);
+			BookmarkablePageLink<IPageLink> login = new BookmarkablePageLink<IPageLink>(
+					"login", LoginPage.class);
+			add(logout);
+			add(login);
+
+			if (Context.getInstance().isUserSignedIn()) {
+				login.setVisible(false);
+				logout.setVisible(true);
+			} else {
+				login.setVisible(true);
+				logout.setVisible(false);
+			}
 		}
 
 	}

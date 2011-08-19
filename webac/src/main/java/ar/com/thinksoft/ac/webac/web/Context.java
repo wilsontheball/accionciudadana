@@ -12,6 +12,11 @@ public class Context {
 		return instance;
 	}
 
+	
+	public void invalidate(){
+		Context.instance = new Context();
+	}
+	
 	private IUsuario usuario;
 
 	public void setUsuario(IUsuario usuario) {
