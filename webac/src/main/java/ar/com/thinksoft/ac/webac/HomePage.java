@@ -27,19 +27,14 @@ public class HomePage extends BasePage {
 
 		
 		//todo lo que esta hecho aca es a modo de pruebas... modificar...
-		if (!Context.getInstance().isUserSignedIn()) {
-			System.out.println(Context.getInstance().getUsuario());
-			setResponsePage(LoginPage.class);
-		} else {
 
 			String nombre = "";
 			if (Context.getInstance().getUsuario() != null)
 				nombre = Context.getInstance().getUsuario().getNombreUsuario();
 			// Add the simplest type of label
 			add(new Label("message", "Bienvenido " + nombre
-					+ " a Acci&oacute;n Ciudadana"));
+					+ " a Accion Ciudadana"));
 
-		}
 		// TODO Add your page's components here
 	}
 

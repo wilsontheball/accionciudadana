@@ -2,6 +2,8 @@ package ar.com.thinksoft.ac.webac;
 
 import org.apache.wicket.protocol.http.WebApplication;
 
+import ar.com.thinksoft.ac.webac.web.login.LoginPage;
+
 /**
  * Application object for your web application. If you want to run this
  * application without deploying, run the Start class.
@@ -18,8 +20,8 @@ public class WicketApplication extends WebApplication {
 	/**
 	 * @see org.apache.wicket.Application#getHomePage()
 	 */
-	public Class<HomePage> getHomePage() {
-		return HomePage.class;
+	public Class<LoginPage> getHomePage() {
+		return LoginPage.class;
 	}
 
 	@Override
