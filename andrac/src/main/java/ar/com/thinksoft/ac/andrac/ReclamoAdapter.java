@@ -39,15 +39,17 @@ public class ReclamoAdapter extends ArrayAdapter<ReclamoItem> {
 
 		// Asigna el icono del estado de reclamo
 		ImageView icono = (ImageView) item.findViewById(R.id.item_estado);
-		icono.setImageResource(R.drawable.icon);
+		icono.setImageResource(R.drawable.ic_popup_reminder);
 
 		// Asigna el tipo de incidente
 		TextView titulo = (TextView) item.findViewById(R.id.item_tipo);
-		titulo.setText(this.reclamos[position].getTipo());
+		titulo.setText(this.reclamos[position].getTipo() + "  [" + position
+				+ "]");
 
 		// Asigna la direccion
 		TextView subTitulo = (TextView) item.findViewById(R.id.item_direccion);
-		subTitulo.setText(this.reclamos[position].getDireccion());
+		subTitulo.setText(this.reclamos[position].getDireccion() + "  "
+				+ this.reclamos[position].getFechaHora());
 
 		return (item);
 	}

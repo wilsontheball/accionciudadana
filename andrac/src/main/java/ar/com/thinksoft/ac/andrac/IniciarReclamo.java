@@ -34,14 +34,14 @@ class MyOnItemSelectedListener implements OnItemSelectedListener {
 					.setEnabled(true);
 			((EditText) view.getRootView().findViewById(R.id.calle))
 					.setEnabled(false);
-			((EditText) view.getRootView().findViewById(R.id.calle))
-					.setFocusable(false);
+			// ((EditText) view.getRootView().findViewById(R.id.calle))
+			// .setFocusable(false);
 			// ((EditText) view.getRootView().findViewById(R.id.calle))
 			// .setClickable(false);
 			((EditText) view.getRootView().findViewById(R.id.altura))
 					.setEnabled(false);
-			((EditText) view.getRootView().findViewById(R.id.altura))
-					.setFocusable(false);
+			// ((EditText) view.getRootView().findViewById(R.id.altura))
+			// .setFocusable(false);
 			// ((EditText) view.getRootView().findViewById(R.id.altura))
 			// .setClickable(false);
 		} else {
@@ -53,14 +53,14 @@ class MyOnItemSelectedListener implements OnItemSelectedListener {
 					.setEnabled(false);
 			((EditText) view.getRootView().findViewById(R.id.calle))
 					.setEnabled(true);
-			((EditText) view.getRootView().findViewById(R.id.calle))
-					.setFocusable(true);
+			// ((EditText) view.getRootView().findViewById(R.id.calle))
+			// .setFocusable(true);
 			// ((EditText) view.getRootView().findViewById(R.id.calle))
 			// .setClickable(true);
 			((EditText) view.getRootView().findViewById(R.id.altura))
 					.setEnabled(true);
-			((EditText) view.getRootView().findViewById(R.id.altura))
-					.setFocusable(true);
+			// ((EditText) view.getRootView().findViewById(R.id.altura))
+			// .setFocusable(true);
 			// ((EditText) view.getRootView().findViewById(R.id.altura))
 			// .setClickable(true);
 		}

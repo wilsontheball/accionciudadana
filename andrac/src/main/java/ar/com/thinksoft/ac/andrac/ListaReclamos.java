@@ -37,14 +37,7 @@ public class ListaReclamos extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lista_reclamos);
 
-		// // Esto anda bien!!!
-		// // Obtiene los reclamos.
-		// String[] array = (String[]) this.getRepo().getReclamosUsuario();
-		// // Carga la lista con reclamos.
-		// ((ListView) findViewById(R.id.list))
-		// .setAdapter(new ArrayAdapter<String>(this,
-		// android.R.layout.simple_list_item_1, array));
-
+		// Carga el listado con los reclamos.
 		ListView listado = (ListView) findViewById(R.id.list);
 		this.reclamos = (ReclamoItem[]) this.getRepo().getReclamosUsuario();
 		listado.setAdapter(new ReclamoAdapter(this, this.reclamos));
@@ -103,8 +96,8 @@ public class ListaReclamos extends Activity {
 		// TODO Definir la vista del dialogo
 		if (this.reclamo != null) {
 			return new AlertDialog.Builder(ListaReclamos.this)
-					.setIcon(R.drawable.icon)
-					.setTitle("Estado: " + this.reclamo.getEstado())
+					.setIcon(R.drawable.ic_popup_reminder)
+					.setTitle(this.reclamo.getEstado())
 					.setMessage(this.reclamo.getResumen())
 					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {

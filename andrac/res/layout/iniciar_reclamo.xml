@@ -57,13 +57,13 @@
 			<EditText android:id="@+id/altura" android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:inputType="number"
 				android:textAppearance="@android:style/TextAppearance.Large"
-				android:hint="@string/altura" android:maxLength="5"/>
+				android:hint="@string/altura" android:maxLength="5" />
 			<LinearLayout android:orientation="vertical"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:weightSum="1" android:gravity="center">
 				<ImageView android:id="@+id/fotoPreview"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
-					android:src="@drawable/icon" android:layout_weight="1"
+					android:src="@drawable/ic_contact_picture" android:layout_weight="1"
 					android:adjustViewBounds="true" />
 				<Button android:onClick="tomarFoto" android:gravity="center"
 					android:id="@+id/boton_foto" android:text="@string/cargar_foto"
