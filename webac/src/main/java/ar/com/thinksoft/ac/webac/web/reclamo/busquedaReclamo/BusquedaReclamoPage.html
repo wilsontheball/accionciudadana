@@ -15,62 +15,85 @@
 			<table align="center">
 				<tr>
 					<td>
-						<div>
-							<label>Calle - Altura:</label>
-						</div>
-						<div>
-							<label>Coordenadas Latitud - Longitud: </label>
-						</div>
+						
+						<!-- PRIMER COLUMNA DE FILTROS -->
+						<table class="filterTables">
+							<tr>
+								<td>
+									<div>
+										<label>Calle - Altura:</label>
+									</div>
+									<div>
+										<label>Coordenadas Latitud - Longitud: </label>
+									</div>
+								</td>
+						
+								<td>
+									<div class="block">		
+								 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" /> - 
+								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" size="5"/>
+									</div>
+									<div class="block">
+								 		<input type="text" wicket:id="latitudIncidente" id="latitudIncidente" size="7"/> - 
+								 		<input type="text" wicket:id="longitudIncidente" id="longitudIncidente" size="7"/>
+							 		</div>
+							 	</td>
+							</tr>
+						</table>
 					</td>
-					
-					<td>
-						<div class="block">		
-					 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" /> - 
-					 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" size="5"/>
-						</div>
-						<div class="block">
-					 		<input type="text" wicket:id="latitudIncidente" id="latitudIncidente" size="7"/> - 
-					 		<input type="text" wicket:id="longitudIncidente" id="longitudIncidente" size="7"/>
-				 		</div>
-				 	</td>
+					<td>	
+						<!-- SEGUNDA COLUMNA DE FILTROS -->
+						<table class="filterTables">
+							<tr>
+								<td>
+									<div>
+										<label>Fecha del Incidente <i>(dd/mm/aaaa)</i>:</label>
+									</div>
+									<div>
+										<label>Tipo de Incidente:</label>
+									</div>
+								</td>
+						
+								<td>
+									<div class="block">		
+								 		<input type="text" wicket:id="FechaYHoraReclamo" id="FechaYHoraReclamo"/>
+									</div>
+									<div class="block">
+								 		<select wicket:id="tipoIncidente"> </select>
+							 		</div>
+							 	</td>
+							</tr>
+						</table>
+					</td>
+					<td>	
+						<!-- TERCERA COLUMNA DE FILTROS -->
+						<table class="filterTables">
+							<tr>
+								<td>
+									<div>
+										<label>Estado:</label>
+									</div>
+									<div>
+										<label>Prioridad:</label>
+									</div>
+								</td>
+						
+								<td>
+									<div class="block">		
+								 		<select wicket:id="Estado" style="text-align:left;"> </select>
+									</div>
+									<div class="block">
+								 		<select wicket:id="Prioridad"> </select>
+							 		</div>
+							 	</td>
+							</tr>
+						</table>
+					</td>
 				</tr>
+			</table>
+				
 					
-					<tr>
-						<td>
-							<label>Fecha del Incidente</label>
-						</td>
-						<td class="block">
-					 		<input type="text" wicket:id="FechaYHoraReclamo" id="FechaYHoraReclamo"/>
-					 	</td>
-					</tr>
-								
-					<tr>
-						<td>
-							<label>Tipo de Incidente:</label>
-						</td>
-						<td class="block">
-					 		<select wicket:id="tipoIncidente"> </select>
-					 	</td>
-					</tr>	
 					
-					<tr>
-						<td>
-							<label>Estado:</label>
-						</td>
-						<td class="block">
-					 		<select wicket:id="Estado" style="text-align:left;"> </select>
-					 	</td>
-					</tr>
-					
-					<tr>
-						<td>
-							<label>Prioridad:</label>
-						</td>
-						<td class="block">
-					 		<select wicket:id="Prioridad"> </select>
-					 	</td>
-					</tr>	
-				</table>
 				
 			<!------------------------- BOTON SUBMIT ------------------------->
 				<table align="center">
@@ -82,6 +105,16 @@
 						</td>
 					</tr>
 				</table>
+
+				<div>
+					<table>
+	        			<tr wicket:id="rows">
+	        				<td wicket:id="cells">
+						        <span wicket:id="cell"> </span>
+	    	    			</td>
+		        		</tr>
+		        	</table>
+				</div>
 
 			</form>
 		</div>

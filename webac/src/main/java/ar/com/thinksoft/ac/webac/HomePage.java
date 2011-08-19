@@ -36,8 +36,8 @@ public class HomePage extends BasePage {
 			if (Context.getInstance().getUsuario() != null)
 				nombre = Context.getInstance().getUsuario().getNombreUsuario();
 			// Add the simplest type of label
-			add(new Label("message", "Bienvenido <b>" + nombre
-					+ "</b> a Accion Ciudadana"));
+			add(new Label("message", "Bienvenido " + nombre
+					+ " a Acci&oacute;n Ciudadana"));
 
 		}
 		// TODO Add your page's components here

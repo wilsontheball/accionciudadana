@@ -28,4 +28,10 @@ label
 
 td{
 	text-align: right;	
+	margin:10px 2px; 
+}
+
+.filterTables{
+	margin:50px;
+	display:inline;
 }
