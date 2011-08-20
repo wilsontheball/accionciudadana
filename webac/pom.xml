@@ -96,7 +96,11 @@
 			<version>8.1-SNAPSHOT</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-request</artifactId>
+			<version>1.5-M3</version>
+		</dependency>
 
 	</dependencies>
 	

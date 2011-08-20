@@ -48,6 +48,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		add(dropDownListPrioridad);
 		
 		//table
+		
 		/*Reclamo reclamo = new Reclamo("Avellaneda","39","0","0",new Date(),EnumTipoReclamo.abl.getTipo(),"Mati","",null,new EstadoActivo(),EnumPrioridadReclamo.baja.getPrioridad());
 		ReclamoManager.getInstance().guardarReclamo(reclamo);
 		
