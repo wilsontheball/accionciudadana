@@ -130,14 +130,12 @@ public class LoginForm extends Form<Void> {
 	public LoginForm(String id) {
 		super(id);
 
-		final TextField<String> nicknameString = new TextField<String>(
-				"nickname", this.createNombreUsuarioModel());
+		final TextField<String> nicknameString = new TextField<String>("nickname", this.createNombreUsuarioModel());
 		nicknameString.setConvertEmptyInputStringToNull(false);
 		nicknameString.setRequired(true);
 		this.add(nicknameString);
 
-		final PasswordTextField passwordString = new PasswordTextField(
-				"password", this.createContraseniaModel());
+		final PasswordTextField passwordString = new PasswordTextField("password", this.createContraseniaModel());
 		passwordString.setConvertEmptyInputStringToNull(false);
 		passwordString.setRequired(true);
 		this.add(passwordString);
@@ -159,7 +157,7 @@ public class LoginForm extends Form<Void> {
 			if (!login.isUsuarioExistente())
 				error(e.getLocalizedMessage());
 			else
-				error("La contrase��a ingresada no es valida.");
+				error("La contrasenia ingresada no es valida.");
 		}
 	}
 

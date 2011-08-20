@@ -8,41 +8,39 @@
 				<link rel="stylesheet" type="text/css" href="../css/LoginPage.css"/>
 			</wicket:link>
 		</wicket:head>
-		
-		
 	</head>
+	
+	
 	<body>
 		<wicket:extend>
-
-		<div >
-		    <div>
-		        <div class="login">
-		        <span wicket:id = "feedback" class="error"/>
-		        	<form wicket:id="loginForm" >
-		            	<p>
-		                	<label for="username" id="usernamelabel">Username:</label>
-		                    <input type="text" wicket:id="nickname" id="nickname" class="username" />
-		                     
-		                </p>
-		                
-		                <p>
-		                	<label for="password" id="passwordlabel">Password:</label>
-		                    <input type="password" wicket:id="password" id="password" class="password" />
-		                </p>
-		                
-		                <p> <input type="submit" value="Login"/> </p>
-		                
-		            </form>
-		            
-		            <p>
-		            <span wicket:id="register"/>
-		            <a wicket:id="registerLink" href="#">Registrarse</a>
-		            </p>
-		            
-		        </div><!--right-->
-		    </div><!--loginbox-->
-	    
-		</div><!--loginbox-->		
+			<div >
+			    <div>
+			        <div class="login">
+			        	<span wicket:id = "feedback" class="error"></span>
+			        	<form wicket:id="loginForm" >
+			            	<p>
+			                	<label for="username" id="usernamelabel">Username:</label>
+			                    <input type="text" wicket:id="nickname" id="nickname" class="username" />
+			                </p>
+			                
+			                <p>
+			                	<label for="password" id="passwordlabel">Password:</label>
+			                    <input type="password" wicket:id="password" id="password" class="password" />
+			                </p>
+			                
+			                <p> <input type="submit" value="Login"/> </p>
+			                
+			            </form>
+			            
+			            <p>
+				            <label>Todavia no posee una cuenta?</label>
+				            <a wicket:id="registerLink" href="#">Registrarse</a>
+			            </p>
+			            
+			        </div><!--right-->
+			    </div><!--loginbox-->
+		    
+			</div><!--loginbox-->		
 		
 		</wicket:extend>
 	</body>
