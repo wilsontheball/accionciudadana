@@ -11,9 +11,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,60 +20,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-class MyOnItemSelectedListener implements OnItemSelectedListener {
-
-	public void onItemSelected(AdapterView<?> parent, View view, int pos,
-			long id) {
-		if (pos == 0) {
-			((EditText) view.getRootView().findViewById(R.id.latitud))
-					.setEnabled(true);
-			((EditText) view.getRootView().findViewById(R.id.longitud))
-					.setEnabled(true);
-			((Button) view.getRootView().findViewById(R.id.boton_gps))
-					.setEnabled(true);
-			((EditText) view.getRootView().findViewById(R.id.calle))
-					.setEnabled(false);
-			// ((EditText) view.getRootView().findViewById(R.id.calle))
-			// .setFocusable(false);
-			// ((EditText) view.getRootView().findViewById(R.id.calle))
-			// .setClickable(false);
-			((EditText) view.getRootView().findViewById(R.id.altura))
-					.setEnabled(false);
-			// ((EditText) view.getRootView().findViewById(R.id.altura))
-			// .setFocusable(false);
-			// ((EditText) view.getRootView().findViewById(R.id.altura))
-			// .setClickable(false);
-		} else {
-			((EditText) view.getRootView().findViewById(R.id.latitud))
-					.setEnabled(false);
-			((EditText) view.getRootView().findViewById(R.id.longitud))
-					.setEnabled(false);
-			((Button) view.getRootView().findViewById(R.id.boton_gps))
-					.setEnabled(false);
-			((EditText) view.getRootView().findViewById(R.id.calle))
-					.setEnabled(true);
-			// ((EditText) view.getRootView().findViewById(R.id.calle))
-			// .setFocusable(true);
-			// ((EditText) view.getRootView().findViewById(R.id.calle))
-			// .setClickable(true);
-			((EditText) view.getRootView().findViewById(R.id.altura))
-					.setEnabled(true);
-			// ((EditText) view.getRootView().findViewById(R.id.altura))
-			// .setFocusable(true);
-			// ((EditText) view.getRootView().findViewById(R.id.altura))
-			// .setClickable(true);
-		}
-	}
-
-	public void onNothingSelected(AdapterView<?> parent) {
-		// Do nothing.
-	}
-}
-
 public class IniciarReclamo extends Activity implements LocationListener {
-	private final boolean DEBUG = false;
+	private final boolean DEBUG = true;
+	private final int COORDENADA_DELAY = 120000; // 2 min para aplicar PLAN B
 	private ProgressDialog procesando = null;
-	LocationManager locationManager;
+	private LocationManager locationManager;
+	private CountDownTimer timer = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -100,7 +51,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 		spinnerIncidente.setAdapter(adapterIncidente);
 
 		spinnerUbicacion
-				.setOnItemSelectedListener(new MyOnItemSelectedListener());
+				.setOnItemSelectedListener(new UbicacionSpinnerListener());
 	}
 
 	/**
@@ -127,15 +78,10 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				.toString();
 
 		if (((EditText) this.findViewById(R.id.latitud)).isEnabled()) {
-
-			// TODO chequear q la coordenada no este vacia
-
 			if (((EditText) findViewById(R.id.latitud)).getText().toString()
 					.length() == 0) {
-
 				mostrarAdvertencia(getString(R.string.advertencia),
 						getString(R.string.campo_coord_vacio));
-
 			} else {
 				String latitud = ((EditText) findViewById(R.id.latitud))
 						.getText().toString();
@@ -179,7 +125,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	 * espera por la coord. En caso de no tener habilitado el GPS, pide al
 	 * usuario habilitarlo
 	 * 
-	 * @since 16-08-11
+	 * @since 20-08-11
 	 * @author Hernan
 	 * @param v
 	 */
@@ -199,10 +145,31 @@ public class IniciarReclamo extends Activity implements LocationListener {
 			// Muestra el dialogo procesando
 			this.mostrarProcesando();
 
+			// Arranca timer (PLAN B)
+			this.timer = new CountDownTimer(COORDENADA_DELAY, 1000) {
+
+				@Override
+				public void onTick(long millisUntilFinished) {
+					// No hace nada
+				}
+
+				/**
+				 * Para GPS y muestra la latitud y longitud de Medrano.
+				 */
+				@Override
+				public void onFinish() {
+					procesando.dismiss();
+					mostrarCoordenada("-34.59841", "-58.42024");
+					// Desactiva GPS
+					locationManager.removeUpdates(IniciarReclamo.this);
+				}
+
+			}.start();
+
 		} catch (Exception e) {
 			// TODO Aca se deberia mostrar advertencia
 			Toast.makeText(this,
-					"Por favor habilite su GPS para obtener coordenada." + e,
+					"Por favor habilite su GPS para obtener coordenada.",
 					Toast.LENGTH_LONG).show();
 		}
 	}
@@ -228,6 +195,11 @@ public class IniciarReclamo extends Activity implements LocationListener {
 		}
 	}
 
+	private void mostrarCoordenada(String latitud, String longitud) {
+		((EditText) this.findViewById(R.id.latitud)).setText(latitud);
+		((EditText) this.findViewById(R.id.longitud)).setText(longitud);
+	}
+
 	/**
 	 * Muestra una ventana de dialogo con un boton que la cierra
 	 * 
@@ -251,7 +223,6 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	 * @author Paul
 	 * @return repositorio
 	 */
-
 	private Repositorio getRepo() {
 		return ((Aplicacion) this.getApplication()).getRepositorio();
 	}
@@ -274,15 +245,21 @@ public class IniciarReclamo extends Activity implements LocationListener {
 
 	// Metodos de la interfaz LocationListener
 	public void onLocationChanged(Location location) {
-		((EditText) this.findViewById(R.id.latitud)).setText(location
-				.getLatitude() + "");
-
-		((EditText) this.findViewById(R.id.longitud)).setText(location
-				.getLongitude() + "");
+		// Cancela PLAN B
+		if (this.timer != null) {
+			this.timer.cancel();
+			this.timer = null;
+		}
+		// Cierra el dialogo Procesando
 		if (this.procesando != null) {
 			this.procesando.cancel();
 			this.procesando = null;
 		}
+		this.mostrarCoordenada(location.getLatitude() + "",
+				location.getLongitude() + "");
+		// Desactiva GPS
+		locationManager.removeUpdates(IniciarReclamo.this);
+
 		if (DEBUG) {
 			Toast.makeText(this, "onLocationChanged", Toast.LENGTH_LONG).show();
 		}

@@ -49,6 +49,10 @@
 	<string name="gps">GPS</string>
 	<string name="titulo_detalle_reclamo">Detalle de Reclamo</string>
 	<string name="atras">Atrás</string>
+	<string name="camara_instructivo">Haga clic en la pantalla para tomar la foto
+	</string>
+	<string name="gps_inaccesible">Por favor habilite su GPS para obtener coordenada.
+	</string>
 	<string-array name="tipoincidente_array">
 		<item>Bache</item>
 		<item>Caída de Objetos</item>

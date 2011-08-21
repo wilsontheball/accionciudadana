@@ -9,6 +9,7 @@ import java.io.IOException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -47,6 +48,7 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 
 		Log.e(TAG, "onCreate");
 
+		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -169,7 +171,8 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+		if (keyCode == KeyEvent.KEYCODE_CAMERA
+				|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
 			this.mCamera.takePicture(null, this.mPictureCallback,
 					this.mPictureCallback);
 		}

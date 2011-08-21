@@ -37,13 +37,13 @@
 						android:editable="false" android:textAppearance="@android:style/TextAppearance.Large"
 						android:hint="@string/latitud" android:enabled="false"
 						android:focusable="false" android:clickable="false"
-						android:layout_weight="1" />
+						android:maxLength="9" android:layout_weight="1" />
 					<EditText android:id="@+id/longitud" android:layout_width="fill_parent"
 						android:layout_height="wrap_content" android:inputType="text"
 						android:editable="false" android:textAppearance="@android:style/TextAppearance.Large"
 						android:hint="@string/longitud" android:enabled="false"
 						android:focusable="false" android:clickable="false"
-						android:layout_weight="1" />
+						android:maxLength="9" android:layout_weight="1" />
 				</LinearLayout>
 				<Button android:onClick="obtenerCoordenada" android:gravity="center"
 					android:id="@+id/boton_gps" android:text="@string/gps"
