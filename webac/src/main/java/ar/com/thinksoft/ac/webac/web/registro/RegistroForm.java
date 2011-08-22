@@ -19,6 +19,7 @@ import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.registro.RegistroManager;
 import ar.com.thinksoft.ac.webac.repository.Repository;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
+import ar.com.thinksoft.ac.webac.usuario.UsuarioFactory;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 
 public class RegistroForm extends Form<IUsuario> {
@@ -29,7 +30,7 @@ public class RegistroForm extends Form<IUsuario> {
 		super(id);
 
 		CompoundPropertyModel<IUsuario> model = new CompoundPropertyModel<IUsuario>(
-				new Usuario());
+				new UsuarioFactory().construirCiudadano());
 		setModel(model);
 
 		add(this.createUsername(model));
