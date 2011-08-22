@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.webac.reclamo;
 
 import java.awt.Image;
+import java.io.Serializable;
 import java.util.Date;
 
 import ar.com.thinksoft.ac.estadosReclamo.EstadoActivo;
@@ -18,8 +19,12 @@ import ar.com.thinksoft.ac.intac.IReclamo;
  * @author Matias
  *
  */
-public class Reclamo implements IReclamo{
+public class Reclamo implements IReclamo,Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private String calleReclamo;
 	private String alturaReclamo;

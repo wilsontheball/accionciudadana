@@ -29,7 +29,6 @@ public class LoginPage extends BasePage {
 		else {
 			add(new FeedbackPanel("feedback"));
 			add(new LoginForm("loginForm"));
-			add(new Label("register","Todavia no posee una cuenta?"));
 			add(new BookmarkablePageLink<IPageLink>("registerLink",RegistroPage.class));
 		}
 

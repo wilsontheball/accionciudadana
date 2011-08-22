@@ -24,18 +24,17 @@
 										<label>Calle - Altura:</label>
 									</div>
 									<div>
-										<label>Coordenadas Latitud - Longitud: </label>
+										<label>Tipo de Incidente:</label>
 									</div>
 								</td>
 						
 								<td>
 									<div class="block">		
 								 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" /> - 
-								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" size="5"/>
+								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" size="6"/>
 									</div>
 									<div class="block">
-								 		<input type="text" wicket:id="latitudIncidente" id="latitudIncidente" size="7"/> - 
-								 		<input type="text" wicket:id="longitudIncidente" id="longitudIncidente" size="7"/>
+								 		<select wicket:id="tipoIncidente"> </select>
 							 		</div>
 							 	</td>
 							</tr>
@@ -47,10 +46,10 @@
 							<tr>
 								<td>
 									<div>
-										<label>Fecha del Incidente <i>(dd/mm/aaaa)</i>:</label>
+										<label>Fecha del Incidente <i>(dd/mm/aa)</i>:</label>
 									</div>
 									<div>
-										<label>Tipo de Incidente:</label>
+										<label>Prioridad:</label>
 									</div>
 								</td>
 						
@@ -59,7 +58,7 @@
 								 		<input type="text" wicket:id="FechaYHoraReclamo" id="FechaYHoraReclamo"/>
 									</div>
 									<div class="block">
-								 		<select wicket:id="tipoIncidente"> </select>
+								 		<select wicket:id="Prioridad"> </select>
 							 		</div>
 							 	</td>
 							</tr>
@@ -73,18 +72,12 @@
 									<div>
 										<label>Estado:</label>
 									</div>
-									<div>
-										<label>Prioridad:</label>
-									</div>
 								</td>
 						
 								<td>
 									<div class="block">		
 								 		<select wicket:id="Estado" style="text-align:left;"> </select>
 									</div>
-									<div class="block">
-								 		<select wicket:id="Prioridad"> </select>
-							 		</div>
 							 	</td>
 							</tr>
 						</table>
@@ -105,16 +98,8 @@
 						</td>
 					</tr>
 				</table>
-
-				<!-- <div>
-					<table>
-	        			<tr wicket:id="rows">
-	        				<td wicket:id="cells">
-						        <span wicket:id="cell"> </span>
-	    	    			</td>
-		        		</tr>
-		        	</table>
-				</div> -->
+				
+				<div wicket:id="grid" align="center" style="width: 90%; margin:0 50px;"></div>
 
 			</form>
 		</div>
