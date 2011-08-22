@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.intac;
 
 import java.awt.Image;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  * @author Matias
  *
  */
-public interface IReclamo {
+public interface IReclamo extends Serializable{
 
 	// Obtencion de atributos que deben tener los reclamos.
 	

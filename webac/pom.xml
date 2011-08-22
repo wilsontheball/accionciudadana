@@ -79,7 +79,12 @@
 		   <artifactId>wicket-extensions</artifactId>
 		   <version>1.4.7</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>org.wicketstuff</groupId>
+			<artifactId>inmethod-grid</artifactId>
+			<version>1.4.14</version>
+		</dependency>
 		<!-- DEPENDENCIAS DE PROYECTOS WILSON -->
 
 		<dependency>
@@ -109,7 +114,16 @@
 			<id>source.db4o</id>
 			<url>http://source.db4o.com/maven</url>
 		</repository>
+		<repository>
+			<id>wicketstuff-core-snapshots</id>
+			<url>ttps://oss.sonatype.org/content/repositories/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>        
+		</repository>
 	</repositories>
+	
+	
 
 	<build>
 		<resources>
