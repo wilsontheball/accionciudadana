@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type"	content="text/html; charset=UTF-8">
+		<title>Acci&oacute;n Ciudadana</title>
+	</head>
+
+	<body>
+		<div id="header">
+			<div class="titles">
+				<div class="titleRow">
+					<table>
+						<tr>
+							<td align="left">
+								<div class="thinksoft"></div>
+							</td>
+							<td align="right" width="100%">
+								<h1>Acci&oacute;n Ciudadana</h1>
+							</td>
+						</tr>
+					</table>
+					
+						
+					
+					<div class="loginAndLogout">
+						<span wicket:id="username" ></span>
+						<a href="#" wicket:id="login">Login</a> 
+						<a href="#" wicket:id="logout">Logout</a>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- ACA EMPIEZA EL MENU -->
+			<div class="menu">
+				<ul>
+					<li><a wicket:id="homeLink" href="#" >Home</a></li>
+
+					<li><a href="#" id="current">Usuarios</a>
+						<ul>
+							<li><a href="#">Aca submenu 1</a></li>
+							<li><a href="#">Aca submenu 2</a></li>
+					   </ul>
+				  </li>
+					<li><a href="#">Reclamos</a>
+		                <ul>
+		                <li><a wicket:id="altaReclamoLink" href="#">Alta de Reclamos</a></li>
+		                <li><a wicket:id="busquedaReclamoLink" href="#">B&uacute;squeda de Reclamos</a></li>
+		                </ul>
+		          </li>
+				</ul>
+			</div>
+			<!-- ACA EMPIEZA EL MENU -->
+
+
+
+
+		</div>
+
+		<div id="content">
+			<wicket:child />
+		</div>
+
+		<div id="footer"></div>
+	</body>
+</html>

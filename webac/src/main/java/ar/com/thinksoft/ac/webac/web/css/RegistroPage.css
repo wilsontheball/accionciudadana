@@ -1,0 +1,41 @@
+
+
+.registro{
+	width: 100%;
+	padding-top: 50px;
+	text-align: center;
+
+}
+
+fieldset {
+	border:none; /* Default fieldset borders vary cross browser, so make them the same */
+	width: 30%;
+	margin: auto;
+}
+
+
+fieldset div {
+	overflow:hidden; 
+	text-align: center;
+	vertical-align: middle;
+	padding-bottom: 5px;
+/* 	display:inline-block; Give layout in ie to contain float */
+}
+
+fieldset label {
+    float: left;
+    text-align: right;
+    width: 48%;
+    vertical-align: middle;
+}
+
+fieldset input {
+	float:right;
+	text-align: left;
+	width: 48%;
+	height: 100%;
+	vertical-align: middle;
+	
+}
+
+
