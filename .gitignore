@@ -5,3 +5,6 @@
 */target*
 *.metadata*
 *repository.db*
+*/log*
+*.log*
+*.log

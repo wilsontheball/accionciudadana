@@ -1,0 +1,108 @@
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+<head>
+<title>BusquedaReclamo</title>
+</head>
+
+<body>
+	<wicket:extend>
+		<div>
+			<div align="center">
+				<h1>B&uacute;squeda de Reclamo</h1>
+			</div>
+			<form wicket:id="busquedaReclamoForm">
+
+			<table align="center">
+				<tr>
+					<td>
+						
+						<!-- PRIMER COLUMNA DE FILTROS -->
+						<table class="filterTables">
+							<tr>
+								<td>
+									<div>
+										<label>Calle - Altura:</label>
+									</div>
+									<div>
+										<label>Tipo de Incidente:</label>
+									</div>
+								</td>
+						
+								<td>
+									<div class="block">		
+								 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" /> - 
+								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" size="6"/>
+									</div>
+									<div class="block">
+								 		<select wicket:id="tipoIncidente"> </select>
+							 		</div>
+							 	</td>
+							</tr>
+						</table>
+					</td>
+					<td>	
+						<!-- SEGUNDA COLUMNA DE FILTROS -->
+						<table class="filterTables">
+							<tr>
+								<td>
+									<div>
+										<label>Fecha del Incidente <i>(dd/mm/aa)</i>:</label>
+									</div>
+									<div>
+										<label>Prioridad:</label>
+									</div>
+								</td>
+						
+								<td>
+									<div class="block">		
+								 		<input type="text" wicket:id="FechaYHoraReclamo" id="FechaYHoraReclamo"/>
+									</div>
+									<div class="block">
+								 		<select wicket:id="Prioridad"> </select>
+							 		</div>
+							 	</td>
+							</tr>
+						</table>
+					</td>
+					<td>	
+						<!-- TERCERA COLUMNA DE FILTROS -->
+						<table class="filterTables">
+							<tr>
+								<td>
+									<div>
+										<label>Estado:</label>
+									</div>
+								</td>
+						
+								<td>
+									<div class="block">		
+								 		<select wicket:id="Estado" style="text-align:left;"> </select>
+									</div>
+							 	</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+				
+					
+					
+				
+			<!------------------------- BOTON SUBMIT ------------------------->
+				<table align="center">
+					<tr>
+						<td>
+							<div class="block">
+								<input type="submit" value="Buscar reclamo"/>
+							</div>
+						</td>
+					</tr>
+				</table>
+				
+				<div wicket:id="grid" align="center" style="width: 90%; margin:0 50px;"></div>
+
+			</form>
+		</div>
+	</wicket:extend>
+</body>
+</html>
