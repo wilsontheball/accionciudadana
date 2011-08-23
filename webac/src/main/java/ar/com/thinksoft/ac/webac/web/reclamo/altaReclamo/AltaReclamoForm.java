@@ -1,6 +1,9 @@
 package ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -72,6 +75,9 @@ public class AltaReclamoForm extends Form<Reclamo> {
 
 		Reclamo reclamo = getModelObject();
 		reclamo.activar();
+		Date fecha = new Date();
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		reclamo.setFechaReclamo(formato.format(fecha));
 		ReclamoManager.getInstance().guardarReclamo(reclamo);
 		setResponsePage(HomePage.class);
 

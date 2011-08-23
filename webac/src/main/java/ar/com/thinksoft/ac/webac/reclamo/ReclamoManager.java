@@ -32,7 +32,6 @@ public class ReclamoManager {
 	 */
 	public void guardarReclamo(IReclamo reclamo){
 		Repository.getInstance().store(reclamo);
-		Repository.getInstance().commit();
 	}
 	
 	/**
