@@ -163,12 +163,15 @@ public class Reclamo implements IReclamo,Serializable{
 	}	
 	
 	public String getEstadoDescripcion(){
-		if(this.estado!=null){
+		
+		if(this.estado != null){
 			this.estadoDescripcion = this.estado.getDescripcionEstado();
 			return this.estadoDescripcion;
-		}else{
-			return "";
 		}
+		if(this.estadoDescripcion != null && this.estadoDescripcion != "")
+			return this.estadoDescripcion;
+		else
+			return "";
 	}
 	
 	public String getPrioridad(){
@@ -229,6 +232,7 @@ public class Reclamo implements IReclamo,Serializable{
 
 	public void setEstado(IEstadoReclamo estado) {
 		this.estado = estado;
+		this.estadoDescripcion = estado.getDescripcionEstado();
 		
 	}
 	
