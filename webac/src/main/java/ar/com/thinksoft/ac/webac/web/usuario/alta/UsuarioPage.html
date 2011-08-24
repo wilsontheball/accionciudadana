@@ -7,7 +7,28 @@
 <body>
 	<wicket:extend>
 
-		<div class="upper"></div>
+
+		<fieldset>
+			<div>
+				<span wicket:id="labelNombre"/>
+				<input type="text" wicket:id="campoBusquedaNombre" />
+			</div>
+			<div>
+				<label>Apellido:</label>
+				<input type="text" wicket:id="campoBusquedaApellido" />
+			</div>
+			
+			<div><input type="submit" wicket:id="botonBuscar" value="Buscar"/></div>
+			
+		</fieldset>
+			
+		<div class="nuevo">
+				<input type="submit" wicket:id="botonNuevo" value="Nuevo">
+		</div>
+		
+		
+		
+
 		<div wicket:id="grid" class="gridContainer"/>
 		
 	</wicket:extend>

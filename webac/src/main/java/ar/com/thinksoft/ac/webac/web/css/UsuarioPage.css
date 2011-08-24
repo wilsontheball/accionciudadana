@@ -1,13 +1,53 @@
-
-
-.gridContainer{
-	width:90%;
+.gridContainer {
+	width: 90%;
 	text-align: center;
 	margin: auto;
 }
 
-
-/*solo para hacer facha, hay que sacarlo*/
-.upper{
-	padding-bottom: 50px;
+fieldset {
+	padding-top:50px;
+	padding-bottom:20px;
+	width: 80%;
+	margin: auto;
 }
+
+fieldset div {
+	overflow:hidden; 
+	text-align: left;
+	vertical-align: middle;
+	padding-bottom: 5px;
+/* 	display:inline-block; Give layout in ie to contain float */
+}
+
+fieldset span {
+    float: left;
+    text-align: right;
+    vertical-align: middle;
+    width: 5%;
+    padding-right: 5px;
+}
+
+fieldset input[type="text"] {
+    float: none;
+    height: 100%;
+    text-align: left;
+    vertical-align: middle;
+    width: 25%;
+}
+
+.busquedaArea div input{
+	text-align: left;
+}
+
+
+.nuevo{
+	margin: auto;
+	width: 90%;
+	text-align: right;
+	padding-bottom: 20px;
+}
+
+.nuevo input{
+	
+}
+
