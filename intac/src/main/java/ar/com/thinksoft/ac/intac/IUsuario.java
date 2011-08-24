@@ -1,6 +1,8 @@
 package ar.com.thinksoft.ac.intac;
 
-public interface IUsuario {
+import java.io.Serializable;
+
+public interface IUsuario extends Serializable {
 
 	/**
 	 * Verifica si ese codido de seguridad se encuentra en alguno de los
