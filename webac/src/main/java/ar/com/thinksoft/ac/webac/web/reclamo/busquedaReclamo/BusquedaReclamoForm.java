@@ -1,5 +1,6 @@
 package ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import com.inmethod.grid.column.PropertyColumn;
 import com.inmethod.grid.datagrid.DataGrid;
 import ar.com.thinksoft.ac.intac.*;
 import ar.com.thinksoft.ac.webac.reclamo.*;
+import ar.com.thinksoft.ac.webac.web.gridExtension.CustomDataGrid;
 
 @SuppressWarnings("serial")
 public class BusquedaReclamoForm extends Form<IReclamo> {
@@ -73,11 +75,13 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             new PropertyColumn("estadoCol",new Model<String>("Estado del reclamo"), "EstadoDescripcion"),
             new PropertyColumn("prioridadCol",new Model<String>("Prioridad del reclamo"), "Prioridad"));
         
-		grid = new DataGrid("grid", new DataProviderAdapter(listDataProvider), cols);
+		grid = new CustomDataGrid("grid", new DataProviderAdapter(listDataProvider), cols);
         grid.setRowsPerPage(10);
         grid.setClickRowToSelect(true);
-        grid.setClickRowToDeselect(true);
         grid.setAllowSelectMultiple(false);
         grid.setCleanSelectionOnPageChange(true);
+        
+        
+        
 	}
 }
