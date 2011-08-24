@@ -1,6 +1,9 @@
 package ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -17,11 +20,11 @@ import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.Context;
 
 @SuppressWarnings("serial")
-public class AltaReclamoForm extends Form<IReclamo> {
+public class AltaReclamoForm extends Form<Reclamo> {
 	
 	public AltaReclamoForm(String id) {
 		super(id);
-		CompoundPropertyModel<IReclamo> model = new CompoundPropertyModel<IReclamo>(new Reclamo());
+		CompoundPropertyModel<Reclamo> model = new CompoundPropertyModel<Reclamo>(new Reclamo());
 		setModel(model);
 		
 		add(new TextField<String>("calleIncidente",this.createBind(model,"calleIncidente")));
@@ -40,11 +43,11 @@ public class AltaReclamoForm extends Form<IReclamo> {
 		add(new TextArea<String>("observaciones",this.createBind(model, "observaciones")));
 		
 		setMultiPart(true);
-		add(new FileUploadField("fileUpload"));
+		//add(new FileUploadField("fileUpload"));
 		
 	}
 	
-	private IModel<String> createBind(CompoundPropertyModel<IReclamo> model,String property){
+	private IModel<String> createBind(CompoundPropertyModel<Reclamo> model,String property){
 		return model.bind(property);
 	}
 	
@@ -70,7 +73,11 @@ public class AltaReclamoForm extends Form<IReclamo> {
 	@Override
 	protected void onSubmit() {
 
-		IReclamo reclamo = getModelObject();
+		Reclamo reclamo = getModelObject();
+		reclamo.activar();
+		Date fecha = new Date();
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		reclamo.setFechaReclamo(formato.format(fecha));
 		ReclamoManager.getInstance().guardarReclamo(reclamo);
 		setResponsePage(HomePage.class);
 

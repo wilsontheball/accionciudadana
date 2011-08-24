@@ -2,7 +2,6 @@ package ar.com.thinksoft.ac.webac.reclamo;
 
 import java.awt.Image;
 import java.io.Serializable;
-import java.util.Date;
 
 import ar.com.thinksoft.ac.estadosReclamo.EstadoActivo;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoBaja;
@@ -30,19 +29,20 @@ public class Reclamo implements IReclamo,Serializable{
 	private String alturaReclamo;
 	private String latitudReclamo;
 	private String longitudReclamo;
-	private Date fechaYHoraReclamo;
+	private String fechaReclamo;
 	private String tipoReclamo;
 	private String ciudadanoReclamo;
 	private String observaciones;
 	private Image imagen;
 	private IEstadoReclamo estado;
+	private String estadoDescripcion;
 	private String prioridad;
 	
 	
 	public Reclamo(){
 	}
 	
-	public Reclamo (String calle,String altura,String latitud,String longitud,Date fechaYHora, String tipo, String ciudadano,
+	public Reclamo (String calle,String altura,String latitud,String longitud,String fecha, String tipo, String ciudadano,
 					String observaciones, Image imagen, IEstadoReclamo estado, String prioridad){
 		
 		this.setId();
@@ -50,7 +50,7 @@ public class Reclamo implements IReclamo,Serializable{
 		this.setAlturaIncidente(altura);
 		this.setLatitudIncidente(latitud);
 		this.setLongitudIncidente(longitud);
-		this.setFechaYHoraReclamo(fechaYHora);
+		this.setFechaReclamo(fecha);
 		this.setTipoIncidente(tipo);
 		this.setCiudadanoGeneradorReclamo(ciudadano);
 		this.setObservaciones(observaciones);
@@ -66,7 +66,6 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void cancelarReclamo(){
 		this.setEstado(new EstadoCancelado());
-		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
 	/**
@@ -75,7 +74,6 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void darDeBajaReclamo(){
 		this.setEstado(new EstadoBaja());
-		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
 	/**
@@ -84,7 +82,6 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void suspender(){
 		this.setEstado(new EstadoSuspendido());
-		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
 	/**
@@ -93,7 +90,6 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void activar(){
 		this.setEstado(new EstadoActivo());
-		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
 	/**
@@ -102,7 +98,6 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void enProgreso(){
 		this.setEstado(new EstadoEnProgreso());
-		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
 	/**
@@ -111,7 +106,6 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void demorar(){
 		this.setEstado(new EstadoDemorado());
-		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
 	/**
@@ -120,7 +114,6 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void terminar(){
 		this.setEstado(new EstadoTerminado());
-		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 
 	// get ATRIBUTOS
@@ -149,8 +142,8 @@ public class Reclamo implements IReclamo,Serializable{
 		return this.tipoReclamo;
 	}
 
-	public Date getFechaYHoraReclamo() {
-		return this.fechaYHoraReclamo;
+	public String getFechaReclamo() {
+		return this.fechaReclamo;
 	}
 
 	public String getCiudadanoGeneradorReclamo() {
@@ -168,6 +161,18 @@ public class Reclamo implements IReclamo,Serializable{
 	public IEstadoReclamo getEstado() {
 		return this.estado;
 	}	
+	
+	public String getEstadoDescripcion(){
+		
+		if(this.estado != null){
+			this.estadoDescripcion = this.estado.getDescripcionEstado();
+			return this.estadoDescripcion;
+		}
+		if(this.estadoDescripcion != null && this.estadoDescripcion != "")
+			return this.estadoDescripcion;
+		else
+			return "";
+	}
 	
 	public String getPrioridad(){
 		return this.prioridad;
@@ -205,8 +210,8 @@ public class Reclamo implements IReclamo,Serializable{
 		
 	}
 
-	public void setFechaYHoraReclamo(Date fechaYHora) {
-		this.fechaYHoraReclamo = fechaYHora;
+	public void setFechaReclamo(String fechaYHora) {
+		this.fechaReclamo = fechaYHora;
 		
 	}
 
@@ -227,7 +232,12 @@ public class Reclamo implements IReclamo,Serializable{
 
 	public void setEstado(IEstadoReclamo estado) {
 		this.estado = estado;
+		this.estadoDescripcion = estado.getDescripcionEstado();
 		
+	}
+	
+	public void setEstadoDescripcion(String estadoDesc){
+		this.estadoDescripcion = estadoDesc;
 	}
 	
 	public void setPrioridad(String prioridad){

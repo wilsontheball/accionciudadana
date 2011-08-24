@@ -96,6 +96,7 @@ public class Repository implements ObjectContainer{
 
 	public void store(Object arg0) throws DatabaseClosedException, DatabaseReadOnlyException {
 		objectContainer.store(arg0);
+		this.commit();
 		
 	}
 

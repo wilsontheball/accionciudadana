@@ -1,14 +1,14 @@
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 
 <head>
-<title>BusquedaReclamo</title>
+<title>Listado de Reclamos</title>
 </head>
 
 <body>
 	<wicket:extend>
 		<div>
 			<div align="center">
-				<h1>B&uacute;squeda de Reclamo</h1>
+				<h1>Listado de Reclamos</h1>
 			</div>
 			<form wicket:id="busquedaReclamoForm">
 
@@ -55,7 +55,7 @@
 						
 								<td>
 									<div class="block">		
-								 		<input type="text" wicket:id="FechaYHoraReclamo" id="FechaYHoraReclamo"/>
+								 		<input type="text" wicket:id="FechaReclamo" id="FechaReclamo" name="FechaReclamo" datepicker="true"/>
 									</div>
 									<div class="block">
 								 		<select wicket:id="Prioridad"> </select>
@@ -76,7 +76,7 @@
 						
 								<td>
 									<div class="block">		
-								 		<select wicket:id="Estado" style="text-align:left;"> </select>
+								 		<select wicket:id="EstadoDescripcion" style="text-align:left;"> </select>
 									</div>
 							 	</td>
 							</tr>
