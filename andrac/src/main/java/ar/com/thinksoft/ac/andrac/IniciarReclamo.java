@@ -1,6 +1,8 @@
 package ar.com.thinksoft.ac.andrac;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,11 +23,18 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class IniciarReclamo extends Activity implements LocationListener {
+
+	private final int ERR_GPS_INACCESIBLE = 1;
+	private final int ERR_CALLE_VACIO = 2;
+	private final int ERR_ALTURA_VACIO = 3;
+	private final int ERR_COORD_VACIO = 4;
 	private final boolean DEBUG = true;
 	private final int COORDENADA_DELAY = 120000; // 2 min para aplicar PLAN B
 	private ProgressDialog procesando = null;
 	private LocationManager locationManager;
 	private CountDownTimer timer = null;
+	private String tituloAlerta = "";
+	private String mensageAlerta = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,9 +76,6 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	}
 
 	public void crearReclamo(View v) {
-
-		// TODO falta agregar parametro de la foto
-
 		String tipo = ((Spinner) findViewById(R.id.tipo_incidente))
 				.getSelectedItem().toString();
 
@@ -80,8 +86,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 		if (((EditText) this.findViewById(R.id.latitud)).isEnabled()) {
 			if (((EditText) findViewById(R.id.latitud)).getText().toString()
 					.length() == 0) {
-				mostrarAdvertencia(getString(R.string.advertencia),
-						getString(R.string.campo_coord_vacio));
+				mostrarAdvertencia(ERR_COORD_VACIO);
 			} else {
 				String latitud = ((EditText) findViewById(R.id.latitud))
 						.getText().toString();
@@ -96,14 +101,12 @@ public class IniciarReclamo extends Activity implements LocationListener {
 		} else {
 			if (((EditText) findViewById(R.id.calle)).getText().toString()
 					.length() == 0) {
-				mostrarAdvertencia(getString(R.string.advertencia),
-						getString(R.string.campo_calle_vacio));
+				mostrarAdvertencia(ERR_CALLE_VACIO);
 			} else {
 
 				if (((EditText) findViewById(R.id.altura)).getText().toString()
 						.length() == 0) {
-					mostrarAdvertencia(getString(R.string.advertencia),
-							getString(R.string.campo_altura_vacio));
+					mostrarAdvertencia(ERR_ALTURA_VACIO);
 				} else {
 					String calle = ((EditText) findViewById(R.id.calle))
 							.getText().toString();
@@ -163,14 +166,9 @@ public class IniciarReclamo extends Activity implements LocationListener {
 					// Desactiva GPS
 					locationManager.removeUpdates(IniciarReclamo.this);
 				}
-
 			}.start();
-
 		} catch (Exception e) {
-			// TODO Aca se deberia mostrar advertencia
-			Toast.makeText(this,
-					"Por favor habilite su GPS para obtener coordenada.",
-					Toast.LENGTH_LONG).show();
+			this.mostrarAdvertencia(ERR_GPS_INACCESIBLE);
 		}
 	}
 
@@ -190,30 +188,13 @@ public class IniciarReclamo extends Activity implements LocationListener {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode != Activity.RESULT_CANCELED) {
 			ImageView preview = (ImageView) this.findViewById(R.id.fotoPreview);
-			preview.setImageBitmap(((Aplicacion) this.getApplication())
-					.getRepositorio().getImagen());
+			preview.setImageBitmap(this.getRepo().getImagen());
 		}
 	}
 
 	private void mostrarCoordenada(String latitud, String longitud) {
 		((EditText) this.findViewById(R.id.latitud)).setText(latitud);
 		((EditText) this.findViewById(R.id.longitud)).setText(longitud);
-	}
-
-	/**
-	 * Muestra una ventana de dialogo con un boton que la cierra
-	 * 
-	 * @since 22-07-2011
-	 * @author Paul
-	 * @param titulo
-	 *            titulo que se va a mostrar en la ventana
-	 * @param mensaje
-	 *            mensaje que se va a mostrar
-	 */
-	private void mostrarAdvertencia(String titulo, String mensaje) {
-		// TODO Aca se deberia mostrar advertencia
-		Toast.makeText(this, "Aca se deberia mostrar advertencia",
-				Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -241,6 +222,57 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				});
 		this.procesando.setCancelable(false);
 		this.procesando.show();
+	}
+
+	/**
+	 * Muestra una ventana de dialogo con un boton para cerrarla.
+	 * 
+	 * @since 23-08-2011
+	 * @author Paul
+	 */
+	private void mostrarAdvertencia(int numero) {
+		// No se puede pasar los atributos directamente al Dialogo
+		switch (numero) {
+		case ERR_GPS_INACCESIBLE:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.gps_inaccesible);
+			break;
+		case ERR_ALTURA_VACIO:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.campo_altura_vacio);
+			break;
+		case ERR_CALLE_VACIO:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.campo_calle_vacio);
+			break;
+		case ERR_COORD_VACIO:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.campo_coord_vacio);
+			break;
+		default:
+			break;
+		}
+	}
+
+	/**
+	 * Crea la ventana de Alerta. (Se hace de esta forma en Android 2.2)
+	 * 
+	 * @since 10-08-2011
+	 * @author Paul
+	 */
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		return new AlertDialog.Builder(IniciarReclamo.this)
+				.setIcon(R.drawable.alert_dialog_icon)
+				.setTitle(tituloAlerta)
+				.setMessage(mensageAlerta)
+				.setPositiveButton(R.string.ok,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								/* User clicked OK so do some stuff */
+							}
+						}).create();
 	}
 
 	// Metodos de la interfaz LocationListener

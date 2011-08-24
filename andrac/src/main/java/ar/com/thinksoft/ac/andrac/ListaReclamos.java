@@ -13,10 +13,12 @@ import android.widget.ListView;
 /**
  * La clase se encarga de manejar el listado de reclamos realizados.
  * 
- * @since 15-08-2011
+ * @since 23-08-2011
  * @author Paul
  */
 public class ListaReclamos extends Activity {
+	// Codigo de error
+	private final int ERROR = -1;
 
 	// Almacena reclamo para mostrar su detalle
 	private ReclamoItem reclamo = null;
@@ -28,7 +30,7 @@ public class ListaReclamos extends Activity {
 	 * Se encarga de la creacion de la ventana. Le asigna Layout. Obtiene los
 	 * reclamos realizados del Repositorio y los carga al listado.
 	 * 
-	 * @since 12-08-2011
+	 * @since 23-08-2011
 	 * @author Paul
 	 * @param savedInstanceState
 	 */
@@ -43,10 +45,8 @@ public class ListaReclamos extends Activity {
 		listado.setAdapter(new ReclamoAdapter(this, this.reclamos));
 		listado.setOnItemLongClickListener(new OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				ReclamoItem reclamo = reclamos[position];
-				mostrarDetalleReclamo(reclamo);
+					int posicion, long id) {
+				mostrarDialogo(posicion);
 				return true;
 			}
 		});
@@ -77,24 +77,43 @@ public class ListaReclamos extends Activity {
 	/**
 	 * Muestra una ventana de dialogo con el detalle de reclamo.
 	 * 
-	 * @since 11-08-2011
+	 * @since 23-08-2011
 	 * @author Paul
 	 */
-	public void mostrarDetalleReclamo(ReclamoItem reclamo) {
-		this.reclamo = reclamo;
-		this.showDialog(1);
+	public void mostrarDialogo(int posicion) {
+		ReclamoItem reclamo = reclamos[posicion];
+		if (reclamo != null) {
+			this.reclamo = reclamo;
+			this.showDialog(posicion);
+		} else {
+			this.showDialog(1);
+		}
 	}
 
 	/**
 	 * Crea la ventana de Dialogo. (Se hace de esta forma en Android 2.2)
 	 * 
-	 * @since 11-08-2011
+	 * @since 23-08-2011
 	 * @author Paul
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		// TODO Definir la vista del dialogo
-		if (this.reclamo != null) {
+		// TODO Definir la vista fachera del dialogo
+
+		switch (id) {
+		case ERROR:
+			return new AlertDialog.Builder(ListaReclamos.this)
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(R.string.advertencia)
+					.setMessage("Error")
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									/* User clicked OK so do some stuff */
+								}
+							}).create();
+		default:
 			return new AlertDialog.Builder(ListaReclamos.this)
 					.setIcon(R.drawable.ic_popup_reminder)
 					.setTitle(this.reclamo.getEstado())
@@ -106,19 +125,6 @@ public class ListaReclamos extends Activity {
 									/* User clicked OK so do some stuff */
 								}
 							}).create();
-		} else {
-			return new AlertDialog.Builder(ListaReclamos.this)
-					.setIcon(R.drawable.alert_dialog_icon)
-					.setTitle(R.string.titulo_detalle_reclamo)
-					.setMessage("Error")
-					.setPositiveButton(R.string.ok,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									/* User clicked OK so do some stuff */
-								}
-							}).create();
 		}
 	}
-
 }

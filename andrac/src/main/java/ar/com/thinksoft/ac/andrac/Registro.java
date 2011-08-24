@@ -12,13 +12,16 @@ import android.widget.EditText;
 /**
  * La clase se encarga de manejar la pantalla de Registro.
  * 
- * @since 12-08-2011
+ * @since 23-08-2011
  * @author Paul
  */
 public class Registro extends Activity {
 
-	private final int ERROR_DIALOG = 1;
-	private final int CONFIRM_DIALOG = 2;
+	private final int REGISTRO_EXITOSO = 1;
+	private final int CAMPOS_VACIOS = 2;
+	private final int PASS_NO_COINCIDE = 3;
+	private final int MAIL_NO_COINCIDE = 4;
+	private final int REGISTRO_FALLO = 5;
 
 	// Almacena titulo de la ventana de alerta
 	private String tituloAlerta = "";
@@ -52,41 +55,33 @@ public class Registro extends Activity {
 	/**
 	 * Registra al usuario y muestra confirmacion. Responde al boton Aceptar.
 	 * 
-	 * @since 12-08-2011
+	 * @since 23-08-2011
 	 * @author Paul
 	 * @param v
 	 */
 	public void registrar(View v) {
 		try {
 			if (this.camposIncompletos()) {
-				this.mostrarDialogo(getString(R.string.atencion),
-						getString(R.string.campo_vacio), this.ERROR_DIALOG);
+				this.mostrarDialogo(CAMPOS_VACIOS);
 			} else {
 				if (!this.getMail().equals(this.getMailConfirm())) {
-					this.mostrarDialogo(getString(R.string.atencion),
-							getString(R.string.mail_no_coincide),
-							this.ERROR_DIALOG);
+					this.mostrarDialogo(MAIL_NO_COINCIDE);
 					this.limpiarMail();
 				} else {
 					if (!this.getPass().equals(this.getPassConfirm())) {
-						this.mostrarDialogo(getString(R.string.atencion),
-								getString(R.string.pass_no_coincide),
-								this.ERROR_DIALOG);
+						this.mostrarDialogo(PASS_NO_COINCIDE);
 						this.limpiarPass();
 					} else {
 						((Aplicacion) this.getApplication()).getRepositorio()
 								.registrarUsuario(getNombre(), getApellido(),
 										getUsuario(), getDNI(), getMail(),
 										getTelefono(), getPass());
-						this.mostrarDialogo(getString(R.string.atencion),
-								getString(R.string.confirmar_registro),
-								this.CONFIRM_DIALOG);
+						this.mostrarDialogo(REGISTRO_EXITOSO);
 					}
 				}
 			}
 		} catch (Exception e) {
-			this.mostrarDialogo(getString(R.string.advertencia), e.toString(),
-					this.ERROR_DIALOG);
+			this.mostrarDialogo(REGISTRO_FALLO);
 		}
 	}
 
@@ -104,27 +99,51 @@ public class Registro extends Activity {
 	/**
 	 * Muestra una ventana de dialogo con un boton para cerrarla.
 	 * 
-	 * @since 12-08-2011
+	 * @since 23-08-2011
 	 * @author Paul
 	 */
-	private void mostrarDialogo(String titulo, String mensaje, int tipo) {
+	private void mostrarDialogo(int tipo) {
 		// No se puede pasar los atributos directamente al Dialogo
-		this.tituloAlerta = titulo;
-		this.mensageAlerta = mensaje;
+		// TODO falta definir si hay mas errores posibles.
+		switch (tipo) {
+		case REGISTRO_EXITOSO:
+			this.tituloAlerta = getString(R.string.atencion);
+			this.mensageAlerta = getString(R.string.confirmar_registro);
+			break;
+		case CAMPOS_VACIOS:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.campo_vacio);
+			break;
+		case PASS_NO_COINCIDE:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.pass_no_coincide);
+			break;
+		case MAIL_NO_COINCIDE:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.mail_no_coincide);
+			break;
+		case REGISTRO_FALLO:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.registro_fallido);
+			break;
+
+		default:
+			return;
+		}
 		this.showDialog(tipo);
 	}
 
 	/**
 	 * Crea la ventana de Alerta. (Se hace de esta forma en Android 2.2)
 	 * 
-	 * @since 12-08-2011
+	 * @since 23-08-2011
 	 * @author Paul
 	 */
 	@Override
 	protected Dialog onCreateDialog(int tipo) {
 		Dialog unDialog = null;
 		switch (tipo) {
-		case CONFIRM_DIALOG:
+		case REGISTRO_EXITOSO:
 			unDialog = new AlertDialog.Builder(Registro.this)
 					.setIcon(R.drawable.alert_dialog_icon)
 					.setTitle(tituloAlerta)
@@ -137,7 +156,7 @@ public class Registro extends Activity {
 								}
 							}).create();
 			break;
-		case ERROR_DIALOG:
+		default:
 			unDialog = new AlertDialog.Builder(Registro.this)
 					.setIcon(R.drawable.alert_dialog_icon)
 					.setTitle(tituloAlerta)
@@ -149,8 +168,6 @@ public class Registro extends Activity {
 									/* Solo cierra el dialogo */
 								}
 							}).create();
-			break;
-		default:
 			break;
 		}
 		return unDialog;

@@ -15,11 +15,14 @@ import android.widget.EditText;
  * pantalla se puede acceder a la pantalla de Registracion o cerrar la
  * aplicacion.
  * 
- * @since 12-08-2011
+ * @since 23-08-2011
  * @author Paul
  * 
  */
 public class Login extends Activity {
+	private static final int CAMPOS_VACIOS = 0;
+	private static final int LOGIN_FAIL = 1;
+	private static final int SERVER_ERROR = 2;
 
 	// Almacena titulo de la ventana de alerta
 	private String tituloAlerta = "";
@@ -54,14 +57,30 @@ public class Login extends Activity {
 	/**
 	 * Muestra una ventana de dialogo con un boton para cerrarla.
 	 * 
-	 * @since 10-08-2011
+	 * @since 23-08-2011
 	 * @author Paul
 	 */
-	private void mostrarAdvertencia(String titulo, String mensaje) {
+	private void mostrarAdvertencia(int codigo) {
 		// No se puede pasar los atributos directamente al Dialogo
-		this.tituloAlerta = titulo;
-		this.mensageAlerta = mensaje;
-		this.showDialog(1);
+		switch (codigo) {
+		case CAMPOS_VACIOS:
+			this.tituloAlerta = getString(R.string.atencion);
+			this.mensageAlerta = getString(R.string.campo_vacio);
+			this.showDialog(codigo);
+			break;
+		case LOGIN_FAIL:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.nick_pass_fail);
+			this.showDialog(codigo);
+			break;
+		case SERVER_ERROR:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.server_inaccesible);
+			this.showDialog(codigo);
+			break;
+		default:
+			break;
+		}
 	}
 
 	/**
@@ -89,7 +108,7 @@ public class Login extends Activity {
 	 * Valida el Usuario y Contrase�a ingresados contra la base de datos. En
 	 * caso de exito devuelve resultado positivo a la Activity padre.
 	 * 
-	 * @since 22-07-2011
+	 * @since 23-08-2011
 	 * @author Paul
 	 * @param v
 	 *            una View
@@ -98,19 +117,21 @@ public class Login extends Activity {
 		try {
 			String nick = this.getUsuario();
 			String pass = this.getPassword();
-
+			// Valida que los campos no esten vacios.
+			if (nick.length() == 0 || pass.length() == 0) {
+				mostrarAdvertencia(CAMPOS_VACIOS);
+				return;
+			}
 			if (this.getRepo().validarUsuario(nick, pass)) {
 				this.getRepo().setNombreUsuario(nick);
 				this.setResult(Activity.RESULT_OK);
 				this.finish();
 			} else {
-				this.mostrarAdvertencia(getString(R.string.advertencia),
-						getString(R.string.nick_pass_fail));
+				this.mostrarAdvertencia(LOGIN_FAIL);
 				this.limpiarDatosIngresados();
 			}
 		} catch (Exception e) {
-			this.mostrarAdvertencia(getString(R.string.advertencia),
-					e.toString());
+			this.mostrarAdvertencia(SERVER_ERROR);
 			this.limpiarDatosIngresados();
 		}
 	}

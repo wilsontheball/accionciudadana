@@ -39,8 +39,8 @@ public class Repositorio {
 	 * @return
 	 */
 	public boolean validarUsuario(String nick, String pass) {
-		// TODO no esta implementada la conexion a la BD
-		if (nick.length() == 0 || pass.length() == 0) {
+		// TODO Es solo para probar! No esta implementada la conexion a la BD
+		if (nick.equals("0") && pass.equals("0")) {
 			return false;
 		}
 		return true;
@@ -85,8 +85,18 @@ public class Repositorio {
 		return new ReclamoItem[] {
 				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
 						"19-Agosto-2011"),
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011"),
+				new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
+						"20-Agosto-2011"),
+				new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
+						"20-Agosto-2011"),
+				new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
+						"20-Agosto-2011"),
+				new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
+						"20-Agosto-2011"),
+				new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
+						"20-Agosto-2011"),
+				new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
+						"20-Agosto-2011"),
 				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
 						"19-Agosto-2011"),
 				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",

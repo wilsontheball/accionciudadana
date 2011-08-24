@@ -25,7 +25,7 @@
 	<string name="altura">Altura</string>
 	<string name="login_exito">Autentificación Exitosa!</string>
 	<string name="cerrar_aplicacion">Aplicación Finalizada.</string>
-	<string name="advertencia">Error!</string>
+	<string name="advertencia">Error</string>
 	<string name="nick_pass_fail">Usuario y/o contraseña no validos.</string>
 	<string name="atencion">Atención!</string>
 	<string name="campo_vacio">Todos los campos deben ser completados!</string>
@@ -38,7 +38,8 @@
 	<string name="pass_no_coincide">Contraseña ingresada no coincide con su repetición!
 	</string>
 	<string name="confirmar_registro">Se mandó un e-mail a su casilla de correo. Tiene
-		que abrirlo para continuar con el proceso de registración.</string>
+		que abrirlo para continuar con el proceso de registración. Gracias.
+	</string>
 	<string name="observaciones">Observaciones</string>
 	<string name="cargar_foto">Cargar Foto</string>
 	<string name="latitud">Latitud</string>
@@ -47,11 +48,16 @@
 	<string name="iniciar_reclamo">Iniciar Reclamo</string>
 	<string name="tipodeincidente_prompt">Tipo de Incidente</string>
 	<string name="gps">GPS</string>
-	<string name="titulo_detalle_reclamo">Detalle de Reclamo</string>
 	<string name="atras">Atrás</string>
 	<string name="camara_instructivo">Haga clic en la pantalla para tomar la foto
 	</string>
 	<string name="gps_inaccesible">Por favor habilite su GPS para obtener coordenada.
+	</string>
+	<string name="server_inaccesible">No se pudo realizar la autenticación en este
+		momento. Intentelo mas tarde. Disculpe las molestias.
+	</string>
+	<string name="registro_fallido">No se pudo realizar la registración en este
+		momento. Intentelo mas tarde. Disculpe las molestias.
 	</string>
 	<string-array name="tipoincidente_array">
 		<item>Bache</item>
