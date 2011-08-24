@@ -1,0 +1,13 @@
+
+
+.gridContainer{
+	width:90%;
+	text-align: center;
+	margin: auto;
+}
+
+
+/*solo para hacer facha, hay que sacarlo*/
+.upper{
+	padding-bottom: 50px;
+}
