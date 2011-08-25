@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
+import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
@@ -58,14 +60,14 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	@Override
 	protected void onSubmit() {
 		IReclamo reclamo = getModelObject();
-		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
-		grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
+		/*ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
+		grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));*/
 		
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void armarGrilla(List<IReclamo> lista) {
-		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(lista);
+		/*ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(lista);
 
 		List<IGridColumn> cols = (List) Arrays.asList(
             new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente"),
@@ -79,9 +81,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
         grid.setRowsPerPage(10);
         grid.setClickRowToSelect(true);
         grid.setAllowSelectMultiple(false);
-        grid.setCleanSelectionOnPageChange(true);
-        
-        
-        
+        grid.setCleanSelectionOnPageChange(true);*/
+
 	}
 }

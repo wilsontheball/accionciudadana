@@ -106,6 +106,12 @@
 			<artifactId>wicket-request</artifactId>
 			<version>1.5-M3</version>
 		</dependency>
+		
+		<dependency>
+		  <groupId>displaytag</groupId>
+		  <artifactId>displaytag</artifactId>
+		  <version>1.1.1</version>
+		</dependency>
 
 	</dependencies>
 	
