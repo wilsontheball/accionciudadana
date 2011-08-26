@@ -26,12 +26,18 @@ label
    
 }
 
-td{
-	text-align: right;	
-	margin:10px 2px; 
-}
 
 .filterTables{
 	margin:50px;
+}
+
+<!-- Agregado en estilos propios de inmethod-grid -->
+
+td table.imxt-body {
+    text-align: left;
+}
+
+table.imxt-head tr.imxt-columns th * {
+    text-align: center;
 }
 

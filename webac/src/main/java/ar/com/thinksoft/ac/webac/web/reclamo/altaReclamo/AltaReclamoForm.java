@@ -75,6 +75,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 
 		Reclamo reclamo = getModelObject();
 		reclamo.activar();
+		reclamo.setId();
 		Date fecha = new Date();
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		reclamo.setFechaReclamo(formato.format(fecha));

@@ -46,7 +46,7 @@
 							<tr>
 								<td>
 									<div>
-										<label>Fecha del Incidente <i>(dd/mm/aa)</i>:</label>
+										<label>Fecha del Incidente <i>(dd/mm/aaaa)</i>:</label>
 									</div>
 									<div>
 										<label>Prioridad:</label>
@@ -93,14 +93,34 @@
 					<tr>
 						<td>
 							<div class="block">
-								<input type="submit" value="Buscar reclamo"/>
+								<input type="submit" wicket:id="busqueda" value="Buscar reclamo"/>
 							</div>
 						</td>
 					</tr>
 				</table>
 				
-				<div wicket:id="grid" align="center" style="width: 90%; margin:0 50px;"></div>
-
+				<div wicket:id="grid" align="center" style="width: 91%; margin:20px 50px;"></div>
+				
+				<table align="center">
+					<tr>
+						<td>
+							<div class="block">
+								<input type="submit" wicket:id="detalle" value="Detalle del reclamo"/>
+							</div>
+						</td>
+						<td>
+							<div class="block">
+								<input type="submit" wicket:id="cancelar" value="Cancelar reclamo"/>
+							</div>
+						</td>
+						<td>
+							<div class="block">
+								<input type="submit" wicket:id="unificar" value="Unificar reclamos"/>
+							</div>
+						</td>
+					</tr>
+				</table>
+				
 			</form>
 		</div>
 	</wicket:extend>
