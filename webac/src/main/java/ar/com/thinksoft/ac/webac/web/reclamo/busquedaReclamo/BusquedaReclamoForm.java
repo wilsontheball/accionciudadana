@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.Request;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -24,6 +26,7 @@ import ar.com.thinksoft.ac.intac.*;
 import ar.com.thinksoft.ac.webac.reclamo.*;
 import ar.com.thinksoft.ac.webac.web.gridExtension.ButtonColumn;
 import ar.com.thinksoft.ac.webac.web.gridExtension.CustomDataGrid;
+import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
 @SuppressWarnings("serial")
 public class BusquedaReclamoForm extends Form<IReclamo> {
@@ -74,16 +77,48 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 			IReclamo reclamo = getModelObject();
 			ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
 			grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
-		}
-				
+		}else{
 		
-		if("Detalle del reclamo".equals(getRequest().getParameter("detalle"))){
 			Collection<IModel> selected = grid.getSelectedItems();
-			Reclamo reclamo;
-	        for (IModel model : selected) {
-	           reclamo = (Reclamo) model.getObject();
-	           System.out.println(reclamo.getId());
-	        }
+				
+			if(selected.size()==1){
+				
+				if("Detalle del reclamo".equals(getRequest().getParameter("detalle"))){
+					
+					Reclamo reclamo = new Reclamo();
+			        for (IModel model : selected) {
+			           reclamo = (Reclamo) model.getObject();
+			        }
+			        PageParameters params =new PageParameters();
+			        params.add("reclamoId", reclamo.getId());
+		            
+			        setResponsePage(DetalleReclamoPage.class, params);
+			        setRedirect(true);
+				}
+				
+				if("Cancelar reclamo".equals(getRequest().getParameter("cancelar"))){
+					Reclamo reclamo = new Reclamo();
+			        for (IModel model : selected) {
+			           reclamo = (Reclamo) model.getObject();
+			        }
+			        
+			        /*
+			         * DIALOG
+			         * PREGUNTAR SI REALMENTE SE QUIERE HACER ESTO
+			         */
+			        
+			        reclamo.cancelarReclamo();
+			        setResponsePage(BusquedaReclamoPage.class);
+			        setRedirect(true);
+				}
+			}else{
+				if("Unificar reclamos".equals(getRequest().getParameter("unificar"))){
+					
+					/*
+					 * UNIFICACION MANUAL
+					 */
+				}
+			}
 		}
 			
 	}
@@ -93,7 +128,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(lista);
 
 		List cols = (List) Arrays.asList(
-			new PropertyColumn("idCol",new Model<String>("Id"),"Id").setInitialSize(250)
+			new PropertyColumn("idCol",new Model<String>("Id"),"Id").setInitialSize(0)
 																	.setResizable(false),
             new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(250),
             new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(100),
