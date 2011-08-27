@@ -3,7 +3,7 @@
 	package="ar.com.thinksoft.ac.andrac" android:versionCode="0"
 	android:versionName="@string/version">
 	<application android:icon="@drawable/icon" android:label="@string/app_name"
-		android:name=".Aplicacion">
+		android:name=".Aplicacion" android:theme="@style/CustomButton">
 		<activity android:name=".Main">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />

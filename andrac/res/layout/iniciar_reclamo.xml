@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:gravity="center"
@@ -45,10 +44,10 @@
 						android:focusable="false" android:clickable="false"
 						android:maxLength="9" android:layout_weight="1" />
 				</LinearLayout>
-				<Button android:onClick="obtenerCoordenada" android:gravity="center"
-					android:id="@+id/boton_gps" android:text="@string/gps"
-					android:enabled="false" android:textAppearance="@android:style/TextAppearance.Large"
-					android:layout_height="match_parent" android:layout_width="wrap_content" />
+				<Button android:id="@+id/boton_gps" android:onClick="obtenerCoordenada"
+					android:layout_height="match_parent" android:layout_width="wrap_content"
+					android:text="@string/gps" android:enabled="false"
+					android:layout_margin="15dip" />
 			</LinearLayout>
 			<EditText android:id="@+id/calle" android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:inputType="text"
@@ -65,10 +64,10 @@
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:src="@drawable/ic_contact_picture" android:layout_weight="1"
 					android:adjustViewBounds="true" />
-				<Button android:onClick="tomarFoto" android:gravity="center"
-					android:id="@+id/boton_foto" android:text="@string/cargar_foto"
-					android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
-					android:layout_height="wrap_content" android:layout_width="wrap_content" />
+				<Button android:id="@+id/boton_foto" android:text="@string/cargar_foto"
+					android:layout_height="wrap_content" android:layout_width="wrap_content"
+					android:enabled="true" android:layout_margin="10dip"
+					android:onClick="tomarFoto" />
 			</LinearLayout>
 			<EditText android:id="@+id/observaciones"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
@@ -77,16 +76,14 @@
 				android:maxLines="3" />
 			<LinearLayout android:orientation="horizontal"
 				android:layout_width="fill_parent" android:layout_height="wrap_content">
-				<Button android:onClick="crearReclamo" android:gravity="center"
-					android:id="@+id/boton_registrar" android:text="@string/ok"
-					android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
-					android:layout_height="wrap_content" android:layout_width="fill_parent"
-					android:layout_weight="1" />
-				<Button android:id="@+id/boton_cancelar" android:gravity="center"
-					android:layout_height="wrap_content" android:layout_width="fill_parent"
-					android:enabled="true" android:textAppearance="@android:style/TextAppearance.Large"
-					android:text="@string/cancelar" android:onClick="cancelar"
-					android:layout_weight="1" />
+				<Button android:id="@+id/boton_registrar"
+					android:layout_height="wrap_content" android:layout_width="match_parent"
+					android:enabled="true" android:layout_margin="5dip" android:text="@string/ok"
+					android:onClick="crearReclamo" android:layout_weight="1" />
+				<Button android:id="@+id/boton_cancelar"
+					android:layout_height="wrap_content" android:layout_width="match_parent"
+					android:enabled="true" android:layout_margin="5dip" android:text="@string/cancelar"
+					android:onClick="cancelar" android:layout_weight="1" />
 			</LinearLayout>
 		</LinearLayout>
 	</LinearLayout>

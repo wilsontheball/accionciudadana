@@ -35,15 +35,13 @@
 			<LinearLayout android:orientation="horizontal"
 				android:layout_width="fill_parent" android:layout_height="wrap_content">
 				<Button android:id="@+id/boton_ok" android:layout_width="fill_parent"
-					android:layout_height="wrap_content" android:gravity="center"
-					android:enabled="true" android:textAppearance="@android:style/TextAppearance.Small"
+					android:layout_height="wrap_content" android:enabled="true"
 					android:text="@string/entrar" android:onClick="validar"
-					android:layout_weight="1" />
+					android:layout_margin="5dip" android:layout_weight="1" />
 				<Button android:id="@+id/boton_salir" android:layout_width="fill_parent"
 					android:layout_height="wrap_content" android:enabled="true"
-					android:textAppearance="@android:style/TextAppearance.Small"
 					android:text="@string/salir" android:onClick="salir"
-					android:layout_weight="1" />
+					android:layout_margin="5dip" android:layout_weight="1" />
 			</LinearLayout>
 			<TextView android:id="@+id/newAccountTextView"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -55,8 +53,8 @@
 				android:gravity="center">
 				<Button android:id="@+id/boton_registro"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
-					android:enabled="true" android:textAppearance="@android:style/TextAppearance.Small"
-					android:text="@string/registro" android:onClick="registro" />
+					android:enabled="true" android:layout_margin="5dip" android:text="@string/registro"
+					android:onClick="registro" />
 			</LinearLayout>
 		</LinearLayout>
 	</LinearLayout>
