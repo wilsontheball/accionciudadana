@@ -1,13 +1,9 @@
 package ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.Request;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -16,17 +12,17 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-
+import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
+import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
+import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
+import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
+import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 import com.inmethod.grid.DataProviderAdapter;
 import com.inmethod.grid.column.PropertyColumn;
 import com.inmethod.grid.datagrid.DataGrid;
 import com.inmethod.grid.datagrid.DefaultDataGrid;
-
-import ar.com.thinksoft.ac.intac.*;
-import ar.com.thinksoft.ac.webac.reclamo.*;
-import ar.com.thinksoft.ac.webac.web.gridExtension.ButtonColumn;
-import ar.com.thinksoft.ac.webac.web.gridExtension.CustomDataGrid;
-import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
 @SuppressWarnings("serial")
 public class BusquedaReclamoForm extends Form<IReclamo> {
@@ -142,7 +138,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		grid = new DefaultDataGrid("grid", new DataProviderAdapter(listDataProvider), cols);
 		grid.setRowsPerPage(10);
         grid.setClickRowToSelect(true);
-        grid.setAllowSelectMultiple(false);
-        grid.setCleanSelectionOnPageChange(true);
+		grid.setAllowSelectMultiple(false);
+		grid.setCleanSelectionOnPageChange(true);
 	}
 }

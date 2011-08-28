@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.intac.utils.collections;
 
 import java.util.Iterator;
+import java.util.List;
 
 public class HArrayList<E> extends java.util.ArrayList<E> {
 
@@ -39,5 +40,14 @@ public class HArrayList<E> extends java.util.ArrayList<E> {
 			acum = f.apply(elem, acum);
 		}
 		return acum;
+	}
+	
+	public static  <E> HArrayList<E> toHArrayList(List<E> list){
+		HArrayList<E> retCollection = new HArrayList<E>();
+		for(E elem : list){
+			retCollection.add(elem);
+		}
+		return retCollection;
+		
 	}
 }

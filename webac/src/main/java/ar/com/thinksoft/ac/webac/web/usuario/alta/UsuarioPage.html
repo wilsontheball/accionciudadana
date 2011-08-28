@@ -7,8 +7,7 @@
 <body>
 	<wicket:extend>
 
-
-		<fieldset>
+		<form wicket:id="form">
 			<div>
 				<span wicket:id="labelNombre"/>
 				<input type="text" wicket:id="campoBusquedaNombre" />
@@ -20,17 +19,16 @@
 			
 			<div><input type="submit" wicket:id="botonBuscar" value="Buscar"/></div>
 			
-		</fieldset>
 			
-		<div class="nuevo">
-				<input type="submit" wicket:id="botonNuevo" value="Nuevo">
-		</div>
+			<div class="nuevo">
+					<input type="submit" wicket:id="botonNuevo" value="Nuevo">
+			</div>
 		
 		
 		
 
-		<div wicket:id="grid" class="gridContainer"/>
-		
+			<div wicket:id="grid" class="gridContainer"/>
+		</form>
 	</wicket:extend>
 </body>
 
