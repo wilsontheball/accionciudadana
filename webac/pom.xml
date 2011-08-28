@@ -106,7 +106,7 @@
 			<artifactId>wicket-request</artifactId>
 			<version>1.5-M3</version>
 		</dependency>
-
+		
 	</dependencies>
 	
 	<repositories>
