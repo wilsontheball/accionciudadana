@@ -1,11 +1,13 @@
 package ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo;
 
-import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -13,13 +15,10 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.image.NonCachingImage;
-import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.resource.ByteArrayResource;
+import org.apache.wicket.resource.ContextRelativeResource;
 
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.webac.HomePage;
@@ -58,16 +57,13 @@ public class AltaReclamoForm extends Form<Reclamo> {
 			@Override
 		    protected void onSubmit(AjaxRequestTarget arg0) { 
 		        final FileUpload file = fileUploadField.getFileUpload();
-		        //ByteArrayResource resourceImage = new ByteArrayResource("image/jpeg", file.getBytes());
-		        //Image image = new Image("imagePreview", resourceImage);
-		        //_self.addOrReplace(image);
-		        
-		        _self.addOrReplace( new NonCachingImage("imagePreview", new AbstractReadOnlyModel() { 
-			                            @Override 
-			                            public Object getObject() { 
-			                                return new ImageResource(file.getBytes(),"png"); 
-			                            }
-		                            }));
+		        try {
+					File archivoImagen = file.writeToTempFile();
+					_self.addOrReplace(new Image("imagePreview",new ContextRelativeResource(archivoImagen.getAbsolutePath())));
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		    }
 
 			@Override
@@ -79,6 +75,21 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		add(fileUploadField);
 		add(new Image("imagePreview"));
 		setMultiPart(true);
+		add(new Button("guardarReclamo") {
+				@Override
+				public void onSubmit() {
+					Reclamo reclamo = _self.getModelObject();
+					reclamo.setId();
+					Date fecha = new Date();
+					SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+					reclamo.setFechaReclamo(formato.format(fecha));
+					reclamo.activar();
+					setResponsePage(HomePage.class);
+		        }
+			}
+	    );
+		
+		
 	}
 	
 	private IModel<String> createBind(CompoundPropertyModel<Reclamo> model,String property){
@@ -106,47 +117,84 @@ public class AltaReclamoForm extends Form<Reclamo> {
 	
 	@Override
 	protected void onSubmit() {
-
-		Reclamo reclamo = getModelObject();
-		reclamo.setId();
-		Date fecha = new Date();
-		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-		reclamo.setFechaReclamo(formato.format(fecha));
-		//reclamo.activar();
-		//setResponsePage(HomePage.class);
-
 	}
 	
-	public class ImageResource extends DynamicImageResource { 
-
-	    // has to save this. or get the image another way! 
-	    private byte[] image; 
-
-	    public ImageResource(byte[] image, String format) { 
-	        this.image = image; 
-	        setFormat(format); 
-	    } 
-
-	    public ImageResource(BufferedImage image) { 
-	        this.image = toImageData(image); 
-	    } 
-
-	    @Override 
-	    protected byte[] getImageData() { 
-	        if (image != null) { 
-	            return image; 
-	        } else { 
-	            return new byte[0]; 
-	        } 
-
-	    } 
-
-	    @Override 
-	    protected int getCacheDuration() { 
-	        
-	        return 3600*24; 
-	    } 
-
-	} 
-	
 }
+
+/*
+ * http://www.massapi.com/source/apache-wicket-1.4.9/src/testing/wicket-threadtest/src/main/java/org/apache/wicket/threadtest/apps/app1/ResourceTestPage.java.html
+ * 
+ 		BufferedImage image = new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
+                Graphics gfx = image.getGraphics();
+                gfx.setColor(new Color(random.nextFloat(), random.nextFloat(), random.nextFloat()));
+                gfx.fillRect(0, 0, 32, 32);
+                gfx.dispose();
+ 
+                // Write it into a byte array as a JPEG.
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(baos);
+                try
+                {
+                    encoder.encode(image);
+                }
+                catch (IOException e)
+                {
+                    throw new WicketRuntimeException(e);
+                }
+                
+  		
+  		final byte[] imageData = baos.toByteArray();
+ 		item.add(new Image("image", new WebResource()
+                {
+                    private static final long serialVersionUID = 1L;
+ 
+                    @Override
+                    public IResourceStream getResourceStream()
+                    {
+                        return new IResourceStream()
+                        {
+                            private static final long serialVersionUID = 1L;
+ 
+                            public Time lastModifiedTime()
+                            {
+                                return Time.now();
+                            }
+ 
+                            public void setLocale(Locale locale)
+                            {
+                            }
+ 
+                            public long length()
+                            {
+                                return imageData.length;
+                            }
+ 
+                            public Locale getLocale()
+                            {
+                                return null;
+                            }
+ 
+                            // Make a 16x16 randomly background-coloured JPEG.
+                            public InputStream getInputStream()
+                                throws ResourceStreamNotFoundException
+                            {
+                                return new ByteArrayInputStream(imageData);
+                            }
+ 
+                            public String getContentType()
+                            {
+                                return "image/jpeg";
+                            }
+ 
+                            public void close() throws IOException
+                            {
+                            }
+ 
+                        };
+                    }
+ 
+                }));
+ 
+ 
+ 
+ */
