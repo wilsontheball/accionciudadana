@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 /**
@@ -30,7 +31,7 @@ public class ListaReclamos extends Activity {
 	 * Se encarga de la creacion de la ventana. Le asigna Layout. Obtiene los
 	 * reclamos realizados del Repositorio y los carga al listado.
 	 * 
-	 * @since 23-08-2011
+	 * @since 28-08-2011
 	 * @author Paul
 	 * @param savedInstanceState
 	 */
@@ -43,13 +44,24 @@ public class ListaReclamos extends Activity {
 		ListView listado = (ListView) findViewById(R.id.list);
 		this.reclamos = (ReclamoItem[]) this.getRepo().getReclamosUsuario();
 		listado.setAdapter(new ReclamoAdapter(this, this.reclamos));
-		listado.setOnItemLongClickListener(new OnItemLongClickListener() {
-			public boolean onItemLongClick(AdapterView<?> parent, View view,
+		listado.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
 					int posicion, long id) {
 				mostrarDialogo(posicion);
-				return true;
 			}
 		});
+	}
+
+	/**
+	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
+	 * 
+	 * @since 12-08-2011
+	 * @author Paul
+	 * @param newConfig
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
 	}
 
 	/**

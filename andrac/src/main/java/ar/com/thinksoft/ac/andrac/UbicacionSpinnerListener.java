@@ -9,11 +9,18 @@ import android.widget.AdapterView.OnItemSelectedListener;
 /**
  * Atiende seleccion en el Spinner de Ubicacion.
  * 
- * @since 20-08-2011
+ * @since 28-08-2011
  * @author Hernan
  */
 class UbicacionSpinnerListener implements OnItemSelectedListener {
 
+	/**
+	 * Habilita o deshabilita los controles segun la opcion seleccionada en el
+	 * Spiner de Ubicacion.
+	 * 
+	 * @since 28-08-2011
+	 * @author Hernan
+	 */
 	public void onItemSelected(AdapterView<?> parent, View view, int pos,
 			long id) {
 		if (pos == 0) {
@@ -23,6 +30,8 @@ class UbicacionSpinnerListener implements OnItemSelectedListener {
 					.setEnabled(true);
 			((Button) view.getRootView().findViewById(R.id.boton_gps))
 					.setEnabled(true);
+			((Button) view.getRootView().findViewById(R.id.boton_gps))
+					.setFocusable(true);
 			((EditText) view.getRootView().findViewById(R.id.calle))
 					.setEnabled(false);
 			// ((EditText) view.getRootView().findViewById(R.id.calle))
@@ -42,6 +51,8 @@ class UbicacionSpinnerListener implements OnItemSelectedListener {
 					.setEnabled(false);
 			((Button) view.getRootView().findViewById(R.id.boton_gps))
 					.setEnabled(false);
+			((Button) view.getRootView().findViewById(R.id.boton_gps))
+					.setFocusable(false);
 			((EditText) view.getRootView().findViewById(R.id.calle))
 					.setEnabled(true);
 			// ((EditText) view.getRootView().findViewById(R.id.calle))

@@ -2,8 +2,14 @@ package ar.com.thinksoft.ac.andrac;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 /**
@@ -14,19 +20,36 @@ import android.widget.Toast;
  */
 public class Main extends Activity {
 
-	// Flag que asegura que Login se muestre una sola vez
-	private int resultadoLogin = Activity.RESULT_FIRST_USER;
+	private final int INICIAR_RECLAMO = 0;
+	private final int LISTA_RECLAMOS = 1;
+	private final int PERFIL_USUARIO = 2;
+
+	private String[] ventanas = { "Iniciar Reclamo", "Lista Reclamos",
+			"Perfil Usuario" };
 
 	/**
 	 * Se encarga de la creacion de la ventana.
 	 * 
-	 * @since 19-07-2011
+	 * @since 28-08-2011
 	 * @author Paul
+	 * @param savedInstanceState
 	 */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.main);
+		setContentView(R.layout.main);
+
+		// TODO Hacer que se muestre la info de ayuda por cada item
+		// Carga el listado con las funcionalidades.
+		ListView listado = (ListView) findViewById(R.id.list);
+		listado.setAdapter(new ArrayAdapter<String>(Main.this,
+				android.R.layout.simple_list_item_1, ventanas));
+		listado.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int posicion, long id) {
+				mostrarVentana(posicion);
+			}
+		});
 	}
 
 	/**
@@ -39,23 +62,35 @@ public class Main extends Activity {
 	protected void onStart() {
 		super.onStart();
 		// Muestra la ventana Login una sola vez
-		if (this.resultadoLogin == Activity.RESULT_FIRST_USER) {
+		if (this.getAplicacion().getResultadoLogin() == Activity.RESULT_FIRST_USER) {
+			this.getAplicacion().setResultadoLogin(Activity.RESULT_CANCELED);
 			this.mostrarLogin();
-			this.resultadoLogin = Activity.RESULT_CANCELED;
 		}
 	}
 
 	/**
-	 * Captura la respuesta de la ventana Login
+	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
 	 * 
+	 * @since 12-08-2011
 	 * @author Paul
+	 * @param newConfig
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+	}
+
+	/**
+	 * Captura la respuesta de la ventana Login.
+	 * 
 	 * @since 22-07-2011
+	 * @author Paul
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		this.resultadoLogin = resultCode;
-		if (resultadoLogin == Activity.RESULT_CANCELED) {
+		this.getAplicacion().setResultadoLogin(resultCode);
+		if (this.getAplicacion().getResultadoLogin() == Activity.RESULT_CANCELED) {
 			Toast.makeText(this, R.string.cerrar_aplicacion, Toast.LENGTH_LONG)
 					.show();
 			this.finish();
@@ -63,6 +98,29 @@ public class Main extends Activity {
 			Toast.makeText(this, R.string.login_exito, Toast.LENGTH_LONG)
 					.show();
 		}
+	}
+
+	/**
+	 * Detecta el evento del boton fisico que cancela la aplicacion. Muestra
+	 * mensaja de cierre y cierra la sesion abierta. Cierra la aplicacion.
+	 * 
+	 * @since 28-08-2011
+	 * @author Paul
+	 * @param keyCode
+	 *            Codigo del boton presionado.
+	 * @param event
+	 *            Evento del boton presionado.
+	 * @return Siempre true.
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Toast.makeText(this, R.string.cerrar_aplicacion, Toast.LENGTH_LONG)
+					.show();
+			this.getAplicacion().setResultadoLogin(Activity.RESULT_FIRST_USER);
+			this.finish();
+		}
+		return true;
 	}
 
 	/**
@@ -76,32 +134,44 @@ public class Main extends Activity {
 	}
 
 	/**
-	 * Muestra la ventana para iniciar un reclamo.
+	 * Muestra una ventana segun la opcion seleccionada en la lista.
 	 * 
-	 * @since 19-07-2011
+	 * @since 28-08-2011
 	 * @author Paul
+	 * @param posicion
 	 */
-	public void iniciarReclamo(View v) {
-		this.startActivity(new Intent(v.getContext(), IniciarReclamo.class));
+	private void mostrarVentana(int posicion) {
+		switch (posicion) {
+		case INICIAR_RECLAMO:
+			this.startActivity(new Intent(this, IniciarReclamo.class));
+			break;
+		case LISTA_RECLAMOS:
+			this.startActivity(new Intent(this, ListaReclamos.class));
+			break;
+		case PERFIL_USUARIO:
+			this.startActivity(new Intent(this, PerfilUsuario.class));
+			break;
+		default:
+			break;
+		}
+	}
+
+	private Aplicacion getAplicacion() {
+		return (Aplicacion) this.getApplication();
 	}
 
 	/**
-	 * Muestra la ventana con listado de reclamos realizados por el usuario.
+	 * Cierra la ventana. Llamado por el boton Salir.
 	 * 
-	 * @since 06-08-2011
+	 * @since 28-08-2011
 	 * @author Paul
+	 * @param v
 	 */
-	public void mostrarReclamos(View v) {
-		this.startActivity(new Intent(v.getContext(), ListaReclamos.class));
+	public void salir(View v) {
+		Toast.makeText(this, R.string.cerrar_aplicacion, Toast.LENGTH_LONG)
+				.show();
+		this.getAplicacion().setResultadoLogin(Activity.RESULT_FIRST_USER);
+		this.finish();
 	}
 
-	/**
-	 * Muestra la ventana con datos del perfil de usuario.
-	 * 
-	 * @since 19-07-2011
-	 * @author Paul
-	 */
-	public void mostrarPerfil(View v) {
-		// TODO falta hacer la ventana,
-	}
 }
