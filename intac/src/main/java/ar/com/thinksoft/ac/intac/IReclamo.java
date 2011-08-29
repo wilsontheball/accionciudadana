@@ -1,6 +1,5 @@
 package ar.com.thinksoft.ac.intac;
 
-import java.awt.Image;
 import java.io.Serializable;
 
 /**
@@ -30,7 +29,7 @@ public interface IReclamo extends Serializable{
 	
 	public String getObservaciones();
 	
-	public Image getImagen();
+	public IImagen getImagen();
 	
 	public IEstadoReclamo getEstado();
 	
@@ -60,7 +59,7 @@ public interface IReclamo extends Serializable{
 	
 	public void setObservaciones(String observaciones);
 	
-	public void setImagen(Image imagen);
+	public void setImagen(IImagen imagen);
 	
 	public void setEstado(IEstadoReclamo estado);
 	

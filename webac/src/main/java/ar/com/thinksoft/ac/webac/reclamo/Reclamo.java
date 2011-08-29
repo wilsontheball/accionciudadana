@@ -1,6 +1,5 @@
 package ar.com.thinksoft.ac.webac.reclamo;
 
-import java.awt.Image;
 import java.io.Serializable;
 
 import ar.com.thinksoft.ac.estadosReclamo.EstadoActivo;
@@ -11,6 +10,7 @@ import ar.com.thinksoft.ac.estadosReclamo.EstadoEnProgreso;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoSuspendido;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoTerminado;
 import ar.com.thinksoft.ac.intac.IEstadoReclamo;
+import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 
 /**
@@ -33,7 +33,7 @@ public class Reclamo implements IReclamo,Serializable{
 	private String tipoReclamo;
 	private String ciudadanoReclamo;
 	private String observaciones;
-	private Image imagen;
+	private IImagen imagen;
 	private IEstadoReclamo estado;
 	private String estadoDescripcion;
 	private String prioridad;
@@ -43,7 +43,7 @@ public class Reclamo implements IReclamo,Serializable{
 	}
 	
 	public Reclamo (String calle,String altura,String latitud,String longitud,String fecha, String tipo, String ciudadano,
-					String observaciones, Image imagen, IEstadoReclamo estado, String prioridad){
+					String observaciones, IImagen imagen, IEstadoReclamo estado, String prioridad){
 		
 		this.setId();
 		this.setCalleIncidente(calle);
@@ -66,6 +66,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void cancelarReclamo(){
 		this.setEstado(new EstadoCancelado());
+		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
 	/**
@@ -74,6 +75,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void darDeBajaReclamo(){
 		this.setEstado(new EstadoBaja());
+		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
 	/**
@@ -82,6 +84,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void suspender(){
 		this.setEstado(new EstadoSuspendido());
+		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
 	/**
@@ -90,6 +93,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void activar(){
 		this.setEstado(new EstadoActivo());
+		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
 	/**
@@ -98,6 +102,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void enProgreso(){
 		this.setEstado(new EstadoEnProgreso());
+		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
 	/**
@@ -106,6 +111,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void demorar(){
 		this.setEstado(new EstadoDemorado());
+		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
 	/**
@@ -114,6 +120,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	public void terminar(){
 		this.setEstado(new EstadoTerminado());
+		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 
 	// get ATRIBUTOS
@@ -154,7 +161,7 @@ public class Reclamo implements IReclamo,Serializable{
 		return this.observaciones;
 	}
 
-	public Image getImagen() {
+	public IImagen getImagen() {
 		return this.imagen;
 	}
 
@@ -225,7 +232,7 @@ public class Reclamo implements IReclamo,Serializable{
 		
 	}
 
-	public void setImagen(Image imagen) {
+	public void setImagen(IImagen imagen) {
 		this.imagen = imagen;
 		
 	}

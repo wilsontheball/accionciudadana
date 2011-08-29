@@ -28,6 +28,8 @@ public abstract class BasePage extends Permitible {
 					"../css/BasePage.css"));
 			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,
 					"../js/jquery.js"));
+			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,
+			"../js/basePage.js"));
 			this.appendLinks();
 
 			add(this.userNameComponent());

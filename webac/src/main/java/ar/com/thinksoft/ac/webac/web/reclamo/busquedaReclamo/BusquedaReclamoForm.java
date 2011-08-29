@@ -1,13 +1,10 @@
 package ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.Request;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -18,14 +15,13 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import com.inmethod.grid.DataProviderAdapter;
+import com.inmethod.grid.SizeUnit;
 import com.inmethod.grid.column.PropertyColumn;
 import com.inmethod.grid.datagrid.DataGrid;
 import com.inmethod.grid.datagrid.DefaultDataGrid;
 
 import ar.com.thinksoft.ac.intac.*;
 import ar.com.thinksoft.ac.webac.reclamo.*;
-import ar.com.thinksoft.ac.webac.web.gridExtension.ButtonColumn;
-import ar.com.thinksoft.ac.webac.web.gridExtension.CustomDataGrid;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
 @SuppressWarnings("serial")
@@ -130,13 +126,34 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		List cols = (List) Arrays.asList(
 			new PropertyColumn("idCol",new Model<String>("Id"),"Id").setInitialSize(0)
 																	.setResizable(false),
-            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(250),
-            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(100),
-            new PropertyColumn("fechaCol",new Model<String>("Fecha del reclamo"), "FechaReclamo").setInitialSize(150),
-            new PropertyColumn("tipoCol",new Model<String>("Tipo de Incidente"), "tipoIncidente").setInitialSize(250),
-            new PropertyColumn("estadoCol",new Model<String>("Estado del reclamo"), "EstadoDescripcion").setInitialSize(150),
-            new PropertyColumn("prioridadCol",new Model<String>("Prioridad del reclamo"), "Prioridad").setInitialSize(150),
-            new PropertyColumn("observacionesCol",new Model<String>("Observaciones"), "Observaciones").setInitialSize(398)
+																	
+            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(10)
+            																						 .setResizable(false)
+            																						 .setSizeUnit(SizeUnit.EM),
+            																						 
+            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(5)
+            																			  .setResizable(false)
+            																			  .setSizeUnit(SizeUnit.EM),
+            																				
+            new PropertyColumn("fechaCol",new Model<String>("Fecha del reclamo"), "FechaReclamo").setInitialSize(10)
+            																					 .setResizable(false)
+            																					 .setSizeUnit(SizeUnit.EM),
+            																						
+            new PropertyColumn("tipoCol",new Model<String>("Tipo de Incidente"), "tipoIncidente").setInitialSize(10)
+            																					 .setResizable(false)
+            																					 .setSizeUnit(SizeUnit.EM),
+            																					 
+            new PropertyColumn("estadoCol",new Model<String>("Estado del reclamo"), "EstadoDescripcion").setInitialSize(10)
+            																							.setResizable(false)
+            																							.setSizeUnit(SizeUnit.EM),
+            																							
+            new PropertyColumn("prioridadCol",new Model<String>("Prioridad del reclamo"), "Prioridad").setInitialSize(10)
+            																						  .setResizable(false)
+            																						  .setSizeUnit(SizeUnit.EM),
+            																						  
+            new PropertyColumn("observacionesCol",new Model<String>("Observaciones"), "Observaciones").setInitialSize(50)
+            																						  .setResizable(false)
+            																						  .setSizeUnit(SizeUnit.EM)
             );
         
 		grid = new DefaultDataGrid("grid", new DataProviderAdapter(listDataProvider), cols);
