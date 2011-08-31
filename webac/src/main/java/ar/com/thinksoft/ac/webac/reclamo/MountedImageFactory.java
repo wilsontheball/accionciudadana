@@ -1,8 +1,11 @@
 package ar.com.thinksoft.ac.webac.reclamo;
 
+import java.awt.Toolkit;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,7 +14,6 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequestCycle;
 import org.apache.wicket.util.file.Folder;
 
@@ -51,10 +53,8 @@ public abstract class MountedImageFactory {
 
 		private File folder;
 
-		public ImageFromFolderWebResource(File folder, String mountPoint) {
+		public ImageFromFolderWebResource(File folder) {
 			this.folder = folder;
-			WebApplication.get().getSharedResources().add(mountPoint, this);
-			WebApplication.get().mountSharedResource(mountPoint, "org.apache.wicket.Application/" + mountPoint);
 		}
 
 		@Override
@@ -78,23 +78,24 @@ public abstract class MountedImageFactory {
 	 */
 	protected abstract Folder getFolder();
 
-	/**
-	 * @return the URL to mount the dynamic WEB resource.e.g.
-	 */
-	protected abstract String getMountPoint();
-
-	public Image createImage(String id, final String imageName) {
+	public Image createImage(String id, final String imageName, final byte[] imageBytes) throws IOException {
 		if (dynamicResource == null)
-			dynamicResource = new ImageFromFolderWebResource(getFolder(),getMountPoint());
+			dynamicResource = new ImageFromFolderWebResource(getFolder());
 		
 		return new Image(id) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected void onBeforeRender() {
-				String path = WebRequestCycle.get().getRequest().getURL();
-				path = path.substring(0, path.indexOf('/'));
-				add(new AttributeModifier("src", true, new Model<String>("/"+ path + "/" + getMountPoint() + "?name=" + imageName)));
+					FileOutputStream fos;
+					try {
+						fos = new FileOutputStream(getFolder().getAbsolutePath()+ "\\" + imageName);
+						fos.write(imageBytes);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				
+				add(new AttributeModifier("src", true, new Model<String>("/"+ getFolder().getAbsolutePath()+ "/" + imageName)));
 				super.onBeforeRender();
 			}
 		};
