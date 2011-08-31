@@ -1,11 +1,7 @@
 package ar.com.thinksoft.ac.webac.reclamo;
 
-import java.awt.Toolkit;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,7 +10,6 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.resource.DynamicImageResource;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.protocol.http.WebRequestCycle;
 import org.apache.wicket.util.file.Folder;
 
 public abstract class MountedImageFactory {
@@ -48,10 +43,11 @@ public abstract class MountedImageFactory {
 
 	private static ImageFromFolderWebResource dynamicResource;
 
+	@SuppressWarnings("serial")
 	private static class ImageFromFolderWebResource extends	DynamicImageResource {
-		private static final long serialVersionUID = 1L;
 
 		private File folder;
+		private byte[] imageData;
 
 		public ImageFromFolderWebResource(File folder) {
 			this.folder = folder;
@@ -59,15 +55,9 @@ public abstract class MountedImageFactory {
 
 		@Override
 		protected byte[] getImageData() {
-			try {
-				String name = WebRequestCycle.get().getRequest().getParameter("name");
-				return bytes(new FileInputStream(new File(getFolder().getAbsolutePath() + System.getProperty("file.separator") + (name))));
-			} catch (Exception e) {
-				// TODO: do this properly
-				return null;
-			}
+			return this.imageData;
 		}
-
+		
 		public File getFolder() {
 			return folder;
 		}
@@ -78,24 +68,16 @@ public abstract class MountedImageFactory {
 	 */
 	protected abstract Folder getFolder();
 
-	public Image createImage(String id, final String imageName, final byte[] imageBytes) throws IOException {
+	@SuppressWarnings("serial")
+	public Image createImage(String id, final String imageName) throws IOException {
+		
 		if (dynamicResource == null)
 			dynamicResource = new ImageFromFolderWebResource(getFolder());
 		
-		return new Image(id) {
-			private static final long serialVersionUID = 1L;
-
+		return new Image(id,dynamicResource) {
 			@Override
 			protected void onBeforeRender() {
-					FileOutputStream fos;
-					try {
-						fos = new FileOutputStream(getFolder().getAbsolutePath()+ "\\" + imageName);
-						fos.write(imageBytes);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				
-				add(new AttributeModifier("src", true, new Model<String>("/"+ getFolder().getAbsolutePath()+ "/" + imageName)));
+				add(new AttributeModifier("src", true, new Model<String>("/"+ dynamicResource.getFolder().getAbsolutePath()+ "/" + imageName)));
 				super.onBeforeRender();
 			}
 		};
