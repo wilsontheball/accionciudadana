@@ -20,6 +20,7 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.util.file.Folder;
 
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
@@ -61,6 +62,16 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		add(dropDownList);
 		add(new TextArea<String>("observaciones",this.createBind(model, "observaciones")));
 		
+		System.out.println((WebApplication.get().CONTEXTPATH));
+		File f = new File("mati.txt");
+		if(!f.exists())
+			try {
+				f.createNewFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
 		
 		final FileUploadField fileUploadField = new FileUploadField("imagen",new Model<FileUpload>()); 
 		fileUploadField.add( new AjaxFormSubmitBehavior(this,"onchange") { 
@@ -68,23 +79,9 @@ public class AltaReclamoForm extends Form<Reclamo> {
 			@Override
 		    protected void onSubmit(AjaxRequestTarget arg0) { 
 		        final FileUpload file = fileUploadField.getFileUpload();
-		        String clientFileName = file.getClientFileName();
-		        String contentType = file.getContentType();
-		        long size = file.getSize();
-		        try {
-					InputStream stream = file.getInputStream();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
 				
 		        try {
 					File archivoImagen = file.writeToTempFile();
-					String path = archivoImagen.getAbsolutePath();
-					String path2 = archivoImagen.getCanonicalPath();
-					String path3 = archivoImagen.getPath();
-					
-					Image img = IMAGE_FACTORY.createImage("imagePreview", file.getClientFileName());
 					imageContainer.removeAll();
 					//imageContainer.add();
 					
