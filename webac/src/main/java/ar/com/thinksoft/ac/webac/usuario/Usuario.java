@@ -20,6 +20,13 @@ public class Usuario implements IUsuario {
 
 	public Usuario() {
 		this.permisos = new ArrayList<IPermiso>();
+		this.setApellido("");
+		this.setContrasenia("");
+		this.setDni(0L);
+		this.setMail("");
+		this.setNombre("");
+		this.setNombreUsuario("");
+		this.setTelefono(0L);
 	}
 
 	@Override

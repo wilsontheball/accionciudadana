@@ -10,8 +10,12 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.intac.IUsuario;
+import ar.com.thinksoft.ac.intac.utils.collections.Comparator;
+import ar.com.thinksoft.ac.intac.utils.collections.HArrayList;
 import ar.com.thinksoft.ac.webac.predicates.registro.PredicateTodosLosUsuarios;
+import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.repository.Repository;
 import com.inmethod.grid.DataProviderAdapter;
 import com.inmethod.grid.IGridColumn;
@@ -19,6 +23,8 @@ import com.inmethod.grid.column.PropertyColumn;
 import com.inmethod.grid.datagrid.DataGrid;
 
 public class UsuariosForm extends Form<UsuarioFilterObject> {
+
+	private DataGrid grid;
 
 	/**
 	 * 
@@ -32,24 +38,21 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 			new UsuarioFilterObject());
 		this.setModel(model);
 
+		this.grid = this.createTablaUsuarios("grid");
+
 		this.add(new Label("labelNombre", "Nombre"));
 		this.add(new TextField<String>("campoBusquedaNombre", this.createBind(model, "nombre")));
 		this.add(new TextField<String>("campoBusquedaApellido", this.createBind(model, "apellido")));
-		this.add(new Button("botonBuscar"));
-		this.add(new Button("botonNuevo"));
-		this.add(this.createTablaUsuarios("grid"));
+		this.add(this.createSearchButton("botonBuscar", this));
+		this.add(this.createNewButton("botonNuevo"));
+		this.add(grid);
 
 	}
 
-	
-
-	
-	
 	/*
-	 * 
-	 * 			COMPONENTS
-	 * 
+	 * COMPONENTS
 	 */
+
 	private DataGrid createTablaUsuarios(String gridName) {
 
 		ListDataProvider<IUsuario> dataProvider = new ListDataProvider<IUsuario>(
@@ -67,21 +70,58 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 
 		return grid;
 	}
-	
-	
-	
+
+	private Button createNewButton(String id) {
+
+		Button button = new Button(id) {
+			@Override
+			public void onSubmit() {
+			}
+		};
+
+		button.setDefaultFormProcessing(false);
+		return button;
+	}
+
+	private Button createSearchButton(String id, final Form<UsuarioFilterObject> form) {
+
+		Button button = new Button(id) {
+
+			@Override
+			public void onSubmit() {
+
+				final UsuarioFilterObject filterObject = form.getModelObject();
+
+				HArrayList<IUsuario> list = HArrayList.toHArrayList(getTodosLosUsuarios());
+
+				List<IUsuario> data = list.filter(new Comparator<IUsuario>() {
+					@Override
+					public boolean apply(IUsuario elem) {
+						return elem.getApellido().toLowerCase().contains(filterObject.getApellido().toLowerCase()) ||
+								elem.getNombre().toLowerCase().contains(filterObject.getNombre().toLowerCase());
+					}
+				});
+
+				grid.setDefaultModelObject(toDataProvider(data));
+
+			}
+		};
+
+		button.setDefaultFormProcessing(false);
+		return button;
+	}
+
 	/*
 	 * 
 	 * 
 	 * 
 	 * 
 	 */
-	
 
 	private List<IUsuario> getTodosLosUsuarios() {
 		return Repository.getInstance().query(new PredicateTodosLosUsuarios());
 	}
-	
+
 	private List<IGridColumn> crearColumnas() {
 		List<IGridColumn> columnas = new ArrayList<IGridColumn>();
 
@@ -99,14 +139,17 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 
 		return columnas;
 	}
-	
-	
+
 	/*
-	 * 			AUXILIARES
-	 * 
+	 * AUXILIARES
 	 */
-	
+
 	private IModel<String> createBind(CompoundPropertyModel<UsuarioFilterObject> model, String property) {
 		return model.bind(property);
+	}
+
+	private DataProviderAdapter toDataProvider(List<IUsuario> list) {
+		ListDataProvider<IUsuario> listDataProvider = new ListDataProvider<IUsuario>(list);
+		return new DataProviderAdapter(listDataProvider);
 	}
 }
