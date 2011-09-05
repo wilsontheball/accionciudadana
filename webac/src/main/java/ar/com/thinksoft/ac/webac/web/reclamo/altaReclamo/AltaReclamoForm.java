@@ -1,8 +1,5 @@
 package ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,12 +17,9 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.util.file.Folder;
-
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.webac.HomePage;
-import ar.com.thinksoft.ac.webac.reclamo.MountedImageFactory;
+import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.web.Context;
 
@@ -33,14 +27,7 @@ import ar.com.thinksoft.ac.webac.web.Context;
 public class AltaReclamoForm extends Form<Reclamo> {
 	
 	private AltaReclamoForm _self = this;
-	private WebMarkupContainer imageContainer = new WebMarkupContainer("imageDiv");
-	
-	private static final MountedImageFactory IMAGE_FACTORY = new MountedImageFactory() {
-		@Override
-		protected Folder getFolder() {
-			return new Folder(System.getProperties().getProperty("user.dir"));
-		}
-	};
+	private Image imagen = new Image("imagePreview");
 	
 	public AltaReclamoForm(String id) {
 		super(id);
@@ -61,35 +48,20 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		dropDownList.setNullValid(true);
 		add(dropDownList);
 		add(new TextArea<String>("observaciones",this.createBind(model, "observaciones")));
-		
-		System.out.println((WebApplication.get().CONTEXTPATH));
-		File f = new File("mati.txt");
-		if(!f.exists())
-			try {
-				f.createNewFile();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		
-		
+
 		final FileUploadField fileUploadField = new FileUploadField("imagen",new Model<FileUpload>()); 
 		fileUploadField.add( new AjaxFormSubmitBehavior(this,"onchange") { 
-			
 			@Override
 		    protected void onSubmit(AjaxRequestTarget arg0) { 
-		        final FileUpload file = fileUploadField.getFileUpload();
-				
-		        try {
-					File archivoImagen = file.writeToTempFile();
-					imageContainer.removeAll();
-					//imageContainer.add();
-					
-				} catch (IOException e) {
+				final FileUpload file = fileUploadField.getFileUpload();
+				try {
+					imagen.remove();
+					ImageFactory img = new ImageFactory(file);
+					add(img.getImage());
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		    }
-
 			@Override
 			protected void onError(AjaxRequestTarget target){
 			} 
@@ -97,10 +69,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		} );
 		
 		add(fileUploadField);
-		
-		imageContainer.setOutputMarkupId(true);
-		add(imageContainer);
-		imageContainer.add(new Image("imagePreview"));
+		add(imagen);
 		
 		setMultiPart(true);
 		add(new Button("guardarReclamo") {
