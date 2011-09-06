@@ -2,50 +2,66 @@ package ar.com.thinksoft.ac.webac.reclamo;
 
 import java.io.IOException;
 
-import org.apache.wicket.ResourceReference;
-import org.apache.wicket.behavior.SimpleAttributeModifier;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
-import org.apache.wicket.markup.html.image.ContextImage;
-import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.resource.ContextRelativeResource;
 import org.apache.wicket.util.file.File;
 
 public class ImageFactory {
 	
+	private static final String PATH = "src/main/webapp/tempImages/";
 	private File archivo;
+	private FileUpload archivoSubido;
 	
 	public ImageFactory(FileUpload file) throws Exception{
+		archivoSubido = file;
 		crearDirectorioTemporal();
-		createImage(file);
+		createImage();
 		
 	}
 
-	private void createImage(FileUpload file) throws Exception, IOException {
-		String nombreArchivo = file.getClientFileName();
-		//TODO: controlar que no tenga otra extension distinta de bmp,png,jpeg,gif...
+	private void createImage() throws Exception, IOException {
 		
-		archivo = new File("src/main/webapp/tempImages/" + nombreArchivo);
+		//TODO: controlar que no tenga otra extension distinta de bmp,png,jpeg,gif...
+		archivo = new File(PATH + getFileName());
 		if(!archivo.exists())
 			archivo.createNewFile();
-		archivo.write(file.getInputStream());
+		archivo.write(archivoSubido.getInputStream());
 	}
 	
 	private void crearDirectorioTemporal(){
-		File directory = new File("src/main/webapp/tempImages");
+		File directory = new File(PATH);
 		if(!directory.exists()){
 			directory.mkdir();
 		}
 	}
 	
-	public Image getImage() throws Exception{
+	public byte[] getFileBytes(){
+		return archivoSubido.getBytes();
+	}
+	
+	public String getContentType(){
+		return archivoSubido.getContentType();
+	}
+	
+	public String getFileName(){
+		return archivoSubido.getClientFileName();
+	}
+	
+	/*public Image getImage() throws Exception{
 		Image imagen = null;
 		if(archivo.exists()){
-			imagen = new Image("imagePreview", new ContextRelativeResource("src/main/webapp/tempImages/"+archivo.getName()));
+			ServletContext servletContext = WebApplication.get().getServletContext();
+			String path = (String)servletContext.getRealPath("/tempImages/");
+			imagen = new Image("imagePreview");
+			imagen.add(new AttributeModifier("src", new Model<String>()));
 		}
 		else
 			throw new Exception("Problema en el upload");
 		
 		return imagen;
+	}*/
+	
+	public void deleteImage(){
+		if(archivo.exists())
+			archivo.delete();
 	}
 }

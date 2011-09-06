@@ -7,7 +7,14 @@ import ar.com.thinksoft.ac.intac.IImagen;
 public class Imagen implements IImagen{
 
 	private byte[] bytes;
+	private String contentType;
+	private String fileName;
 	
+	public Imagen(byte[] bytes, String content, String name){
+		setBytes(bytes);
+		setContentType(content);
+		setFileName(name);
+	}
 	
 	public byte[] getBytes() {
 		return bytes;
@@ -19,6 +26,22 @@ public class Imagen implements IImagen{
 	
 	public void setBytesFromFileUpload(FileUpload file){
 		bytes = file.getBytes();
+	}
+	
+	public void setContentType(String content){
+		contentType = content;
+	}
+	
+	public String getContentType(){
+		return contentType;
+	}
+	
+	public void setFileName(String name){
+		fileName = name;
+	}
+	
+	public String getFileName(){
+		return fileName;
 	}
 
 }

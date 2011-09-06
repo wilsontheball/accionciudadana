@@ -5,7 +5,6 @@ import java.util.Date;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -13,13 +12,14 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
-import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
+import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.web.Context;
 
@@ -27,7 +27,8 @@ import ar.com.thinksoft.ac.webac.web.Context;
 public class AltaReclamoForm extends Form<Reclamo> {
 	
 	private AltaReclamoForm _self = this;
-	private Image imagen = new Image("imagePreview");
+	//private Image imagen = new Image("imagePreview");
+	private ImageFactory img = null;
 	
 	public AltaReclamoForm(String id) {
 		super(id);
@@ -55,9 +56,8 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		    protected void onSubmit(AjaxRequestTarget arg0) { 
 				final FileUpload file = fileUploadField.getFileUpload();
 				try {
-					imagen.remove();
-					ImageFactory img = new ImageFactory(file);
-					add(img.getImage());
+					img = new ImageFactory(file);
+					//imagen.replaceWith(img.getImage());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -69,7 +69,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		} );
 		
 		add(fileUploadField);
-		add(imagen);
+		//add(imagen);
 		
 		setMultiPart(true);
 		add(new Button("guardarReclamo") {
@@ -77,16 +77,16 @@ public class AltaReclamoForm extends Form<Reclamo> {
 				public void onSubmit() {
 					Reclamo reclamo = _self.getModelObject();
 					reclamo.setId();
+					reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
 					Date fecha = new Date();
 					SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 					reclamo.setFechaReclamo(formato.format(fecha));
 					reclamo.activar();
+					img.deleteImage();
 					setResponsePage(HomePage.class);
 		        }
 			}
 	    );
-		
-		
 	}
 	
 	private IModel<String> createBind(CompoundPropertyModel<Reclamo> model,String property){

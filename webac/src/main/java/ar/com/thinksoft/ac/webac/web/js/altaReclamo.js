@@ -16,11 +16,12 @@ $(document).ready(function() {
 		habilitarUbicacion(false);
 	});
 	
-	$('#rutaArchivo').change(function(){
-		var ruta = $('#rutaArchivo').val();
-		$('#imagePreviewer').css('background','url('+ ruta +')');
+	$('input[type=file]').change(function(){
+		$('.imagen').empty();
+		var ruta = $('input[type=file]').val();
+		$('.imagen').attr('src',"/tempImages/" + ruta);
+		$('.imagen').css('display','block');
 	});
-	
 	
 	
 	
