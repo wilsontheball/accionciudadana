@@ -2,18 +2,18 @@
 <resources>
 	<color name="color_texto">#FFF</color>
 	<color name="turquoise3">#00C5CD</color>
-	<color name="blue">#032E40</color>
-	<color name="blue1">#0000FF</color>
-	<color name="blue2">#0000EE</color>
-	<color name="blue3">#0000CD</color>
-	<color name="blue25">#069AFC</color>
-	<color name="royalBlue1">#4876FF</color>
-	<color name="royalBlue4">#27408B</color>
-	<color name="lightSteelBlue1">#CAE1FF</color>
-	<color name="lightSteelBlue2">#BCD2EE</color>
-	<color name="lightSteelBlue4">#6E7B8B</color>
-	<color name="deepSkyBlue">#00BFFF</color>
-	<color name="deepSkyBlue4">#00688B</color>
+	<color name="blue">#AA032E40</color>
+	<color name="blue1">#AA0000FF</color>
+	<color name="blue2">#AA0000EE</color>
+	<color name="blue3">#AA0000CD</color>
+	<color name="blue25">#AA069AFC</color>
+	<color name="royalBlue1">#AA4876FF</color>
+	<color name="royalBlue4">#AA27408B</color>
+	<color name="lightSteelBlue1">#AACAE1FF</color>
+	<color name="lightSteelBlue2">#AABCD2EE</color>
+	<color name="lightSteelBlue4">#AA6E7B8B</color>
+	<color name="deepSkyBlue">#AA00BFFF</color>
+	<color name="deepSkyBlue4">#AA00688B</color>
 	<color name="orange4">#8B5A00</color>
 	<color name="orange5">#E63900</color>
 	<color name="yellow1">#FFFF00</color>
@@ -26,4 +26,5 @@
 	<color name="grey60">#999999</color>
 	<color name="grey90">#E5E5E5</color>
 	<color name="grey93">#EDEDED</color>
+	<color name="transparent">#0000</color>
 </resources>

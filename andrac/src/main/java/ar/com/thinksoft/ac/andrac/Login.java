@@ -15,7 +15,7 @@ import android.widget.EditText;
  * pantalla se puede acceder a la pantalla de Registracion o cerrar la
  * aplicacion.
  * 
- * @since 23-08-2011
+ * @since 07-09-2011
  * @author Paul
  * 
  */
@@ -43,15 +43,32 @@ public class Login extends Activity {
 	}
 
 	/**
-	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
+	 * Previene apertura doble de la ventana Login.
 	 * 
-	 * @since 12-08-2011
+	 * @since 06-09-2011
+	 * @author Paul
+	 */
+	@Override
+	protected void onStart() {
+		super.onStart();
+		if (this.getResultadoLogin() == Activity.RESULT_OK) {
+			this.setResult(Activity.RESULT_OK);
+			this.finish();
+		}
+	}
+
+	/**
+	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
+	 * Refresca la imagen de background.
+	 * 
+	 * @since 07-09-2011
 	 * @author Paul
 	 * @param newConfig
 	 */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
 	}
 
 	/**
@@ -204,5 +221,9 @@ public class Login extends Activity {
 	private void limpiarDatosIngresados() {
 		((EditText) findViewById(R.id.nick)).setText("");
 		((EditText) findViewById(R.id.pass)).setText("");
+	}
+
+	private int getResultadoLogin() {
+		return ((Aplicacion) this.getApplication()).getResultadoLogin();
 	}
 }

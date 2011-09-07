@@ -14,7 +14,7 @@ import android.widget.ListView;
 /**
  * La clase se encarga de manejar el listado de reclamos realizados.
  * 
- * @since 23-08-2011
+ * @since 07-09-2011
  * @author Paul
  */
 public class ListaReclamos extends Activity {
@@ -54,14 +54,16 @@ public class ListaReclamos extends Activity {
 
 	/**
 	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
+	 * Refresca la imagen de background.
 	 * 
-	 * @since 12-08-2011
+	 * @since 07-09-2011
 	 * @author Paul
 	 * @param newConfig
 	 */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
 	}
 
 	/**

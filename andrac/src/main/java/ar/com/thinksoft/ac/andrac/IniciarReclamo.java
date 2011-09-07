@@ -22,6 +22,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+/**
+ * Maneja creacion de un reclamo.
+ * 
+ * @since 07-09-2011
+ * @author Paul
+ */
 public class IniciarReclamo extends Activity implements LocationListener {
 
 	private final int ERR_GPS_INACCESIBLE = 1;
@@ -65,14 +71,16 @@ public class IniciarReclamo extends Activity implements LocationListener {
 
 	/**
 	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
+	 * Refresca la imagen de background.
 	 * 
-	 * @since 12-08-2011
+	 * @since 07-09-2011
 	 * @author Paul
 	 * @param newConfig
 	 */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
 	}
 
 	public void crearReclamo(View v) {

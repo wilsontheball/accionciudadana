@@ -30,7 +30,7 @@ import android.view.WindowManager;
  * Pantalla de la camara de fotos. Saca foto si se hace un clic sobre la
  * pantalla o se presiona el boton de la camara.
  * 
- * @since 16-08-2010
+ * @since 07-09-2010
  * @author Paul
  */
 public class CamaraView extends Activity implements SurfaceHolder.Callback,
@@ -43,7 +43,8 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 	private SurfaceView mSurfaceView;
 	private SurfaceHolder mSurfaceHolder;
 
-	public void onCreate(Bundle icicle) {
+	@Override
+	protected void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 
 		Log.e(TAG, "onCreate");
@@ -82,6 +83,9 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 				setResult(Activity.RESULT_OK, mIntent);
 				finish();
 
+			} else {
+				setResult(Activity.RESULT_CANCELED, null);
+				finish();
 			}
 		}
 	};
@@ -136,32 +140,39 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 
 	/**
 	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
+	 * Refresca la imagen de background.
 	 * 
-	 * @since 12-08-2011
+	 * @since 07-09-2011
 	 * @author Paul
 	 * @param newConfig
 	 */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
 	}
 
 	/**
 	 * Saca foto cuando se hace clic sobre la pantalla.
 	 * 
-	 * @since 15-08-2011
-	 * @author Hernan
+	 * @since 07-09-2011
+	 * @author Paul
 	 * @param v
 	 *            La View.
 	 */
 	public void onClick(View v) {
-		mCamera.takePicture(null, mPictureCallback, mPictureCallback);
+		try {
+			mCamera.takePicture(null, mPictureCallback, mPictureCallback);
+		} catch (Exception e) {
+			setResult(Activity.RESULT_CANCELED, null);
+			finish();
+		}
 	}
 
 	/**
 	 * Saca foto cuando se pulsa el BOTON DE CAMARA.
 	 * 
-	 * @since 16-08-2011
+	 * @since 07-09-2011
 	 * @author Paul
 	 * @param keyCode
 	 *            Codigo del boton presionado.
@@ -171,10 +182,18 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_CAMERA
-				|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-			this.mCamera.takePicture(null, this.mPictureCallback,
-					this.mPictureCallback);
+		try {
+			if (keyCode == KeyEvent.KEYCODE_CAMERA
+					|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+				this.mCamera.takePicture(null, this.mPictureCallback,
+						this.mPictureCallback);
+			} else if (keyCode == KeyEvent.KEYCODE_BACK) {
+				setResult(Activity.RESULT_CANCELED, null);
+				finish();
+			}
+		} catch (Exception e) {
+			setResult(Activity.RESULT_CANCELED, null);
+			finish();
 		}
 		return true;
 	}

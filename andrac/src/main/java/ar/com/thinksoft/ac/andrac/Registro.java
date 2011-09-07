@@ -12,7 +12,7 @@ import android.widget.EditText;
 /**
  * La clase se encarga de manejar la pantalla de Registro.
  * 
- * @since 23-08-2011
+ * @since 07-09-2011
  * @author Paul
  */
 public class Registro extends Activity {
@@ -42,14 +42,16 @@ public class Registro extends Activity {
 
 	/**
 	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
+	 * Refresca la imagen de background.
 	 * 
-	 * @since 12-08-2011
+	 * @since 07-09-2011
 	 * @author Paul
 	 * @param newConfig
 	 */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
 	}
 
 	/**

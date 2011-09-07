@@ -15,7 +15,7 @@ import android.widget.Toast;
 /**
  * La clase se encarga de manejar la pantalla Home.
  * 
- * @since 10-08-2011
+ * @since 07-09-2011
  * @author Paul
  */
 public class Main extends Activity {
@@ -63,39 +63,41 @@ public class Main extends Activity {
 		super.onStart();
 		// Muestra la ventana Login una sola vez
 		if (this.getAplicacion().getResultadoLogin() == Activity.RESULT_FIRST_USER) {
-			this.getAplicacion().setResultadoLogin(Activity.RESULT_CANCELED);
 			this.mostrarLogin();
 		}
 	}
 
 	/**
 	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
+	 * Refresca la imagen de background.
 	 * 
-	 * @since 12-08-2011
+	 * @since 07-09-2011
 	 * @author Paul
 	 * @param newConfig
 	 */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
 	}
 
 	/**
 	 * Captura la respuesta de la ventana Login.
 	 * 
-	 * @since 22-07-2011
+	 * @since 06-09-2011
 	 * @author Paul
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		this.getAplicacion().setResultadoLogin(resultCode);
-		if (this.getAplicacion().getResultadoLogin() == Activity.RESULT_CANCELED) {
-			Toast.makeText(this, R.string.cerrar_aplicacion, Toast.LENGTH_LONG)
-					.show();
-			this.finish();
-		} else {
+		if (resultCode == Activity.RESULT_OK) {
+			this.getAplicacion().setResultadoLogin(Activity.RESULT_OK);
 			Toast.makeText(this, R.string.login_exito, Toast.LENGTH_LONG)
+					.show();
+		} else if (resultCode == Activity.RESULT_CANCELED) {
+			this.salir(null);
+		} else {
+			Toast.makeText(this, R.string.advertencia, Toast.LENGTH_LONG)
 					.show();
 		}
 	}
