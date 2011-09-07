@@ -33,6 +33,7 @@ public class Reclamo implements IReclamo,Serializable{
 	private String tipoReclamo;
 	private String ciudadanoReclamo;
 	private String observaciones;
+	private String barrioIncidente;
 	private IImagen imagen;
 	private IEstadoReclamo estado;
 	private String estadoDescripcion;
@@ -43,7 +44,7 @@ public class Reclamo implements IReclamo,Serializable{
 	}
 	
 	public Reclamo (String calle,String altura,String latitud,String longitud,String fecha, String tipo, String ciudadano,
-					String observaciones, IImagen imagen, IEstadoReclamo estado, String prioridad){
+					String observaciones,String barrioIncidente, IImagen imagen, IEstadoReclamo estado, String prioridad){
 		
 		this.setId();
 		this.setCalleIncidente(calle);
@@ -54,6 +55,7 @@ public class Reclamo implements IReclamo,Serializable{
 		this.setTipoIncidente(tipo);
 		this.setCiudadanoGeneradorReclamo(ciudadano);
 		this.setObservaciones(observaciones);
+		this.setBarrioIncidente(barrioIncidente);
 		this.setImagen(imagen);
 		this.setEstado(estado);
 		this.setPrioridad(prioridad);
@@ -160,6 +162,10 @@ public class Reclamo implements IReclamo,Serializable{
 	public String getObservaciones() {
 		return this.observaciones;
 	}
+	
+	public String getBarrioIncidente(){
+		return this.barrioIncidente;
+	}
 
 	public IImagen getImagen() {
 		return this.imagen;
@@ -230,6 +236,10 @@ public class Reclamo implements IReclamo,Serializable{
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
 		
+	}
+	
+	public void setBarrioIncidente(String barrioIncidente){
+		this.barrioIncidente = barrioIncidente;
 	}
 
 	public void setImagen(IImagen imagen) {

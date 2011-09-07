@@ -16,6 +16,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
+import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
@@ -34,11 +35,13 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		CompoundPropertyModel<Reclamo> model = new CompoundPropertyModel<Reclamo>(new Reclamo());
 		setModel(model);
 		
-		add(new TextField<String>("calleIncidente",this.createBind(model,"calleIncidente")));
-		add(new TextField<String>("alturaIncidente",this.createBind(model,"alturaIncidente")));
+		TextField<String> calle = new TextField<String>("calleIncidente",this.createBind(model,"calleIncidente"));
+		//calle.setRequired(true);
+		add(calle);
 		
-		//add(new TextField<String>("latitudIncidente",this.createBind(model,"latitudIncidente")));
-		//add(new TextField<String>("longitudIncidente",this.createBind(model,"longitudIncidente")));
+		TextField<String> altura = new TextField<String>("alturaIncidente",this.createBind(model,"alturaIncidente"));
+		//altura.setRequired(true);
+		add(altura);
 		
 		TextField<String> ciudadanoTextBox = new TextField<String>("ciudadanoIncidente",this.getName());
 		ciudadanoTextBox.setEnabled(false);
@@ -46,8 +49,15 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		
 		DropDownChoice<String> dropDownList = new DropDownChoice<String>("tipoIncidente", this.createBind(model,"tipoIncidente"),EnumTipoReclamo.getListaTiposReclamo());
 		dropDownList.setNullValid(true);
+		//dropDownList.setRequired(true);
 		add(dropDownList);
-		add(new TextArea<String>("observaciones",this.createBind(model, "observaciones")));
+		
+		DropDownChoice<String> dropDownListBarrios = new DropDownChoice<String>("barrioIncidente", this.createBind(model,"barrioIncidente"),EnumBarriosReclamo.getListaBarriosReclamo());
+		dropDownListBarrios.setNullValid(true);
+		add(dropDownListBarrios);
+		
+		TextArea<String> observaciones = new TextArea<String>("observaciones",this.createBind(model, "observaciones"));
+		add(observaciones);
 
 		final FileUploadField fileUploadField = new FileUploadField("imagen",new Model<FileUpload>()); 
 		fileUploadField.add( new AjaxFormSubmitBehavior(this,"onchange") { 
@@ -65,7 +75,6 @@ public class AltaReclamoForm extends Form<Reclamo> {
 			} 
 
 		} );
-		
 		add(fileUploadField);
 		
 		setMultiPart(true);

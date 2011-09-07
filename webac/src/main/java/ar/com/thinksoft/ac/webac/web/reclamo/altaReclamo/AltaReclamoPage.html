@@ -17,7 +17,7 @@
 					<tr>
 						<td>
 			<!------------------------- FORMULARIO DE ALTA ------------------------->
-							<table>
+							<table class="contenedorText">
 								<tr>
 									<td class="texto">
 										<label>Calle - Altura:</label>
@@ -43,7 +43,17 @@
 									<td class="block">
 								 		<select wicket:id="tipoIncidente"> </select>
 								 	</td>
-								</tr>		
+								</tr>
+								
+								<tr>
+									<td class="texto">
+										<label>Barrio:</label>
+									</td>
+									<td class="block">
+								 		<select wicket:id="barrioIncidente"> </select>
+								 	</td>
+								</tr>
+										
 								<tr>
 									<td class="texto">
 										<label style="vertical-align: top;">Observaciones:</label>
@@ -59,7 +69,7 @@
 						
 			<!------------------------- UPLOADER DE IMAGEN ----------------------------->
 						<td class="uploaderCell">	
-							<table style="width: 40em;">
+							<table style="width: 50em;">
 								<tr align="center">
 									<td>
 										<div>
@@ -68,7 +78,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td class="contenedorImagen">
 										<img class="imagen"/>
 									</td>
 								</tr>

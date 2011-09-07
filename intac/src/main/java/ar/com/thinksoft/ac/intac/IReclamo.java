@@ -29,6 +29,8 @@ public interface IReclamo extends Serializable{
 	
 	public String getObservaciones();
 	
+	public String getBarrioIncidente();
+	
 	public IImagen getImagen();
 	
 	public IEstadoReclamo getEstado();
@@ -58,6 +60,8 @@ public interface IReclamo extends Serializable{
 	public void setCiudadanoGeneradorReclamo(String ciudadano);
 	
 	public void setObservaciones(String observaciones);
+	
+	public void setBarrioIncidente(String barrio);
 	
 	public void setImagen(IImagen imagen);
 	

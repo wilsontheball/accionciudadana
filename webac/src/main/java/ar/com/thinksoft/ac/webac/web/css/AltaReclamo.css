@@ -19,8 +19,6 @@ label
    margin:10px 2px; 
    font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
    font-size: 12px;
-   display: block;
-   
 }
 
 td.texto{
@@ -43,4 +41,13 @@ td.texto{
 	width: 30em; 
 	height: 25em;	
 	float: right;
+}
+
+.contenedorImagen{
+	width: 50em;	
+}
+
+.contenedorText{
+	width: 30em; 
+	height: 25em;	
 }
