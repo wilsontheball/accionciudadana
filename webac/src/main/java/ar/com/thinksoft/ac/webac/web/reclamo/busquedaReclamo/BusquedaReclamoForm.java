@@ -155,7 +155,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																						  .setResizable(false)
             																						  .setSizeUnit(SizeUnit.EM),
             																						  
-            new PropertyColumn("observacionesCol",new Model<String>("Observaciones"), "Observaciones").setInitialSize(50)
+            new PropertyColumn("observacionesCol",new Model<String>("Observaciones"), "Observaciones").setInitialSize(49)
             																						  .setResizable(false)
             																						  .setSizeUnit(SizeUnit.EM)
             );

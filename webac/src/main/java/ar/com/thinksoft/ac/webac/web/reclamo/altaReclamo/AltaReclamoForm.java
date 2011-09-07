@@ -27,7 +27,6 @@ import ar.com.thinksoft.ac.webac.web.Context;
 public class AltaReclamoForm extends Form<Reclamo> {
 	
 	private AltaReclamoForm _self = this;
-	//private Image imagen = new Image("imagePreview");
 	private ImageFactory img = null;
 	
 	public AltaReclamoForm(String id) {
@@ -38,8 +37,8 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		add(new TextField<String>("calleIncidente",this.createBind(model,"calleIncidente")));
 		add(new TextField<String>("alturaIncidente",this.createBind(model,"alturaIncidente")));
 		
-		add(new TextField<String>("latitudIncidente",this.createBind(model,"latitudIncidente")));
-		add(new TextField<String>("longitudIncidente",this.createBind(model,"longitudIncidente")));
+		//add(new TextField<String>("latitudIncidente",this.createBind(model,"latitudIncidente")));
+		//add(new TextField<String>("longitudIncidente",this.createBind(model,"longitudIncidente")));
 		
 		TextField<String> ciudadanoTextBox = new TextField<String>("ciudadanoIncidente",this.getName());
 		ciudadanoTextBox.setEnabled(false);
@@ -57,7 +56,6 @@ public class AltaReclamoForm extends Form<Reclamo> {
 				final FileUpload file = fileUploadField.getFileUpload();
 				try {
 					img = new ImageFactory(file);
-					//imagen.replaceWith(img.getImage());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -69,7 +67,6 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		} );
 		
 		add(fileUploadField);
-		//add(imagen);
 		
 		setMultiPart(true);
 		add(new Button("guardarReclamo") {

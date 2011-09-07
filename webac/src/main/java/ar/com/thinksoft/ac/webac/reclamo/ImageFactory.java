@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.webac.reclamo;
 
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.util.file.File;
@@ -8,29 +9,43 @@ import org.apache.wicket.util.file.File;
 public class ImageFactory {
 	
 	private static final String PATH = "src/main/webapp/tempImages/";
-	private File archivo;
+	private File image;
+	private File directorio;
 	private FileUpload archivoSubido;
 	
 	public ImageFactory(FileUpload file) throws Exception{
 		archivoSubido = file;
 		crearDirectorioTemporal();
-		createImage();
-		
+		createImage(archivoSubido.getInputStream(),getFileName(), archivoSubido.getContentType());
+	}
+	
+	public ImageFactory(Imagen imagen) throws Exception{
+		ByteArrayInputStream arrayStream = new ByteArrayInputStream(imagen.getBytes());
+		crearDirectorioTemporal();
+		createImage(arrayStream,imagen.getFileName(), imagen.getContentType());
 	}
 
-	private void createImage() throws Exception, IOException {
-		
-		//TODO: controlar que no tenga otra extension distinta de bmp,png,jpeg,gif...
-		archivo = new File(PATH + getFileName());
-		if(!archivo.exists())
-			archivo.createNewFile();
-		archivo.write(archivoSubido.getInputStream());
+	private void createImage(InputStream stream, String fileName, String contentType) throws Exception{
+		if("image/jpeg".equals(contentType) || "image/jpg".equals(contentType)||"image/png".equals(contentType)
+		||"image/bmp".equals(contentType)||"image/gif".equals(contentType)){
+			
+			image = new File(PATH + fileName);
+			if(!image.exists())
+				image.createNewFile();
+			image.write(stream);
+		}else
+			throw new Exception("no tiene un formato válido");
+	}
+	
+	public void deleteImage(){
+		if(image.exists())
+			image.delete();
 	}
 	
 	private void crearDirectorioTemporal(){
-		File directory = new File(PATH);
-		if(!directory.exists()){
-			directory.mkdir();
+		directorio = new File(PATH);
+		if(!directorio.exists()){
+			directorio.mkdir();
 		}
 	}
 	
@@ -46,22 +61,4 @@ public class ImageFactory {
 		return archivoSubido.getClientFileName();
 	}
 	
-	/*public Image getImage() throws Exception{
-		Image imagen = null;
-		if(archivo.exists()){
-			ServletContext servletContext = WebApplication.get().getServletContext();
-			String path = (String)servletContext.getRealPath("/tempImages/");
-			imagen = new Image("imagePreview");
-			imagen.add(new AttributeModifier("src", new Model<String>()));
-		}
-		else
-			throw new Exception("Problema en el upload");
-		
-		return imagen;
-	}*/
-	
-	public void deleteImage(){
-		if(archivo.exists())
-			archivo.delete();
-	}
 }

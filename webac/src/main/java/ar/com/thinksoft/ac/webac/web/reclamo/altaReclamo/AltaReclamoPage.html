@@ -19,78 +19,57 @@
 			<!------------------------- FORMULARIO DE ALTA ------------------------->
 							<table>
 								<tr>
-									<td>
-										<label>Seleccione tipo de ubicaci&oacute;n:</label>
-									</td>
-									<td class="radioOptions">
-										<div><input type="radio" name="group1" id="direccionOption" value="Direccion"  checked="checked"> Calle y altura</div>
-										<div><input type="radio" name="group1" id="gpsOption" value="GPS"> Coordenadas GPS</div>
-									</td>
-								</tr>
-							
-								<tr>
-									<td>
+									<td class="texto">
 										<label>Calle - Altura:</label>
 									</td>
-									<td  class="block">
+									<td class="block">
 								 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" /> - 
 								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" size="5"/>
 									</td>
 								</tr>	
-								
 								<tr>
-									<td>
-										<label>Coordenadas Latitud - Longitud: </label>
-									</td>
-									<td style="text-align:left;" class="block">
-								 		<input type="text" wicket:id="latitudIncidente" id="latitudIncidente" size="7"/> - 
-								 		<input type="text" wicket:id="longitudIncidente" id="longitudIncidente" size="7"/>
-								 	</td>
-								</tr>
-								
-								<tr>
-									<td>
+									<td class="texto">
 								 		<label>Ciudadano:</label>
 								 	</td>
-									<td>
-								 		<input type="text" wicket:id="ciudadanoIncidente" id="ciudadanoIncidente" class="block"/>
+									<td class="block">
+								 		<input type="text" wicket:id="ciudadanoIncidente" id="ciudadanoIncidente" />
 								 	</td>
 								</tr>
 								
 								<tr>
-									<td>
+									<td class="texto">
 										<label>Tipo de Incidente:</label>
 									</td>
-									<td>
-								 		<select wicket:id="tipoIncidente" class="block"> </select>
+									<td class="block">
+								 		<select wicket:id="tipoIncidente"> </select>
 								 	</td>
 								</tr>		
 								<tr>
-									<td >
+									<td class="texto">
 										<label style="vertical-align: top;">Observaciones:</label>
 									</td>
-									<td>
-										<textarea rows="5" cols="28" wicket:id="observaciones" id="observaciones" class="block" style="resize:none;"></textarea>
+									<td class="block">
+										<textarea rows="5" cols="28" wicket:id="observaciones" id="observaciones" style="resize:none;"></textarea>
 								 	</td>
 								</tr>
 							</table>
 			
 						</td>
-						<td class="uploaderCell">	
+						
+						
 			<!------------------------- UPLOADER DE IMAGEN ----------------------------->
-							<table align="left">
-								<tr>
+						<td class="uploaderCell">	
+							<table style="width: 40em;">
+								<tr align="center">
 									<td>
-										<label>Seleccione el archivo:</label>
-									</td>
-									<td>
-										<input wicket:id="imagen" type="file" id="rutaArchivo" class="block"/>
+										<div>
+											<label>Seleccione el archivo:</label> <input wicket:id="imagen" type="file" id="rutaArchivo" class="imageUploader"/>
+										</div>	
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<!-- <img wicket:id="imagePreview" class="imagenPreview"/>  -->
-										<img class="imagen" style="width:500px; height: 500px;"/>
+										<img class="imagen"/>
 									</td>
 								</tr>
 							</table>

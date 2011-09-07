@@ -12,6 +12,7 @@ label
 {
    padding:2px;
    text-align:left;
+   vertical-align: middle;
 }
 
 .block{
@@ -22,7 +23,7 @@ label
    
 }
 
-td{
+td.texto{
 	text-align: right;	
 }
 
@@ -31,19 +32,15 @@ td{
    	padding:2px;
    	text-align:left;
    	margin-left: 3%;	
-
 }
 
-.uploaderCell{
-	vertical-align: top;
+.imageUploader{
+	width: 0px;
+	vertical-align: top;	
 }
 
-.radioOptions{
-	text-align: left;	
-	
-}
-
-.imagenPreview{
-	width: 300px;
-	height: 300px;
+.imagen{
+	width: 30em; 
+	height: 25em;	
+	float: right;
 }
