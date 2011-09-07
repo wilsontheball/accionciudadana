@@ -32,25 +32,24 @@ public class AltaReclamoForm extends Form<Reclamo> {
 	
 	public AltaReclamoForm(String id) {
 		super(id);
+		setMultiPart(false);
+		
 		CompoundPropertyModel<Reclamo> model = new CompoundPropertyModel<Reclamo>(new Reclamo());
 		setModel(model);
 		
 		TextField<String> calle = new TextField<String>("calleIncidente",this.createBind(model,"calleIncidente"));
-		//calle.setRequired(true);
 		add(calle);
 		
 		TextField<String> altura = new TextField<String>("alturaIncidente",this.createBind(model,"alturaIncidente"));
-		//altura.setRequired(true);
 		add(altura);
 		
 		TextField<String> ciudadanoTextBox = new TextField<String>("ciudadanoIncidente",this.getName());
 		ciudadanoTextBox.setEnabled(false);
 		add(ciudadanoTextBox);
 		
-		DropDownChoice<String> dropDownList = new DropDownChoice<String>("tipoIncidente", this.createBind(model,"tipoIncidente"),EnumTipoReclamo.getListaTiposReclamo());
-		dropDownList.setNullValid(true);
-		//dropDownList.setRequired(true);
-		add(dropDownList);
+		DropDownChoice<String> dropDownListTipo = new DropDownChoice<String>("tipoIncidente", this.createBind(model,"tipoIncidente"),EnumTipoReclamo.getListaTiposReclamo());
+		dropDownListTipo.setNullValid(true);
+		add(dropDownListTipo);
 		
 		DropDownChoice<String> dropDownListBarrios = new DropDownChoice<String>("barrioIncidente", this.createBind(model,"barrioIncidente"),EnumBarriosReclamo.getListaBarriosReclamo());
 		dropDownListBarrios.setNullValid(true);
@@ -67,6 +66,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 				try {
 					img = new ImageFactory(file);
 				} catch (Exception e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		    }
@@ -75,9 +75,11 @@ public class AltaReclamoForm extends Form<Reclamo> {
 			} 
 
 		} );
+		
 		add(fileUploadField);
 		
-		setMultiPart(true);
+		
+		
 		add(new Button("guardarReclamo") {
 				@Override
 				public void onSubmit() {
@@ -117,9 +119,5 @@ public class AltaReclamoForm extends Form<Reclamo> {
 
 		};
 	}
-	
-	@Override
-	protected void onSubmit() {
-	}
-	
+
 }

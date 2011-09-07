@@ -20,6 +20,7 @@ import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoForm;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
 import com.inmethod.grid.DataProviderAdapter;
@@ -32,6 +33,7 @@ import com.inmethod.grid.datagrid.DefaultDataGrid;
 public class BusquedaReclamoForm extends Form<IReclamo> {
 	
 	private DataGrid grid;
+	private AltaReclamoForm _self = this;
 	
 	public BusquedaReclamoForm(String id) {
 		super(id);
@@ -55,14 +57,75 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		dropDownListPrioridad.setNullValid(true);
 		add(dropDownListPrioridad);
 			
-		add(new Button("busqueda"));
+		add(new Button("busqueda"){
+				@Override
+				public void onSubmit() {
+					IReclamo reclamo = _self.getModelObject();
+					ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
+					grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
+				}
+			}
+	    );
 		
 		armarGrilla(ReclamoManager.getInstance().obtenerTodosReclamos());
         add(grid);
         
-        add(new Button("detalle"));
-        add(new Button("cancelar"));
-        add(new Button("unificar"));
+        add(new Button("detalle"){
+				@SuppressWarnings("rawtypes")
+				@Override
+				public void onSubmit() {
+					Collection<IModel> selected = grid.getSelectedItems();
+					if(selected.size()==1){
+						Reclamo reclamo = new Reclamo();
+				        for (IModel model : selected) {
+				           reclamo = (Reclamo) model.getObject();
+				        }
+				        PageParameters params =new PageParameters();
+				        params.add("reclamoId", reclamo.getId());
+			            
+				        setResponsePage(DetalleReclamoPage.class, params);
+				        setRedirect(true);
+					}
+				}
+			}
+        );
+        
+        add(new Button("cancelar"){
+				@SuppressWarnings("rawtypes")
+				@Override
+				public void onSubmit() {
+					Collection<IModel> selected = grid.getSelectedItems();
+					if(selected.size()==1){
+						Reclamo reclamo = new Reclamo();
+				        for (IModel model : selected) {
+				           reclamo = (Reclamo) model.getObject();
+				        }
+				        
+				        /*
+				         * DIALOG
+				         * PREGUNTAR SI REALMENTE SE QUIERE HACER ESTO
+				         */
+				        
+				        reclamo.cancelarReclamo();
+				        setResponsePage(BusquedaReclamoPage.class);
+				        setRedirect(true);
+					}
+				}
+			}
+        );
+        
+        add(new Button("unificar"){
+				@Override
+				public void onSubmit() {
+					Collection<IModel> selected = grid.getSelectedItems();
+					if(selected.size()!=1){
+						/*
+						 * UNIFICACION MANUAL
+						 */
+					}
+				}
+			}
+        );
         
 	}
 
@@ -70,57 +133,8 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		return model.bind(property);
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Override
 	protected void onSubmit() {
-		if("Buscar reclamo".equals(getRequest().getParameter("busqueda"))){
-			IReclamo reclamo = getModelObject();
-			ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
-			grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
-		}else{
-		
-			Collection<IModel> selected = grid.getSelectedItems();
-				
-			if(selected.size()==1){
-				
-				if("Detalle del reclamo".equals(getRequest().getParameter("detalle"))){
-					
-					Reclamo reclamo = new Reclamo();
-			        for (IModel model : selected) {
-			           reclamo = (Reclamo) model.getObject();
-			        }
-			        PageParameters params =new PageParameters();
-			        params.add("reclamoId", reclamo.getId());
-		            
-			        setResponsePage(DetalleReclamoPage.class, params);
-			        setRedirect(true);
-				}
-				
-				if("Cancelar reclamo".equals(getRequest().getParameter("cancelar"))){
-					Reclamo reclamo = new Reclamo();
-			        for (IModel model : selected) {
-			           reclamo = (Reclamo) model.getObject();
-			        }
-			        
-			        /*
-			         * DIALOG
-			         * PREGUNTAR SI REALMENTE SE QUIERE HACER ESTO
-			         */
-			        
-			        reclamo.cancelarReclamo();
-			        setResponsePage(BusquedaReclamoPage.class);
-			        setRedirect(true);
-				}
-			}else{
-				if("Unificar reclamos".equals(getRequest().getParameter("unificar"))){
-					
-					/*
-					 * UNIFICACION MANUAL
-					 */
-				}
-			}
-		}
-			
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
