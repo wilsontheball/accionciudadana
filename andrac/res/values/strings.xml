@@ -1,5 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="hello">Hello andrac!</string>
-    <string name="app_name">andrac</string>
+	<string name="version">1.1</string>
+	<string name="app_name">Acción Ciudadana 1.1</string>
+	<string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
+	<string name="registro_sub_titulo">Proyecto Acción Ciudadana</string>
+	<string name="login_titulo">Autenticación</string>
+	<string name="nick_name">Usuario</string>
+	<string name="password">Contraseña</string>
+	<string name="password_confirm">Repetir contraseña</string>
+	<string name="ok">Aceptar</string>
+	<string name="cancelar">Cancelar</string>
+	<string name="login_sugerencia">No está registrado?</string>
+	<string name="entrar">Entrar</string>
+	<string name="salir">Salir</string>
+	<string name="registro">Registro</string>
+	<string name="registro_titulo">Registración</string>
+	<string name="dni">DNI</string>
+	<string name="mail">e-mail</string>
+	<string name="mail_confirm">Repetir e-mail</string>
+	<string name="nombre">Nombre</string>
+	<string name="apellido">Apellido</string>
+	<string name="telefono">Teléfono</string>
+	<string name="calle">Calle</string>
+	<string name="altura">Altura</string>
+	<string name="login_exito">Autentificación Exitosa!</string>
+	<string name="cerrar_aplicacion">Aplicación Finalizada.</string>
+	<string name="advertencia">Error</string>
+	<string name="nick_pass_fail">Usuario y/o contraseña no validos.</string>
+	<string name="atencion">Atención!</string>
+	<string name="campo_vacio">Todos los campos deben ser completados!</string>
+	<string name="campo_calle_vacio">El campo calle debe ser completado!</string>
+	<string name="campo_altura_vacio">El campo altura debe ser completado!</string>
+	<string name="campo_coord_vacio">El campo coordenada GPS debe ser completado!
+	</string>
+	<string name="mail_no_coincide">Mail ingresado no coincide con su repetición!
+	</string>
+	<string name="pass_no_coincide">Contraseña ingresada no coincide con su repetición!
+	</string>
+	<string name="confirmar_registro">Se mandó un e-mail a su casilla de correo. Tiene
+		que abrirlo para continuar con el proceso de registración. Gracias.
+	</string>
+	<string name="observaciones">Observaciones</string>
+	<string name="cargar_foto">Cargar Foto</string>
+	<string name="latitud">Latitud</string>
+	<string name="longitud">Longitud</string>
+	<string name="reclamo_enviado">Su reclamo ha sido enviado.</string>
+	<string name="iniciar_reclamo">Iniciar Reclamo</string>
+	<string name="tipodeincidente_prompt">Tipo de Incidente</string>
+	<string name="gps">GPS</string>
+	<string name="atras">Atrás</string>
+	<string name="camara_instructivo">Haga clic en la pantalla para tomar la foto
+	</string>
+	<string name="gps_inaccesible">Por favor habilite su GPS para obtener coordenada.
+	</string>
+	<string name="server_inaccesible">No se pudo realizar la autenticación en este
+		momento. Intentelo mas tarde. Disculpe las molestias.
+	</string>
+	<string name="registro_fallido">No se pudo realizar la registración en este
+		momento. Intentelo mas tarde. Disculpe las molestias.
+	</string>
+	<string-array name="tipoincidente_array">
+		<item>Bache</item>
+		<item>Caída de Objetos</item>
+		<item>ABL</item>
+		<item>Rotura de elementos públicos</item>
+		<item>Elementos viales</item>
+		<item>Inundaciones</item>
+		<item>Transporte Público</item>
+		<item>Accesibilidad</item>
+	</string-array>
+	<string-array name="ubicacion_array">
+		<item>Ubicación por Coordenada GPS</item>
+		<item>Ubicación por Calle y Altura</item>
+	</string-array>
 </resources>
