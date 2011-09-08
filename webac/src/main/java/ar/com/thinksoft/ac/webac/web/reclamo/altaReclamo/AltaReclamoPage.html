@@ -15,12 +15,19 @@
 			
 				<table align="center">
 					<tr>
+						<td style="text-align: center;">
+							<label style="color:red;">*</label><label>Estos campos son requeridos.</label>
+						</td>
+					</tr>
+					<tr>
 						<td>
 			<!------------------------- FORMULARIO DE ALTA ------------------------->
 							<table class="contenedorText">
+									
+								
 								<tr>
 									<td class="texto">
-										<label>Calle - Altura:</label>
+										<label style="color:red;">*</label><label>Calle - Altura:</label>
 									</td>
 									<td class="block">
 								 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" onchange="validarTextoInput(this)"/> - 
@@ -38,19 +45,19 @@
 								
 								<tr>
 									<td class="texto">
-										<label>Tipo de Incidente:</label>
+										<label style="color:red;">*</label><label>Tipo de Incidente:</label>
 									</td>
 									<td class="block">
-								 		<select wicket:id="tipoIncidente"> </select>
+								 		<select wicket:id="tipoIncidente" id="tipoIncidente"> </select>
 								 	</td>
 								</tr>
 								
 								<tr>
 									<td class="texto">
-										<label>Barrio:</label>
+										<label style="color:red;">*</label><label>Barrio:</label>
 									</td>
 									<td class="block">
-								 		<select wicket:id="barrioIncidente"> </select>
+								 		<select wicket:id="barrioIncidente" id="barrioIncidente"> </select>
 								 	</td>
 								</tr>
 										
@@ -73,7 +80,7 @@
 								<tr align="center">
 									<td>
 										<div>
-											<label>Seleccione el archivo:</label> <input wicket:id="imagen" type="file" id="rutaArchivo" class="imageUploader"/>
+											<label style="color:red;">*</label><label>Seleccione el archivo:</label> <input wicket:id="imagen" type="file" id="rutaArchivo" class="imageUploader" onchange="validarTextoInput(this)"/>
 										</div>	
 									</td>
 								</tr>
@@ -86,12 +93,24 @@
 						</td>
 					</tr>
 				</table>			
-			<!------------------------- BOTON SUBMIT ------------------------->
+			<!------------------------- CAMPO ERROR ------------------------->
 				<table align="center">
 					<tr>
 						<td>
+							<div class="block">
+								<input type="text" class="error" border="none" size="50"/>
+							</div>
+						</td>
+					</tr>
+				</table>
+				
+			<!------------------------- BOTON SUBMIT ------------------------->
+				<table align="center">
+					<tr>
+						<td style="width: 20em;">
 							<div>
-								<input type="submit" wicket:id="guardarReclamo" value="Alta de reclamo" class="block"/>
+								<input type="submit" wicket:id="guardarReclamo" value="Alta de reclamo" onclick="validarCamposAlta()" class="block" style="float: left;"/>
+								<input type="submit" wicket:id="cancelar" value="Cancelar" class="block" style="float: right;"/>
 							</div>
 						</td>
 					</tr>

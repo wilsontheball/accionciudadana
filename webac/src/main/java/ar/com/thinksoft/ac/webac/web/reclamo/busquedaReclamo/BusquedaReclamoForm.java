@@ -14,13 +14,13 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
+import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
-import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoForm;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
 import com.inmethod.grid.DataProviderAdapter;
@@ -33,7 +33,7 @@ import com.inmethod.grid.datagrid.DefaultDataGrid;
 public class BusquedaReclamoForm extends Form<IReclamo> {
 	
 	private DataGrid grid;
-	private AltaReclamoForm _self = this;
+	private BusquedaReclamoForm _self = this;
 	
 	public BusquedaReclamoForm(String id) {
 		super(id);
@@ -52,6 +52,10 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		DropDownChoice<String> dropDownListEstado = new DropDownChoice<String>("EstadoDescripcion", this.createBind(model,"EstadoDescripcion"),EnumEstadosReclamo.getlistaEstadosReclamo());
 		dropDownListEstado.setNullValid(true);
 		add(dropDownListEstado);
+		
+		DropDownChoice<String> dropDownListBarrios = new DropDownChoice<String>("barrioIncidente", this.createBind(model,"barrioIncidente"),EnumBarriosReclamo.getListaBarriosReclamo());
+		dropDownListBarrios.setNullValid(true);
+		add(dropDownListBarrios);
 		
 		DropDownChoice<String> dropDownListPrioridad = new DropDownChoice<String>("Prioridad", this.createBind(model,"Prioridad"),EnumPrioridadReclamo.getlistaPrioridadReclamo());
 		dropDownListPrioridad.setNullValid(true);
@@ -115,6 +119,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
         );
         
         add(new Button("unificar"){
+				@SuppressWarnings("rawtypes")
 				@Override
 				public void onSubmit() {
 					Collection<IModel> selected = grid.getSelectedItems();

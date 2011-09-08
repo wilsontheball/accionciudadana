@@ -33,6 +33,9 @@ html,body {
 /******************NOTIFICACIONES****************************/
 .error{
 	color: red;
+	border: medium none transparent;
+	background-color: #F5F5F5;
+	text-align: center;
 }
 
 

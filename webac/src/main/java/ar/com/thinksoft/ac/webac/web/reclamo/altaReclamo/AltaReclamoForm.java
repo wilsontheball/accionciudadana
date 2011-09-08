@@ -18,6 +18,7 @@ import org.apache.wicket.model.Model;
 
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
+import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
@@ -84,17 +85,28 @@ public class AltaReclamoForm extends Form<Reclamo> {
 				@Override
 				public void onSubmit() {
 					Reclamo reclamo = _self.getModelObject();
-					reclamo.setId();
-					reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
-					Date fecha = new Date();
-					SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-					reclamo.setFechaReclamo(formato.format(fecha));
-					reclamo.activar();
-					img.deleteImage();
-					setResponsePage(HomePage.class);
+					if(!isReclamoNoValido(reclamo)){
+						reclamo.setId();
+						reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
+						Date fecha = new Date();
+						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+						reclamo.setFechaReclamo(formato.format(fecha));
+						reclamo.activar();
+						img.deleteImage();
+						setResponsePage(HomePage.class);
+					}
 		        }
 			}
 	    );
+		
+		add(new Button("cancelar") {
+			@Override
+			public void onSubmit() {
+				img.deleteImage();
+				setResponsePage(HomePage.class);
+			}
+		});
+		
 	}
 	
 	private IModel<String> createBind(CompoundPropertyModel<Reclamo> model,String property){
@@ -118,6 +130,10 @@ public class AltaReclamoForm extends Form<Reclamo> {
 			}
 
 		};
+	}
+	
+	private boolean isReclamoNoValido(IReclamo reclamo){
+		return reclamo.getAlturaIncidente() == null && reclamo.getCalleIncidente() == null && reclamo.getBarrioIncidente() == null;
 	}
 
 }

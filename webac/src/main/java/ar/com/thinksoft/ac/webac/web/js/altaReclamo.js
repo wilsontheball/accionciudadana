@@ -11,3 +11,16 @@ $(document).ready(function() {
 	});
 	
 });
+
+function validarCamposAlta(){
+	
+alert(validarSiEsNull($('#calleIncidente')));
+alert(validarSiEsNull($('#alturaIncidente')));
+alert(validarSiEsNull($('#ciudadanoIncidente')));
+alert(validarSiEsNull($('#tipoIncidente')));
+alert(validarSiEsNull($('#barrioIncidente')));
+alert(validarSiEsNull($('#rutaArchivo')));
+
+return false;
+	
+}

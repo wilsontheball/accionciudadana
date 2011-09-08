@@ -47,7 +47,7 @@ public enum EnumBarriosReclamo {
 	VillaLugano("Villa Lugano"),
 	VillaLuro("Villa Luro"),
 	VillaOrtuzar("Villa Ortúzar"),
-	VillaPueyrredón("Villa Pueyrredón"),
+	VillaPueyrredon("Villa Pueyrredón"),
 	VillaReal("Villa Real"),
 	VillaRiachuelo("Villa Riachuelo"),
 	VillaSantaRita("Villa Santa Rita"),
@@ -105,7 +105,7 @@ public enum EnumBarriosReclamo {
     	listaBarriosReclamo.add(EnumBarriosReclamo.VillaLugano.getBarrio());
     	listaBarriosReclamo.add(EnumBarriosReclamo.VillaLuro.getBarrio());
     	listaBarriosReclamo.add(EnumBarriosReclamo.VillaOrtuzar.getBarrio());
-    	listaBarriosReclamo.add(EnumBarriosReclamo.VillaPueyrredón.getBarrio());
+    	listaBarriosReclamo.add(EnumBarriosReclamo.VillaPueyrredon.getBarrio());
     	listaBarriosReclamo.add(EnumBarriosReclamo.VillaReal.getBarrio());
     	listaBarriosReclamo.add(EnumBarriosReclamo.VillaRiachuelo.getBarrio());
     	listaBarriosReclamo.add(EnumBarriosReclamo.VillaSantaRita.getBarrio());
