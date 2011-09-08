@@ -1,0 +1,35 @@
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+<head>
+
+</head>
+
+<body>
+	<wicket:extend>
+
+		<form wicket:id="form">
+			<div>
+				<span wicket:id="labelNombre"></span>
+				<input type="text" wicket:id="campoBusquedaNombre" />
+			</div>
+			<div>
+				<label>Apellido:</label>
+				<input type="text" wicket:id="campoBusquedaApellido" />
+			</div>
+			
+			<div><input type="submit" wicket:id="botonBuscar" value="Buscar"/></div>
+			
+			
+			<div class="nuevo">
+					<input type="submit" wicket:id="botonNuevo" value="Nuevo">
+			</div>
+		
+		
+		
+
+			<div wicket:id="grid" class="gridContainer"/>
+		</form>
+	</wicket:extend>
+</body>
+
+</html>

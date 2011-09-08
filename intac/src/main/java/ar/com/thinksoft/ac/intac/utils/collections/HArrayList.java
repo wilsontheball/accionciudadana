@@ -1,5 +1,8 @@
 package ar.com.thinksoft.ac.intac.utils.collections;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class HArrayList<E> extends java.util.ArrayList<E> {
 
@@ -7,7 +10,7 @@ public class HArrayList<E> extends java.util.ArrayList<E> {
 
 	public <G> HArrayList<G> map(Function<E, G> f) {
 		HArrayList<G> retCollection = new HArrayList<G>();
-		for (E elem : this) {
+		for(E elem : this) {
 			retCollection.add(f.apply(elem));
 		}
 		return retCollection;
@@ -15,8 +18,8 @@ public class HArrayList<E> extends java.util.ArrayList<E> {
 
 	public HArrayList<E> filter(Comparator<E> f) {
 		HArrayList<E> retCollection = new HArrayList<E>();
-		for (E elem : this) {
-			if (f.apply(elem)) {
+		for(E elem : this) {
+			if(f.apply(elem)) {
 				retCollection.add(elem);
 			}
 		}
@@ -24,8 +27,8 @@ public class HArrayList<E> extends java.util.ArrayList<E> {
 	}
 
 	public E find(Comparator<E> f) {
-		for (E elem : this) {
-			if (f.apply(elem)) {
+		for(E elem : this) {
+			if(f.apply(elem)) {
 				return elem;
 			}
 		}
@@ -34,9 +37,26 @@ public class HArrayList<E> extends java.util.ArrayList<E> {
 
 	public <G> G foldl(Function<E, G> f, G initVal) {
 		G acum = initVal;
-		for (E elem : this) {
+		for(E elem : this) {
 			acum = f.apply(elem, acum);
 		}
 		return acum;
+	}
+
+	public static <E> HArrayList<E> toHArrayList(List<E> list) {
+		HArrayList<E> retCollection = new HArrayList<E>();
+		for(E elem : list) {
+			retCollection.add(elem);
+		}
+		return retCollection;
+
+	}
+
+	public List<E> toList(){
+		List<E> retCollection = new ArrayList<E>();
+		for(E elem : this){
+			retCollection.add(elem);
+		}
+		return retCollection;
 	}
 }
