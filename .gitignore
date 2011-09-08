@@ -10,3 +10,13 @@
 *.log*
 *.log
 */tempImages*
+*.png
+*.png*
+*.bmp
+*.bmp*
+*.gif
+*.gif*
+*.jpg
+*.jpg*
+*.jpeg
+*.jpeg*

@@ -32,6 +32,7 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 	 */
 	private static final long serialVersionUID = 5848749487206180482L;
 
+	@SuppressWarnings("serial")
 	public UsuariosForm(String id) {
 
 		super(id);
@@ -39,14 +40,33 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 			new UsuarioFilterObject());
 		this.setModel(model);
 
-		this.grid = this.createTablaUsuarios("grid");
 
-		this.add(new Label("labelNombre", "Nombre"));
 		this.add(new TextField<String>("campoBusquedaNombre", this.createBind(model, "nombre")));
 		this.add(new TextField<String>("campoBusquedaApellido", this.createBind(model, "apellido")));
-		this.add(this.createSearchButton("botonBuscar"));
+		
+		this.add(new Button("botonBuscar"){
+			
+			@Override
+			public void onSubmit() {
+
+				final UsuarioFilterObject filterObject = _self.getModelObject();
+
+				HArrayList<IUsuario> list = HArrayList.toHArrayList(getTodosLosUsuarios());
+
+				List<IUsuario> data = list.filter(new Comparator<IUsuario>() {
+					@Override
+					public boolean apply(IUsuario elem) {
+						return filterObject.getApellido().toLowerCase().contains(elem.getApellido().toLowerCase()) ||
+							filterObject.getNombre().toLowerCase().contains(elem.getNombre().toLowerCase());
+					}
+				});
+
+				grid.setDefaultModelObject(toDataProvider(data));
+			}
+		});
+		
 		this.add(this.createNewButton("botonNuevo"));
-		this.add(grid);
+		this.add(createTablaUsuarios("grid"));
 
 	}
 
@@ -85,40 +105,6 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 		return button;
 	}
 
-	private Button createSearchButton(String id) {
-
-		Button button = new Button(id) {
-
-			@Override
-			public void onSubmit() {
-
-				final UsuarioFilterObject filterObject = _self.getModelObject();
-
-				HArrayList<IUsuario> list = HArrayList.toHArrayList(getTodosLosUsuarios());
-
-				List<IUsuario> data = list.filter(new Comparator<IUsuario>() {
-					@Override
-					public boolean apply(IUsuario elem) {
-						return elem.getApellido().toLowerCase().contains(filterObject.getApellido().toLowerCase()) ||
-								elem.getNombre().toLowerCase().contains(filterObject.getNombre().toLowerCase());
-					}
-				});
-
-				grid.setDefaultModelObject(toDataProvider(data));
-
-			}
-		};
-
-		button.setDefaultFormProcessing(false);
-		return button;
-	}
-
-	/*
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
 
 	private List<IUsuario> getTodosLosUsuarios() {
 		return Repository.getInstance().query(new PredicateTodosLosUsuarios());

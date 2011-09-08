@@ -8,9 +8,9 @@ import ar.com.thinksoft.ac.webac.usuario.Usuario;
 @SuppressWarnings("serial")
 public class UsuarioFilterObject extends Usuario{
 
-	private String nombre;
-	private String apellido;
-	private String nombreUsuario;
+	private String nombre = "";
+	private String apellido = "";
+	private String nombreUsuario = "";
 	
 	public String getNombre() {
 		return nombre;
