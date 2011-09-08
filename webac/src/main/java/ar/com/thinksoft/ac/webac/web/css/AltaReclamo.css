@@ -33,14 +33,13 @@ td.texto{
 }
 
 .imageUploader{
-	width: 0px;
 	vertical-align: top;	
 }
 
 .imagen{
 	width: 30em; 
 	height: 25em;	
-	float: right;
+	/*float: right;*/
 }
 
 .contenedorImagen{

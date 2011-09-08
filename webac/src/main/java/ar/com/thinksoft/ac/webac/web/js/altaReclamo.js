@@ -1,3 +1,5 @@
+var buttonDisabled = true;
+
 $(document).ready(function() {
 	
 	$('input[type=file]').change(function(){
@@ -6,21 +8,25 @@ $(document).ready(function() {
 				
 		setTimeout(function(){
 			$('.imagen').attr('src',"/tempImages/" + ruta);
+			$('.imagen').css('heigth','auto');
+			$('.imagen').css('width','auto');
+			validarCampos();
 		}, 5000);
 		
 	});
 	
+	validarCampos();
+	
 });
 
-function validarCamposAlta(){
+function validarCampos(){
 	
-alert(validarSiEsNull($('#calleIncidente')));
-alert(validarSiEsNull($('#alturaIncidente')));
-alert(validarSiEsNull($('#ciudadanoIncidente')));
-alert(validarSiEsNull($('#tipoIncidente')));
-alert(validarSiEsNull($('#barrioIncidente')));
-alert(validarSiEsNull($('#rutaArchivo')));
-
-return false;
+	buttonDisabled =  validarSiEsNull($('#calleIncidente')[0]) || validarSiEsNull($('#alturaIncidente')[0]) || 
+			validarSiEsNull($('#ciudadanoIncidente')[0]) || validarSiEsNull($('#tipoIncidente')[0]) || 
+			validarSiEsNull($('#barrioIncidente')[0]) || validarSiEsNull($('.imageUploader')[0]);
+	
+	$('.guardarReclamo').attr('disabled',buttonDisabled);
+	
+	return buttonDisabled;
 	
 }
