@@ -9,6 +9,7 @@ import ar.com.thinksoft.ac.estadosReclamo.EstadoDemorado;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoEnProgreso;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoSuspendido;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoTerminado;
+import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.IEstadoReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
@@ -34,6 +35,7 @@ public class Reclamo implements IReclamo,Serializable{
 	private String ciudadanoReclamo;
 	private String observaciones;
 	private String barrioIncidente;
+	private String comunaIncidente;
 	private IImagen imagen;
 	private IEstadoReclamo estado;
 	private String estadoDescripcion;
@@ -166,6 +168,10 @@ public class Reclamo implements IReclamo,Serializable{
 	public String getBarrioIncidente(){
 		return this.barrioIncidente;
 	}
+	
+	public String getComunaIncidente(){
+		return this.comunaIncidente;
+	}
 
 	public IImagen getImagen() {
 		return this.imagen;
@@ -240,6 +246,7 @@ public class Reclamo implements IReclamo,Serializable{
 	
 	public void setBarrioIncidente(String barrioIncidente){
 		this.barrioIncidente = barrioIncidente;
+		setComunaIncidente();
 	}
 
 	public void setImagen(IImagen imagen) {
@@ -261,4 +268,13 @@ public class Reclamo implements IReclamo,Serializable{
 		this.prioridad = prioridad;
 	}
 
+	public void setComunaIncidente(){
+			try {
+				this.comunaIncidente = EnumBarriosReclamo.getComunaDeBarrio(this.barrioIncidente);
+			} catch (Exception e) {
+				this.comunaIncidente = "error";
+			}
+		
+	}
+	
 }

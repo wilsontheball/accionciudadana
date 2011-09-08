@@ -21,10 +21,13 @@
 							<tr>
 								<td>
 									<div>
-										<label>Calle - Altura:</label>
+										<label>Calle - Altura: </label>
 									</div>
 									<div>
-										<label>Tipo de Incidente:</label>
+										<label>Barrio: </label>
+									</div>
+									<div>
+										<label>Comuna: </label>
 									</div>
 								</td>
 						
@@ -34,8 +37,11 @@
 								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" size="6"/>
 									</div>
 									<div class="block">
-								 		<select wicket:id="tipoIncidente"> </select>
-							 		</div>
+								 		<select wicket:id="barrioIncidente"> </select>
+									</div>
+							 		<div class="block">
+								 		<select wicket:id="comunaIncidente"> </select>
+									</div>
 							 	</td>
 							</tr>
 						</table>
@@ -46,16 +52,22 @@
 							<tr>
 								<td>
 									<div>
-										<label>Fecha del Incidente <i>(dd/mm/aaaa)</i>:</label>
+										<label>Tipo de Incidente: </label>
 									</div>
 									<div>
-										<label>Prioridad:</label>
+										<label>Estado: </label>
+									</div>
+									<div>
+										<label>Prioridad: </label>
 									</div>
 								</td>
 						
 								<td>
+									<div class="block">
+								 		<select wicket:id="tipoIncidente"> </select>
+							 		</div>
 									<div class="block">		
-								 		<input type="text" wicket:id="FechaReclamo" id="FechaReclamo" name="FechaReclamo" datepicker="true"/>
+								 		<select wicket:id="EstadoDescripcion" style="text-align:left;"> </select>
 									</div>
 									<div class="block">
 								 		<select wicket:id="Prioridad"> </select>
@@ -70,19 +82,20 @@
 							<tr>
 								<td>
 									<div>
-										<label>Estado:</label>
+										<label>Fecha del Incidente <i>(dd/mm/aaaa)</i>: </label>
 									</div>
 									<div>
-										<label>Barrio:</label>
+										<label>Usuario: </label>
 									</div>
+									
 								</td>
 						
 								<td>
 									<div class="block">		
-								 		<select wicket:id="EstadoDescripcion" style="text-align:left;"> </select>
+								 		<input type="text" wicket:id="FechaReclamo" id="FechaReclamo" name="FechaReclamo" datepicker="true"/>
 									</div>
-									<div class="block">
-								 		<select wicket:id="barrioIncidente"> </select>
+									<div class="block">		
+								 		<input type="text" wicket:id="CiudadanoGeneradorReclamo" id="CiudadanoGeneradorReclamo"/>
 									</div>
 							 	</td>
 							</tr>

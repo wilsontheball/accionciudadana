@@ -5,13 +5,13 @@ import java.util.List;
 
 public enum EnumEstadosReclamo {
 	
-	activo("activo"), 
-	baja("baja"), 
-	cancelado("cancelado"), 
-	demorado("demorado"),
-	enProgreso("en progreso"),
-	suspendido("suspendido"),
-	terminado("terminado");
+	activo("Activo"), 
+	baja("Baja"), 
+	cancelado("Cancelado"), 
+	demorado("Demorado"),
+	enProgreso("En progreso"),
+	suspendido("Suspendido"),
+	terminado("Terminado");
 	
 	private String estado;
 	private static List<String> listaEstadoReclamo = new ArrayList<String>();

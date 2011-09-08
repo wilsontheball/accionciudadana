@@ -20,6 +20,7 @@ import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.HomePage;
+import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
@@ -44,7 +45,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		TextField<String> altura = new TextField<String>("alturaIncidente",this.createBind(model,"alturaIncidente"));
 		add(altura);
 		
-		TextField<String> ciudadanoTextBox = new TextField<String>("ciudadanoIncidente",this.getName());
+		TextField<String> ciudadanoTextBox = new TextField<String>("CiudadanoGeneradorReclamo",this.getName());
 		ciudadanoTextBox.setEnabled(false);
 		add(ciudadanoTextBox);
 		
@@ -67,8 +68,6 @@ public class AltaReclamoForm extends Form<Reclamo> {
 				try {
 					img = new ImageFactory(file);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 		    }
 			@Override
@@ -88,6 +87,8 @@ public class AltaReclamoForm extends Form<Reclamo> {
 					if(!isReclamoNoValido(reclamo)){
 						reclamo.setId();
 						reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
+						reclamo.setComunaIncidente();
+						reclamo.setCiudadanoGeneradorReclamo(Context.getInstance().getUsuario().getNombreUsuario());
 						Date fecha = new Date();
 						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 						reclamo.setFechaReclamo(formato.format(fecha));
@@ -102,7 +103,11 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		add(new Button("cancelar") {
 			@Override
 			public void onSubmit() {
-				img.deleteImage();
+				try{
+					img.deleteImage();
+				}catch(Exception e){
+					LogFwk.getInstance(AltaReclamoForm.class).error("No existe archivo para borrar.");
+				}
 				setResponsePage(HomePage.class);
 			}
 		});

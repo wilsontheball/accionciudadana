@@ -41,7 +41,10 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		setModel(model);
 		
 		add(new TextField<String>("calleIncidente",this.createBind(model,"calleIncidente")));
+		
 		add(new TextField<String>("alturaIncidente",this.createBind(model,"alturaIncidente")));
+		
+		add(new TextField<String>("CiudadanoGeneradorReclamo",this.createBind(model,"CiudadanoGeneradorReclamo")));
 		
 		add(new TextField<String>("FechaReclamo",this.createBind(model,"FechaReclamo")));
 		
@@ -56,6 +59,10 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		DropDownChoice<String> dropDownListBarrios = new DropDownChoice<String>("barrioIncidente", this.createBind(model,"barrioIncidente"),EnumBarriosReclamo.getListaBarriosReclamo());
 		dropDownListBarrios.setNullValid(true);
 		add(dropDownListBarrios);
+		
+		DropDownChoice<String> dropDownListComunas = new DropDownChoice<String>("comunaIncidente", this.createBind(model,"comunaIncidente"),EnumBarriosReclamo.getListaComunasReclamo());
+		dropDownListComunas.setNullValid(true);
+		add(dropDownListComunas);
 		
 		DropDownChoice<String> dropDownListPrioridad = new DropDownChoice<String>("Prioridad", this.createBind(model,"Prioridad"),EnumPrioridadReclamo.getlistaPrioridadReclamo());
 		dropDownListPrioridad.setNullValid(true);
@@ -150,33 +157,49 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 			new PropertyColumn("idCol",new Model<String>("Id"),"Id").setInitialSize(0)
 																	.setResizable(false),
 																	
-            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(10)
+            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(25)
             																						 .setResizable(false)
-            																						 .setSizeUnit(SizeUnit.EM),
+            																						 .setWrapText(true)
+            																						 .setSizeUnit(SizeUnit.EX),
             																						 
-            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(5)
+            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(10)
             																			  .setResizable(false)
-            																			  .setSizeUnit(SizeUnit.EM),
+            																			  .setSizeUnit(SizeUnit.EX),
+            																			  
+            new PropertyColumn("barrioCol",new Model<String>("Barrio"), "barrioIncidente").setInitialSize(20)
+            																			  .setResizable(false)
+            																			  .setWrapText(true)
+            																			  .setSizeUnit(SizeUnit.EX), 																			  
+            
+            new PropertyColumn("comunaCol",new Model<String>("Comuna"), "comunaIncidente").setInitialSize(20)
+            																			  .setResizable(false)
+            																			  .setWrapText(true)
+            																			  .setSizeUnit(SizeUnit.EX),
             																				
-            new PropertyColumn("fechaCol",new Model<String>("Fecha del reclamo"), "FechaReclamo").setInitialSize(10)
+            new PropertyColumn("fechaCol",new Model<String>("Fecha del reclamo"), "FechaReclamo").setInitialSize(20)
             																					 .setResizable(false)
-            																					 .setSizeUnit(SizeUnit.EM),
+            																					 .setSizeUnit(SizeUnit.EX),
             																						
-            new PropertyColumn("tipoCol",new Model<String>("Tipo de Incidente"), "tipoIncidente").setInitialSize(10)
+            new PropertyColumn("tipoCol",new Model<String>("Tipo de Incidente"), "tipoIncidente").setInitialSize(30)
             																					 .setResizable(false)
-            																					 .setSizeUnit(SizeUnit.EM),
+            																					 .setSizeUnit(SizeUnit.EX),
             																					 
-            new PropertyColumn("estadoCol",new Model<String>("Estado del reclamo"), "EstadoDescripcion").setInitialSize(10)
+            new PropertyColumn("estadoCol",new Model<String>("Estado del reclamo"), "EstadoDescripcion").setInitialSize(20)
             																							.setResizable(false)
-            																							.setSizeUnit(SizeUnit.EM),
-            																							
-            new PropertyColumn("prioridadCol",new Model<String>("Prioridad del reclamo"), "Prioridad").setInitialSize(10)
+            																							.setSizeUnit(SizeUnit.EX),
+
+            new PropertyColumn("prioridadCol",new Model<String>("Prioridad del reclamo"), "Prioridad").setInitialSize(20)
             																						  .setResizable(false)
-            																						  .setSizeUnit(SizeUnit.EM),
+            																						  .setSizeUnit(SizeUnit.EX),
             																						  
-            new PropertyColumn("observacionesCol",new Model<String>("Observaciones"), "Observaciones").setInitialSize(49)
+            new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(20)
+          																							.setResizable(false)
+          																							.setSizeUnit(SizeUnit.EX), 
+            																						  
+            new PropertyColumn("observacionesCol",new Model<String>("Observaciones"), "Observaciones").setInitialSize(81)
             																						  .setResizable(false)
-            																						  .setSizeUnit(SizeUnit.EM)
+            																						  .setWrapText(true)
+            																						  .setSizeUnit(SizeUnit.EX)
             );
         
 		grid = new DefaultDataGrid("grid", new DataProviderAdapter(listDataProvider), cols);
@@ -184,5 +207,6 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
         grid.setClickRowToSelect(true);
         grid.setAllowSelectMultiple(false);
         grid.setCleanSelectionOnPageChange(true);
+        
 	}
 }
