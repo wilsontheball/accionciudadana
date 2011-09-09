@@ -17,7 +17,7 @@
 					<tr>
 						<td>
 			<!------------------------- FORMULARIO DE DETALLE ------------------------->
-							<table>
+							<table class="contenedorText">
 								<tr>
 									<td>
 										<label>Calle - Altura:</label>
@@ -81,13 +81,22 @@
 										<label wicket:id="observaciones" id="observaciones" class="detalleBlock"></label>
 								 	</td>
 								</tr>
+								
+								<tr>
+									<td >
+										<label wicket:id="rutaImagen" class="rutaImagen" style="display:none;"></label>
+									</td>
+									<td>
+								 	</td>
+								</tr>
 							</table>
 			
 						</td>
 							
 			<!-------------------------  IMAGEN --->
-						<td class="imageCell">
-							<img class="imagePreviewer"/>
+			
+						<td class="contenedorImagen">
+							<img class="imagen"/>
 						</td>
 					</tr>
 				</table>			
@@ -96,7 +105,8 @@
 					<tr>
 						<td>
 							<div>
-								<input type="submit" value="Modificar reclamo" class="block"/>
+								<input type="submit" value="Modificar reclamo" class="block" style="float: left; margin:20px;"/>
+								<input type="submit" wicket:id="volver" value="Volver" class="block" style="float: right; margin:20px;"/>
 							</div>
 						</td>
 					</tr>

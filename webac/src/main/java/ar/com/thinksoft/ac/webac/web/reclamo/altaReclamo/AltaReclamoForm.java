@@ -17,6 +17,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
+import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.HomePage;
@@ -85,13 +86,17 @@ public class AltaReclamoForm extends Form<Reclamo> {
 				public void onSubmit() {
 					Reclamo reclamo = _self.getModelObject();
 					if(!isReclamoNoValido(reclamo)){
+						//metodos agregados a mano
 						reclamo.setId();
+						reclamo.setPrioridad(EnumPrioridadReclamo.noAsignada.getPrioridad());
 						reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
 						reclamo.setComunaIncidente();
 						reclamo.setCiudadanoGeneradorReclamo(Context.getInstance().getUsuario().getNombreUsuario());
 						Date fecha = new Date();
 						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 						reclamo.setFechaReclamo(formato.format(fecha));
+						//fin metodos agregados a mano
+						
 						reclamo.activar();
 						img.deleteImage();
 						setResponsePage(HomePage.class);

@@ -34,12 +34,19 @@ td{
 
 }
 
-.imageCell{
-	width: 50em;
+.contenedorImagen{
+	width: 50em;	
 }
 
-.imagePreviewer{
+.imagen{
 	width: 30em; 
 	height: 25em;	
-	float: right;
+	float: left;
+    margin-left: 50px;
+    width: auto;
+}
+
+.contenedorText{
+	width: 30em; 
+	height: 25em;	
 }

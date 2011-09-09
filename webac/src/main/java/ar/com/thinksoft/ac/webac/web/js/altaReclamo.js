@@ -11,7 +11,7 @@ $(document).ready(function() {
 			$('.imagen').css('heigth','auto');
 			$('.imagen').css('width','auto');
 			validarCampos();
-		}, 5000);
+		}, 3 * 1000);
 		
 	});
 	

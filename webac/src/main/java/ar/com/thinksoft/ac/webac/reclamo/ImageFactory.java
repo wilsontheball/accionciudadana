@@ -6,6 +6,8 @@ import java.io.InputStream;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.util.file.File;
 
+import ar.com.thinksoft.ac.intac.IImagen;
+
 public class ImageFactory {
 	
 	private static final String PATH = "src/main/webapp/tempImages/";
@@ -19,7 +21,7 @@ public class ImageFactory {
 		createImage(archivoSubido.getInputStream(),getFileName(), archivoSubido.getContentType());
 	}
 	
-	public ImageFactory(Imagen imagen) throws Exception{
+	public ImageFactory(IImagen imagen) throws Exception{
 		ByteArrayInputStream arrayStream = new ByteArrayInputStream(imagen.getBytes());
 		crearDirectorioTemporal();
 		createImage(arrayStream,imagen.getFileName(), imagen.getContentType());

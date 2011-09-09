@@ -166,10 +166,10 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																			  .setResizable(false)
             																			  .setSizeUnit(SizeUnit.EX),
             																			  
-            new PropertyColumn("barrioCol",new Model<String>("Barrio"), "barrioIncidente").setInitialSize(20)
+            /*new PropertyColumn("barrioCol",new Model<String>("Barrio"), "barrioIncidente").setInitialSize(20)
             																			  .setResizable(false)
             																			  .setWrapText(true)
-            																			  .setSizeUnit(SizeUnit.EX), 																			  
+            																			  .setSizeUnit(SizeUnit.EX), 	*/																		  
             
             new PropertyColumn("comunaCol",new Model<String>("Comuna"), "comunaIncidente").setInitialSize(20)
             																			  .setResizable(false)
@@ -180,7 +180,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																					 .setResizable(false)
             																					 .setSizeUnit(SizeUnit.EX),
             																						
-            new PropertyColumn("tipoCol",new Model<String>("Tipo de Incidente"), "tipoIncidente").setInitialSize(30)
+            new PropertyColumn("tipoCol",new Model<String>("Tipo de Incidente"), "tipoIncidente").setInitialSize(28)
             																					 .setResizable(false)
             																					 .setSizeUnit(SizeUnit.EX),
             																					 
@@ -192,9 +192,9 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																						  .setResizable(false)
             																						  .setSizeUnit(SizeUnit.EX),
             																						  
-            new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(20)
+           /* new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(20)
           																							.setResizable(false)
-          																							.setSizeUnit(SizeUnit.EX), 
+          																							.setSizeUnit(SizeUnit.EX), */
             																						  
             new PropertyColumn("observacionesCol",new Model<String>("Observaciones"), "Observaciones").setInitialSize(81)
             																						  .setResizable(false)
