@@ -51,6 +51,7 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 			add(new Label("rutaImagen",imagen.getFileName()));
 		}catch(Exception e){
 			LogFwk.getInstance(DetalleReclamoForm.class).error("no existe imagen para este reclamo");
+			add(new Label("rutaImagen",""));
 		}
 		
 		add(new Button("volver") {
