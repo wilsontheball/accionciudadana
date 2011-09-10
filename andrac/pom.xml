@@ -9,13 +9,19 @@
 	<name>andrac</name>
 
 	<dependencies>
+		<!-- Android 2.2.1 -->
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
 			<version>2.2.1</version>
 			<scope>provided</scope>
 		</dependency>
-
+		<!-- JSON Parser de Google -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>1.7.1</version>
+		</dependency>
 		<!-- DEPENDENCIAS DE PROYECTOS WILSON -->
 		<dependency>
 			<groupId>ar.com.thinksoft.ac</groupId>

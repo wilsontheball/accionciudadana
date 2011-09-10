@@ -134,7 +134,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	/**
 	 * Se obtiene la coordenada GPS mostrando un cuadro de dialogo mientras
 	 * espera por la coord. En caso de no tener habilitado el GPS, pide al
-	 * usuario habilitarlo
+	 * usuario habilitarlo. Responde al apretar boton GPS.
 	 * 
 	 * @since 20-08-11
 	 * @author Hernan
@@ -151,7 +151,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 					0, this);
 
 			// Desactiva el boton una vez que lo apretas
-			((Button) findViewById(R.id.boton_gps)).setEnabled(false);
+			this.setBotonGpsHabilitado(false);
 
 			// Muestra el dialogo procesando
 			this.mostrarProcesando();
@@ -170,6 +170,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				@Override
 				public void onFinish() {
 					procesando.dismiss();
+					// Muestra la coordenada de Medrano
 					mostrarCoordenada("-34.59841", "-58.42024");
 					// Desactiva GPS
 					locationManager.removeUpdates(IniciarReclamo.this);
@@ -194,10 +195,11 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != Activity.RESULT_CANCELED) {
+//		XXX Es solo una PRUEBA!!!!!!!!! LIMPIAR LO COMENTADO!!!!!!!!
+//		if (resultCode != Activity.RESULT_CANCELED) {
 			ImageView preview = (ImageView) this.findViewById(R.id.fotoPreview);
 			preview.setImageBitmap(this.getRepo().getImagen());
-		}
+//		}
 	}
 
 	private void mostrarCoordenada(String latitud, String longitud) {
@@ -223,8 +225,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						locationManager.removeUpdates(IniciarReclamo.this);
-						((Button) findViewById(R.id.boton_gps))
-								.setEnabled(true);
+						setBotonGpsHabilitado(true);
 						dialog.cancel();
 					}
 				});
@@ -306,23 +307,37 @@ public class IniciarReclamo extends Activity implements LocationListener {
 
 	}
 
+	/**
+	 * Hablita o deshabilita el boton GPS.
+	 * 
+	 * @since 09-09-2011
+	 * @author Paul
+	 * @param valor
+	 *            Cuando "valor" es <code>true</code> boton esta habilitado y se
+	 *            puede seleccionar, es al reves cuando es <code>false</code>.
+	 */
+	private void setBotonGpsHabilitado(boolean valor) {
+		((Button) this.findViewById(R.id.boton_gps)).setEnabled(valor);
+		((Button) this.findViewById(R.id.boton_gps)).setFocusable(valor);
+	}
+
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		if (DEBUG) {
-			Toast.makeText(this, "onStatusChanged", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "onStatusChanged", Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	public void onProviderEnabled(String provider) {
 		if (DEBUG) {
-			Toast.makeText(this, "onProviderEnabled", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "onProviderEnabled", Toast.LENGTH_SHORT)
+					.show();
 		}
 	}
 
 	public void onProviderDisabled(String provider) {
 		if (DEBUG) {
-			Toast.makeText(this, "onProviderDisabled", Toast.LENGTH_LONG)
+			Toast.makeText(this, "onProviderDisabled", Toast.LENGTH_SHORT)
 					.show();
 		}
 	}
-
 }

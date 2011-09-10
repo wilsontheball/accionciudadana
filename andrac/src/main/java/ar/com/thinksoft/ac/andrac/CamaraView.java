@@ -74,19 +74,21 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 
 				Intent mIntent = new Intent();
 
-				storeByteImage(mContext, imageData, 50, "ImageName");
+				// XXX Parece que comprime imagen y graba en archivo
+				// storeByteImage(mContext, imageData, 50, "ImageName");
+
+				// XXX Parece que aca hace preview de la foto
 				mCamera.startPreview();
 
 				// Pasa la imagen al repo
 				guardarImagenEnRepo(imageData);
 
 				setResult(Activity.RESULT_OK, mIntent);
-				finish();
-
 			} else {
-				setResult(Activity.RESULT_CANCELED, null);
-				finish();
+				setResult(Activity.RESULT_CANCELED);
 			}
+
+			finish();
 		}
 	};
 
@@ -149,7 +151,8 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
+		// XXX Aca no tiene sentido ya que siempre es LANDSCAPE
+		// this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
 	}
 
 	/**
@@ -161,18 +164,13 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 	 *            La View.
 	 */
 	public void onClick(View v) {
-		try {
-			mCamera.takePicture(null, mPictureCallback, mPictureCallback);
-		} catch (Exception e) {
-			setResult(Activity.RESULT_CANCELED, null);
-			finish();
-		}
+		mCamera.takePicture(null, mPictureCallback, mPictureCallback);
 	}
 
 	/**
 	 * Saca foto cuando se pulsa el BOTON DE CAMARA.
 	 * 
-	 * @since 07-09-2011
+	 * @since 09-09-2011
 	 * @author Paul
 	 * @param keyCode
 	 *            Codigo del boton presionado.
@@ -182,18 +180,12 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		try {
-			if (keyCode == KeyEvent.KEYCODE_CAMERA
-					|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-				this.mCamera.takePicture(null, this.mPictureCallback,
-						this.mPictureCallback);
-			} else if (keyCode == KeyEvent.KEYCODE_BACK) {
-				setResult(Activity.RESULT_CANCELED, null);
-				finish();
-			}
-		} catch (Exception e) {
-			setResult(Activity.RESULT_CANCELED, null);
-			finish();
+		if (keyCode == KeyEvent.KEYCODE_CAMERA
+				|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+			this.mCamera.takePicture(null, this.mPictureCallback,
+					this.mPictureCallback);
+		} else {
+			super.onKeyDown(keyCode, event);
 		}
 		return true;
 	}
@@ -224,11 +216,11 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 			bos.close();
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 
 		return true;
