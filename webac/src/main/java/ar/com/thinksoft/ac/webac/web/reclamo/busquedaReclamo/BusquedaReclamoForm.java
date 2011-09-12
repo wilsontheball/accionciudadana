@@ -48,6 +48,8 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		
 		add(new TextField<String>("FechaReclamo",this.createBind(model,"FechaReclamo")));
 		
+		add(new TextField<String>("FechaUltimaModificacionReclamo",this.createBind(model,"FechaUltimaModificacionReclamo")));
+		
 		DropDownChoice<String> dropDownListTipo = new DropDownChoice<String>("tipoIncidente", this.createBind(model,"tipoIncidente"),EnumTipoReclamo.getListaTiposReclamo());
 		dropDownListTipo.setNullValid(true);
 		add(dropDownListTipo);

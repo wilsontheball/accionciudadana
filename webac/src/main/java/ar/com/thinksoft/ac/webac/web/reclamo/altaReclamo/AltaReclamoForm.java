@@ -95,6 +95,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 						Date fecha = new Date();
 						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 						reclamo.setFechaReclamo(formato.format(fecha));
+						reclamo.setFechaUltimaModificacionReclamo(formato.format(fecha));
 						//fin metodos agregados a mano
 						
 						reclamo.activar();

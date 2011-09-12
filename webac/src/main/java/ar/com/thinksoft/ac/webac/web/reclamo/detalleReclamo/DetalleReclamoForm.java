@@ -41,6 +41,10 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 		add(new Label("alturaIncidente",this.createBind(model,"alturaIncidente")));
 		add(new Label("latitudIncidente",this.createBind(model,"latitudIncidente")));
 		add(new Label("longitudIncidente",this.createBind(model,"longitudIncidente")));
+		add(new Label("fechaReclamo",this.createBind(model,"fechaReclamo")));
+		add(new Label("fechaUltimaModificacionReclamo",this.createBind(model,"fechaUltimaModificacionReclamo")));
+		add(new Label("BarrioIncidente",this.createBind(model,"BarrioIncidente")));
+		add(new Label("ComunaIncidente",this.createBind(model,"ComunaIncidente")));
 		add(new Label("ciudadanoReclamo",this.createBind(model,"ciudadanoReclamo")));
 		add(new Label("prioridad",this.createBind(model,"prioridad")));
 		add(new Label("estadoDescripcion",this.createBind(model,"EstadoDescripcion")));

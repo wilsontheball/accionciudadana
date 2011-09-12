@@ -10,6 +10,7 @@ import ar.com.thinksoft.ac.estadosReclamo.EstadoEnProgreso;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoSuspendido;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoTerminado;
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
+import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.IEstadoReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
@@ -31,6 +32,7 @@ public class Reclamo implements IReclamo,Serializable{
 	private String latitudReclamo;
 	private String longitudReclamo;
 	private String fechaReclamo;
+	private String fechaUltimaModificacion;
 	private String tipoReclamo;
 	private String ciudadanoReclamo;
 	private String observaciones;
@@ -40,7 +42,6 @@ public class Reclamo implements IReclamo,Serializable{
 	private IEstadoReclamo estado;
 	private String estadoDescripcion;
 	private String prioridad;
-	
 	
 	public Reclamo(){
 	}
@@ -156,7 +157,11 @@ public class Reclamo implements IReclamo,Serializable{
 	public String getFechaReclamo() {
 		return this.fechaReclamo;
 	}
-
+	
+	public String getFechaUltimaModificacionReclamo() {
+		return this.fechaUltimaModificacion;
+	}
+	
 	public String getCiudadanoGeneradorReclamo() {
 		return this.ciudadanoReclamo;
 	}
@@ -191,6 +196,10 @@ public class Reclamo implements IReclamo,Serializable{
 			return this.estadoDescripcion;
 		else
 			return "";
+	}
+	
+	public String getEstadoDescripcionDefault(){
+		return this.estadoDescripcion;
 	}
 	
 	public String getPrioridad(){
@@ -231,7 +240,10 @@ public class Reclamo implements IReclamo,Serializable{
 
 	public void setFechaReclamo(String fechaYHora) {
 		this.fechaReclamo = fechaYHora;
-		
+	}
+	
+	public void setFechaUltimaModificacionReclamo(String fecha) {
+		this.fechaUltimaModificacion = fecha;
 	}
 
 	public void setCiudadanoGeneradorReclamo(String ciudadano) {
@@ -277,4 +289,49 @@ public class Reclamo implements IReclamo,Serializable{
 		
 	}
 	
+	public void cambiarEstado(String estado){
+		if(estado.equals(EnumEstadosReclamo.activo.getEstado()))
+			this.activar();
+		
+		if(estado.equals(EnumEstadosReclamo.baja.getEstado()))
+			this.darDeBajaReclamo();
+		
+		if(estado.equals(EnumEstadosReclamo.cancelado.getEstado()))
+			this.cancelarReclamo();
+		
+		if(estado.equals(EnumEstadosReclamo.demorado.getEstado()))
+			this.demorar();
+		
+		if(estado.equals(EnumEstadosReclamo.enProgreso.getEstado()))
+			this.enProgreso();
+		
+		if(estado.equals(EnumEstadosReclamo.suspendido.getEstado()))
+			this.suspender();
+		
+		if(estado.equals(EnumEstadosReclamo.terminado.getEstado()))
+			this.terminar();
+		
+		if(estado.equals(EnumEstadosReclamo.activo.getEstado()))
+			this.activar();
+	}
+	
+	public void clone(IReclamo reclamo){
+		this.alturaReclamo = reclamo.getAlturaIncidente();
+		this.barrioIncidente = reclamo.getBarrioIncidente();
+		this.calleReclamo = reclamo.getCalleIncidente();
+		this.ciudadanoReclamo = reclamo.getCiudadanoGeneradorReclamo();
+		this.comunaIncidente = reclamo.getComunaIncidente();
+		this.estado = reclamo.getEstado();
+		this.estadoDescripcion = reclamo.getEstadoDescripcion();
+		this.fechaReclamo = reclamo.getFechaReclamo();
+		this.fechaUltimaModificacion = reclamo.getFechaUltimaModificacionReclamo();
+		this.id = reclamo.getId();
+		this.imagen = reclamo.getImagen();
+		this.latitudReclamo = reclamo.getLatitudIncidente();
+		this.longitudReclamo = reclamo.getLongitudIncidente();
+		this.observaciones = reclamo.getObservaciones();
+		this.prioridad = reclamo.getPrioridad();
+		this.tipoReclamo = reclamo.getTipoIncidente();
+	}
+
 }

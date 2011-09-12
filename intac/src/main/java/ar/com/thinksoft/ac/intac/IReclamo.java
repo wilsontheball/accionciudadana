@@ -25,6 +25,8 @@ public interface IReclamo extends Serializable{
 	
 	public String getFechaReclamo();
 	
+	public String getFechaUltimaModificacionReclamo();
+	
 	public String getCiudadanoGeneradorReclamo();
 	
 	public String getObservaciones();
@@ -59,6 +61,8 @@ public interface IReclamo extends Serializable{
 	
 	public void setFechaReclamo(String fechaYHora);
 	
+	public void setFechaUltimaModificacionReclamo(String fecha);
+	
 	public void setCiudadanoGeneradorReclamo(String ciudadano);
 	
 	public void setObservaciones(String observaciones);
@@ -72,6 +76,10 @@ public interface IReclamo extends Serializable{
 	public void setEstado(IEstadoReclamo estado);
 	
 	public void setPrioridad(String prioridad);
+
+	public void clone(IReclamo reclamoOriginal);
+
+	public void cambiarEstado(String estadoDescripcion);
 	
 	// Fin seteo atributos
 	

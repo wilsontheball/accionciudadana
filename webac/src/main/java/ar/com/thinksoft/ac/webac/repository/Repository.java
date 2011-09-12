@@ -104,4 +104,8 @@ public class Repository implements ObjectContainer{
 		objectContainer.delete(new Object());
 	}
 	
+	public void storeOnly(Object arg0) throws DatabaseClosedException, DatabaseReadOnlyException {
+		objectContainer.store(arg0);
+	}
+	
 }
