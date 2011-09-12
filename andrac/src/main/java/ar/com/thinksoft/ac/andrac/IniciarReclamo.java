@@ -1,5 +1,8 @@
 package ar.com.thinksoft.ac.andrac;
 
+import java.util.Date;
+import java.util.Random;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,12 +11,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -41,6 +47,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	private CountDownTimer timer = null;
 	private String tituloAlerta = "";
 	private String mensageAlerta = "";
+	private Random random = new Random(new Date().getSeconds());
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -171,35 +178,54 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				public void onFinish() {
 					procesando.dismiss();
 					// Muestra la coordenada de Medrano
-					mostrarCoordenada("-34.59841", "-58.42024");
+					mostrarCoordenada(getPlanBLatitud(), getPlanBLongitud());
 					// Desactiva GPS
 					locationManager.removeUpdates(IniciarReclamo.this);
 				}
 			}.start();
 		} catch (Exception e) {
+			e.printStackTrace();
 			this.mostrarAdvertencia(ERR_GPS_INACCESIBLE);
 		}
 	}
 
+	/**
+	 * Cierra la ventana de Reclamo. Responde al apretar boton Cancelar.
+	 * 
+	 * @since 20-08-11
+	 * @author Hernan
+	 * @param v
+	 */
 	public void cancelar(View v) {
 		this.finish();
 	}
 
+	/**
+	 * Muestra la pantalla de la camara de fotos. Responde al apretar boton
+	 * Camara.
+	 * 
+	 * @since 20-08-11
+	 * @author Hernan
+	 * @param v
+	 */
 	public void tomarFoto(View v) {
-
 		this.startActivityForResult(new Intent(this, CamaraView.class), 0);
-
-		// this.startActivity(new Intent(v.getContext(), CamaraView.class));
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-//		XXX Es solo una PRUEBA!!!!!!!!! LIMPIAR LO COMENTADO!!!!!!!!
-//		if (resultCode != Activity.RESULT_CANCELED) {
+		if (resultCode != Activity.RESULT_CANCELED) {
 			ImageView preview = (ImageView) this.findViewById(R.id.fotoPreview);
-			preview.setImageBitmap(this.getRepo().getImagen());
-//		}
+			Bitmap foto = this.getFotoPreview(this.getRepo().getImagen());
+			if (foto != null) {
+				preview.setImageBitmap(foto);
+			} else {
+				Log.e("IniciarReclamo", "this.getRepo().getImagen() es null!");
+			}
+		} else {
+			Log.e("IniciarReclamo", "Resultado Foto: CANCELED");
+		}
 	}
 
 	private void mostrarCoordenada(String latitud, String longitud) {
@@ -245,18 +271,22 @@ public class IniciarReclamo extends Activity implements LocationListener {
 		case ERR_GPS_INACCESIBLE:
 			this.tituloAlerta = getString(R.string.advertencia);
 			this.mensageAlerta = getString(R.string.gps_inaccesible);
+			this.showDialog(numero);
 			break;
 		case ERR_ALTURA_VACIO:
 			this.tituloAlerta = getString(R.string.advertencia);
 			this.mensageAlerta = getString(R.string.campo_altura_vacio);
+			this.showDialog(numero);
 			break;
 		case ERR_CALLE_VACIO:
 			this.tituloAlerta = getString(R.string.advertencia);
 			this.mensageAlerta = getString(R.string.campo_calle_vacio);
+			this.showDialog(numero);
 			break;
 		case ERR_COORD_VACIO:
 			this.tituloAlerta = getString(R.string.advertencia);
 			this.mensageAlerta = getString(R.string.campo_coord_vacio);
+			this.showDialog(numero);
 			break;
 		default:
 			break;
@@ -319,6 +349,52 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	private void setBotonGpsHabilitado(boolean valor) {
 		((Button) this.findViewById(R.id.boton_gps)).setEnabled(valor);
 		((Button) this.findViewById(R.id.boton_gps)).setFocusable(valor);
+	}
+
+	/**
+	 * Convierte array de foto a Bitmap para preview.
+	 * 
+	 * @since 11-09-2011
+	 * @author Paul
+	 * @param imagen
+	 *            Imagen en formato de array de byte.
+	 * @return Imagen en formato Bitmap.
+	 */
+	private Bitmap getFotoPreview(byte[] imagen) {
+		return BitmapFactory.decodeByteArray(imagen, 0, imagen.length, null);
+	}
+
+	/**
+	 * Devuelve latitud de Medrano.
+	 * 
+	 * @since 11-09-2011
+	 * @author Paul
+	 * @return Latitud.
+	 */
+	private String getPlanBLatitud() {
+		// Genera enteros comprendidos entre 0 y 9
+		int x = 0;
+		for (int i = 0; i < 10; i++) {
+			x = (int) (random.nextDouble() * 10.0);
+		}
+		return ("-34.5984" + x);
+	}
+
+	/**
+	 * Devuelve longitud de Medrano.
+	 * 
+	 * @since 11-09-2011
+	 * @author Paul
+	 * @return Longitud.
+	 */
+	private String getPlanBLongitud() {
+		// Genera enteros comprendidos entre 0 y 9
+
+		int x = 0;
+		for (int i = 0; i < 10; i++) {
+			x = (int) (random.nextDouble() * 10.0);
+		}
+		return ("-58.4202" + x);
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {

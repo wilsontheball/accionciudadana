@@ -1,17 +1,16 @@
 package ar.com.thinksoft.ac.andrac;
 
-import android.graphics.Bitmap;
 import ar.com.thinksoft.ac.intac.IUsuario;
 
 /**
  * Abstrae la conexion remota a la base de datos
  * 
- * @since 22-07-2011
+ * @since 11-09-2011
  * @author Paul
  */
 public class Repositorio {
 
-	Bitmap imagen = null;
+	byte[] imagen = null;
 	private IUsuario usuarioActual = null;
 	private String nombreUsuario = null;
 
@@ -138,11 +137,11 @@ public class Repositorio {
 	 * 
 	 * @param imagen
 	 */
-	public void setImagen(Bitmap imagen) {
+	public void setImagen(byte[] imagen) {
 		this.imagen = imagen;
 	}
 
-	public Bitmap getImagen() {
+	public byte[] getImagen() {
 		return this.imagen;
 	}
 

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-	<string name="version">1.3</string>
-	<string name="app_name">Acción Ciudadana 1.3</string>
+	<string name="version">1.4</string>
+	<string name="app_name">Acción Ciudadana 1.4</string>
 	<string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
 	<string name="registro_sub_titulo">Proyecto Acción Ciudadana</string>
 	<string name="login_titulo">Autenticación</string>
@@ -49,8 +49,7 @@
 	<string name="tipodeincidente_prompt">Tipo de Incidente</string>
 	<string name="gps">GPS</string>
 	<string name="atras">Atrás</string>
-	<string name="camara_instructivo">Haga clic en la pantalla para tomar la foto
-	</string>
+	<string name="capturar">Tomar Foto</string>
 	<string name="gps_inaccesible">Por favor habilite su GPS para obtener coordenada.
 	</string>
 	<string name="server_inaccesible">No se pudo realizar la autenticación en este

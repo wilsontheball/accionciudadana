@@ -5,10 +5,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -16,13 +16,14 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
+import android.hardware.Camera.Size;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -33,15 +34,42 @@ import android.view.WindowManager;
  * @since 07-09-2010
  * @author Paul
  */
-public class CamaraView extends Activity implements SurfaceHolder.Callback,
-		OnClickListener {
+public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	static final int FOTO_MODE = 0;
-	private static final String TAG = "CameraTest";
-	Camera mCamera;
-	boolean mPreviewRunning = false;
-	private Context mContext = this;
-	private SurfaceView mSurfaceView;
-	private SurfaceHolder mSurfaceHolder;
+	private static final String TAG = "CamaraView";
+	private Camera camara;
+	private final int fotoWidth = 640;
+	private final int fotoHeight = 480;
+	boolean previewRunning = false;
+	// private Context mContext = this;
+	private SurfaceView surfaceView;
+	private SurfaceHolder surfaceHolder;
+	private Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
+		public void onPictureTaken(byte[] imageData, Camera c) {
+
+			if (imageData != null) {
+
+				// Intent mIntent = new Intent();
+
+				// XXX Parece que comprime imagen y graba en archivo
+				// storeByteImage(mContext, imageData, 50, "ImageName");
+
+				// XXX Parece que aca hace preview de la foto
+				camara.startPreview();
+
+				// Pasa la imagen al repo
+				guardarImagenEnRepo(imageData);
+
+				// setResult(Activity.RESULT_OK, mIntent);
+				setResult(Activity.RESULT_OK);
+				System.out.println("setResult OK");
+			} else {
+				setResult(Activity.RESULT_CANCELED);
+				System.out.println("setResult CANCELED");
+			}
+			finish();
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle icicle) {
@@ -55,42 +83,17 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.camera_surface);
-		mSurfaceView = (SurfaceView) findViewById(R.id.surface_camera);
-		mSurfaceView.setOnClickListener(this);
-		mSurfaceHolder = mSurfaceView.getHolder();
-		mSurfaceHolder.addCallback(this);
-		mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		surfaceView = (SurfaceView) findViewById(R.id.surface_camera);
+		// mSurfaceView.setOnClickListener(this);
+		surfaceHolder = surfaceView.getHolder();
+		surfaceHolder.addCallback(this);
+		surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 	}
-
-	Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
-		public void onPictureTaken(byte[] imageData, Camera c) {
-
-			if (imageData != null) {
-
-				Intent mIntent = new Intent();
-
-				// XXX Parece que comprime imagen y graba en archivo
-				// storeByteImage(mContext, imageData, 50, "ImageName");
-
-				// XXX Parece que aca hace preview de la foto
-				mCamera.startPreview();
-
-				// Pasa la imagen al repo
-				guardarImagenEnRepo(imageData);
-
-				setResult(Activity.RESULT_OK, mIntent);
-			} else {
-				setResult(Activity.RESULT_CANCELED);
-			}
-
-			finish();
-		}
-	};
 
 	protected void onResume() {
 		Log.e(TAG, "onResume");
@@ -108,36 +111,57 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 
 	public void surfaceCreated(SurfaceHolder holder) {
 		Log.e(TAG, "surfaceCreated");
-		mCamera = Camera.open();
-
+		camara = Camera.open();
+		if (camara != null) {
+			Parameters param = camara.getParameters();
+			List<Size> dimensiones = param.getSupportedPictureSizes();
+			Size dimension = camara.new Size(this.fotoWidth, this.fotoHeight);
+			if (!dimensiones.contains(dimension)) {
+				Log.e(TAG, "**** Dimension NO aceptada! ****");
+				Log.e(TAG, "**** Dimensiones permitidas ****");
+				for (Object o : dimensiones) {
+					Size s = (Size) o;
+					Log.e(TAG, s.width + " : " + s.height);
+				}
+				// Se toma la menor dimension.
+				dimension = dimensiones.get(0);
+				Log.e(TAG, "Dimension aceptada: " + dimension.width + "-"
+						+ dimension.height);
+			}
+			param.setPictureSize(dimension.width, dimension.height);
+			camara.setParameters(param);
+		} else {
+			this.setResult(Activity.RESULT_CANCELED);
+			finish();
+		}
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
 		Log.e(TAG, "surfaceChanged");
 
 		// XXX stopPreview() will crash if preview is not running
-		if (mPreviewRunning) {
-			mCamera.stopPreview();
+		if (previewRunning) {
+			camara.stopPreview();
 		}
 
-		Camera.Parameters p = mCamera.getParameters();
+		Camera.Parameters p = camara.getParameters();
 		p.setPreviewSize(w, h);
-		mCamera.setParameters(p);
+		camara.setParameters(p);
 		try {
-			mCamera.setPreviewDisplay(holder);
+			camara.setPreviewDisplay(holder);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mCamera.startPreview();
-		mPreviewRunning = true;
+		camara.startPreview();
+		previewRunning = true;
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		Log.e(TAG, "surfaceDestroyed");
-		mCamera.stopPreview();
-		mPreviewRunning = false;
-		mCamera.release();
+		camara.stopPreview();
+		previewRunning = false;
+		camara.release();
 	}
 
 	/**
@@ -151,21 +175,20 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		// XXX Aca no tiene sentido ya que siempre es LANDSCAPE
-		// this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
+		this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
 	}
 
-	/**
-	 * Saca foto cuando se hace clic sobre la pantalla.
-	 * 
-	 * @since 07-09-2011
-	 * @author Paul
-	 * @param v
-	 *            La View.
-	 */
-	public void onClick(View v) {
-		mCamera.takePicture(null, mPictureCallback, mPictureCallback);
-	}
+	// /**
+	// * Saca foto cuando se hace clic sobre la pantalla.
+	// *
+	// * @since 07-09-2011
+	// * @author Paul
+	// * @param v
+	// * La View.
+	// */
+	// public void onClick(View v) {
+	// mCamera.takePicture(null, null, mPictureCallback);
+	// }
 
 	/**
 	 * Saca foto cuando se pulsa el BOTON DE CAMARA.
@@ -182,8 +205,8 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_CAMERA
 				|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-			this.mCamera.takePicture(null, this.mPictureCallback,
-					this.mPictureCallback);
+			this.camara.takePicture(null, this.pictureCallback,
+					this.pictureCallback);
 		} else {
 			super.onKeyDown(keyCode, event);
 		}
@@ -227,13 +250,28 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback,
 	}
 
 	public void guardarImagenEnRepo(byte[] imagen) {
-		BitmapFactory.Options opts = new BitmapFactory.Options();
-		opts.outWidth = 640;
-		opts.outHeight = 480;
-		Bitmap bitmap = BitmapFactory.decodeByteArray(imagen, 0, imagen.length,
-				opts);
-
-		((Aplicacion) this.getApplication()).getRepositorio().setImagen(bitmap);
+		((Aplicacion) this.getApplication()).getRepositorio().setImagen(imagen);
 	}
 
+	/**
+	 * Captura foto. Responde al apretar boton Tomar Foto.
+	 * 
+	 * @since 11-09-2011
+	 * @author Hernan
+	 * @param v
+	 */
+	public void capturar(View v) {
+		camara.takePicture(null, null, pictureCallback);
+	}
+
+	/**
+	 * Cierra la ventana de Camara. Responde al apretar boton Cancelar.
+	 * 
+	 * @since 11-09-2011
+	 * @author Hernan
+	 * @param v
+	 */
+	public void cancelar(View v) {
+		this.finish();
+	}
 }
