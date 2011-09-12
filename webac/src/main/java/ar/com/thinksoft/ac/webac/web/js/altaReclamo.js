@@ -1,36 +1,32 @@
-/**
- * 
- */
-
+var buttonDisabled = true;
 
 $(document).ready(function() {
 	
-	
-	habilitarUbicacion($('#gpsOption').attr('checked'));
-	
-	$('#gpsOption').click(function(){
-		habilitarUbicacion(true);
-	});
-	
-	$('#direccionOption').click(function(){
-		habilitarUbicacion(false);
-	});
-	
-	$('#rutaArchivo').change(function(){
-		var ruta = $('#rutaArchivo').val();
-		$('#imagePreviewer').css('background','url('+ ruta +')');
-	});
-	
-	
-	
-	
-	function habilitarUbicacion(isGps){
-		$('#calleIncidente').attr('disabled', isGps);
-		$('#alturaIncidente').attr('disabled', isGps);
+	$('input[type=file]').change(function(){
+		$('.imagen').empty();
+		var ruta = $('input[type=file]').val();
+				
+		setTimeout(function(){
+			$('.imagen').attr('src',"/tempImages/" + ruta);
+			$('.imagen').css('heigth','auto');
+			$('.imagen').css('width','auto');
+			validarCampos();
+		}, 3 * 1000);
 		
-		$('#latitudIncidente').attr('disabled', !isGps);
-		$('#longitudIncidente').attr('disabled', !isGps);
-	}
+	});
 	
+	validarCampos();
 	
 });
+
+function validarCampos(){
+	
+	buttonDisabled =  validarSiEsNull($('#calleIncidente')[0]) || validarSiEsNull($('#alturaIncidente')[0]) || 
+			validarSiEsNull($('#ciudadanoIncidente')[0]) || validarSiEsNull($('#tipoIncidente')[0]) || 
+			validarSiEsNull($('#barrioIncidente')[0]) || validarSiEsNull($('.imageUploader')[0]);
+	
+	$('.guardarReclamo').attr('disabled',buttonDisabled);
+	
+	return buttonDisabled;
+	
+}

@@ -1,15 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="ar.com.thinksoft.ac.andrac" android:versionCode="1" android:versionName="1.0-SNAPSHOT">
-
-  <application android:icon="@drawable/icon" android:label="@string/app_name">
-    <activity android:name=".HelloAndroidActivity">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
-    </activity>
-  </application>
-
+	package="ar.com.thinksoft.ac.andrac" android:versionCode="0"
+	android:versionName="@string/version">
+	<application android:icon="@drawable/icon" android:label="@string/app_name"
+		android:name=".Aplicacion" android:theme="@style/CustomButton">
+		<activity android:name=".Main">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".Login" android:configChanges="keyboard|keyboardHidden|orientation"
+			android:icon="@drawable/alert_dialog_icon" />
+		<activity android:name=".Registro" android:configChanges="keyboard|keyboardHidden|orientation" />
+		<activity android:name=".ListaReclamos"
+			android:configChanges="keyboard|keyboardHidden|orientation" />
+		<activity android:name=".IniciarReclamo"
+			android:configChanges="keyboard|keyboardHidden|orientation" />
+		<activity android:name=".CamaraView" android:configChanges="keyboard|keyboardHidden|orientation" />
+	</application>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+	<uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-feature android:name="android.hardware.camera" />
+	<uses-feature android:name="android.hardware.camera.autofocus" />
+	<uses-sdk android:targetSdkVersion="8" android:minSdkVersion="8" />
 </manifest>
-

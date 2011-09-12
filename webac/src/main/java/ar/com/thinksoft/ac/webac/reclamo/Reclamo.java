@@ -1,8 +1,6 @@
 package ar.com.thinksoft.ac.webac.reclamo;
 
-import java.awt.Image;
 import java.io.Serializable;
-import java.util.Date;
 
 import ar.com.thinksoft.ac.estadosReclamo.EstadoActivo;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoBaja;
@@ -11,7 +9,10 @@ import ar.com.thinksoft.ac.estadosReclamo.EstadoDemorado;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoEnProgreso;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoSuspendido;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoTerminado;
+import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
+import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.IEstadoReclamo;
+import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 
 /**
@@ -30,30 +31,34 @@ public class Reclamo implements IReclamo,Serializable{
 	private String alturaReclamo;
 	private String latitudReclamo;
 	private String longitudReclamo;
-	private Date fechaYHoraReclamo;
+	private String fechaReclamo;
+	private String fechaUltimaModificacion;
 	private String tipoReclamo;
 	private String ciudadanoReclamo;
 	private String observaciones;
-	private Image imagen;
+	private String barrioIncidente;
+	private String comunaIncidente;
+	private IImagen imagen;
 	private IEstadoReclamo estado;
+	private String estadoDescripcion;
 	private String prioridad;
-	
 	
 	public Reclamo(){
 	}
 	
-	public Reclamo (String calle,String altura,String latitud,String longitud,Date fechaYHora, String tipo, String ciudadano,
-					String observaciones, Image imagen, IEstadoReclamo estado, String prioridad){
+	public Reclamo (String calle,String altura,String latitud,String longitud,String fecha, String tipo, String ciudadano,
+					String observaciones,String barrioIncidente, IImagen imagen, IEstadoReclamo estado, String prioridad){
 		
 		this.setId();
 		this.setCalleIncidente(calle);
 		this.setAlturaIncidente(altura);
 		this.setLatitudIncidente(latitud);
 		this.setLongitudIncidente(longitud);
-		this.setFechaYHoraReclamo(fechaYHora);
+		this.setFechaReclamo(fecha);
 		this.setTipoIncidente(tipo);
 		this.setCiudadanoGeneradorReclamo(ciudadano);
 		this.setObservaciones(observaciones);
+		this.setBarrioIncidente(barrioIncidente);
 		this.setImagen(imagen);
 		this.setEstado(estado);
 		this.setPrioridad(prioridad);
@@ -149,10 +154,14 @@ public class Reclamo implements IReclamo,Serializable{
 		return this.tipoReclamo;
 	}
 
-	public Date getFechaYHoraReclamo() {
-		return this.fechaYHoraReclamo;
+	public String getFechaReclamo() {
+		return this.fechaReclamo;
 	}
-
+	
+	public String getFechaUltimaModificacionReclamo() {
+		return this.fechaUltimaModificacion;
+	}
+	
 	public String getCiudadanoGeneradorReclamo() {
 		return this.ciudadanoReclamo;
 	}
@@ -160,14 +169,38 @@ public class Reclamo implements IReclamo,Serializable{
 	public String getObservaciones() {
 		return this.observaciones;
 	}
+	
+	public String getBarrioIncidente(){
+		return this.barrioIncidente;
+	}
+	
+	public String getComunaIncidente(){
+		return this.comunaIncidente;
+	}
 
-	public Image getImagen() {
+	public IImagen getImagen() {
 		return this.imagen;
 	}
 
 	public IEstadoReclamo getEstado() {
 		return this.estado;
 	}	
+	
+	public String getEstadoDescripcion(){
+		
+		if(this.estado != null){
+			this.estadoDescripcion = this.estado.getDescripcionEstado();
+			return this.estadoDescripcion;
+		}
+		if(this.estadoDescripcion != null && this.estadoDescripcion != "")
+			return this.estadoDescripcion;
+		else
+			return "";
+	}
+	
+	public String getEstadoDescripcionDefault(){
+		return this.estadoDescripcion;
+	}
 	
 	public String getPrioridad(){
 		return this.prioridad;
@@ -205,9 +238,12 @@ public class Reclamo implements IReclamo,Serializable{
 		
 	}
 
-	public void setFechaYHoraReclamo(Date fechaYHora) {
-		this.fechaYHoraReclamo = fechaYHora;
-		
+	public void setFechaReclamo(String fechaYHora) {
+		this.fechaReclamo = fechaYHora;
+	}
+	
+	public void setFechaUltimaModificacionReclamo(String fecha) {
+		this.fechaUltimaModificacion = fecha;
 	}
 
 	public void setCiudadanoGeneradorReclamo(String ciudadano) {
@@ -219,19 +255,83 @@ public class Reclamo implements IReclamo,Serializable{
 		this.observaciones = observaciones;
 		
 	}
+	
+	public void setBarrioIncidente(String barrioIncidente){
+		this.barrioIncidente = barrioIncidente;
+		setComunaIncidente();
+	}
 
-	public void setImagen(Image imagen) {
+	public void setImagen(IImagen imagen) {
 		this.imagen = imagen;
 		
 	}
 
 	public void setEstado(IEstadoReclamo estado) {
 		this.estado = estado;
+		this.estadoDescripcion = estado.getDescripcionEstado();
 		
+	}
+	
+	public void setEstadoDescripcion(String estadoDesc){
+		this.estadoDescripcion = estadoDesc;
 	}
 	
 	public void setPrioridad(String prioridad){
 		this.prioridad = prioridad;
+	}
+
+	public void setComunaIncidente(){
+			try {
+				this.comunaIncidente = EnumBarriosReclamo.getComunaDeBarrio(this.barrioIncidente);
+			} catch (Exception e) {
+				this.comunaIncidente = "error";
+			}
+		
+	}
+	
+	public void cambiarEstado(String estado){
+		if(estado.equals(EnumEstadosReclamo.activo.getEstado()))
+			this.activar();
+		
+		if(estado.equals(EnumEstadosReclamo.baja.getEstado()))
+			this.darDeBajaReclamo();
+		
+		if(estado.equals(EnumEstadosReclamo.cancelado.getEstado()))
+			this.cancelarReclamo();
+		
+		if(estado.equals(EnumEstadosReclamo.demorado.getEstado()))
+			this.demorar();
+		
+		if(estado.equals(EnumEstadosReclamo.enProgreso.getEstado()))
+			this.enProgreso();
+		
+		if(estado.equals(EnumEstadosReclamo.suspendido.getEstado()))
+			this.suspender();
+		
+		if(estado.equals(EnumEstadosReclamo.terminado.getEstado()))
+			this.terminar();
+		
+		if(estado.equals(EnumEstadosReclamo.activo.getEstado()))
+			this.activar();
+	}
+	
+	public void clone(IReclamo reclamo){
+		this.alturaReclamo = reclamo.getAlturaIncidente();
+		this.barrioIncidente = reclamo.getBarrioIncidente();
+		this.calleReclamo = reclamo.getCalleIncidente();
+		this.ciudadanoReclamo = reclamo.getCiudadanoGeneradorReclamo();
+		this.comunaIncidente = reclamo.getComunaIncidente();
+		this.estado = reclamo.getEstado();
+		this.estadoDescripcion = reclamo.getEstadoDescripcion();
+		this.fechaReclamo = reclamo.getFechaReclamo();
+		this.fechaUltimaModificacion = reclamo.getFechaUltimaModificacionReclamo();
+		this.id = reclamo.getId();
+		this.imagen = reclamo.getImagen();
+		this.latitudReclamo = reclamo.getLatitudIncidente();
+		this.longitudReclamo = reclamo.getLongitudIncidente();
+		this.observaciones = reclamo.getObservaciones();
+		this.prioridad = reclamo.getPrioridad();
+		this.tipoReclamo = reclamo.getTipoIncidente();
 	}
 
 }

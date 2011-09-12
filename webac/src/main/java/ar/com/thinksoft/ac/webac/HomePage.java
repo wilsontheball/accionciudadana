@@ -6,7 +6,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import ar.com.thinksoft.ac.webac.seguridad.Permiso;
 import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
-import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 
 /**
  * Homepage

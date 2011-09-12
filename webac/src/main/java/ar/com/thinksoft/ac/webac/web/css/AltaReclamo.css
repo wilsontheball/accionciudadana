@@ -12,17 +12,16 @@ label
 {
    padding:2px;
    text-align:left;
+   vertical-align: middle;
 }
 
 .block{
    margin:10px 2px; 
    font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
    font-size: 12px;
-   display: block;
-   
 }
 
-td{
+td.texto{
 	text-align: right;	
 }
 
@@ -31,21 +30,23 @@ td{
    	padding:2px;
    	text-align:left;
    	margin-left: 3%;	
-
 }
 
-.uploaderCell{
-	vertical-align: top;
+.imageUploader{
+	vertical-align: top;	
 }
 
-.radioOptions{
-	text-align: left;	
-	
+.imagen{
+	width: 30em; 
+	height: 25em;	
+	/*float: right;*/
 }
 
-.imagePreviewer{
-	width: 300px;
-	height: 300px;
-	/*background: transparent url(/images/thinksoftLogo.jpg) 0 3px no-repeat;*/
-	
+.contenedorImagen{
+	width: 50em;	
+}
+
+.contenedorText{
+	width: 30em; 
+	height: 25em;	
 }

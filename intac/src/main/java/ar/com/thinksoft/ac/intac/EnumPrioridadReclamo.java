@@ -5,7 +5,7 @@ import java.util.List;
 
 public enum EnumPrioridadReclamo {
 	
-	alta("Alta"), media("Media"), baja("Baja");
+	noAsignada("No asignada"),alta("Alta"), media("Media"), baja("Baja");
 	
 	private String prioridad;
 	private static List<String> listaPrioridadReclamo = new ArrayList<String>();
@@ -16,6 +16,7 @@ public enum EnumPrioridadReclamo {
     
     public static List<String> getlistaPrioridadReclamo(){
     	listaPrioridadReclamo.clear();
+    	listaPrioridadReclamo.add(EnumPrioridadReclamo.noAsignada.getPrioridad());
     	listaPrioridadReclamo.add(EnumPrioridadReclamo.alta.getPrioridad());
     	listaPrioridadReclamo.add(EnumPrioridadReclamo.media.getPrioridad());
     	listaPrioridadReclamo.add(EnumPrioridadReclamo.baja.getPrioridad());
