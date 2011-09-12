@@ -1,12 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-</LinearLayout>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:gravity="center"
+	android:scrollbarAlwaysDrawVerticalTrack="true" android:background="@color/color_fondo">
+	<LinearLayout android:orientation="vertical"
+		android:layout_height="fill_parent" android:layout_width="fill_parent"
+		android:background="@color/color_fondo">
+		<LinearLayout android:orientation="vertical"
+			android:layout_height="wrap_content" android:gravity="center_horizontal"
+			android:isScrollContainer="true" android:layout_marginLeft="20dip"
+			android:layout_marginRight="20dip" android:weightSum="1"
+			android:layout_weight="0.58" android:background="@color/color_fondo"
+			android:layout_width="fill_parent">
+			<Button android:id="@+id/boton_reclamo" android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:enabled="true"
+				android:text="Iniciar Reclamo" android:onClick="iniciarReclamo" />
+			<Button android:id="@+id/boton_historial"
+				android:layout_width="match_parent" android:layout_height="wrap_content"
+				android:enabled="true" android:text="Reclamos Realizados"
+				android:onClick="mostrarReclamos" />
+			<Button android:id="@+id/boton_perfil" android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:enabled="true"
+				android:text="Perfil Usuario" android:onClick="mostrarPerfil" />
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>
+

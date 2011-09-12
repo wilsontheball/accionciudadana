@@ -1,6 +1,9 @@
 package ar.com.thinksoft.ac.webac;
 
+import java.util.Set;
+
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.settings.IResourceSettings;
 
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 
@@ -28,6 +31,7 @@ public class WicketApplication extends WebApplication {
 	protected void init() {
 		getResourceSettings()
 				.setAddLastModifiedTimeToResourceReferenceUrl(true);
+		
 	}
 
 }

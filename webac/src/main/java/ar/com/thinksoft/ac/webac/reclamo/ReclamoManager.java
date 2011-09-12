@@ -1,11 +1,12 @@
 package ar.com.thinksoft.ac.webac.reclamo;
 
-import java.util.*;
-
-import com.db4o.query.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.repository.Repository;
+
+import com.db4o.query.Predicate;
 
 /**
  * Administrador de reclamos
@@ -93,5 +94,9 @@ public class ReclamoManager {
 		}
 	}
 	
+	public void eliminarReclamo(IReclamo reclamo){
+		Repository.getInstance().delete(reclamo);
+		Repository.getInstance().commit();
+	}
 	
 }	

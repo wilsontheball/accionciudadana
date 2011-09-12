@@ -11,8 +11,10 @@ import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.seguridad.Permitible;
 import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
+import ar.com.thinksoft.ac.webac.web.logout.LogoutPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoPage;
+import ar.com.thinksoft.ac.webac.web.usuario.alta.UsuarioPage;
 import ar.com.thinksoft.ac.webac.web.logout.LogoutPage;
 
 public abstract class BasePage extends Permitible {
@@ -28,6 +30,8 @@ public abstract class BasePage extends Permitible {
 					"../css/BasePage.css"));
 			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,
 					"../js/jquery.js"));
+			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,
+			"../js/basePage.js"));
 			this.appendLinks();
 
 			add(this.userNameComponent());
@@ -67,6 +71,8 @@ public abstract class BasePage extends Permitible {
 				AltaReclamoPage.class));
 		add(new BookmarkablePageLink<IPageLink>("busquedaReclamoLink",
 				BusquedaReclamoPage.class));
+		add(new BookmarkablePageLink<IPageLink>("usuariosLink",
+				UsuarioPage.class));
 
 	}
 

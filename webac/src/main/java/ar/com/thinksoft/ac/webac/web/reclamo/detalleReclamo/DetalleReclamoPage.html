@@ -1,0 +1,155 @@
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+
+<head>
+<title>Detalle de Reclamo</title>
+</head>
+
+<body>
+	<wicket:extend>
+		<div class="detalleReclamo">
+			<div align="center">
+				<h1>Detalle de Reclamo</h1>
+			</div>
+			<form wicket:id="detalleReclamoForm">
+			
+				<table align="center">
+					<tr>
+						<td>
+			<!------------------------- FORMULARIO DE DETALLE ------------------------->
+							<table class="contenedorText">
+								<tr>
+									<td>
+										<label>Calle - Altura:</label>
+									</td>
+									<td class="detalleBlock">
+								 		<label wicket:id="calleIncidente" id="calleIncidente"></label> - 
+								 		<label wicket:id="alturaIncidente" id="alturaIncidente" size="5"></label>
+									</td>
+								</tr>	
+								
+								<tr>
+									<td>
+										<label>Coordenadas Latitud - Longitud: </label>
+									</td>
+									<td style="text-align:left;" class="detalleBlock">
+								 		<label wicket:id="latitudIncidente" id="latitudIncidente" size="7"></label> - 
+								 		<label wicket:id="longitudIncidente" id="longitudIncidente" size="7"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Ciudadano:</label>
+								 	</td>
+									<td>
+								 		<label wicket:id="ciudadanoReclamo" id="ciudadanoReclamo" class="detalleBlock"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Fecha del reclamo:</label>
+								 	</td>
+									<td>
+								 		<label wicket:id="fechaReclamo" id="fechaReclamo" class="detalleBlock"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Ultima modificacion:</label>
+								 	</td>
+									<td>
+								 		<label wicket:id="fechaUltimaModificacionReclamo" id="fechaUltimaModificacionReclamo" class="detalleBlock"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Barrio:</label>
+								 	</td>
+									<td>
+								 		<label wicket:id="BarrioIncidente" id="BarrioIncidente" class="detalleBlock"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Comuna:</label>
+								 	</td>
+									<td>
+								 		<label wicket:id="ComunaIncidente" id="ComunaIncidente" class="detalleBlock"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Prioridad:</label>
+								 	</td>
+									<td>
+								 		<label wicket:id="prioridad" id="prioridad" class="detalleBlock"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Estado:</label>
+								 	</td>
+									<td>
+								 		<label wicket:id="estadoDescripcion" id="estadoDescripcion" class="detalleBlock"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+										<label>Tipo de Incidente:</label>
+									</td>
+									<td>
+								 		<label wicket:id="tipoIncidente" class="detalleBlock"></label>
+								 	</td>
+								</tr>		
+								<tr>
+									<td >
+										<label style="vertical-align: top;">Observaciones:</label>
+									</td>
+									<td>
+										<label wicket:id="observaciones" id="observaciones" class="detalleBlock"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td >
+										<label wicket:id="rutaImagen" class="rutaImagen" style="display:none;"></label>
+									</td>
+									<td>
+								 	</td>
+								</tr>
+							</table>
+			
+						</td>
+							
+			<!-------------------------  IMAGEN ------------------------------>
+			
+						<td class="contenedorImagen">
+							<img class="imagen"/>
+						</td>
+					</tr>
+				</table>			
+			<!------------------------- BOTON SUBMIT ------------------------->
+				<table align="center">
+					<tr>
+						<td>
+							<div>
+								<input type="submit" wicket:id="modificar" value="Modificar reclamo" class="block" style="float: left; margin:20px;"/>
+								<input type="submit" wicket:id="volver" value="Volver" class="block" style="float: right; margin:20px;"/>
+							</div>
+						</td>
+					</tr>
+				</table>
+
+			</form>
+		</div>
+	</wicket:extend>
+</body>
+</html>

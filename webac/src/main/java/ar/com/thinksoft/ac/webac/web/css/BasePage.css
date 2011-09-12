@@ -8,25 +8,34 @@ html,body {
 	overflow: auto;
 	font-family: "Calibri", "Tahoma", Arial, Helvetica, sans-serif;
 	font-size: 12px;
+	background-color: #f5f5f5;
 	
 }
 
-.thinksoft {
-	background: transparent url(/images/thinksoftLogo.jpg) 0 3px no-repeat;
-	height: 74px;
+.accionCiudadana {
+	background: transparent url(/images/logoAccionCiudadana.jpg) 0 3px no-repeat;
+	height: 80px;
 	width: 114px;
+}
+
+.titleRow{
+	background-color: #214977;	
 }
 
 .loginAndLogout{
 	text-align: right;
 	padding-right: 10px;
-	font-size: 13px;
+	font-size: 15px;
+	color: #ffffff;
 }
 
 
 /******************NOTIFICACIONES****************************/
 .error{
 	color: red;
+	border: medium none transparent;
+	background-color: #F5F5F5;
+	text-align: center;
 }
 
 

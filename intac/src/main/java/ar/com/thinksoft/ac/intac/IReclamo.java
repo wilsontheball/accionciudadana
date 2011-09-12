@@ -1,8 +1,6 @@
 package ar.com.thinksoft.ac.intac;
 
-import java.awt.Image;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Interfaz a implementar para reclamo tanto en la parte Android como en la parte de Dominio Web
@@ -25,15 +23,23 @@ public interface IReclamo extends Serializable{
 	
 	public String getTipoIncidente();
 	
-	public Date getFechaYHoraReclamo();
+	public String getFechaReclamo();
+	
+	public String getFechaUltimaModificacionReclamo();
 	
 	public String getCiudadanoGeneradorReclamo();
 	
 	public String getObservaciones();
 	
-	public Image getImagen();
+	public String getBarrioIncidente();
+	
+	public String getComunaIncidente();
+	
+	public IImagen getImagen();
 	
 	public IEstadoReclamo getEstado();
+	
+	public String getEstadoDescripcion();
 	
 	public String getPrioridad();
 	
@@ -53,17 +59,27 @@ public interface IReclamo extends Serializable{
 	
 	public void setTipoIncidente(String tipo);
 	
-	public void setFechaYHoraReclamo(Date fechaYHora);
+	public void setFechaReclamo(String fechaYHora);
+	
+	public void setFechaUltimaModificacionReclamo(String fecha);
 	
 	public void setCiudadanoGeneradorReclamo(String ciudadano);
 	
 	public void setObservaciones(String observaciones);
 	
-	public void setImagen(Image imagen);
+	public void setBarrioIncidente(String barrio);
+	
+	public void setComunaIncidente();
+	
+	public void setImagen(IImagen imagen);
 	
 	public void setEstado(IEstadoReclamo estado);
 	
 	public void setPrioridad(String prioridad);
+
+	public void clone(IReclamo reclamoOriginal);
+
+	public void cambiarEstado(String estadoDescripcion);
 	
 	// Fin seteo atributos
 	
