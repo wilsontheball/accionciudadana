@@ -45,6 +45,8 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 				model, "nombre")));
 		this.add(new TextField<String>("campoBusquedaApellido", this
 				.createBind(model, "apellido")));
+		this.add(new TextField<String>("campoBusquedaNombreUsuario", this
+				.createBind(model, "nombreUsuario")));
 
 		this.add(this.createNewButton("botonNuevo"));
 		this.createTablaUsuarios("grid");
@@ -70,7 +72,10 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 							return StringUtils.contains(elem.getApellido(),
 									filterObject.getApellido())
 									|| StringUtils.contains(elem.getNombre(),
-											filterObject.getNombre());
+											filterObject.getNombre())
+									|| StringUtils.contains(
+											elem.getNombreUsuario(),
+											filterObject.getNombreUsuario());
 
 					}
 				});
