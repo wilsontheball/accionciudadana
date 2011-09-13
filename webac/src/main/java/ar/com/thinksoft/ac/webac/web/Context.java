@@ -12,6 +12,11 @@ public class Context {
 		return instance;
 	}
 
+	
+	public void invalidate(){
+		Context.instance = new Context();
+	}
+	
 	private IUsuario usuario;
 
 	public void setUsuario(IUsuario usuario) {
@@ -20,6 +25,11 @@ public class Context {
 	
 	public IUsuario getUsuario(){
 		return this.usuario;
+	}
+
+	// mejor crear un null user
+	public boolean isUserSignedIn() {
+		return this.getUsuario() != null;
 	}
 
 }

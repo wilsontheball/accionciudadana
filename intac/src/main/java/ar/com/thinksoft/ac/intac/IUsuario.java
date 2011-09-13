@@ -1,6 +1,8 @@
 package ar.com.thinksoft.ac.intac;
 
-public interface IUsuario {
+import java.io.Serializable;
+
+public interface IUsuario extends Serializable {
 
 	/**
 	 * Verifica si ese codido de seguridad se encuentra en alguno de los
@@ -25,9 +27,28 @@ public interface IUsuario {
 
 	public String getNombreUsuario();
 
+	public Long getDni();
+
+	public String getMail();
+
+	public String getApellido();
+
+	public String getNombre();
+
+	public Long getTelefono();
+
 	public void setContrasenia(String contrasenia);
 
 	public void setNombreUsuario(String nombreUsuario);
-	
+
+	public void setDni(Long DNI);
+
+	public void setMail(String mail);
+
+	public void setApellido(String apellido);
+
+	public void setNombre(String nombre);
+
+	public void setTelefono(Long telefono);
 
 }

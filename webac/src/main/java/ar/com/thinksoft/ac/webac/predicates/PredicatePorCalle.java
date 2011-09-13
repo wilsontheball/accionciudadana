@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.webac.predicates;
 
 import ar.com.thinksoft.ac.intac.IReclamo;
+
 import com.db4o.query.Predicate;
 
 @SuppressWarnings("serial")

@@ -72,8 +72,19 @@
 			<version>${jetty.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
-
+		
+		<!-- WICKET EXTENSION DEPENDENCY -->
+		<dependency>
+		   <groupId>org.apache.wicket</groupId>
+		   <artifactId>wicket-extensions</artifactId>
+		   <version>1.4.7</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.wicketstuff</groupId>
+			<artifactId>inmethod-grid</artifactId>
+			<version>1.4.14</version>
+		</dependency>
 		<!-- DEPENDENCIAS DE PROYECTOS WILSON -->
 
 		<dependency>
@@ -90,8 +101,12 @@
 			<version>8.1-SNAPSHOT</version>
 		</dependency>
 
-
-
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-request</artifactId>
+			<version>1.5-M3</version>
+		</dependency>
+		
 	</dependencies>
 	
 	<repositories>
@@ -99,7 +114,16 @@
 			<id>source.db4o</id>
 			<url>http://source.db4o.com/maven</url>
 		</repository>
+		<repository>
+			<id>wicketstuff-core-snapshots</id>
+			<url>ttps://oss.sonatype.org/content/repositories/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>        
+		</repository>
 	</repositories>
+	
+	
 
 	<build>
 		<resources>

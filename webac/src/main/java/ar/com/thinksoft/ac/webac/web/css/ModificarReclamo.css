@@ -1,0 +1,52 @@
+@CHARSET "UTF-8";
+
+form
+{
+   position: inherited;
+   padding:2px;
+   display: inline;
+   
+}
+
+label
+{
+   padding:2px;
+   text-align:left;
+   vertical-align: middle;
+}
+
+.block{
+   margin:10px 2px; 
+   font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
+   font-size: 12px;
+}
+
+td.texto{
+	text-align: right;	
+}
+
+.observaciones{
+	position: absolute;
+   	padding:2px;
+   	text-align:left;
+   	margin-left: 3%;	
+}
+
+.imageUploader{
+	vertical-align: top;	
+}
+
+.imagen{
+	width: 30em; 
+	height: 25em;	
+	/*float: right;*/
+}
+
+.contenedorImagen{
+	width: 50em;	
+}
+
+.contenedorText{
+	width: 30em; 
+	height: 25em;	
+}

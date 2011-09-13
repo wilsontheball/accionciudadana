@@ -7,14 +7,27 @@ import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IPermitible;
 import ar.com.thinksoft.ac.intac.IUsuario;
 
+@SuppressWarnings("serial")
 public class Usuario implements IUsuario {
 
 	private List<IPermiso> permisos;
 	private String nombreUsuario;
 	private String contrasenia;
+	private Long telefono;
+	private String nombre;
+	private String apellido;
+	private String mail;
+	private Long dni;
 
 	public Usuario() {
 		this.permisos = new ArrayList<IPermiso>();
+		this.setApellido("");
+		this.setContrasenia("");
+		this.setDni(0L);
+		this.setMail("");
+		this.setNombre("");
+		this.setNombreUsuario("");
+		this.setTelefono(0L);
 	}
 
 	@Override
@@ -75,6 +88,56 @@ public class Usuario implements IUsuario {
 	@Override
 	public String getContrasenia() {
 		return this.contrasenia;
+	}
+
+	@Override
+	public Long getDni() {
+		return this.dni;
+	}
+
+	@Override
+	public String getMail() {
+		return this.mail;
+	}
+
+	@Override
+	public String getApellido() {
+		return this.apellido;
+	}
+
+	@Override
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	@Override
+	public Long getTelefono() {
+		return this.telefono;
+	}
+
+	@Override
+	public void setDni(Long dni) {
+		this.dni = dni;
+	}
+
+	@Override
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	@Override
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	@Override
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	@Override
+	public void setTelefono(Long telefono) {
+		this.telefono = telefono;
 	}
 
 }

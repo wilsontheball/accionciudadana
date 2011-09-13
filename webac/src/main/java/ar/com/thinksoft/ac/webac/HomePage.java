@@ -24,11 +24,15 @@ public class HomePage extends BasePage {
 	 */
 	public HomePage(final PageParameters parameters) {
 
-		String nombre = "";
-		if (Context.getInstance().getUsuario() != null)
-			nombre = Context.getInstance().getUsuario().getNombreUsuario();
-		// Add the simplest type of label
-		add(new Label("message", "Bienvenido " + nombre + "a Accion Ciudadana"));
+		
+		//todo lo que esta hecho aca es a modo de pruebas... modificar...
+
+			String nombre = "";
+			if (Context.getInstance().getUsuario() != null)
+				nombre = Context.getInstance().getUsuario().getNombreUsuario();
+			// Add the simplest type of label
+			add(new Label("message", "Bienvenido " + nombre
+					+ " a Accion Ciudadana"));
 
 		// TODO Add your page's components here
 	}

@@ -1,4 +1,0 @@
-<log4j:event logger="ar.com.thinksoft.ac.webac.repository.Repository" timestamp="1312130038191" level="INFO" thread="main">
-<log4j:message><![CDATA[Inicio de Base de Datos]]></log4j:message>
-</log4j:event>
-

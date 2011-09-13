@@ -1,0 +1,82 @@
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+	<head>
+		
+		<title>Login</title>
+		
+		<wicket:head>
+			<wicket:link>
+			<!-- ACA VA LO DE CSS -->
+			<link rel="stylesheet" type="text/css" href="../css/RegistroPage.css"/>
+			</wicket:link>
+		</wicket:head>
+		
+		
+	</head>
+	<body>
+		<wicket:extend>
+
+		<div class="registro">
+		<span wicket:id="feedback" class="error"/>
+			<form wicket:id="registroForm">
+
+			<fieldset>
+			
+			
+			
+				<div >
+					<label class="item">Nombre de Usuario:</label>
+					<input type="text" id="username" wicket:id="username" class="itemRight"/>
+				</div>
+
+				<div>
+					<label class="item">Contraseña:</label>
+			 		<input type="password" wicket:id="password" class="itemRight"/>				
+				</div>
+					
+				<div>				
+					<label class="item">Reescriba la Contraseña:</label>
+					<input type="password" wicket:id="re-password" class="itemRight"/>
+				</div>
+				
+				<div>
+					<label class="item">Apellido:</label>
+					<input type="text" wicket:id="apellido"  class="itemRight"/>
+				</div>
+				
+				<div>
+					<label class="item">Nombre:</label>
+					<input type="text" wicket:id="nombre" class="itemRight"/>
+				</div>
+				
+				<div>
+					<label class="item">DNI:</label>
+					<input type="text" wicket:id="dni" class="itemRight"/>
+				</div>
+				
+				<div>
+					<label class="item">E-Mail:</label>
+					<input type="text" wicket:id="mail" class="itemRight"/>
+				</div>
+				
+				<div> 
+					<label class="item">Telefono:</label>
+					<input type="text" wicket:id="telefono" class="itemRight"/>
+				</div>
+				
+					
+
+
+			 		
+			 		
+			 		
+			 		
+			 	</fieldset>	
+		 		
+		 		<div> <input type="submit" value="Registrarse"/> </div>
+		 		
+			</form>
+		</div>
+		
+		</wicket:extend>
+	</body>
+</html>

@@ -1,18 +1,32 @@
-/**
- * 
- */
-
+var buttonDisabled = true;
 
 $(document).ready(function() {
 	
-	$('#coordenadasRadioButton').click(function(){
-		$('#direccionRadioButton').attr('checked',false);
+	$('input[type=file]').change(function(){
+		$('.imagen').empty();
+		var ruta = $('input[type=file]').val();
+				
+		setTimeout(function(){
+			$('.imagen').attr('src',"/tempImages/" + ruta);
+			$('.imagen').css('heigth','auto');
+			$('.imagen').css('width','auto');
+			validarCampos();
+		}, 3 * 1000);
 		
 	});
 	
-	$('#direccionRadioButton').click(function(){
-		$('#coordenadasRadioButton').attr('checked',false);
-		
-	});
+	validarCampos();
 	
 });
+
+function validarCampos(){
+	
+	buttonDisabled =  validarSiEsNull($('#calleIncidente')[0]) || validarSiEsNull($('#alturaIncidente')[0]) || 
+			validarSiEsNull($('#ciudadanoIncidente')[0]) || validarSiEsNull($('#tipoIncidente')[0]) || 
+			validarSiEsNull($('#barrioIncidente')[0]) || validarSiEsNull($('.imageUploader')[0]);
+	
+	$('.guardarReclamo').attr('disabled',buttonDisabled);
+	
+	return buttonDisabled;
+	
+}

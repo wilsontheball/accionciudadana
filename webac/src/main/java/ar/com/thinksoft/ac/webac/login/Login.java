@@ -11,7 +11,8 @@ public class Login {
 	private String contrasenia;
 
 	public Login(String nombreUsuario,String contrasenia) {
-		// TODO Auto-generated constructor stub
+		this.setNombreUsuario(nombreUsuario);
+		this.setContarsenia(contrasenia);
 	}
 	
 	public String getContrasenia() {
