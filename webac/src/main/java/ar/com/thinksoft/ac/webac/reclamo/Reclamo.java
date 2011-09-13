@@ -1,6 +1,8 @@
 package ar.com.thinksoft.ac.webac.reclamo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import ar.com.thinksoft.ac.estadosReclamo.EstadoActivo;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoBaja;
@@ -42,6 +44,7 @@ public class Reclamo implements IReclamo,Serializable{
 	private IEstadoReclamo estado;
 	private String estadoDescripcion;
 	private String prioridad;
+	private List<IReclamo> reclamosAsociados = new ArrayList<IReclamo>();
 	
 	public Reclamo(){
 	}
@@ -206,6 +209,10 @@ public class Reclamo implements IReclamo,Serializable{
 		return this.prioridad;
 	}
 	
+	public List<IReclamo> getReclamosAsociados() {
+		return this.reclamosAsociados;
+	}
+	
 		
 	//SET ATRIBUTOS
 	
@@ -333,5 +340,7 @@ public class Reclamo implements IReclamo,Serializable{
 		this.prioridad = reclamo.getPrioridad();
 		this.tipoReclamo = reclamo.getTipoIncidente();
 	}
+
+
 
 }

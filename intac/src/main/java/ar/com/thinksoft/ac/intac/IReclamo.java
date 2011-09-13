@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.intac;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Interfaz a implementar para reclamo tanto en la parte Android como en la parte de Dominio Web
@@ -42,6 +43,8 @@ public interface IReclamo extends Serializable{
 	public String getEstadoDescripcion();
 	
 	public String getPrioridad();
+	
+	public List<IReclamo> getReclamosAsociados();
 	
 	// Fin obtencion de atributos
 	
