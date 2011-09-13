@@ -13,21 +13,21 @@ public class Usuario implements IUsuario {
 	private List<IPermiso> permisos;
 	private String nombreUsuario;
 	private String contrasenia;
-	private Long telefono;
+	private String telefono;
 	private String nombre;
 	private String apellido;
 	private String mail;
-	private Long dni;
+	private String dni;
 
 	public Usuario() {
 		this.permisos = new ArrayList<IPermiso>();
 		this.setApellido("");
 		this.setContrasenia("");
-		this.setDni(0L);
+		this.setDni("");
 		this.setMail("");
 		this.setNombre("");
 		this.setNombreUsuario("");
-		this.setTelefono(0L);
+		this.setTelefono("");
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class Usuario implements IUsuario {
 	}
 
 	@Override
-	public Long getDni() {
+	public String getDni() {
 		return this.dni;
 	}
 
@@ -111,12 +111,12 @@ public class Usuario implements IUsuario {
 	}
 
 	@Override
-	public Long getTelefono() {
+	public String getTelefono() {
 		return this.telefono;
 	}
 
 	@Override
-	public void setDni(Long dni) {
+	public void setDni(String dni) {
 		this.dni = dni;
 	}
 
@@ -136,7 +136,7 @@ public class Usuario implements IUsuario {
 	}
 
 	@Override
-	public void setTelefono(Long telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 

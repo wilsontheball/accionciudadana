@@ -38,9 +38,9 @@ public class RegistroForm extends Form<IUsuario> {
 		add(new TextField<String>("apellido", createStringBind(model,
 				"apellido")));
 		add(new TextField<String>("nombre", createStringBind(model, "nombre")));
-		add(new TextField<Long>("dni", createLongBind(model, "dni")));
+		add(new TextField<String>("dni", createStringBind(model, "dni")));
 		add(this.createEmail(model));
-		add(new TextField<Long>("telefono", createLongBind(model, "telefono")));
+		add(new TextField<String>("telefono", createStringBind(model, "telefono")));
 
 	}
 
