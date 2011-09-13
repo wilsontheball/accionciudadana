@@ -2,7 +2,7 @@ package ar.com.thinksoft.ac.webac.web.usuario.alta;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.wicket.markup.html.basic.Label;
+
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -10,21 +10,22 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import ar.com.thinksoft.ac.intac.IReclamo;
+
 import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.intac.utils.collections.Comparator;
 import ar.com.thinksoft.ac.intac.utils.collections.HArrayList;
+import ar.com.thinksoft.ac.intac.utils.string.StringUtils;
 import ar.com.thinksoft.ac.webac.predicates.registro.PredicateTodosLosUsuarios;
-import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.repository.Repository;
+
 import com.inmethod.grid.DataProviderAdapter;
 import com.inmethod.grid.IGridColumn;
 import com.inmethod.grid.column.PropertyColumn;
-import com.inmethod.grid.datagrid.DataGrid;
+import com.inmethod.grid.datagrid.DefaultDataGrid;
 
 public class UsuariosForm extends Form<UsuarioFilterObject> {
 
-	private DataGrid grid;
+	private DefaultDataGrid grid;
 	private UsuariosForm _self = this;
 
 	/**
@@ -37,36 +38,46 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 
 		super(id);
 		CompoundPropertyModel<UsuarioFilterObject> model = new CompoundPropertyModel<UsuarioFilterObject>(
-			new UsuarioFilterObject());
+				new UsuarioFilterObject());
 		this.setModel(model);
 
+		this.add(new TextField<String>("campoBusquedaNombre", this.createBind(
+				model, "nombre")));
+		this.add(new TextField<String>("campoBusquedaApellido", this
+				.createBind(model, "apellido")));
 
-		this.add(new TextField<String>("campoBusquedaNombre", this.createBind(model, "nombre")));
-		this.add(new TextField<String>("campoBusquedaApellido", this.createBind(model, "apellido")));
-		
-		this.add(new Button("botonBuscar"){
-			
+		this.add(this.createNewButton("botonNuevo"));
+		this.createTablaUsuarios("grid");
+		this.add(this.grid);
+
+		this.add(new Button("botonBuscar") {
+
 			@Override
 			public void onSubmit() {
 
 				final UsuarioFilterObject filterObject = _self.getModelObject();
 
-				HArrayList<IUsuario> list = HArrayList.toHArrayList(getTodosLosUsuarios());
+				HArrayList<IUsuario> list = HArrayList
+						.toHArrayList(getTodosLosUsuarios());
 
 				List<IUsuario> data = list.filter(new Comparator<IUsuario>() {
 					@Override
 					public boolean apply(IUsuario elem) {
-						return filterObject.getApellido().toLowerCase().contains(elem.getApellido().toLowerCase()) ||
-							filterObject.getNombre().toLowerCase().contains(elem.getNombre().toLowerCase());
+
+						if (filterObject.isNull()) {
+							return true;
+						} else
+							return StringUtils.contains(elem.getApellido(),
+									filterObject.getApellido())
+									|| StringUtils.contains(elem.getNombre(),
+											filterObject.getNombre());
+
 					}
 				});
 
 				grid.setDefaultModelObject(toDataProvider(data));
 			}
 		});
-		
-		this.add(this.createNewButton("botonNuevo"));
-		this.add(createTablaUsuarios("grid"));
 
 	}
 
@@ -74,14 +85,14 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 	 * COMPONENTS
 	 */
 
-	private DataGrid createTablaUsuarios(String gridName) {
+	private void createTablaUsuarios(String gridName) {
 
 		ListDataProvider<IUsuario> dataProvider = new ListDataProvider<IUsuario>(
-			this.getTodosLosUsuarios());
+				this.getTodosLosUsuarios());
 		List<IGridColumn> columnas = this.crearColumnas();
 
-		DataGrid grid = new DataGrid(gridName, new DataProviderAdapter(
-			dataProvider), columnas);
+		DefaultDataGrid grid = new DefaultDataGrid(gridName,
+				new DataProviderAdapter(dataProvider), columnas);
 
 		grid.setRowsPerPage(10);
 		grid.setClickRowToSelect(true);
@@ -89,7 +100,7 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 		grid.setAllowSelectMultiple(false);
 		grid.setCleanSelectionOnPageChange(true);
 
-		return grid;
+		this.grid = grid;
 	}
 
 	private Button createNewButton(String id) {
@@ -105,7 +116,6 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 		return button;
 	}
 
-
 	private List<IUsuario> getTodosLosUsuarios() {
 		return Repository.getInstance().query(new PredicateTodosLosUsuarios());
 	}
@@ -114,16 +124,16 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 		List<IGridColumn> columnas = new ArrayList<IGridColumn>();
 
 		columnas.add(new PropertyColumn("apellido", new Model<String>(
-			"Apellido"), "apellido"));
+				"Apellido"), "apellido"));
 		columnas.add(new PropertyColumn("nombre", new Model<String>("Nombre"),
-			"nombre"));
+				"nombre"));
 		columnas.add(new PropertyColumn("nombreUsuario", new Model<String>(
-			"Nombre de Usuario"), "nombreUsuario"));
+				"Nombre de Usuario"), "nombreUsuario"));
 		columnas.add(new PropertyColumn("dni", new Model<String>("DNI"), "dni"));
 		columnas.add(new PropertyColumn("mail", new Model<String>("E-Mail"),
-			"mail"));
+				"mail"));
 		columnas.add(new PropertyColumn("telefono", new Model<String>(
-			"Telefono"), "telefono"));
+				"Telefono"), "telefono"));
 
 		return columnas;
 	}
@@ -132,12 +142,14 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 	 * AUXILIARES
 	 */
 
-	private IModel<String> createBind(CompoundPropertyModel<UsuarioFilterObject> model, String property) {
+	private IModel<String> createBind(
+			CompoundPropertyModel<UsuarioFilterObject> model, String property) {
 		return model.bind(property);
 	}
 
 	private DataProviderAdapter toDataProvider(List<IUsuario> list) {
-		ListDataProvider<IUsuario> listDataProvider = new ListDataProvider<IUsuario>(list);
+		ListDataProvider<IUsuario> listDataProvider = new ListDataProvider<IUsuario>(
+				list);
 		return new DataProviderAdapter(listDataProvider);
 	}
 }
