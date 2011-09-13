@@ -53,6 +53,13 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<!-- REPORTING DEPENDENCIA JASPER REPORTS FOR EXPORTING DATA-->
+		<dependency>
+			<groupId>jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>3.5.3</version>
+		</dependency>
+		
 		<!-- JAVAMAIL -->
 		<dependency>
 			<groupId>javax.mail</groupId>
