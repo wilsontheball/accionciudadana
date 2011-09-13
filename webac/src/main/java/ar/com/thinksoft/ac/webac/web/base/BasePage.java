@@ -14,7 +14,7 @@ import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 import ar.com.thinksoft.ac.webac.web.logout.LogoutPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoPage;
-import ar.com.thinksoft.ac.webac.web.usuario.alta.UsuarioPage;
+import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
 import ar.com.thinksoft.ac.webac.web.logout.LogoutPage;
 
 public abstract class BasePage extends Permitible {

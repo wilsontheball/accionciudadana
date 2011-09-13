@@ -15,7 +15,6 @@ import org.apache.wicket.validation.ValidationError;
 
 import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.registro.RegistroManager;
-import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.webac.usuario.UsuarioFactory;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 
