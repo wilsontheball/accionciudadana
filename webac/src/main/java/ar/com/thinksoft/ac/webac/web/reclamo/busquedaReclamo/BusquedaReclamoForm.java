@@ -2,7 +2,16 @@ package ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.form.Button;
@@ -21,6 +30,7 @@ import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.export.ObjectDataSource;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
 import com.inmethod.grid.DataProviderAdapter;
@@ -34,6 +44,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	
 	private DataGrid grid;
 	private BusquedaReclamoForm _self = this;
+	private static final String PATH = "src/main/webapp/export/";
 	
 	public BusquedaReclamoForm(String id) {
 		super(id);
@@ -141,6 +152,18 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 			}
         );
         
+        add(new Button("exportar"){
+        	@Override
+			public void onSubmit() {
+        		try {
+					byte[] arrayBytes = exportTable();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+        	}
+        });
+        
 	}
 
 	private IModel<String> createBind(CompoundPropertyModel<IReclamo> model,String property){
@@ -211,4 +234,43 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
         grid.setCleanSelectionOnPageChange(true);
         
 	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public byte[] exportTable() throws Exception{
+		byte[] arrayBytes = null;
+		
+	  	//obtain a list of objects for the report
+	    List<IReclamo> reclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
+	
+	    // pass parameters to the report
+	    Map parameters = new HashMap();
+	    parameters.put("Title", "Listado de Reclamos - Accion Ciudadana");
+	
+	    try {
+	      // compile report design
+	      JasperReport jasperReport = JasperCompileManager.compileReport(PATH + "design.jrxml");
+	      
+	      // create an object datasourse from the pilots list
+	      ObjectDataSource dataSource = new ObjectDataSource(reclamos);
+	
+	      // fill the report 
+	      JasperPrint jasperPrint = JasperFillManager.fillReport(
+	          jasperReport, parameters, dataSource);
+	      
+	      // export result to the *.pdf
+	      //JasperExportManager.exportReportToPdfFile(jasperPrint,
+	    	//  PATH + "accionCiudadana.pdf");
+	      
+	     arrayBytes = JasperExportManager.exportReportToPdf(jasperPrint);
+	      
+	      // or export to *.html
+	      /*JasperExportManager.exportReportToHtmlFile(jasperPrint,
+	    	  PATH + "the-pilot-report.html");
+	*/
+	    } catch (JRException e) {
+	    	throw new Exception("Imposible exportar a pdf. Consulte con nuestro soporte tecnico");
+	    }
+		return arrayBytes;
+	}
+	
 }
