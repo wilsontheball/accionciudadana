@@ -99,8 +99,8 @@
 			<artifactId>inmethod-grid</artifactId>
 			<version>1.4.14</version>
 		</dependency>
-		<!-- DEPENDENCIAS DE PROYECTOS WILSON -->
 
+		<!-- DEPENDENCIAS DE PROYECTOS WILSON -->
 		<dependency>
 			<groupId>ar.com.thinksoft.ac</groupId>
 			<artifactId>intac</artifactId>
@@ -108,7 +108,6 @@
 		</dependency>
 		
 		<!-- BD DEPENDENCY - DB40 -->  
-		
 		<dependency>
 			<groupId>com.db4o</groupId>
 			<artifactId>db4o-full-java5</artifactId>
@@ -120,6 +119,19 @@
 			<artifactId>wicket-request</artifactId>
 			<version>1.5-M3</version>
 		</dependency>
+		
+		<!-- WICKET- VISURAL FRAMEWORK -->
+		<dependency>
+            <groupId>com.visural</groupId>
+            <artifactId>visural-common</artifactId>
+            <version>0.5.0</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>com.visural</groupId>
+            <artifactId>visural-wicket-w14</artifactId>
+            <version>0.7.0</version>
+        </dependency>
 		
 	</dependencies>
 	
@@ -135,9 +147,17 @@
 				<enabled>true</enabled>
 			</snapshots>        
 		</repository>
+		<repository>
+            <id>visural-common</id>
+            <name>visural-common</name>
+            <url>http://visural-common.googlecode.com/svn/trunk/visural-common/maven/</url>
+        </repository>
+        <repository>
+            <id>visural-wicket</id>
+            <name>visural-wicket</name>
+            <url>http://visural-wicket.googlecode.com/svn/trunk/visural-wicket/maven/</url>
+        </repository>
 	</repositories>
-	
-	
 
 	<build>
 		<resources>

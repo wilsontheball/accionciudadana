@@ -14,6 +14,12 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.RequestCycle;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.WebResource;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -22,12 +28,17 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.protocol.http.WebResponse;
+import org.apache.wicket.request.target.resource.ResourceStreamRequestTarget;
+import org.apache.wicket.resource.ByteArrayResource;
+import org.apache.wicket.util.resource.IResourceStream;
 
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.export.ObjectDataSource;
@@ -38,6 +49,7 @@ import com.inmethod.grid.SizeUnit;
 import com.inmethod.grid.column.PropertyColumn;
 import com.inmethod.grid.datagrid.DataGrid;
 import com.inmethod.grid.datagrid.DefaultDataGrid;
+import com.visural.wicket.component.dialog.Dialog;
 
 @SuppressWarnings("serial")
 public class BusquedaReclamoForm extends Form<IReclamo> {
@@ -45,10 +57,15 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	private DataGrid grid;
 	private BusquedaReclamoForm _self = this;
 	private static final String PATH = "src/main/webapp/export/";
+	private Dialog dialog = null;
 	
+	@SuppressWarnings("rawtypes")
 	public BusquedaReclamoForm(String id) {
+		
 		super(id);
+		
 		CompoundPropertyModel<IReclamo> model = new CompoundPropertyModel<IReclamo>(new Reclamo());
+		
 		setModel(model);
 		
 		add(new TextField<String>("calleIncidente",this.createBind(model,"calleIncidente")));
@@ -88,14 +105,13 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 					ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
 					grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				}
-			}
-	    );
+			});
 		
 		armarGrilla(ReclamoManager.getInstance().obtenerTodosReclamos());
+		
         add(grid);
         
         add(new Button("detalle"){
-				@SuppressWarnings("rawtypes")
 				@Override
 				public void onSubmit() {
 					Collection<IModel> selected = grid.getSelectedItems();
@@ -111,35 +127,42 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				        setRedirect(true);
 					}
 				}
-			}
-        );
+			});
         
-        add(new Button("cancelar"){
-				@SuppressWarnings("rawtypes")
-				@Override
-				public void onSubmit() {
-					Collection<IModel> selected = grid.getSelectedItems();
-					if(selected.size()==1){
-						Reclamo reclamo = new Reclamo();
-				        for (IModel model : selected) {
-				           reclamo = (Reclamo) model.getObject();
-				        }
-				        
-				        /*
-				         * DIALOG
-				         * PREGUNTAR SI REALMENTE SE QUIERE HACER ESTO
-				         */
-				        
-				        reclamo.cancelarReclamo();
-				        setResponsePage(BusquedaReclamoPage.class);
-				        setRedirect(true);
-					}
-				}
+        dialog = new Dialog("dialog");
+	    add(dialog);
+	    dialog.add(new AjaxLink("cancelarReclamo"){
+			@Override
+			public void onClick(AjaxRequestTarget target){
+				Collection<IModel> selected = grid.getSelectedItems();
+				Reclamo reclamo = new Reclamo();
+		        for (IModel model : selected) {
+		           reclamo = (Reclamo) model.getObject();
+		        }
+		        reclamo.cancelarReclamo();
+				dialog.close(target);
+				setResponsePage(BusquedaReclamoPage.class);
+		        setRedirect(true);
 			}
-        );
+	    });
+	    dialog.add(new AjaxLink("volver"){
+	    	@Override
+	    	public void onClick(AjaxRequestTarget target){
+	    		dialog.close(target);
+	    	}
+	    });
+	    
+	    add(new AjaxLink("cancelar") {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+            	Collection<IModel> selected = grid.getSelectedItems();
+				if(selected.size()>1){
+					dialog.open(target);
+				}
+            }
+        });
         
         add(new Button("unificar"){
-				@SuppressWarnings("rawtypes")
 				@Override
 				public void onSubmit() {
 					Collection<IModel> selected = grid.getSelectedItems();
@@ -149,18 +172,22 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 						 */
 					}
 				}
-			}
-        );
+			});
         
         add(new Button("exportar"){
         	@Override
 			public void onSubmit() {
-        		try {
-					byte[] arrayBytes = exportTable();
-					
+        		
+        		ByteArrayResource bar = null;
+				try {
+					bar = new ByteArrayResource("application/pdf", exportTable());
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+        		IResourceStream stream = bar.getResourceStream();
+        		RequestCycle.get().setRequestTarget(new ResourceStreamRequestTarget(stream, "accionCiudadana.pdf"));
+        		
         	}
         });
         
@@ -191,10 +218,10 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																			  .setResizable(false)
             																			  .setSizeUnit(SizeUnit.EX),
             																			  
-            /*new PropertyColumn("barrioCol",new Model<String>("Barrio"), "barrioIncidente").setInitialSize(20)
+            new PropertyColumn("barrioCol",new Model<String>("Barrio"), "barrioIncidente").setInitialSize(20)
             																			  .setResizable(false)
             																			  .setWrapText(true)
-            																			  .setSizeUnit(SizeUnit.EX), 	*/																		  
+            																			  .setSizeUnit(SizeUnit.EX), 																			  
             
             new PropertyColumn("comunaCol",new Model<String>("Comuna"), "comunaIncidente").setInitialSize(20)
             																			  .setResizable(false)
@@ -227,11 +254,17 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																						  .setSizeUnit(SizeUnit.EX)
             );
         
-		grid = new DefaultDataGrid("grid", new DataProviderAdapter(listDataProvider), cols);
+		grid = new DefaultDataGrid("grid", new DataProviderAdapter(listDataProvider), cols){
+			@Override
+            protected void onRowClicked(AjaxRequestTarget target, IModel rowModel) {
+				
+            }
+		};
 		grid.setRowsPerPage(10);
         grid.setClickRowToSelect(true);
-        grid.setAllowSelectMultiple(false);
+        grid.setAllowSelectMultiple(true);
         grid.setCleanSelectionOnPageChange(true);
+        
         
 	}
 	
