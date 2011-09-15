@@ -341,10 +341,37 @@ public class Reclamo implements IReclamo,Serializable{
 		this.tipoReclamo = reclamo.getTipoIncidente();
 	}
 	
+	// METODOS PARA UNIFICACION
 	public boolean isUnificable(){
 		return  this.getEstadoDescripcion() != EnumEstadosReclamo.cancelado.getEstado() &&
 				this.getEstadoDescripcion() != EnumEstadosReclamo.terminado.getEstado() &&
 				this.getEstadoDescripcion() != EnumEstadosReclamo.baja.getEstado();
+	}
+	
+	public boolean isIgual(IReclamo reclamo){
+		return this.getComunaIncidente().equals(reclamo.getComunaIncidente()) &&
+		(!this.getId().equals(reclamo.getId())) && //ID distinto
+		this.getTipoIncidente().equals(reclamo.getTipoIncidente()) &&
+		this.getCalleIncidente().equals(reclamo.getCalleIncidente()) &&
+		diferenciaAlturasMenorCienMetros(this.getAlturaIncidente(),reclamo.getAlturaIncidente());
+	}
+	
+	private boolean diferenciaAlturasMenorCienMetros(String alturaIncidente, String alturaIncidente2) {
+		int altura1 = Integer.parseInt(alturaIncidente);
+		int altura2 = Integer.parseInt(alturaIncidente2);
+		
+		if(altura1>altura2)
+			return altura1 - altura2 < 100;
+		else
+			return altura2 - altura1 < 100;
+	}
+	
+	public void unificar(IReclamo reclamo){
+		if(this.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) < 0){
+			//this tiene fecha mayor
+			System.out.println("This: " + this.getFechaReclamo());
+			System.out.println("Reclamo: " + reclamo.getFechaReclamo());
+		}
 	}
 
 

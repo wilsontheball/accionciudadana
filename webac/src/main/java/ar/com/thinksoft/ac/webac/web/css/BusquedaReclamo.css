@@ -38,6 +38,12 @@ label
 	border-radius: 10px;
 }
 
+.dialogo.atencion{
+	border-color:#ff0000;
+	background-color: white;
+	color: #FF0000;
+}
+
 
 .filterTables{
 	margin:10px 50px;

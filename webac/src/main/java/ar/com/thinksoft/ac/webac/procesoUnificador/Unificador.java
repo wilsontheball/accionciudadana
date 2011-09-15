@@ -28,7 +28,7 @@ public class Unificador {
 			Date date = calendar.getTime();
 			
 			//La tarea se va a ejecutar 1 hora antes, es decir, 01:00 AM
-			timer.schedule(new ImportarDatos(), date);
+			//timer.schedule(new ImportarDatos(), date);
 			
 		}catch (Exception e) {
 			LogFwk.getInstance(Unificador.class).error("Error no controlado");
@@ -43,7 +43,6 @@ public class Unificador {
 		public void run() {
 	    	// Damos baja prioridad al hilo
 	    	Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-	    	
 	    	listaReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
 	    	for(IReclamo reclamo:listaReclamos){
 	    		if(reclamo.isUnificable())
@@ -54,32 +53,19 @@ public class Unificador {
 
 		private void compararReclamoConTodos(IReclamo reclamo) {
 			for(IReclamo reclamoBase: listaReclamos){
-				if(sonIguales(reclamo,reclamoBase)){
+				if(reclamo.isIgual(reclamoBase)){
 					unificar(reclamo,reclamoBase);
 				}
 			}
 		}
 
-		private boolean sonIguales(IReclamo reclamo, IReclamo reclamoBase) {
-			return reclamo.getComunaIncidente().equals(reclamoBase.getComunaIncidente()) &&
-				(!reclamo.getId().equals(reclamoBase.getId())) && //ID distinto
-				reclamo.getTipoIncidente().equals(reclamoBase.getTipoIncidente()) &&
-				reclamo.getCalleIncidente().equals(reclamoBase.getCalleIncidente()) &&
-				diferenciaAlturasMenorCienMetros(reclamo.getAlturaIncidente(),reclamoBase.getAlturaIncidente());
-		}
-		
-		private boolean diferenciaAlturasMenorCienMetros(String alturaIncidente, String alturaIncidente2) {
-			int altura1 = Integer.parseInt(alturaIncidente);
-			int altura2 = Integer.parseInt(alturaIncidente2);
-			
-			if(altura1>altura2)
-				return altura1 - altura2 < 100;
-			else
-				return altura2 - altura1 < 100;
-		}
-
 		private void unificar(IReclamo reclamo, IReclamo reclamoBase) {
-			
+			if(reclamo.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) > 0){
+				//this tiene fecha mayor
+				System.out.println("This: " + reclamo.getFechaReclamo());
+				System.out.println("Reclamo: " + reclamo.getFechaReclamo());
+				
+			}
 		}
     }
 }  

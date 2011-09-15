@@ -1,5 +1,6 @@
 package ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -52,7 +53,9 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	private DataGrid grid;
 	private BusquedaReclamoForm _self = this;
 	private static final String PATH = "src/main/webapp/export/";
-	private Dialog dialog = null;
+	private Dialog dialogCancelar = null;
+	private Dialog dialogDetalle = null;
+	private Dialog dialogUnificar = null;
 	private ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
 	
 	@SuppressWarnings("rawtypes")
@@ -94,6 +97,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		dropDownListPrioridad.setNullValid(true);
 		add(dropDownListPrioridad);
 			
+		///////////// BUSCAR RECLAMO ////////////////////////
 		add(new Button("busqueda"){
 				@Override
 				public void onSubmit() {
@@ -102,11 +106,11 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 					grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				}
 			});
-		
+
 		armarGrilla();
-		
         add(grid);
         
+        ///////////// DETALLE RECLAMO ////////////////////////
         add(new Button("detalle"){
 				@Override
 				public void onSubmit() {
@@ -125,9 +129,11 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				}
 			});
         
-        dialog = new Dialog("dialog");
-	    add(dialog);
-	    dialog.add(new AjaxLink("cancelarReclamo"){
+        
+        ///////////// CANCELAR RECLAMO ////////////////////////
+        dialogCancelar = new Dialog("dialog");
+	    add(dialogCancelar);
+	    dialogCancelar.add(new AjaxLink("cancelarReclamo"){
 			@Override
 			public void onClick(AjaxRequestTarget target){
 				Collection<IModel> selected = grid.getSelectedItems();
@@ -136,15 +142,15 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		           reclamo = (Reclamo) model.getObject();
 		        }
 		        reclamo.cancelarReclamo();
-				dialog.close(target);
+				dialogCancelar.close(target);
 				setResponsePage(BusquedaReclamoPage.class);
 		        setRedirect(true);
 			}
 	    });
-	    dialog.add(new AjaxLink("volver"){
+	    dialogCancelar.add(new AjaxLink("volver"){
 	    	@Override
 	    	public void onClick(AjaxRequestTarget target){
-	    		dialog.close(target);
+	    		dialogCancelar.close(target);
 	    	}
 	    });
 	    
@@ -153,23 +159,50 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             public void onClick(AjaxRequestTarget target) {
             	Collection<IModel> selected = grid.getSelectedItems();
 				if(selected.size()>=1){
-					dialog.open(target);
+					dialogCancelar.open(target);
 				}
             }
         });
-        
-        add(new Button("unificar"){
+	    
+	    ///////////// UNIFICAR RECLAMOS ////////////////////////
+	    dialogUnificar = new Dialog("dialogUnificar");
+	    add(dialogUnificar);
+        add(new AjaxLink("unificar"){
 				@Override
-				public void onSubmit() {
+				public void onClick(AjaxRequestTarget target) {
 					Collection<IModel> selected = grid.getSelectedItems();
-					if(selected.size()>=1){
-						/*
-						 * UNIFICACION MANUAL
-						 */
+					if(selected.size()==2){
+						List<IReclamo> listaReclamosSeleccionados = obtenerReclamosSeleccionados(selected);
+						IReclamo reclamo = listaReclamosSeleccionados.get(0);
+						IReclamo reclamo2 = listaReclamosSeleccionados.get(1);
+						reclamo.unificar(reclamo2);
+						
+					}else{
+						dialogUnificar.open(target);
 					}
 				}
+
+				private List<IReclamo> obtenerReclamosSeleccionados(
+						Collection<IModel> selected) {
+					List<IReclamo> listaReclamosSeleccionados = new ArrayList<IReclamo>();
+					Reclamo reclamo = new Reclamo();
+					for(IModel modelReclamo: selected){
+						reclamo = (Reclamo) modelReclamo.getObject();
+						listaReclamosSeleccionados.add(reclamo);
+					}
+					return listaReclamosSeleccionados;
+				}
+				
 			});
         
+        dialogUnificar.add(new AjaxLink("volver"){
+	    	@Override
+	    	public void onClick(AjaxRequestTarget target){
+	    		dialogUnificar.close(target);
+	    	}
+	    });
+        
+        ///////////// EXPORTAR ////////////////////////
         add(new Button("exportar"){
         	@Override
 			public void onSubmit() {
@@ -187,6 +220,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
         	}
         });
         
+        ///////////// FIN ////////////////////////
 	}
 
 	private IModel<String> createBind(CompoundPropertyModel<IReclamo> model,String property){

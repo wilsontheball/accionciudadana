@@ -83,9 +83,16 @@ public interface IReclamo extends Serializable{
 	public void clone(IReclamo reclamoOriginal);
 
 	public void cambiarEstado(String estadoDescripcion);
-	
+
 	// Fin seteo atributos
 	
+	//Metodos que no hace falta implementar en Android.
+	 
+	public boolean isUnificable();
+	
+	public boolean isIgual(IReclamo reclamo);
+	
+	public void unificar(IReclamo reclamo);
 	
 }
 

@@ -125,9 +125,16 @@
 					</tr>
 				</table>
 				
-				<div wicket:id="grid" align="center" style="width: 238ex; margin:20px 10px;"></div>
+				<table align="center">
+					<tr>
+						<td>
+							<div wicket:id="grid" align="center" class="block" style="width: 238ex; margin:20px 10px;"></div>
+						</td>
+					</tr>
+				</table>
 				
-				<table align="center"  style="width: 100%;">
+				
+				<table align="center"  style="width: 238ex;">
 					<tr>
 						<td class="celda">
 							<table>
@@ -136,6 +143,7 @@
 										<div class="block">
 											<input type="submit" wicket:id="detalle" value="Detalle del reclamo"/>
 										</div>
+										
 									</td>
 									<td>
 										<div class="block">
@@ -148,18 +156,27 @@
 				                    			<input type="button" wicket:id="volver" value="No" style="margin:10px;"/>
 				                			</div>
             							</div>	
+            							
 									</td>
 									<td>
 										<div class="block">
-											<input type="submit" wicket:id="unificar" value="Unificar reclamos"/>
+											<input type="button" wicket:id="unificar" value="Unificar reclamos"/>
 										</div>
+										<div wicket:id="dialogUnificar">
+				                			<div class="dialogo atencion">
+				                    			<p>No se seleccionaron dos reclamos para ser unificados. 
+				                    			Por favor, selecci&oacute;nelos y vuelva a intentarlo.<br>
+				                    			Si el problema persiste, no dude en consultar al soporte técnico.</p>
+				                    			<input type="button" wicket:id="volver" value="Volver" style="margin:10px;"/>
+				                			</div>
+            							</div>	
 									</td>
 								</tr>
 							</table>
 						</td>
 						<td style="float:right;">
 							<div class="block">
-								<input type="submit" wicket:id="exportar" value="Exportar"/>
+								<input type="submit" wicket:id="exportar" value="Exportar listado actual"/>
 							</div>
 						</td>
 					</tr>
