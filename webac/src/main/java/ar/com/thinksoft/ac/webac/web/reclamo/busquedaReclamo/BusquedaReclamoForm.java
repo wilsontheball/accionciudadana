@@ -17,9 +17,6 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.WebResource;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -28,7 +25,6 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.request.target.resource.ResourceStreamRequestTarget;
 import org.apache.wicket.resource.ByteArrayResource;
 import org.apache.wicket.util.resource.IResourceStream;
@@ -38,7 +34,6 @@ import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.export.ObjectDataSource;
@@ -58,6 +53,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	private BusquedaReclamoForm _self = this;
 	private static final String PATH = "src/main/webapp/export/";
 	private Dialog dialog = null;
+	private ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
 	
 	@SuppressWarnings("rawtypes")
 	public BusquedaReclamoForm(String id) {
@@ -102,12 +98,12 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				@Override
 				public void onSubmit() {
 					IReclamo reclamo = _self.getModelObject();
-					ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
+					listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
 					grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				}
 			});
 		
-		armarGrilla(ReclamoManager.getInstance().obtenerTodosReclamos());
+		armarGrilla();
 		
         add(grid);
         
@@ -156,7 +152,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             @Override
             public void onClick(AjaxRequestTarget target) {
             	Collection<IModel> selected = grid.getSelectedItems();
-				if(selected.size()>1){
+				if(selected.size()>=1){
 					dialog.open(target);
 				}
             }
@@ -166,7 +162,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				@Override
 				public void onSubmit() {
 					Collection<IModel> selected = grid.getSelectedItems();
-					if(selected.size()!=1){
+					if(selected.size()>=1){
 						/*
 						 * UNIFICACION MANUAL
 						 */
@@ -202,14 +198,13 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void armarGrilla(List<IReclamo> lista) {
-		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(lista);
+	private void armarGrilla() {
 
 		List cols = (List) Arrays.asList(
 			new PropertyColumn("idCol",new Model<String>("Id"),"Id").setInitialSize(0)
 																	.setResizable(false),
 																	
-            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(25)
+            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(26)
             																						 .setResizable(false)
             																						 .setWrapText(true)
             																						 .setSizeUnit(SizeUnit.EX),
@@ -223,46 +218,42 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																			  .setWrapText(true)
             																			  .setSizeUnit(SizeUnit.EX), 																			  
             
-            new PropertyColumn("comunaCol",new Model<String>("Comuna"), "comunaIncidente").setInitialSize(20)
+            new PropertyColumn("comunaCol",new Model<String>("Comuna"), "comunaIncidente").setInitialSize(15)
             																			  .setResizable(false)
             																			  .setWrapText(true)
             																			  .setSizeUnit(SizeUnit.EX),
             																				
-            new PropertyColumn("fechaCol",new Model<String>("Fecha del reclamo"), "FechaReclamo").setInitialSize(20)
-            																					 .setResizable(false)
-            																					 .setSizeUnit(SizeUnit.EX),
+            new PropertyColumn("fechaCol",new Model<String>("Fecha de alta"), "FechaReclamo").setInitialSize(15)
+            																		 		.setResizable(false)
+            																		 		.setSizeUnit(SizeUnit.EX),
             																						
-            new PropertyColumn("tipoCol",new Model<String>("Tipo de Incidente"), "tipoIncidente").setInitialSize(28)
-            																					 .setResizable(false)
-            																					 .setSizeUnit(SizeUnit.EX),
+            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(25)
+            																		.setResizable(false)
+            																		.setSizeUnit(SizeUnit.EX),
             																					 
-            new PropertyColumn("estadoCol",new Model<String>("Estado del reclamo"), "EstadoDescripcion").setInitialSize(20)
-            																							.setResizable(false)
-            																							.setSizeUnit(SizeUnit.EX),
+            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(20)
+            																				.setResizable(false)
+            																				.setSizeUnit(SizeUnit.EX),
 
-            new PropertyColumn("prioridadCol",new Model<String>("Prioridad del reclamo"), "Prioridad").setInitialSize(20)
-            																						  .setResizable(false)
-            																						  .setSizeUnit(SizeUnit.EX),
+            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(20)
+            																				 .setResizable(false)
+            																				 .setSizeUnit(SizeUnit.EX),
             																						  
-           /* new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(20)
+            new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(20)
           																							.setResizable(false)
-          																							.setSizeUnit(SizeUnit.EX), */
+          																							.setSizeUnit(SizeUnit.EX), 
             																						  
-            new PropertyColumn("observacionesCol",new Model<String>("Observaciones"), "Observaciones").setInitialSize(81)
+            new PropertyColumn("observacionesCol",new Model<String>("Observaciones"), "Observaciones").setInitialSize(65)
             																						  .setResizable(false)
             																						  .setWrapText(true)
             																						  .setSizeUnit(SizeUnit.EX)
             );
         
-		grid = new DefaultDataGrid("grid", new DataProviderAdapter(listDataProvider), cols){
-			@Override
-            protected void onRowClicked(AjaxRequestTarget target, IModel rowModel) {
-				
-            }
-		};
+		grid = new DefaultDataGrid("grid", new DataProviderAdapter(listDataProvider), cols);
 		grid.setRowsPerPage(10);
         grid.setClickRowToSelect(true);
         grid.setAllowSelectMultiple(true);
+        grid.setClickRowToDeselect(true);
         grid.setCleanSelectionOnPageChange(true);
         
         

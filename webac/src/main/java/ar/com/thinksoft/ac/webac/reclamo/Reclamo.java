@@ -340,6 +340,12 @@ public class Reclamo implements IReclamo,Serializable{
 		this.prioridad = reclamo.getPrioridad();
 		this.tipoReclamo = reclamo.getTipoIncidente();
 	}
+	
+	public boolean isUnificable(){
+		return  this.getEstadoDescripcion() != EnumEstadosReclamo.cancelado.getEstado() &&
+				this.getEstadoDescripcion() != EnumEstadosReclamo.terminado.getEstado() &&
+				this.getEstadoDescripcion() != EnumEstadosReclamo.baja.getEstado();
+	}
 
 
 

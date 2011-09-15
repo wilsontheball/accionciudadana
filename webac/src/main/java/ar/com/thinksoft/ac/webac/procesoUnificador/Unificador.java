@@ -46,17 +46,11 @@ public class Unificador {
 	    	
 	    	listaReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
 	    	for(IReclamo reclamo:listaReclamos){
-	    		if(isUnificable(reclamo))
+	    		if(reclamo.isUnificable())
 	    			compararReclamoConTodos(reclamo);
 	    	}
     	
     	}
-
-		private boolean isUnificable(IReclamo reclamo) {
-			return reclamo.getEstadoDescripcion() != EnumEstadosReclamo.cancelado.getEstado() &&
-					 reclamo.getEstadoDescripcion() != EnumEstadosReclamo.terminado.getEstado() &&
-					 reclamo.getEstadoDescripcion() != EnumEstadosReclamo.baja.getEstado();
-		}
 
 		private void compararReclamoConTodos(IReclamo reclamo) {
 			for(IReclamo reclamoBase: listaReclamos){
@@ -68,6 +62,7 @@ public class Unificador {
 
 		private boolean sonIguales(IReclamo reclamo, IReclamo reclamoBase) {
 			return reclamo.getComunaIncidente().equals(reclamoBase.getComunaIncidente()) &&
+				(!reclamo.getId().equals(reclamoBase.getId())) && //ID distinto
 				reclamo.getTipoIncidente().equals(reclamoBase.getTipoIncidente()) &&
 				reclamo.getCalleIncidente().equals(reclamoBase.getCalleIncidente()) &&
 				diferenciaAlturasMenorCienMetros(reclamo.getAlturaIncidente(),reclamoBase.getAlturaIncidente());
