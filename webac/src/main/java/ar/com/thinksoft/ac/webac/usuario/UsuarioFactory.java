@@ -1,5 +1,9 @@
 package ar.com.thinksoft.ac.webac.usuario;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.HomePagePermiso;
 
@@ -52,5 +56,30 @@ public class UsuarioFactory {
 		usuario.addPermiso(new HomePagePermiso());
 
 		return usuario;
+	}
+	
+	private List<IPermiso> getPermisosAdministrativos(){
+		return new ArrayList<IPermiso>();
+	}
+
+	public void toAdministrador(IUsuario usuario) {
+		usuario.setPermisos(this.getPermisosAdministrativos());
+	}
+
+	public void toCiudadano(IUsuario usuario) {
+		usuario.setPermisos(this.getPermisosCiudadano());
+		
+	}
+
+	private List<IPermiso> getPermisosCiudadano() {
+		return new ArrayList<IPermiso>();
+	}
+
+	public void toOperario(IUsuario usuario) {
+		usuario.setPermisos(this.getPermisosOperario());
+	}
+
+	private List<IPermiso> getPermisosOperario() {
+		return new ArrayList<IPermiso>();
 	}
 }

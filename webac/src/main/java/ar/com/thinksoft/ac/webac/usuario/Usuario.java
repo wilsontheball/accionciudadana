@@ -140,4 +140,9 @@ public class Usuario implements IUsuario {
 		this.telefono = telefono;
 	}
 
+	@Override
+	public void setPermisos(List<IPermiso> permisos) {
+		this.permisos = permisos;
+	}
+
 }

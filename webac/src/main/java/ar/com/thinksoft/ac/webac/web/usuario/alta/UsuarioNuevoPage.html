@@ -9,6 +9,55 @@
 <wicket:extend>
 
 	<form wicket:id="form" >
+				
+		
+				<div >
+					<label class="item">Tipo de Usuario:</label>
+					<select wicket:id="tipoUsuario" id="tipoUsuario" onchange="funcionOnChangeCampoIsNull(this)"> </select>
+				</div>
+				
+				<div >
+					<label class="item">Nombre de Usuario:</label>
+					<input type="text" id="username" wicket:id="username" class="itemRight"/>
+				</div>
+
+				<div>
+					<label class="item">Contraseña:</label>
+			 		<input type="password" wicket:id="password" class="itemRight"/>				
+				</div>
+					
+				<div>				
+					<label class="item">Reescriba la Contraseña:</label>
+					<input type="password" wicket:id="re-password" class="itemRight"/>
+				</div>
+				
+				<div>
+					<label class="item">Apellido:</label>
+					<input type="text" wicket:id="apellido"  class="itemRight"/>
+				</div>
+				
+				<div>
+					<label class="item">Nombre:</label>
+					<input type="text" wicket:id="nombre" class="itemRight"/>
+				</div>
+				
+				<div>
+					<label class="item">DNI:</label>
+					<input type="text" wicket:id="dni" class="itemRight"/>
+				</div>
+				
+				<div>
+					<label class="item">E-Mail:</label>
+					<input type="text" wicket:id="mail" class="itemRight"/>
+				</div>
+				
+				<div> 
+					<label class="item">Telefono:</label>
+					<input type="text" wicket:id="telefono" class="itemRight"/>
+				</div>
+				
+				<input type="submit" value="Guardar">
+				<input type="submit" wicket:id = "cancelar" value="Cancelar">	
 	
 	</form>
 

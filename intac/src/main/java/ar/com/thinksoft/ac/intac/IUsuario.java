@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.intac;
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface IUsuario extends Serializable {
 
@@ -50,5 +51,7 @@ public interface IUsuario extends Serializable {
 	public void setNombre(String nombre);
 
 	public void setTelefono(String telefono);
+
+	void setPermisos(List<IPermiso> permisosAdministrativos);
 
 }
