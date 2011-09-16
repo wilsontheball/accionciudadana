@@ -23,9 +23,10 @@ import net.sf.jasperreports.engine.JRField;
  *   "Id" - for getId()<br> 
  *
  */
+@SuppressWarnings("rawtypes")
 public class ObjectDataSource implements JRDataSource {
 
-  private Iterator iterator;
+private Iterator iterator;
 
   private Object currentValue;
 

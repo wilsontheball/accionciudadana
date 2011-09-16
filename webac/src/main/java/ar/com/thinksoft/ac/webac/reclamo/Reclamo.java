@@ -13,6 +13,7 @@ import ar.com.thinksoft.ac.estadosReclamo.EstadoSuspendido;
 import ar.com.thinksoft.ac.estadosReclamo.EstadoTerminado;
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
+import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.IEstadoReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
@@ -339,9 +340,19 @@ public class Reclamo implements IReclamo,Serializable{
 		this.observaciones = reclamo.getObservaciones();
 		this.prioridad = reclamo.getPrioridad();
 		this.tipoReclamo = reclamo.getTipoIncidente();
+		this.reclamosAsociados = reclamo.getReclamosAsociados();
 	}
 	
 	// METODOS PARA UNIFICACION
+	
+	public void unificar(IReclamo reclamo){
+		if(this.isIgual(reclamo) && this.isUnificable() && reclamo.isUnificable() && (this.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) >= 0)){
+			reclamo.darDeBajaReclamo();
+			this.getReclamosAsociados().add(reclamo);
+			definirPrioridadUnificado(reclamo);
+		}
+	}
+	
 	public boolean isUnificable(){
 		return  this.getEstadoDescripcion() != EnumEstadosReclamo.cancelado.getEstado() &&
 				this.getEstadoDescripcion() != EnumEstadosReclamo.terminado.getEstado() &&
@@ -349,11 +360,11 @@ public class Reclamo implements IReclamo,Serializable{
 	}
 	
 	public boolean isIgual(IReclamo reclamo){
-		return this.getComunaIncidente().equals(reclamo.getComunaIncidente()) &&
-		(!this.getId().equals(reclamo.getId())) && //ID distinto
-		this.getTipoIncidente().equals(reclamo.getTipoIncidente()) &&
-		this.getCalleIncidente().equals(reclamo.getCalleIncidente()) &&
-		diferenciaAlturasMenorCienMetros(this.getAlturaIncidente(),reclamo.getAlturaIncidente());
+		return 	this.getComunaIncidente().equals(reclamo.getComunaIncidente()) &&
+				(!this.getId().equals(reclamo.getId())) && //ID distinto
+				this.getTipoIncidente().equals(reclamo.getTipoIncidente()) &&
+				this.getCalleIncidente().equals(reclamo.getCalleIncidente()) &&
+				diferenciaAlturasMenorCienMetros(this.getAlturaIncidente(),reclamo.getAlturaIncidente());
 	}
 	
 	private boolean diferenciaAlturasMenorCienMetros(String alturaIncidente, String alturaIncidente2) {
@@ -366,14 +377,18 @@ public class Reclamo implements IReclamo,Serializable{
 			return altura2 - altura1 < 100;
 	}
 	
-	public void unificar(IReclamo reclamo){
-		if(this.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) < 0){
-			//this tiene fecha mayor
-			System.out.println("This: " + this.getFechaReclamo());
-			System.out.println("Reclamo: " + reclamo.getFechaReclamo());
+	private void definirPrioridadUnificado(IReclamo reclamo){
+		if(this.getPrioridad()!=reclamo.getPrioridad() && (!reclamo.getPrioridad().equals(EnumPrioridadReclamo.noAsignada.getPrioridad()))){
+			if(this.getPrioridad().equals(EnumPrioridadReclamo.noAsignada.getPrioridad()))
+				this.setPrioridad(reclamo.getPrioridad());
+			
+			if(reclamo.getPrioridad().equals(EnumPrioridadReclamo.alta.getPrioridad()))
+				this.setPrioridad(reclamo.getPrioridad());
+			
+			if(this.getPrioridad().equals(EnumPrioridadReclamo.baja.getPrioridad()) && reclamo.getPrioridad().equals(EnumPrioridadReclamo.media.getPrioridad()))
+				this.setPrioridad(EnumPrioridadReclamo.media.getPrioridad());
 		}
 	}
-
-
+	
 
 }

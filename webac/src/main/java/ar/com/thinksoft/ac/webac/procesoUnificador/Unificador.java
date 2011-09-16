@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
@@ -28,7 +27,7 @@ public class Unificador {
 			Date date = calendar.getTime();
 			
 			//La tarea se va a ejecutar 1 hora antes, es decir, 01:00 AM
-			//timer.schedule(new ImportarDatos(), date);
+			timer.schedule(new ImportarDatos(), date);
 			
 		}catch (Exception e) {
 			LogFwk.getInstance(Unificador.class).error("Error no controlado");
@@ -48,23 +47,11 @@ public class Unificador {
 	    		if(reclamo.isUnificable())
 	    			compararReclamoConTodos(reclamo);
 	    	}
-    	
     	}
 
 		private void compararReclamoConTodos(IReclamo reclamo) {
 			for(IReclamo reclamoBase: listaReclamos){
-				if(reclamo.isIgual(reclamoBase)){
-					unificar(reclamo,reclamoBase);
-				}
-			}
-		}
-
-		private void unificar(IReclamo reclamo, IReclamo reclamoBase) {
-			if(reclamo.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) > 0){
-				//this tiene fecha mayor
-				System.out.println("This: " + reclamo.getFechaReclamo());
-				System.out.println("Reclamo: " + reclamo.getFechaReclamo());
-				
+					reclamo.unificar(reclamoBase);
 			}
 		}
     }

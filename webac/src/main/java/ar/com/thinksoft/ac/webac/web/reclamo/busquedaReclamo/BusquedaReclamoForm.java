@@ -54,8 +54,10 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	private BusquedaReclamoForm _self = this;
 	private static final String PATH = "src/main/webapp/export/";
 	private Dialog dialogCancelar = null;
+	private Dialog dialogCancelarError = null;
 	private Dialog dialogDetalle = null;
 	private Dialog dialogUnificar = null;
+	private Dialog dialogUnificarError = null;
 	private ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
 	
 	@SuppressWarnings("rawtypes")
@@ -106,14 +108,15 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 					grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				}
 			});
-
 		armarGrilla();
         add(grid);
         
         ///////////// DETALLE RECLAMO ////////////////////////
-        add(new Button("detalle"){
+        dialogDetalle = new Dialog("dialogDetalle");
+        add(dialogDetalle);
+        add(new AjaxLink("detalle"){
 				@Override
-				public void onSubmit() {
+				public void onClick(AjaxRequestTarget target){
 					Collection<IModel> selected = grid.getSelectedItems();
 					if(selected.size()==1){
 						Reclamo reclamo = new Reclamo();
@@ -125,14 +128,24 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 			            
 				        setResponsePage(DetalleReclamoPage.class, params);
 				        setRedirect(true);
+					}else{
+						dialogDetalle.open(target);
 					}
 				}
 			});
-        
+        dialogDetalle.add(new AjaxLink("volver"){
+	    	@Override
+	    	public void onClick(AjaxRequestTarget target){
+	    		dialogDetalle.close(target);
+	    	}
+	    });
         
         ///////////// CANCELAR RECLAMO ////////////////////////
-        dialogCancelar = new Dialog("dialog");
+        dialogCancelar = new Dialog("dialogCancelar");
 	    add(dialogCancelar);
+	    dialogCancelarError = new Dialog("dialogCancelarError");
+	    add(dialogCancelarError);
+	    
 	    dialogCancelar.add(new AjaxLink("cancelarReclamo"){
 			@Override
 			public void onClick(AjaxRequestTarget target){
@@ -153,6 +166,12 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	    		dialogCancelar.close(target);
 	    	}
 	    });
+	    dialogCancelarError.add(new AjaxLink("volver"){
+	    	@Override
+	    	public void onClick(AjaxRequestTarget target){
+	    		dialogCancelarError.close(target);
+	    	}
+	    });
 	    
 	    add(new AjaxLink("cancelar") {
             @Override
@@ -160,45 +179,64 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             	Collection<IModel> selected = grid.getSelectedItems();
 				if(selected.size()>=1){
 					dialogCancelar.open(target);
+				}else{
+					dialogCancelarError.open(target);
 				}
             }
         });
 	    
 	    ///////////// UNIFICAR RECLAMOS ////////////////////////
+	    dialogUnificarError = new Dialog("dialogUnificarError");
+	    add(dialogUnificarError);
 	    dialogUnificar = new Dialog("dialogUnificar");
 	    add(dialogUnificar);
-        add(new AjaxLink("unificar"){
-				@Override
-				public void onClick(AjaxRequestTarget target) {
-					Collection<IModel> selected = grid.getSelectedItems();
-					if(selected.size()==2){
-						List<IReclamo> listaReclamosSeleccionados = obtenerReclamosSeleccionados(selected);
-						IReclamo reclamo = listaReclamosSeleccionados.get(0);
-						IReclamo reclamo2 = listaReclamosSeleccionados.get(1);
-						reclamo.unificar(reclamo2);
-						
-					}else{
-						dialogUnificar.open(target);
-					}
+	    
+	    add(new AjaxLink("unificarReclamo"){
+	    	@Override
+	    	public void onClick(AjaxRequestTarget target){
+	    		Collection<IModel> selected = grid.getSelectedItems();
+	    		if(selected.size()==2){
+	    			dialogUnificar.open(target);
+		    	}else{
+					dialogUnificarError.open(target);
 				}
-
-				private List<IReclamo> obtenerReclamosSeleccionados(
-						Collection<IModel> selected) {
-					List<IReclamo> listaReclamosSeleccionados = new ArrayList<IReclamo>();
-					Reclamo reclamo = new Reclamo();
-					for(IModel modelReclamo: selected){
-						reclamo = (Reclamo) modelReclamo.getObject();
-						listaReclamosSeleccionados.add(reclamo);
-					}
-					return listaReclamosSeleccionados;
+	    	}
+	    });
+	    
+	    dialogUnificar.add(new AjaxLink("unificar"){
+			@Override
+			public void onClick(AjaxRequestTarget target){
+				Collection<IModel> selected = grid.getSelectedItems();
+				List<IReclamo> listaReclamosSeleccionados = obtenerReclamosSeleccionados(selected);
+				IReclamo reclamo = listaReclamosSeleccionados.get(0);
+				IReclamo reclamo2 = listaReclamosSeleccionados.get(1);
+				reclamo.unificar(reclamo2);
+				dialogUnificar.close(target);
+			}
+			
+			private List<IReclamo> obtenerReclamosSeleccionados(
+					Collection<IModel> selected) {
+				List<IReclamo> listaReclamosSeleccionados = new ArrayList<IReclamo>();
+				Reclamo reclamo = new Reclamo();
+				for(IModel modelReclamo: selected){
+					reclamo = (Reclamo) modelReclamo.getObject();
+					listaReclamosSeleccionados.add(reclamo);
 				}
-				
-			});
-        
-        dialogUnificar.add(new AjaxLink("volver"){
+				return listaReclamosSeleccionados;
+			}
+	    });
+	    
+	    dialogUnificar.add(new AjaxLink("volver"){
 	    	@Override
 	    	public void onClick(AjaxRequestTarget target){
 	    		dialogUnificar.close(target);
+	    	}
+	    });
+	    
+        dialogUnificarError.add(new AjaxLink("volver"){
+	    	@Override
+	    	public void onClick(AjaxRequestTarget target){
+	    		dialogUnificarError.close(target);
 	    	}
 	    });
         
@@ -288,7 +326,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
         grid.setClickRowToSelect(true);
         grid.setAllowSelectMultiple(true);
         grid.setClickRowToDeselect(true);
-        grid.setCleanSelectionOnPageChange(true);
+        grid.setCleanSelectionOnPageChange(false);
         
         
 	}

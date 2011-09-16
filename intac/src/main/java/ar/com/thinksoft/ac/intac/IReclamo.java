@@ -94,5 +94,19 @@ public interface IReclamo extends Serializable{
 	
 	public void unificar(IReclamo reclamo);
 	
+	public void cancelarReclamo();
+
+	public void darDeBajaReclamo();
+	
+	public void suspender();
+
+	public void activar();
+	
+	public void enProgreso();
+	
+	public void demorar();
+	
+	public void terminar();
+	
 }
 
