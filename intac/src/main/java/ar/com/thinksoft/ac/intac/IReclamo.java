@@ -88,7 +88,7 @@ public interface IReclamo extends Serializable{
 	
 	//Metodos que no hace falta implementar en Android.
 	 
-	public boolean isUnificable();
+	public boolean isNotDown();
 	
 	public boolean isIgual(IReclamo reclamo);
 	

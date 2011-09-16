@@ -9,6 +9,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
+import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
@@ -60,7 +61,7 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 			add(new Label("rutaImagen",""));
 		}
 		
-		add(new Button("volver") {
+		add(new Button("volver"){
 			@Override
 			public void onSubmit() {
 				try{
@@ -72,22 +73,25 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 			}
 		});
 		
-		add(new Button("modificar") {
-			@Override
-			public void onSubmit() {
-				try{
-					img.deleteImage();
-				}catch(Exception e){
-					LogFwk.getInstance(DetalleReclamoPage.class).error("No existe archivo para borrar.");
-				}
-				
-				PageParameters params =new PageParameters();
-		        params.add("reclamoId", reclamo.getId());
-	            
-		        setResponsePage(ModificarReclamoPage.class, params);
-		        setRedirect(true);
-			}
-		});
+		Button modificar = new Button("modificar") {
+								@Override
+								public void onSubmit() {
+									try{
+										img.deleteImage();
+									}catch(Exception e){
+										LogFwk.getInstance(DetalleReclamoPage.class).error("No existe archivo para borrar.");
+									}
+									
+									PageParameters params =new PageParameters();
+							        params.add("reclamoId", reclamo.getId());
+						            
+							        setResponsePage(ModificarReclamoPage.class, params);
+							        setRedirect(true);
+								}
+							};
+							
+		modificar.setVisible(reclamo.isNotDown());
+		add(modificar);
 		
 	}
 	

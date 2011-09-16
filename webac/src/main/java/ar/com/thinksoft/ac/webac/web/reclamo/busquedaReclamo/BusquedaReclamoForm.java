@@ -346,23 +346,15 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	      // compile report design
 	      JasperReport jasperReport = JasperCompileManager.compileReport(PATH + "design.jrxml");
 	      
-	      // create an object datasourse from the pilots list
+	      // create an object datasourse from the reclamo's list
 	      ObjectDataSource dataSource = new ObjectDataSource(reclamos);
 	
 	      // fill the report 
 	      JasperPrint jasperPrint = JasperFillManager.fillReport(
 	          jasperReport, parameters, dataSource);
 	      
-	      // export result to the *.pdf
-	      //JasperExportManager.exportReportToPdfFile(jasperPrint,
-	    	//  PATH + "accionCiudadana.pdf");
-	      
 	     arrayBytes = JasperExportManager.exportReportToPdf(jasperPrint);
 	      
-	      // or export to *.html
-	      /*JasperExportManager.exportReportToHtmlFile(jasperPrint,
-	    	  PATH + "the-pilot-report.html");
-	*/
 	    } catch (JRException e) {
 	    	throw new Exception("Imposible exportar a pdf. Consulte con nuestro soporte tecnico");
 	    }

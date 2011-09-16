@@ -346,14 +346,14 @@ public class Reclamo implements IReclamo,Serializable{
 	// METODOS PARA UNIFICACION
 	
 	public void unificar(IReclamo reclamo){
-		if(this.isIgual(reclamo) && this.isUnificable() && reclamo.isUnificable() && (this.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) >= 0)){
+		if(this.isIgual(reclamo) && this.isNotDown() && reclamo.isNotDown() && (this.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) <= 0)){
 			reclamo.darDeBajaReclamo();
 			this.getReclamosAsociados().add(reclamo);
 			definirPrioridadUnificado(reclamo);
 		}
 	}
 	
-	public boolean isUnificable(){
+	public boolean isNotDown(){
 		return  this.getEstadoDescripcion() != EnumEstadosReclamo.cancelado.getEstado() &&
 				this.getEstadoDescripcion() != EnumEstadosReclamo.terminado.getEstado() &&
 				this.getEstadoDescripcion() != EnumEstadosReclamo.baja.getEstado();
@@ -372,9 +372,9 @@ public class Reclamo implements IReclamo,Serializable{
 		int altura2 = Integer.parseInt(alturaIncidente2);
 		
 		if(altura1>altura2)
-			return altura1 - altura2 < 100;
+			return altura1 - altura2 <= 100;
 		else
-			return altura2 - altura1 < 100;
+			return altura2 - altura1 <= 100;
 	}
 	
 	private void definirPrioridadUnificado(IReclamo reclamo){

@@ -20,10 +20,9 @@ public class Unificador {
 		try{
 			timer= new Timer();
 			Calendar calendar = Calendar.getInstance();
-			// 02:00 AM = (Calendar.HOUR, 2) (Calendar.MINUTE, 0) (Calendar.AM_PM, 0);
 			calendar.set(Calendar.HOUR, 2);
 			calendar.set(Calendar.MINUTE, 0);
-			calendar.set(Calendar.AM_PM, 0);
+			calendar.set(Calendar.AM_PM, Calendar.AM);
 			Date date = calendar.getTime();
 			
 			//La tarea se va a ejecutar 1 hora antes, es decir, 01:00 AM
@@ -44,7 +43,7 @@ public class Unificador {
 	    	Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
 	    	listaReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
 	    	for(IReclamo reclamo:listaReclamos){
-	    		if(reclamo.isUnificable())
+	    		if(reclamo.isNotDown())
 	    			compararReclamoConTodos(reclamo);
 	    	}
     	}
