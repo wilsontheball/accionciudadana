@@ -107,8 +107,9 @@ public class IniciarReclamo extends Activity implements LocationListener {
 						.getText().toString();
 				String longitud = ((EditText) findViewById(R.id.longitud))
 						.getText().toString();
-				this.getRepo().publicarReclamoGPS(tipo, latitud, longitud,
-						observ);
+				// TODO agregar campo barrio a la pantalla
+				this.getRepo().publicarReclamoGPS(tipo, "Almagro", latitud,
+						longitud, observ);
 				Toast.makeText(this, R.string.reclamo_enviado,
 						Toast.LENGTH_LONG).show();
 				this.finish();
@@ -127,9 +128,9 @@ public class IniciarReclamo extends Activity implements LocationListener {
 							.getText().toString();
 					String altura = ((EditText) findViewById(R.id.altura))
 							.getText().toString();
-
-					this.getRepo().publicarReclamoDireccion(tipo, calle,
-							altura, observ);
+					// TODO agregar campo barrio a la pantalla
+					this.getRepo().publicarReclamoDireccion(tipo, "Almagro",
+							calle, altura, observ);
 					Toast.makeText(this, R.string.reclamo_enviado,
 							Toast.LENGTH_LONG).show();
 					this.finish();

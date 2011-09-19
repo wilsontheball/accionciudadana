@@ -205,8 +205,7 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_CAMERA
 				|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-			this.camara.takePicture(null, this.pictureCallback,
-					this.pictureCallback);
+			this.camara.takePicture(null, null, this.pictureCallback);
 		} else {
 			super.onKeyDown(keyCode, event);
 		}

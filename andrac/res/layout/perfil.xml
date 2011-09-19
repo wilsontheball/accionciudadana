@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="match_parent"
 	android:layout_height="match_parent" android:gravity="center">
 	<LinearLayout android:orientation="vertical"
@@ -7,11 +7,17 @@
 		android:gravity="center">
 		<LinearLayout android:orientation="vertical"
 			android:layout_height="match_parent" android:layout_width="match_parent"
-			android:gravity="center">
+			android:gravity="center" android:layout_weight="1">
 			<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:gravity="center"
 				android:textAppearance="@android:style/TextAppearance.Large"
 				android:text="En construccion..." />
+			<Button android:id="@+id/boton_aceptar" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:onClick="probar"
+				android:text="Probar JSON" android:enabled="true" />
+			<EditText android:id="@+id/salida" android:inputType="textMultiLine"
+				android:layout_width="match_parent" android:layout_height="match_parent"
+				android:focusable="false" android:textColor="@color/orange4" />
 		</LinearLayout>
 		<LinearLayout android:orientation="vertical"
 			android:gravity="center_horizontal" android:layout_margin="10dip"
@@ -22,4 +28,4 @@
 				android:enabled="true" />
 		</LinearLayout>
 	</LinearLayout>
-</ScrollView>
+</LinearLayout>

@@ -1,6 +1,33 @@
 package ar.com.thinksoft.ac.andrac;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.util.Log;
 import ar.com.thinksoft.ac.intac.IUsuario;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Abstrae la conexion remota a la base de datos
@@ -10,7 +37,7 @@ import ar.com.thinksoft.ac.intac.IUsuario;
  */
 public class Repositorio {
 
-	byte[] imagen = null;
+	byte[] imagenBytes = null;
 	private IUsuario usuarioActual = null;
 	private String nombreUsuario = null;
 
@@ -120,14 +147,97 @@ public class Repositorio {
 						"19-Agosto-2011") };
 	}
 
-	public boolean publicarReclamoDireccion(String tipo, String calle,
-			String altura, String observacion) {
-		// TODO falta implementar
+	public boolean publicarReclamoDireccion(String tipo, String barrio,
+			String calle, String altura, String observacion) {
+		// TODO falta revisar si contentType es jpeg!!!!!!!!
+		Imagen imagen = new Imagen(this.getImagen(), "jpeg", "prueba");
+
+		// TODO falta implementar obtencion de coordenada
+		String latitud = "";
+		String longitud = "";
+		// TODO falta implementar obtencion de comuna
+		String comuna = "";
+		// TODO falta implementar obtencion de fecha
+		String fecha = "";
+		String fechaModificacion = "";
+		Reclamo reclamo = new Reclamo(calle, altura, latitud, longitud, tipo,
+				fecha, fechaModificacion, this.getNombreUsuario(), observacion,
+				barrio, comuna, imagen);
+
+		this.enviarReclamo(reclamo);
+
 		return true;
 	}
 
-	public boolean publicarReclamoGPS(String tipo, String latitud,
-			String longitud, String observacion) {
+	private void enviarReclamo(Reclamo reclamo) {
+		// TODO Falta obtener URL
+		String url = "";
+
+		Gson gson = new Gson();
+		String json = gson.toJson(reclamo);
+
+		HttpResponse re;
+		try {
+			re = this.doPost(url, new JSONObject(json));
+			String temp = EntityUtils.toString(re.getEntity());
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// if (temp.compareTo("SUCCESS")==0)
+		// {
+		// Toast.makeText(this, "Sending complete!", Toast.LENGTH_LONG).show();
+		// }
+
+	}
+
+	public HttpResponse doPost(String url, JSONObject c)
+			throws ClientProtocolException, IOException {
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost request = new HttpPost(url);
+		HttpEntity entity;
+		StringEntity s = new StringEntity(c.toString());
+		s.setContentEncoding((Header) new BasicHeader(HTTP.CONTENT_TYPE,
+				"application/json"));
+		entity = s;
+		request.setEntity(entity);
+		HttpResponse response;
+		response = httpclient.execute(request);
+		return response;
+	}
+
+	private List<Reclamo> obtenerReclamos() {
+		// TODO falta obtener URL
+		String url = "";
+		InputStream source = obtenerFlujoEntrada(url);
+
+		Gson gson = new Gson();
+
+		Reader reader = new InputStreamReader(source);
+
+		Type collectionType = new TypeToken<List<Reclamo>>() {
+		}.getType();
+		return gson.fromJson(reader, collectionType);
+
+		// SearchResponse response = gson.fromJson(reader,
+		// SearchResponse.class);
+		// List<Result> results = response.results;
+		// Toast.makeText(this, response.query, Toast.LENGTH_SHORT).show();
+		// for (Result result : results) {
+		// Toast.makeText(this, result.fromUser, Toast.LENGTH_SHORT).show();
+		// }
+
+	}
+
+	public boolean publicarReclamoGPS(String tipo, String barrio,
+			String latitud, String longitud, String observacion) {
 		// TODO falta implementar
 		return true;
 	}
@@ -138,11 +248,11 @@ public class Repositorio {
 	 * @param imagen
 	 */
 	public void setImagen(byte[] imagen) {
-		this.imagen = imagen;
+		this.imagenBytes = imagen;
 	}
 
 	public byte[] getImagen() {
-		return this.imagen;
+		return this.imagenBytes;
 	}
 
 	public IUsuario getUsuarioActual() {
@@ -159,6 +269,35 @@ public class Repositorio {
 
 	public void setNombreUsuario(String usuario) {
 		this.nombreUsuario = usuario;
+	}
+
+	private InputStream obtenerFlujoEntrada(String url) {
+
+		DefaultHttpClient client = new DefaultHttpClient();
+
+		HttpGet getRequest = new HttpGet(url);
+
+		try {
+
+			HttpResponse getResponse = client.execute(getRequest);
+			final int statusCode = getResponse.getStatusLine().getStatusCode();
+
+			if (statusCode != HttpStatus.SC_OK) {
+				Log.w(getClass().getSimpleName(), "Error " + statusCode
+						+ " for URL " + url);
+				return null;
+			}
+
+			HttpEntity getResponseEntity = getResponse.getEntity();
+			return getResponseEntity.getContent();
+
+		} catch (IOException e) {
+			getRequest.abort();
+			Log.w(getClass().getSimpleName(), "Error for URL " + url, e);
+		}
+
+		return null;
+
 	}
 
 }
