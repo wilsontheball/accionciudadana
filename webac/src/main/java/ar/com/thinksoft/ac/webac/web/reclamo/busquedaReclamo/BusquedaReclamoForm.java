@@ -179,7 +179,14 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             public void onClick(AjaxRequestTarget target) {
             	Collection<IModel> selected = grid.getSelectedItems();
 				if(selected.size()==1){
-					dialogCancelar.open(target);
+					Reclamo reclamo = new Reclamo();
+			        for (IModel model : selected) {
+			           reclamo = (Reclamo) model.getObject();
+			        }
+			        if(!reclamo.isNotDown())
+			        	dialogCancelar.open(target);
+			        else
+			        	dialogCancelarError.open(target);
 				}else{
 					dialogCancelarError.open(target);
 				}
@@ -197,7 +204,11 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	    	public void onClick(AjaxRequestTarget target){
 	    		Collection<IModel> selected = grid.getSelectedItems();
 	    		if(selected.size()==2){
-	    			dialogUnificar.open(target);
+	    			List<IReclamo> lista = obtenerReclamosSeleccionados(selected);
+	    			if(!lista.get(0).isNotDown() && !lista.get(1).isNotDown())
+	    				dialogUnificar.open(target);
+	    			else
+	    				dialogUnificarError.open(target);
 		    	}else{
 					dialogUnificarError.open(target);
 				}
@@ -251,10 +262,10 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
         add(new Button("exportar"){
         	@Override
 			public void onSubmit() {
-        		
+        		IReclamo reclamo = _self.getModelObject();
         		ByteArrayResource bar = null;
 				try {
-					bar = new ByteArrayResource("application/pdf", exportTable());
+					bar = new ByteArrayResource("application/pdf", exportTable(reclamo));
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -350,12 +361,16 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public byte[] exportTable() throws Exception{
+	public byte[] exportTable(IReclamo reclamo) throws Exception{
 		byte[] arrayBytes = null;
-		
+		List<IReclamo> reclamos = new ArrayList<IReclamo>();
+		if(conFiltro(reclamo)){
+			reclamos = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
+		} else{
 	  	//obtain a list of objects for the report
-	    List<IReclamo> reclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().filtrarNot(EnumEstadosReclamo.asociado.getEstado()));
-
+	     reclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().filtrarNot(EnumEstadosReclamo.asociado.getEstado()));
+		}
+		
 	    // pass parameters to the report
 	    Map parameters = new HashMap();
 	    parameters.put("Title", "Listado de Reclamos - Accion Ciudadana");
@@ -377,6 +392,25 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	    	throw new Exception("Imposible exportar a pdf. Consulte con nuestro soporte tecnico");
 	    }
 		return arrayBytes;
+	}
+	
+	private boolean conFiltro(IReclamo reclamo) {
+		return 	reclamo.getCalleIncidente() != null || reclamo.getAlturaIncidente() != null || reclamo.getBarrioIncidente() != null ||
+				reclamo.getComunaIncidente() != null || reclamo.getCiudadanoGeneradorReclamo() != null || reclamo.getEstadoDescripcion() != null ||
+				reclamo.getTipoIncidente() != null || reclamo.getPrioridad() != null || reclamo.getFechaReclamo() != null || 
+				reclamo.getFechaUltimaModificacionReclamo() != null;
+	}
+
+	@SuppressWarnings("rawtypes")
+	private List<IReclamo> obtenerReclamosSeleccionados(
+			Collection<IModel> selected) {
+		List<IReclamo> listaReclamosSeleccionados = new ArrayList<IReclamo>();
+		Reclamo reclamo = new Reclamo();
+		for(IModel modelReclamo: selected){
+			reclamo = (Reclamo) modelReclamo.getObject();
+			listaReclamosSeleccionados.add(reclamo);
+		}
+		return listaReclamosSeleccionados;
 	}
 	
 }

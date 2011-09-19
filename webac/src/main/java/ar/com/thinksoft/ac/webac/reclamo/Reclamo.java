@@ -240,7 +240,7 @@ public class Reclamo implements IReclamo,Serializable{
 	
 	public void setBarrioIncidente(String barrioIncidente){
 		this.barrioIncidente = barrioIncidente;
-		setComunaIncidente();
+		setComunaIncidente(this.barrioIncidente);
 	}
 
 	public void setImagen(IImagen imagen) {
@@ -256,9 +256,9 @@ public class Reclamo implements IReclamo,Serializable{
 		this.prioridad = prioridad;
 	}
 
-	public void setComunaIncidente(){
+	public void setComunaIncidente(String barrio){
 			try {
-				this.comunaIncidente = EnumBarriosReclamo.getComunaDeBarrio(this.barrioIncidente);
+				this.comunaIncidente = EnumBarriosReclamo.getComunaDeBarrio(barrio);
 			} catch (Exception e) {
 				this.comunaIncidente = "error";
 			}
@@ -359,5 +359,4 @@ public class Reclamo implements IReclamo,Serializable{
 		}
 	}
 	
-
 }
