@@ -1,7 +1,6 @@
 package ar.com.thinksoft.ac.intac.utils.collections;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class HArrayList<E> extends java.util.ArrayList<E> {
