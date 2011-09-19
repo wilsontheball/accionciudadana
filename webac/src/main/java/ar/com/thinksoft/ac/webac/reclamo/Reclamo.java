@@ -4,17 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.com.thinksoft.ac.estadosReclamo.EstadoActivo;
-import ar.com.thinksoft.ac.estadosReclamo.EstadoBaja;
-import ar.com.thinksoft.ac.estadosReclamo.EstadoCancelado;
-import ar.com.thinksoft.ac.estadosReclamo.EstadoDemorado;
-import ar.com.thinksoft.ac.estadosReclamo.EstadoEnProgreso;
-import ar.com.thinksoft.ac.estadosReclamo.EstadoSuspendido;
-import ar.com.thinksoft.ac.estadosReclamo.EstadoTerminado;
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
-import ar.com.thinksoft.ac.intac.IEstadoReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 
@@ -42,7 +34,6 @@ public class Reclamo implements IReclamo,Serializable{
 	private String barrioIncidente;
 	private String comunaIncidente;
 	private IImagen imagen;
-	private IEstadoReclamo estado;
 	private String estadoDescripcion;
 	private String prioridad;
 	private List<IReclamo> reclamosAsociados = new ArrayList<IReclamo>();
@@ -51,7 +42,7 @@ public class Reclamo implements IReclamo,Serializable{
 	}
 	
 	public Reclamo (String calle,String altura,String latitud,String longitud,String fecha, String tipo, String ciudadano,
-					String observaciones,String barrioIncidente, IImagen imagen, IEstadoReclamo estado, String prioridad){
+					String observaciones,String barrioIncidente, IImagen imagen, String prioridad){
 		
 		this.setId();
 		this.setCalleIncidente(calle);
@@ -64,7 +55,6 @@ public class Reclamo implements IReclamo,Serializable{
 		this.setObservaciones(observaciones);
 		this.setBarrioIncidente(barrioIncidente);
 		this.setImagen(imagen);
-		this.setEstado(estado);
 		this.setPrioridad(prioridad);
 		
 	}
@@ -74,7 +64,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 * @author Matias
 	 */
 	public void cancelarReclamo(){
-		this.setEstado(new EstadoCancelado());
+		this.estadoDescripcion = EnumEstadosReclamo.cancelado.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
@@ -82,8 +72,8 @@ public class Reclamo implements IReclamo,Serializable{
 	 * Setea el estado de Baja al Reclamo
 	 * @author Matias
 	 */
-	public void darDeBajaReclamo(){
-		this.setEstado(new EstadoBaja());
+	public void setAsociadoReclamo(){
+		this.estadoDescripcion = EnumEstadosReclamo.asociado.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
@@ -92,7 +82,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 * @author Matias
 	 */
 	public void suspender(){
-		this.setEstado(new EstadoSuspendido());
+		this.estadoDescripcion = EnumEstadosReclamo.suspendido.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
@@ -101,7 +91,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 * @author Matias
 	 */
 	public void activar(){
-		this.setEstado(new EstadoActivo());
+		this.estadoDescripcion = EnumEstadosReclamo.activo.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
@@ -110,7 +100,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 * @author Matias 
 	 */
 	public void enProgreso(){
-		this.setEstado(new EstadoEnProgreso());
+		this.estadoDescripcion = EnumEstadosReclamo.enProgreso.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
@@ -119,7 +109,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 * @author Matias 
 	 */
 	public void demorar(){
-		this.setEstado(new EstadoDemorado());
+		this.estadoDescripcion = EnumEstadosReclamo.demorado.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 	
@@ -128,7 +118,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 * @author Matias 
 	 */
 	public void terminar(){
-		this.setEstado(new EstadoTerminado());
+		this.estadoDescripcion = EnumEstadosReclamo.terminado.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
 	}
 
@@ -186,23 +176,7 @@ public class Reclamo implements IReclamo,Serializable{
 		return this.imagen;
 	}
 
-	public IEstadoReclamo getEstado() {
-		return this.estado;
-	}	
-	
 	public String getEstadoDescripcion(){
-		
-		if(this.estado != null){
-			this.estadoDescripcion = this.estado.getDescripcionEstado();
-			return this.estadoDescripcion;
-		}
-		if(this.estadoDescripcion != null && this.estadoDescripcion != "")
-			return this.estadoDescripcion;
-		else
-			return "";
-	}
-	
-	public String getEstadoDescripcionDefault(){
 		return this.estadoDescripcion;
 	}
 	
@@ -274,12 +248,6 @@ public class Reclamo implements IReclamo,Serializable{
 		
 	}
 
-	public void setEstado(IEstadoReclamo estado) {
-		this.estado = estado;
-		this.estadoDescripcion = estado.getDescripcionEstado();
-		
-	}
-	
 	public void setEstadoDescripcion(String estadoDesc){
 		this.estadoDescripcion = estadoDesc;
 	}
@@ -301,8 +269,8 @@ public class Reclamo implements IReclamo,Serializable{
 		if(estado.equals(EnumEstadosReclamo.activo.getEstado()))
 			this.activar();
 		
-		if(estado.equals(EnumEstadosReclamo.baja.getEstado()))
-			this.darDeBajaReclamo();
+		if(estado.equals(EnumEstadosReclamo.asociado.getEstado()))
+			this.setAsociadoReclamo();
 		
 		if(estado.equals(EnumEstadosReclamo.cancelado.getEstado()))
 			this.cancelarReclamo();
@@ -329,7 +297,6 @@ public class Reclamo implements IReclamo,Serializable{
 		this.calleReclamo = reclamo.getCalleIncidente();
 		this.ciudadanoReclamo = reclamo.getCiudadanoGeneradorReclamo();
 		this.comunaIncidente = reclamo.getComunaIncidente();
-		this.estado = reclamo.getEstado();
 		this.estadoDescripcion = reclamo.getEstadoDescripcion();
 		this.fechaReclamo = reclamo.getFechaReclamo();
 		this.fechaUltimaModificacion = reclamo.getFechaUltimaModificacionReclamo();
@@ -346,17 +313,19 @@ public class Reclamo implements IReclamo,Serializable{
 	// METODOS PARA UNIFICACION
 	
 	public void unificar(IReclamo reclamo){
-		if(this.isIgual(reclamo) && this.isNotDown() && reclamo.isNotDown() && (this.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) <= 0)){
-			reclamo.darDeBajaReclamo();
+		if(this.isIgual(reclamo) && this.isNotDown() && reclamo.isNotDown()){
+			reclamo.setAsociadoReclamo();
 			this.getReclamosAsociados().add(reclamo);
 			definirPrioridadUnificado(reclamo);
+			ReclamoManager.getInstance().guardarReclamo(this);
+			ReclamoManager.getInstance().guardarReclamo(reclamo);
 		}
 	}
 	
 	public boolean isNotDown(){
 		return  this.getEstadoDescripcion() != EnumEstadosReclamo.cancelado.getEstado() &&
 				this.getEstadoDescripcion() != EnumEstadosReclamo.terminado.getEstado() &&
-				this.getEstadoDescripcion() != EnumEstadosReclamo.baja.getEstado();
+				this.getEstadoDescripcion() != EnumEstadosReclamo.asociado.getEstado();
 	}
 	
 	public boolean isIgual(IReclamo reclamo){

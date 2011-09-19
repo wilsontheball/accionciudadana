@@ -35,6 +35,7 @@ import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.export.ObjectDataSource;
@@ -177,7 +178,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             @Override
             public void onClick(AjaxRequestTarget target) {
             	Collection<IModel> selected = grid.getSelectedItems();
-				if(selected.size()>=1){
+				if(selected.size()==1){
 					dialogCancelar.open(target);
 				}else{
 					dialogCancelarError.open(target);
@@ -210,7 +211,13 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				List<IReclamo> listaReclamosSeleccionados = obtenerReclamosSeleccionados(selected);
 				IReclamo reclamo = listaReclamosSeleccionados.get(0);
 				IReclamo reclamo2 = listaReclamosSeleccionados.get(1);
-				reclamo.unificar(reclamo2);
+				if((reclamo.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) <= 0))
+					reclamo.unificar(reclamo2);
+				else
+					reclamo2.unificar(reclamo);
+				
+				listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
+				grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				dialogUnificar.close(target);
 			}
 			
@@ -274,60 +281,71 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 
 		List cols = (List) Arrays.asList(
 			new PropertyColumn("idCol",new Model<String>("Id"),"Id").setInitialSize(0)
-																	.setResizable(false),
+																	.setResizable(false)
+																	.setSizeUnit(SizeUnit.PX),
 																	
-            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(26)
+            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(200)
             																						 .setResizable(false)
             																						 .setWrapText(true)
-            																						 .setSizeUnit(SizeUnit.EX),
+            																						 .setSizeUnit(SizeUnit.PX),
             																						 
-            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(10)
-            																			  .setResizable(false)
-            																			  .setSizeUnit(SizeUnit.EX),
+            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(50)
+            																			  .setWrapText(true)
+            																			  .setReorderable(true)
+            																			  .setResizable(true)
+            																			  .setSizeUnit(SizeUnit.PX),
             																			  
-            new PropertyColumn("barrioCol",new Model<String>("Barrio"), "barrioIncidente").setInitialSize(20)
-            																			  .setResizable(false)
+            new PropertyColumn("barrioCol",new Model<String>("Barrio"), "barrioIncidente").setInitialSize(130)
             																			  .setWrapText(true)
-            																			  .setSizeUnit(SizeUnit.EX), 																			  
+            																			  .setReorderable(true)
+            																			  .setResizable(true)
+            																			  .setSizeUnit(SizeUnit.PX), 																			  
             
-            new PropertyColumn("comunaCol",new Model<String>("Comuna"), "comunaIncidente").setInitialSize(15)
-            																			  .setResizable(false)
+            new PropertyColumn("comunaCol",new Model<String>("Comuna"), "comunaIncidente").setInitialSize(80)
             																			  .setWrapText(true)
-            																			  .setSizeUnit(SizeUnit.EX),
+            																			  .setReorderable(true)
+            																			  .setResizable(true)
+            																			  .setSizeUnit(SizeUnit.PX),
             																				
-            new PropertyColumn("fechaCol",new Model<String>("Fecha de alta"), "FechaReclamo").setInitialSize(15)
-            																		 		.setResizable(false)
-            																		 		.setSizeUnit(SizeUnit.EX),
+            new PropertyColumn("fechaCol",new Model<String>("Fecha de alta"), "FechaReclamo").setInitialSize(80)
+            																				.setReorderable(true)
+            																				.setResizable(true)
+            																		 		.setSizeUnit(SizeUnit.PX),
             																						
-            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(25)
-            																		.setResizable(false)
-            																		.setSizeUnit(SizeUnit.EX),
+            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(130)
+            																		.setReorderable(true)
+            																		.setResizable(true)
+            																		.setSizeUnit(SizeUnit.PX),
             																					 
-            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(20)
-            																				.setResizable(false)
-            																				.setSizeUnit(SizeUnit.EX),
+            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(80)
+            																				.setReorderable(true)
+            																				.setResizable(true)
+            																				.setSizeUnit(SizeUnit.PX),
 
-            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(20)
-            																				 .setResizable(false)
-            																				 .setSizeUnit(SizeUnit.EX),
+            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(80)
+            																				 .setReorderable(true)
+            																				 .setResizable(true)
+            																				 .setSizeUnit(SizeUnit.PX),
             																						  
-            new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(20)
-          																							.setResizable(false)
-          																							.setSizeUnit(SizeUnit.EX), 
+            new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(150)
+          																							.setWrapText(true)
+          																							.setReorderable(true)
+            																						.setResizable(true)
+          																							.setSizeUnit(SizeUnit.PX), 
             																						  
-            new PropertyColumn("observacionesCol",new Model<String>("Observaciones"), "Observaciones").setInitialSize(65)
-            																						  .setResizable(false)
+            new PropertyColumn("observacionesCol",new Model<String>("Observaciones"), "Observaciones").setInitialSize(350)
             																						  .setWrapText(true)
-            																						  .setSizeUnit(SizeUnit.EX)
+            																						  .setReorderable(true)
+            																						  .setResizable(true)
+            																						  .setSizeUnit(SizeUnit.PX)
             );
-        
+		
 		grid = new DefaultDataGrid("grid", new DataProviderAdapter(listDataProvider), cols);
 		grid.setRowsPerPage(10);
         grid.setClickRowToSelect(true);
         grid.setAllowSelectMultiple(true);
         grid.setClickRowToDeselect(true);
         grid.setCleanSelectionOnPageChange(false);
-        
         
 	}
 	
@@ -336,8 +354,8 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		byte[] arrayBytes = null;
 		
 	  	//obtain a list of objects for the report
-	    List<IReclamo> reclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
-	
+	    List<IReclamo> reclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().filtrarNot(EnumEstadosReclamo.asociado.getEstado()));
+
 	    // pass parameters to the report
 	    Map parameters = new HashMap();
 	    parameters.put("Title", "Listado de Reclamos - Accion Ciudadana");

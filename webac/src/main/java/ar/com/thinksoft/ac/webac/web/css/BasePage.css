@@ -12,6 +12,13 @@ html,body {
 	
 }
 
+.usuario{
+	padding-right:20px; 
+	float:right; 
+	padding-top: 8px;
+	color: #FFB90F;
+}
+
 .accionCiudadana {
 	background: transparent url(/images/logoAccionCiudadana.jpg) 0 3px no-repeat;
 	height: 80px;
@@ -49,7 +56,7 @@ html,body {
 		"Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica,
 		sans-serif;
 	font-size: 14px;
-	font-weight: bold;
+
 }
 
 .menu ul {

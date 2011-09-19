@@ -10,7 +10,18 @@ public class PredicatePorEstado extends Predicate<IReclamo>{
 	public Predicate<IReclamo> filtrar(final String filtroParam){
 		return new Predicate<IReclamo>() {
 			public boolean match(IReclamo reclamo) {
-                return reclamo.getEstado().getDescripcionEstado().equals(filtroParam);
+                return reclamo.getEstadoDescripcion().equals(filtroParam);
+            }
+        };
+	}
+	
+	/*
+	 * Se filtra por los que no tienen ese estado
+	 */
+	public Predicate<IReclamo> filtrarNot(final String filtroParam){
+		return new Predicate<IReclamo>() {
+			public boolean match(IReclamo reclamo) {
+                return (!reclamo.getEstadoDescripcion().equals(filtroParam));
             }
         };
 	}

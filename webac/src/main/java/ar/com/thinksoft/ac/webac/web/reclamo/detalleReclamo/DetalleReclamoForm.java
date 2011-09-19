@@ -9,7 +9,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
-import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
@@ -38,6 +37,11 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 		CompoundPropertyModel<Reclamo> model = new CompoundPropertyModel<Reclamo>(reclamo);
 		setModel(model);
 		
+		if(reclamo.getReclamosAsociados().size() > 0){
+			add(new Label("cantidadAsociados", String.valueOf(reclamo.getReclamosAsociados().size())));
+		}else{
+			add(new Label("cantidadAsociados",""));
+		}
 		add(new Label("calleIncidente", this.createBind(model,"calleIncidente")));
 		add(new Label("alturaIncidente",this.createBind(model,"alturaIncidente")));
 		add(new Label("latitudIncidente",this.createBind(model,"latitudIncidente")));
@@ -51,6 +55,7 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 		add(new Label("estadoDescripcion",this.createBind(model,"EstadoDescripcion")));
 		add(new Label("tipoIncidente", this.createBind(model,"tipoIncidente")));
 		add(new Label("observaciones",this.createBind(model, "observaciones")));
+		
 		
 		try{
 			IImagen imagen = reclamo.getImagen();

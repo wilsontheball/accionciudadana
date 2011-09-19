@@ -6,10 +6,10 @@ import ar.com.thinksoft.ac.intac.IEstadoReclamo;
 /**
  * @author Matias
  */
-public class EstadoBaja implements IEstadoReclamo{
+public class EstadoAsociado implements IEstadoReclamo{
 
 	public String getDescripcionEstado() {
-		return EnumEstadosReclamo.baja.getEstado();
+		return EnumEstadosReclamo.asociado.getEstado();
 	}
 
 }

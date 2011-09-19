@@ -50,7 +50,10 @@ public class Unificador {
 
 		private void compararReclamoConTodos(IReclamo reclamo) {
 			for(IReclamo reclamoBase: listaReclamos){
+				if((reclamo.getFechaReclamo().compareTo(reclamoBase.getFechaReclamo()) <= 0))
 					reclamo.unificar(reclamoBase);
+				else
+					reclamoBase.unificar(reclamo);
 			}
 		}
     }

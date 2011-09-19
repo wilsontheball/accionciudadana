@@ -62,7 +62,7 @@ public abstract class BasePage extends Permitible {
 		try {
 			String username = Context.getInstance().getUsuario()
 					.getNombreUsuario();
-			return new Label("username", username);
+			return new Label("username", "Usuario: "+ username);
 		} catch (NullPointerException e) {
 
 			return new Label("username", "");

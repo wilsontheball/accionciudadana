@@ -38,8 +38,6 @@ public interface IReclamo extends Serializable{
 	
 	public IImagen getImagen();
 	
-	public IEstadoReclamo getEstado();
-	
 	public String getEstadoDescripcion();
 	
 	public String getPrioridad();
@@ -76,8 +74,6 @@ public interface IReclamo extends Serializable{
 	
 	public void setImagen(IImagen imagen);
 	
-	public void setEstado(IEstadoReclamo estado);
-	
 	public void setPrioridad(String prioridad);
 
 	public void clone(IReclamo reclamoOriginal);
@@ -96,7 +92,7 @@ public interface IReclamo extends Serializable{
 	
 	public void cancelarReclamo();
 
-	public void darDeBajaReclamo();
+	public void setAsociadoReclamo();
 	
 	public void suspender();
 

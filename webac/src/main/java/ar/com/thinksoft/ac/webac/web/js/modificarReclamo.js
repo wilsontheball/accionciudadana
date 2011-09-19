@@ -32,7 +32,8 @@ function validarCampos(){
 	buttonDisabled =  validarSiEsNull($('#calleIncidente')[0]) || validarSiEsNull($('#alturaIncidente')[0]) || 
 			validarSiEsNull($('#ciudadanoIncidente')[0]) || validarSiEsNull($('#tipoIncidente')[0]) || 
 			validarSiEsNull($('#barrioIncidente')[0]) || validarSiEsNull($('.prioridad')[0]) || 
-			validarSiEsNull($('.estadoDescripcion')[0]) || $('.imagen')== null || $('.imagen')== undefined;
+			validarSiEsNull($('.estadoDescripcion')[0]) ;
+			//|| $('.imagen')== null || $('.imagen')== undefined;
 	
 	$('.guardarReclamo').attr('disabled',buttonDisabled);
 	
