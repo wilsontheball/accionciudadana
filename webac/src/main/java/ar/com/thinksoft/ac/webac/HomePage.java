@@ -1,11 +1,15 @@
 package ar.com.thinksoft.ac.webac;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.CSSPackageResource;
+import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.basic.Label;
 
 import ar.com.thinksoft.ac.webac.seguridad.Permiso;
 import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
+import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoForm;
+import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
 
 /**
  * Homepage
@@ -24,17 +28,9 @@ public class HomePage extends BasePage {
 	 */
 	public HomePage(final PageParameters parameters) {
 
-		
-		//todo lo que esta hecho aca es a modo de pruebas... modificar...
-
-			String nombre = "";
-			if (Context.getInstance().getUsuario() != null)
-				nombre = Context.getInstance().getUsuario().getNombreUsuario();
-			// Add the simplest type of label
-			add(new Label("message", "Bienvenido " + nombre
-					+ " a Accion Ciudadana"));
-
-		// TODO Add your page's components here
+		add(CSSPackageResource.getHeaderContribution(HomePage.class,"../../css/HomeCiudadano.css"));
+		add(JavascriptPackageResource.getHeaderContribution(HomePage.class,"../../js/homeCiudadano.js"));
+		//add(new AltaReclamoForm("altaReclamoForm"));
 	}
 
 	// ****************** SEGURIDAD *******************
