@@ -1,0 +1,146 @@
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+<head>
+<title>Configuraci&oacute;n</title>
+</head>
+
+<body>
+	<wicket:extend>
+		<div class="configuracion">
+			<div align="center">
+				<h1>Configuraci&oacute;n</h1>
+			</div>
+			<form wicket:id="configuracionForm">
+			
+				<table align="center">
+					<tr>
+						<td class="texto">
+							<label>Hora - Minuto - Antes o despues del mediodia:</label>
+						</td>
+						<td class="block">
+					 		<input type="text" wicket:id="horaUnificador" id="horaUnificador" size="2"/>
+					 		<input type="text" wicket:id="minutoUnificador" id="minutoUnificador" size="2" />
+					 		<input type="text" wicket:id="manianaOTardeUnificador" id="minutoUnificador" size="2" />
+						</td>
+					</tr>	
+					<tr>
+						<td class="texto">
+					 		<label>SMTP:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="text" wicket:id="smtp" id="smtp" />
+					 	</td>
+					</tr>
+						
+					<tr>
+						<td class="texto">
+							<label>Puerto: </label>
+						</td>
+						<td class="block">
+					 		<input type="text" wicket:id="puerto" id="puerto" />
+					 	</td>
+					</tr>
+					
+					<tr>
+						<td class="texto">
+							<label>Desde: </label>
+						</td>
+						<td class="block">
+					 		<input type="text" wicket:id="desdeMail" id="desdeMail" />
+					 	</td>
+					</tr>
+					
+					<tr>
+						<td class="texto">
+							<label>TLS: </label>
+						</td>
+						<td class="block">
+					 		<input type="checkbox" wicket:id="tls" id="tls" />
+					 	</td>
+					</tr>
+					
+					<tr>
+						<td class="texto">
+							<label>Necesita credenciales: </label>
+						</td>
+						<td class="block">
+					 		<input type="checkbox" wicket:id="auth" id="auth" />
+					 	</td>
+					</tr>
+					
+					<tr class="credenciales">
+						<td class="texto">
+							<label>Usuario: </label>
+						</td>
+						<td class="block">
+					 		<input type="text" wicket:id="user" id="user" />
+					 	</td>
+					</tr>
+					
+					<tr class="credenciales">
+						<td class="texto">
+							<label>Contrase&nacute;a: </label>
+						</td>
+						<td class="block">
+					 		<input type="text" wicket:id="password" id="password" />
+					 	</td>
+					</tr>
+					
+					<tr>
+						<td class="texto">
+							<label>Ruta de imagenes temporales: </label>
+						</td>
+						<td class="block">
+					 		<input type="text" wicket:id="pathTempImages" id="pathTempImages" />
+					 	</td>
+					</tr>
+					
+					<tr>
+						<td class="texto">
+							<label>Ruta de archivo diseñador de archivo PDF: </label>
+						</td>
+						<td class="block">
+					 		<input type="text" wicket:id="pathExportDesign" id="pathExportDesign" />
+					 	</td>
+					</tr>
+					
+					<tr>
+						<td class="texto">
+							<label>Ruta del archivo de configuraci&oacute;n: </label>
+						</td>
+						<td class="block">
+					 		<input type="text" wicket:id="pathConfig" id="pathConfig" />
+					 	</td>
+					</tr>
+					
+						
+				</table>			
+
+
+				<table align="center">
+					<tr>
+						<td>
+							<div class="block">
+								<input type="text" class="error" border="none" size="50"/>
+							</div>
+						</td>
+					</tr>
+				</table>
+				
+
+				<table align="center">
+					<tr>
+						<td>
+							<div>
+								<input type="submit" wicket:id="guardarConfig" value="Guardar configuraci&oacute;n" class="block" style="float: left; margin:20px;"/>
+								<input type="submit" wicket:id="cancelar" value="Cancelar" class="block" style="float: right; margin:20px;"/>
+							</div>
+						</td>
+					</tr>
+				</table>
+
+			</form>
+		</div>
+	</wicket:extend>
+</body>
+</html>

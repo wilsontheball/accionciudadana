@@ -6,4 +6,8 @@ $(document).ready(function() {
 		$('.imagen').css('width','auto');
 	}, 3 * 1000);
 	
+	if($('.numAsociados')[0].textContent == ""){
+		$('.asociados').css('display','none');
+	}
+	
 });

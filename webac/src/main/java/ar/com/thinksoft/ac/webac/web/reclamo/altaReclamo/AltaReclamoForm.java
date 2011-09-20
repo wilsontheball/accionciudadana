@@ -89,8 +89,11 @@ public class AltaReclamoForm extends Form<Reclamo> {
 						//metodos agregados a mano
 						reclamo.setId();
 						reclamo.setPrioridad(EnumPrioridadReclamo.noAsignada.getPrioridad());
-						reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
-						reclamo.setComunaIncidente();
+						
+						if(img != null){
+							reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
+							img.deleteImage();
+						}
 						reclamo.setCiudadanoGeneradorReclamo(Context.getInstance().getUsuario().getNombreUsuario());
 						Date fecha = new Date();
 						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
@@ -99,7 +102,6 @@ public class AltaReclamoForm extends Form<Reclamo> {
 						//fin metodos agregados a mano
 						
 						reclamo.activar();
-						img.deleteImage();
 						setResponsePage(HomePage.class);
 					}
 		        }

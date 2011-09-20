@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.intac;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Interfaz a implementar para reclamo tanto en la parte Android como en la parte de Dominio Web
@@ -37,11 +38,11 @@ public interface IReclamo extends Serializable{
 	
 	public IImagen getImagen();
 	
-	public IEstadoReclamo getEstado();
-	
 	public String getEstadoDescripcion();
 	
 	public String getPrioridad();
+	
+	public List<IReclamo> getReclamosAsociados();
 	
 	// Fin obtencion de atributos
 	
@@ -69,20 +70,39 @@ public interface IReclamo extends Serializable{
 	
 	public void setBarrioIncidente(String barrio);
 	
-	public void setComunaIncidente();
+	public void setComunaIncidente(String barrio);
 	
 	public void setImagen(IImagen imagen);
-	
-	public void setEstado(IEstadoReclamo estado);
 	
 	public void setPrioridad(String prioridad);
 
 	public void clone(IReclamo reclamoOriginal);
 
 	public void cambiarEstado(String estadoDescripcion);
-	
+
 	// Fin seteo atributos
 	
+	//Metodos que no hace falta implementar en Android.
+	 
+	public boolean isNotDown();
+	
+	public boolean isIgual(IReclamo reclamo);
+	
+	public void unificar(IReclamo reclamo);
+	
+	public void cancelarReclamo();
+
+	public void setAsociadoReclamo();
+	
+	public void suspender();
+
+	public void activar();
+	
+	public void enProgreso();
+	
+	public void demorar();
+	
+	public void terminar();
 	
 }
 

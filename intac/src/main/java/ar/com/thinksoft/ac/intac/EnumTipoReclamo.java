@@ -8,10 +8,10 @@ public enum EnumTipoReclamo {
 		bache("Bache"),
 		caidaObjetos("Caida de Objetos"),
 		abl("ABL"),
-		roturaElementosPublicos("Rotura de Elementos Publicos"),
+		roturaElementosPublicos("Rotura Elem. Publicos"),
 		elementosViales("Elementos Viales"),
 		inundaciones("Inundaciones"),
-		transportePublico("TransportePublico"),
+		transportePublico("Transporte Publico"),
 		accesibilidad("Accesibilidad");
 		
 		private String tipo;

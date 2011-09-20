@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<!DOCTYPE jasperReport
+  PUBLIC "-//JasperReports//DTD Report Design//EN"
+  "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport name="Reclamos_Report" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="30" bottomMargin="30">
+  <style name="Arial_Normal" isDefault="true" fontName="Arial" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+  <style name="Arial_Bold" isDefault="false" fontName="Arial" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+
+  <parameter name="Title" class="java.lang.String"> </parameter>
+  
+  <field name="CalleIncidente" class="java.lang.String"/>
+  <field name="AlturaIncidente" class="java.lang.String"/>
+  <field name="FechaReclamo" class="java.lang.String"/>
+  <field name="BarrioIncidente" class="java.lang.String"/>
+  <field name="ComunaIncidente" class="java.lang.String"/>
+  <field name="TipoIncidente" class="java.lang.String"/>
+  <field name="Prioridad" class="java.lang.String"/>  
+  <field name="EstadoDescripcion" class="java.lang.String"/>
+ 
+
+  <title>
+    <band height="70">
+
+      <line>
+        <reportElement x="0" y="0" width="832" height="1"/>
+        <graphicElement/>
+      </line>
+
+      <textField isBlankWhenNull="true" bookmarkLevel="1">
+        <reportElement x="0" y="10" width="832" height="30" style="Arial_Normal"/>
+
+        <textElement textAlignment="Center">
+          <font size="22"/>
+        </textElement>
+        <textFieldExpression class="java.lang.String">$P{Title}</textFieldExpression>
+        <anchorNameExpression>"Title"</anchorNameExpression>
+      </textField>
+    </band>
+  </title>
+
+  <pageHeader>
+
+    <band height="20" isSplitAllowed="true">
+
+      <staticText>
+        <reportElement mode="Opaque" x="30" y="5" width="120" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+        <textElement textAlignment="Center"/>
+        <text>Calle</text>
+      </staticText>
+
+      <staticText>
+        <reportElement mode="Opaque" x="150" y="5" width="50" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+        <textElement textAlignment="Center"/>
+        <text>Altura</text>
+      </staticText>
+	  
+	  <staticText>
+        <reportElement mode="Opaque" x="200" y="5" width="80" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+        <textElement textAlignment="Center"/>
+        <text>Fecha</text>
+      </staticText>
+	  
+	  <staticText>
+        <reportElement mode="Opaque" x="280" y="5" width="130" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+        <textElement textAlignment="Center"/>
+        <text>Barrio</text>
+      </staticText>
+	  
+	  <staticText>
+        <reportElement mode="Opaque" x="410" y="5" width="80" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+        <textElement textAlignment="Center"/>
+        <text>Comuna</text>
+      </staticText>
+	  
+	  <staticText>
+        <reportElement mode="Opaque" x="490" y="5" width="130" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+        <textElement textAlignment="Center"/>
+        <text>Tipo</text>
+      </staticText>
+	    
+	  <staticText>
+        <reportElement mode="Opaque" x="620" y="5" width="80" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+        <textElement textAlignment="Center"/>
+        <text>Prioridad</text>
+      </staticText>
+	  
+	  <staticText>
+        <reportElement mode="Opaque" x="700" y="5" width="80" height="15" forecolor="#ffffff" backcolor="#333333" style="Arial_Bold"/>
+        <textElement textAlignment="Center"/>
+        <text>Estado</text>
+      </staticText>
+	  
+	  
+
+    </band>
+  </pageHeader>
+  
+ <detail>
+	<band height="15" isSplitAllowed="false">
+
+    <textField bookmarkLevel="2">
+      <reportElement x="30" y="0" width="120" height="15"/>
+      <box leftBorder="Thin" bottomBorder="Thin" leftPadding="10" rightPadding="10"/>
+      <textElement textAlignment="Left"/>
+      <textFieldExpression class="java.lang.String">$F{CalleIncidente}</textFieldExpression>
+    </textField>
+
+    <textField isStretchWithOverflow="true">
+      <reportElement x="150" y="0" width="50" height="15"/>
+      <box leftBorder="Thin" bottomBorder="Thin" rightBorder="Thin" leftPadding="10" rightPadding="10"/>
+      <textElement textAlignment="Left"/>
+      <textFieldExpression class="java.lang.String">$F{AlturaIncidente}</textFieldExpression>
+    </textField>
+	
+	<textField isStretchWithOverflow="true">
+      <reportElement x="200" y="0" width="80" height="15"/>
+      <box leftBorder="Thin" bottomBorder="Thin" rightBorder="Thin" leftPadding="10" rightPadding="10"/>
+      <textElement textAlignment="Left"/>
+      <textFieldExpression class="java.lang.String">$F{FechaReclamo}</textFieldExpression>
+    </textField>
+	
+	<textField isStretchWithOverflow="false">
+      <reportElement x="280" y="0" width="130" height="15"/>
+      <box leftBorder="Thin" bottomBorder="Thin" rightBorder="Thin" leftPadding="10" rightPadding="10"/>
+      <textElement textAlignment="Left"/>
+      <textFieldExpression class="java.lang.String">$F{BarrioIncidente}</textFieldExpression>
+    </textField>
+	
+	<textField isStretchWithOverflow="true">
+      <reportElement x="410" y="0" width="80" height="15"/>
+      <box leftBorder="Thin" bottomBorder="Thin" rightBorder="Thin" leftPadding="10" rightPadding="10"/>
+      <textElement textAlignment="Left"/>
+      <textFieldExpression class="java.lang.String">$F{ComunaIncidente}</textFieldExpression>
+    </textField>
+	
+	<textField isStretchWithOverflow="true">
+      <reportElement x="490" y="0" width="130" height="15"/>
+      <box leftBorder="Thin" bottomBorder="Thin" rightBorder="Thin" leftPadding="10" rightPadding="10"/>
+      <textElement textAlignment="Left"/>
+      <textFieldExpression class="java.lang.String">$F{TipoIncidente}</textFieldExpression>
+    </textField>
+
+	<textField isStretchWithOverflow="true">
+      <reportElement x="620" y="0" width="80" height="15"/>
+      <box leftBorder="Thin" bottomBorder="Thin" rightBorder="Thin" leftPadding="10" rightPadding="10"/>
+      <textElement textAlignment="Left"/>
+      <textFieldExpression class="java.lang.String">$F{Prioridad}</textFieldExpression>
+    </textField>
+	
+	<textField isStretchWithOverflow="true">
+      <reportElement x="700" y="0" width="80" height="15"/>
+      <box leftBorder="Thin" bottomBorder="Thin" rightBorder="Thin" leftPadding="10" rightPadding="10"/>
+      <textElement textAlignment="Left"/>
+      <textFieldExpression class="java.lang.String">$F{EstadoDescripcion}</textFieldExpression>
+    </textField>
+	
+
+
+	</band>
+
+  </detail>
+</jasperReport>
