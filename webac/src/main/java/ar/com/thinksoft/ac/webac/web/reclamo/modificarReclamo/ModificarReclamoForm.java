@@ -120,21 +120,22 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 				public void onSubmit() {
 					Reclamo reclamoModificado = _self.getModelObject();
 					if(!isReclamoNoValido(reclamoModificado)){
-						reclamoModificado.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
-						
+						if(img != null){
+							reclamoModificado.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
+							img.deleteImage();
+						}
 						//Seteo fecha de modificacion
 						Date fecha = new Date();
 						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 						reclamoModificado.setFechaUltimaModificacionReclamo(formato.format(fecha));
 						
 						//Cambio el estado de acuerdo al estado elegido
-						String estado = reclamoModificado.getEstadoDescripcionDefault();
+						String estado = reclamoModificado.getEstadoDescripcion();
 						reclamoModificado.cambiarEstado(estado);
 						
 						//Elimino el reclamoOriginal, guardando el reclamoNuevo
 						ReclamoManager.getInstance().eliminarReclamo(reclamoOriginal);
 						
-						img.deleteImage();
 						PageParameters params = new PageParameters();
 						params.add("reclamoId", reclamoModificado.getId());
 						setResponsePage(DetalleReclamoPage.class, params);
