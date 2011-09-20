@@ -58,6 +58,7 @@ public class Repository implements ObjectContainer{
 
 	public void delete(Object arg0) throws Db4oIOException, DatabaseClosedException, DatabaseReadOnlyException {
 		objectContainer.delete(arg0);
+		this.commit();
 	}
 
 	public ExtObjectContainer ext() {

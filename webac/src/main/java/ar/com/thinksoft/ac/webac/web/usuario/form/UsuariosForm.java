@@ -85,6 +85,31 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 			}
 		});
 
+		this.add(new Button("eliminar") {
+
+			@Override
+			public void onSubmit() {
+
+				IUsuario usuario = (IUsuario) grid.getSelectedItems()
+						.iterator().next().getObject();
+				Repository.getInstance().delete(usuario);
+				_self.setResponsePage(UsuarioPage.class);
+			}
+
+		});
+
+		this.add(new Button("bloquear") {
+
+			@Override
+			public void onSubmit() {
+
+				IUsuario usuario = (IUsuario) grid.getSelectedItems()
+						.iterator().next().getObject();
+				_self.setResponsePage(UsuarioPage.class);
+			}
+
+		});
+
 	}
 
 	/*

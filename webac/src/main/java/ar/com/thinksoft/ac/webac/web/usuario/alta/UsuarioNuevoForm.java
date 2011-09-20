@@ -3,6 +3,8 @@ package ar.com.thinksoft.ac.webac.web.usuario.alta;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -26,9 +28,12 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 	private static final long serialVersionUID = 4530512782651195546L;
 	private String repassword;
 	private String tipoUsuario;
+	private UsuarioNuevoForm self;
 
 	public UsuarioNuevoForm(String id) {
 		super(id);
+
+		this.self = this;
 
 		CompoundPropertyModel<IUsuario> model = new CompoundPropertyModel<IUsuario>(
 				new Usuario());
@@ -51,30 +56,48 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 		add(this.createEmail(model));
 		add(new TextField<String>("telefono", createBind(model, "telefono")));
 
-		add(new Button("cancelar") {
+		add(new Button("guardar") {
+
 			@Override
 			public void onSubmit() {
-				this.setDefaultFormProcessing(false);
+				IUsuario usuario = self.getModelObject();
+				if (!usuario.getContrasenia().equals(self.repassword)) {
+					System.out.println("NO SON IGUALES");
+					error("no son iguales");
+				} else {
+					self.convertUsuario(self.tipoUsuario, usuario);
+					new RegistroManager().registrar(usuario);
+					this.setResponsePage(UsuarioPage.class);
+				}
+			}
+		});
+
+		add(new AjaxLink("cancelar") {
+
+			@Override
+			public void onClick(AjaxRequestTarget ajaxRequestTarget) {
 				setResponsePage(UsuarioPage.class);
 			}
 		});
 
-	}
-
-	@Override
-	protected void onSubmit() {
-
-		IUsuario usuario = getModelObject();
-		if (!usuario.getContrasenia().equals(this.repassword)) {
-			System.out.println("NO SON IGUALES");
-			error("no son iguales");
-		} else {
-			this.convertUsuario(this.tipoUsuario, usuario);
-			new RegistroManager().registrar(usuario);
-			this.setResponsePage(UsuarioPage.class);
-		}
 
 	}
+
+	 @Override
+	 protected void onSubmit() {
+
+		 System.out.println("mati");
+	// IUsuario usuario = getModelObject();
+	// if (!usuario.getContrasenia().equals(this.repassword)) {
+	// System.out.println("NO SON IGUALES");
+	// error("no son iguales");
+	// } else {
+	// this.convertUsuario(this.tipoUsuario, usuario);
+	// new RegistroManager().registrar(usuario);
+	// this.setResponsePage(UsuarioPage.class);
+	// }
+
+	 }
 
 	private IModel<String> createBind(CompoundPropertyModel<IUsuario> model,
 			String property) {
@@ -84,9 +107,6 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 	private IModel<String> createRePasswordModel() {
 		return new IModel<String>() {
 
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = -4559650441477758535L;
 
 			@Override
@@ -170,6 +190,11 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 	protected IValidator<String> emailValidator() {
 		return new IValidator<String>() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 5300811646328464566L;
+
 			@Override
 			public void validate(IValidatable<String> validatable) {
 				if (!validatable.getValue().contains("@"))
@@ -181,6 +206,11 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 
 	protected IValidator<String> spaceValidator(final String nombreCampo) {
 		return new IValidator<String>() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2425479829881845882L;
 
 			@Override
 			public void validate(IValidatable<String> validatable) {
