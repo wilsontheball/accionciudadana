@@ -46,6 +46,12 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		TextField<String> altura = new TextField<String>("alturaIncidente",this.createBind(model,"alturaIncidente"));
 		add(altura);
 		
+		TextField<String> latitudIncidente = new TextField<String>("latitudIncidente",this.createBind(model,"latitudIncidente"));
+		add(latitudIncidente);
+		
+		TextField<String> longitudIncidente = new TextField<String>("longitudIncidente",this.createBind(model,"longitudIncidente"));
+		add(longitudIncidente);
+		
 		TextField<String> ciudadanoTextBox = new TextField<String>("CiudadanoGeneradorReclamo",this.getName());
 		ciudadanoTextBox.setEnabled(false);
 		add(ciudadanoTextBox);
