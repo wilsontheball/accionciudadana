@@ -26,7 +26,7 @@ public class Unificador {
 			Date date = calendar.getTime();
 			
 			//La tarea se va a ejecutar 1 hora antes, es decir, 01:00 AM
-			timer.schedule(new ImportarDatos(), date);
+			timer.schedule(new UnificarReclamos(), date, 1000 * 60 * 60 * 24);
 			
 		}catch (Exception e) {
 			LogFwk.getInstance(Unificador.class).error("Error no controlado");
@@ -34,7 +34,7 @@ public class Unificador {
     }
     
     
-    public class ImportarDatos extends TimerTask {
+    public class UnificarReclamos extends TimerTask {
     	
     	private List<IReclamo> listaReclamos = new ArrayList<IReclamo>();
 
