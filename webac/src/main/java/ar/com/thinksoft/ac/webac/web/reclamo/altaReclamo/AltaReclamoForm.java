@@ -23,12 +23,12 @@ import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.web.Context;
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 
 @SuppressWarnings("serial")
 public class AltaReclamoForm extends Form<Reclamo> {

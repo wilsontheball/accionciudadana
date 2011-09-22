@@ -7,9 +7,9 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.IPageLink;
 
-import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.seguridad.Permitible;
 import ar.com.thinksoft.ac.webac.web.Context;
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.configuracion.ConfiguracionPage;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 import ar.com.thinksoft.ac.webac.web.logout.LogoutPage;
