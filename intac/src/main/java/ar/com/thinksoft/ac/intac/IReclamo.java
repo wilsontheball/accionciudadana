@@ -70,7 +70,9 @@ public interface IReclamo extends Serializable{
 	
 	public void setBarrioIncidente(String barrio);
 	
-	public void setComunaIncidente(String barrio);
+	public void setComunaIncidentePorBarrio(String barrio);
+	
+	public void setComunaIncidente(String comuna);
 	
 	public void setImagen(IImagen imagen);
 	
