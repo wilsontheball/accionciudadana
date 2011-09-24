@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.andrac;
 
-import ar.com.thinksoft.ac.intac.IEstadoReclamo;
+import java.util.List;
+
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 
@@ -96,17 +97,17 @@ public class Reclamo implements IReclamo {
 		return null;
 	}
 
-	public IEstadoReclamo getEstado() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public String getEstadoDescripcion() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public String getPrioridad() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<IReclamo> getReclamosAsociados() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -166,17 +167,17 @@ public class Reclamo implements IReclamo {
 
 	}
 
+	public void setComunaIncidentePorBarrio(String barrio) {
+		// TODO Auto-generated method stub
+
+	}
+
 	public void setComunaIncidente(String comuna) {
 		// TODO Auto-generated method stub
 
 	}
 
 	public void setImagen(IImagen imagen) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setEstado(IEstadoReclamo estado) {
 		// TODO Auto-generated method stub
 
 	}
@@ -192,6 +193,56 @@ public class Reclamo implements IReclamo {
 	}
 
 	public void cambiarEstado(String estadoDescripcion) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean isNotDown() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean isIgual(IReclamo reclamo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void unificar(IReclamo reclamo) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void cancelarReclamo() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setAsociadoReclamo() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void suspender() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void activar() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void enProgreso() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void demorar() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void terminar() {
 		// TODO Auto-generated method stub
 
 	}
