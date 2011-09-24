@@ -33,20 +33,19 @@ public class ComunaManager {
 	}
 	
 	private String getEstadoComuna(List<IReclamo> reclamos, String comuna) {
-		int reclamosNotDown = 0;
-		List<IReclamo> reclamosComunaNotDown = new ArrayList<IReclamo>();
+		float reclamosNotDown = 0, reclamosComuna = 0;
 		for(IReclamo reclamo: reclamos){
 			if(reclamo.isNotDown()){
 				reclamosNotDown = reclamosNotDown + 1;
-			if(comuna.equals(reclamo.getComunaIncidente()))
-				reclamosComunaNotDown.add(reclamo);
+				if(comuna.equals(reclamo.getComunaIncidente()))
+					reclamosComuna = reclamosComuna + 1;
 			}
 		}
 		
-		if(reclamosNotDown == 0)
+		if(reclamosComuna == 0)
 			return getColorPasable();
 		else{
-			double estadistica = (reclamosComunaNotDown.size()/reclamosNotDown)*100;
+			float estadistica = (reclamosComuna/reclamosNotDown)*100;
 			if(estadistica<UMBRAL_MINIMO)
 				return getColorPasable();
 			if(estadistica>UMBRAL_MAXIMO)
