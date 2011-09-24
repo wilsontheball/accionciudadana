@@ -6,7 +6,7 @@ public class HomePageAdministrativoPermiso extends Permiso {
 
 	@Override
 	public String getCodigoSeguridad() {
-		return "homePageCiudadano";
+		return "homePageAdministrativo";
 	}
 
 }
