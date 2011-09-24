@@ -1,5 +1,6 @@
 package ar.com.thinksoft.ac.webac.web.HomePage.Administrativo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -73,7 +74,7 @@ public class HomePageAdministrativo extends BasePage{
 		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(listReclamos);
 		List cols = (List) Arrays.asList(
 																	
-            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(200)
+            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(120)
             																						 .setResizable(false)
             																						 .setWrapText(true)
             																						 .setSizeUnit(SizeUnit.PX),
@@ -103,11 +104,16 @@ public class HomePageAdministrativo extends BasePage{
             new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(80)
             																				 .setReorderable(true)
             																				 .setResizable(true)
-            																				 .setSizeUnit(SizeUnit.PX)
+            																				 .setSizeUnit(SizeUnit.PX),
+            																				 
+            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(80)
+                 																				.setReorderable(true)
+                 																				.setResizable(true)
+                 																				.setSizeUnit(SizeUnit.PX)
             );
 		
 		gridActivos = new DefaultDataGrid("grid", new DataProviderAdapter(listDataProvider), cols);
-		gridActivos.setRowsPerPage(10);
+		gridActivos.setRowsPerPage(7);
         gridActivos.setClickRowToSelect(true);
         gridActivos.setAllowSelectMultiple(true);
         gridActivos.setClickRowToDeselect(true);
@@ -117,13 +123,12 @@ public class HomePageAdministrativo extends BasePage{
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void armarGrillaUltimosModificados() {
-		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().isNotDownFiltro());
-		//Collections.sort(listReclamos,new FechaModificacionComparator());
+		List<IReclamo> listReclamos = listaOrdenadaPorFecha();
 		
 		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(listReclamos);
 		List cols = (List) Arrays.asList(
 																	
-            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(200)
+            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(120)
             																						 .setResizable(false)
             																						 .setWrapText(true)
             																						 .setSizeUnit(SizeUnit.PX),
@@ -140,7 +145,8 @@ public class HomePageAdministrativo extends BasePage{
             																			  .setResizable(true)
             																			  .setSizeUnit(SizeUnit.PX),
             																				
-            new PropertyColumn("fechaCol",new Model<String>("Fecha de alta"), "FechaReclamo").setInitialSize(80)
+            new PropertyColumn("fechaCol",new Model<String>("Fecha de modificacion"), "FechaUltimaModificacionReclamo")
+            																				.setInitialSize(80)
             																				.setReorderable(true)
             																				.setResizable(true)
             																		 		.setSizeUnit(SizeUnit.PX),
@@ -153,15 +159,34 @@ public class HomePageAdministrativo extends BasePage{
             new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(80)
             																				 .setReorderable(true)
             																				 .setResizable(true)
-            																				 .setSizeUnit(SizeUnit.PX)
+            																				 .setSizeUnit(SizeUnit.PX),
+           
+            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(80)
+             																				.setReorderable(true)
+             																				.setResizable(true)
+             																				.setSizeUnit(SizeUnit.PX)
             );
 		
 		gridUltimosModificados = new DefaultDataGrid("gridUltimosModificados", new DataProviderAdapter(listDataProvider), cols);
-		gridUltimosModificados.setRowsPerPage(10);
+		gridUltimosModificados.setRowsPerPage(7);
 		gridUltimosModificados.setClickRowToSelect(true);
 		gridUltimosModificados.setAllowSelectMultiple(true);
 		gridUltimosModificados.setClickRowToDeselect(true);
 		gridUltimosModificados.setCleanSelectionOnPageChange(false);
         
+	}
+
+	/*
+	 * Lista ordenada por fecha de modificacion = lista invertida, ya que al modificar un reclamo se
+	 * esta creando uno nuevo clonado y los atributos actualizados.
+	 */
+	private List<IReclamo> listaOrdenadaPorFecha() {
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().isNotDownFiltro());
+		List<IReclamo> listaDevolucion = new ArrayList<IReclamo>();
+		for(int i = lista.size()-1 ;i>=0;i--){
+			listaDevolucion.add(lista.get(i));
+		}
+		return listaDevolucion;
+	
 	}
 }
