@@ -17,8 +17,8 @@ public class ComunaManager {
 	private String colorIntermedio = "#FFFF00";
 	private String colorPasable = "#33FF00";
 	private float opacity = Float.valueOf("0.5");
-	private static int UMBRAL_MINIMO = 25;
-	private static int UMBRAL_MAXIMO = 55;
+	private static int UMBRAL_MINIMO = 20;
+	private static int UMBRAL_MAXIMO = 40;
 	private List<Comuna> listaComunas = new ArrayList<Comuna>();
 	
 	public ComunaManager(){
