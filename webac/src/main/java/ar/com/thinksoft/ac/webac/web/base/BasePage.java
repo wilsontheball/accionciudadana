@@ -9,7 +9,7 @@ import org.apache.wicket.markup.html.link.IPageLink;
 
 import ar.com.thinksoft.ac.webac.seguridad.Permitible;
 import ar.com.thinksoft.ac.webac.web.Context;
-import ar.com.thinksoft.ac.webac.web.HomePage.Ciudadano.HomePageCiudadano;
+import ar.com.thinksoft.ac.webac.web.HomePage.Administrativo.HomePageAdministrativo;
 import ar.com.thinksoft.ac.webac.web.configuracion.ConfiguracionPage;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 import ar.com.thinksoft.ac.webac.web.logout.LogoutPage;
@@ -71,7 +71,7 @@ public abstract class BasePage extends Permitible {
 	}
 
 	private void appendLinks() {
-		add(new BookmarkablePageLink<IPageLink>("homeLink", HomePageCiudadano.class));
+		add(new BookmarkablePageLink<IPageLink>("homeLink", HomePageAdministrativo.class));
 		add(new BookmarkablePageLink<IPageLink>("altaReclamoLink",AltaReclamoPage.class));
 		add(new BookmarkablePageLink<IPageLink>("busquedaReclamoLink",BusquedaReclamoPage.class));
 		add(new BookmarkablePageLink<IPageLink>("usuariosLink", UsuarioPage.class));

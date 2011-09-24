@@ -13,7 +13,26 @@ html,body {
 }
 
 .map{
-	width: 60em;
-	height: 45em;
+	width: 700px;
+	height: 500px;
 	float: right;	
+}
+
+.gridAdmin{
+	margin: 15px;
+	width: 626px;
+	height: 160px;
+}
+
+.right{
+	float:right;
+}
+
+.left{
+	float:left;	
+}
+
+h1{
+	margin: 15px;
+	width: 400px;	
 }
