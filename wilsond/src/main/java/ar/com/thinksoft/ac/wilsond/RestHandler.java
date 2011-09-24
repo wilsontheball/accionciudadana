@@ -21,6 +21,8 @@ import com.google.gson.Gson;
  */
 public class RestHandler extends AbstractHandler
 
+// TODO No es funcional!!! Por ahora simpre devuelve reclamos. Falta implementar
+// el resto de las funcionalidades!!!!!!!
 {
 	public void handle(String target, Request baseRequest,
 			HttpServletRequest request, HttpServletResponse response)
@@ -30,7 +32,8 @@ public class RestHandler extends AbstractHandler
 				: HttpConnection.getCurrentConnection().getRequest());
 		try {
 			// String methodName = request.getRequestURI().substring(1);
-			List<Reclamo> list = (new Repositorio()).list();
+			List<Reclamo> list = Repositorio.getInstancia().getReclamos(
+					"usuario");
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(new Gson().toJson(list));
