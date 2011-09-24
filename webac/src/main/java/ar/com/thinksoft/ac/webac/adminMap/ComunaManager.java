@@ -7,7 +7,10 @@ import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 
+import wicket.contrib.gmap.api.GIcon;
 import wicket.contrib.gmap.api.GLatLng;
+import wicket.contrib.gmap.api.GMarker;
+import wicket.contrib.gmap.api.GMarkerOptions;
 import wicket.contrib.gmap.api.GPolygon;
 
 public class ComunaManager {
@@ -23,8 +26,6 @@ public class ComunaManager {
 	
 	public ComunaManager(){
 		crearComunas();
-		/*for(Comuna comuna : getListaComunas())
-			guardarComunaADB(comuna);*/
 	}
 	
 	public Comuna crearComuna(String nombre, String colorEstado, GLatLng... gLatLngs){
