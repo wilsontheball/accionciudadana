@@ -9,7 +9,7 @@ import org.apache.wicket.markup.html.link.IPageLink;
 
 import ar.com.thinksoft.ac.webac.seguridad.Permitible;
 import ar.com.thinksoft.ac.webac.web.Context;
-import ar.com.thinksoft.ac.webac.web.HomePage.Administrativo.HomePageAdministrativo;
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.configuracion.ConfiguracionPage;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 import ar.com.thinksoft.ac.webac.web.logout.LogoutPage;
@@ -61,8 +61,7 @@ public abstract class BasePage extends Permitible {
 
 	private Component userNameComponent() {
 		try {
-			String username = Context.getInstance().getUsuario()
-					.getNombreUsuario();
+			String username = Context.getInstance().getUsuario().getNombreUsuario();
 			return new Label("username", "Usuario: "+ username);
 		} catch (NullPointerException e) {
 
@@ -71,7 +70,7 @@ public abstract class BasePage extends Permitible {
 	}
 
 	private void appendLinks() {
-		add(new BookmarkablePageLink<IPageLink>("homeLink", HomePageAdministrativo.class));
+		add(new BookmarkablePageLink<IPageLink>("homeLink", HomePage.class));
 		add(new BookmarkablePageLink<IPageLink>("altaReclamoLink",AltaReclamoPage.class));
 		add(new BookmarkablePageLink<IPageLink>("busquedaReclamoLink",BusquedaReclamoPage.class));
 		add(new BookmarkablePageLink<IPageLink>("usuariosLink", UsuarioPage.class));

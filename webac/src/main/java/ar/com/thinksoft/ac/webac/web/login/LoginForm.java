@@ -153,7 +153,7 @@ public class LoginForm extends Form<Void> {
 			// Deberia haber algo como un contexto o algo parecido, un
 			// singleton.
 			Context.getInstance().setUsuario(usuario);
-			setResponsePage(HomePageAdministrativo.class);
+			setResponsePage(HomePage.class);
 		} catch (UserNotFoundException e) {
 			if (!login.isUsuarioExistente())
 				error(e.getLocalizedMessage());
