@@ -1,4 +1,4 @@
-package ar.com.thinksoft.ac.webac.web.HomePage.Administrativo;
+package ar.com.thinksoft.ac.webac.web.HomePage.Ciudadano;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,147 +9,76 @@ import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.Model;
 
+import wicket.contrib.gmap.GMap2;
+import wicket.contrib.gmap.api.GLatLng;
+import wicket.contrib.gmap.api.GMarker;
+
 import com.inmethod.grid.DataProviderAdapter;
 import com.inmethod.grid.SizeUnit;
 import com.inmethod.grid.column.PropertyColumn;
 import com.inmethod.grid.datagrid.DataGrid;
 import com.inmethod.grid.datagrid.DefaultDataGrid;
 
-import wicket.contrib.gmap.GMap2;
-import wicket.contrib.gmap.api.GIcon;
-import wicket.contrib.gmap.api.GLatLng;
-import wicket.contrib.gmap.api.GMarker;
-import wicket.contrib.gmap.api.GMarkerOptions;
-
 import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.webac.adminMap.Comuna;
-import ar.com.thinksoft.ac.webac.adminMap.ComunaManager;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
+import ar.com.thinksoft.ac.webac.web.HomePage.Administrativo.HomePageAdministrativoPermiso;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 
-public class HomePageAdministrativo extends BasePage{
+public class HomePageCiudadano extends BasePage{
 	
 	private static String KEY = "ABQIAAAASNhk0DNhWwkPk0Y12RIrThTwM0brOpm-All5BF6PoaKBxRWWERRi58__PuwPgysGGKPkLxYHu8hULg";
-	private DataGrid gridActivos;
-	private DataGrid gridUltimosModificados;
+	private DataGrid gridActivosCiudadano;
+	private DataGrid gridUltimosModificadosCiudadano;
 	
 	@Override
 	public IPermiso getPermisoNecesario() {
 		return new HomePageAdministrativoPermiso();
 	}
 	
-	public HomePageAdministrativo(final PageParameters parameters){
+	public HomePageCiudadano(final PageParameters parameters){
 		add(CSSPackageResource.getHeaderContribution(HomePage.class,"../css/Home.css"));
 		
 		armarGrillaActiva();
-        add(gridActivos);
+        add(gridActivosCiudadano);
         
         armarGrillaUltimosModificados();
-        add(gridUltimosModificados);
+        add(gridUltimosModificadosCiudadano);
 		
-		GMap2 map = crearMapaAdministrativo();
+		GMap2 map = crearMapaCiudadano();
 		add(map);
 	}
-
-	private GMap2 crearMapaAdministrativo() {
-		GMap2 map = new GMap2("mapa", KEY);
+	
+	private GMap2 crearMapaCiudadano() {
+		GMap2 map = new GMap2("mapaCiudadano", KEY);
 		map.setCenter(new GLatLng(-34.611171,-58.444176));
 		map.setZoom(12);
-		map.setDraggingEnabled(false);
-		
-		ComunaManager comunaManager = new ComunaManager();
-		for(Comuna comuna : comunaManager.getListaComunas()){
-			map.addOverlay(comuna.getPoligono());
+		map.setDraggingEnabled(true);
+		map.setDoubleClickZoomEnabled(true);
+		map.setScrollWheelZoomEnabled(true);
+		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().isNotDownFiltro());
+		for(IReclamo reclamo : listReclamos){
+			double latitud = Double.valueOf(reclamo.getLatitudIncidente());
+			double longitud = Double.valueOf(reclamo.getLongitudIncidente());
+			map.addOverlay(new GMarker(new GLatLng(latitud,longitud)));
 		}
-		crearMarcadoresComunas(map);
+		
 		return map;
 	}
 	
-	private void crearMarcadoresComunas(GMap2 map) {
-		
-		GIcon iconoComuna1 = new GIcon("/images/comuna1.jpg");
-		iconoComuna1.setShadow(null);
-		iconoComuna1.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.603541,-58.360405), new GMarkerOptions("comuna1", iconoComuna1)));
-		
-		GIcon iconoComuna2 = new GIcon("/images/comuna2.jpg");
-		iconoComuna2.setShadow(null);
-		iconoComuna2.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.587856,-58.396797), new GMarkerOptions("comuna2", iconoComuna2)));
-		
-		GIcon iconoComuna3 = new GIcon("/images/comuna3.jpg");
-		iconoComuna3.setShadow(null);
-		iconoComuna3.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.60891,-58.401947), new GMarkerOptions("comuna3", iconoComuna3)));
-		
-		GIcon iconoComuna4 = new GIcon("/images/comuna4.jpg");
-		iconoComuna4.setShadow(null);
-		iconoComuna4.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.643377,-58.392334), new GMarkerOptions("comuna4", iconoComuna4)));
-		
-		GIcon iconoComuna5 = new GIcon("/images/comuna5.jpg");
-		iconoComuna5.setShadow(null);
-		iconoComuna5.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.617952,-58.420143), new GMarkerOptions("comuna5", iconoComuna5)));
-		
-		GIcon iconoComuna6 = new GIcon("/images/comuna6.jpg");
-		iconoComuna6.setShadow(null);
-		iconoComuna6.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.615127,-58.444176), new GMarkerOptions("comuna6", iconoComuna6)));
-		
-		GIcon iconoComuna7 = new GIcon("/images/comuna7.jpg");
-		iconoComuna7.setShadow(null);
-		iconoComuna7.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.63801,-58.451385), new GMarkerOptions("comuna7", iconoComuna7)));
-		
-		GIcon iconoComuna8 = new GIcon("/images/comuna8.jpg");
-		iconoComuna8.setShadow(null);
-		iconoComuna8.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.675006,-58.461342), new GMarkerOptions("comuna8", iconoComuna8)));
-		
-		GIcon iconoComuna9 = new GIcon("/images/comuna9.jpg");
-		iconoComuna9.setShadow(null);
-		iconoComuna9.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.654392,-58.507347), new GMarkerOptions("comuna9", iconoComuna9)));
-		
-		GIcon iconoComuna10 = new GIcon("/images/comuna10.jpg");
-		iconoComuna10.setShadow(null);
-		iconoComuna10.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.627558,-58.502541), new GMarkerOptions("comuna10", iconoComuna10)));
-		
-		GIcon iconoComuna11 = new GIcon("/images/comuna11.jpg");
-		iconoComuna11.setShadow(null);
-		iconoComuna11.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.602694,-58.505287), new GMarkerOptions("comuna11", iconoComuna11)));
-		
-		GIcon iconoComuna12 = new GIcon("/images/comuna12.jpg");
-		iconoComuna12.setShadow(null);
-		iconoComuna12.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.565948,-58.491898), new GMarkerOptions("comuna12", iconoComuna12)));
-		
-		GIcon iconoComuna13 = new GIcon("/images/comuna13.jpg");
-		iconoComuna13.setShadow(null);
-		iconoComuna13.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.555487,-58.450699), new GMarkerOptions("comuna13", iconoComuna13)));
-		
-		GIcon iconoComuna14 = new GIcon("/images/comuna14.jpg");
-		iconoComuna14.setShadow(null);
-		iconoComuna14.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.572733,-58.418427), new GMarkerOptions("comuna14", iconoComuna14)));
-		
-		GIcon iconoComuna15 = new GIcon("/images/comuna15.jpg");
-		iconoComuna15.setShadow(null);
-		iconoComuna15.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.588139,-58.468552), new GMarkerOptions("comuna15", iconoComuna15)));
-		
-	}
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void armarGrillaActiva() {
 		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().isNotDownFiltro());
+		List<IReclamo> listCiudadano = new ArrayList<IReclamo>();
+		
+		for(IReclamo reclamo : listReclamos){
+			if(reclamo.getCiudadanoGeneradorReclamo().equals(Context.getInstance().getUsuario().getNombreUsuario()))
+				listCiudadano.add(reclamo);
+		}
+		
 		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(listReclamos);
 		List cols = (List) Arrays.asList(
 																	
@@ -191,12 +120,12 @@ public class HomePageAdministrativo extends BasePage{
                  																				.setSizeUnit(SizeUnit.PX)
             );
 		
-		gridActivos = new DefaultDataGrid("grid", new DataProviderAdapter(listDataProvider), cols);
-		gridActivos.setRowsPerPage(7);
-        gridActivos.setClickRowToSelect(true);
-        gridActivos.setAllowSelectMultiple(true);
-        gridActivos.setClickRowToDeselect(true);
-        gridActivos.setCleanSelectionOnPageChange(false);
+		gridActivosCiudadano = new DefaultDataGrid("gridCiudadano", new DataProviderAdapter(listDataProvider), cols);
+		gridActivosCiudadano.setRowsPerPage(7);
+        gridActivosCiudadano.setClickRowToSelect(true);
+        gridActivosCiudadano.setAllowSelectMultiple(true);
+        gridActivosCiudadano.setClickRowToDeselect(true);
+        gridActivosCiudadano.setCleanSelectionOnPageChange(false);
         
 	}
 	
@@ -246,12 +175,12 @@ public class HomePageAdministrativo extends BasePage{
              																				.setSizeUnit(SizeUnit.PX)
             );
 		
-		gridUltimosModificados = new DefaultDataGrid("gridUltimosModificados", new DataProviderAdapter(listDataProvider), cols);
-		gridUltimosModificados.setRowsPerPage(7);
-		gridUltimosModificados.setClickRowToSelect(true);
-		gridUltimosModificados.setAllowSelectMultiple(true);
-		gridUltimosModificados.setClickRowToDeselect(true);
-		gridUltimosModificados.setCleanSelectionOnPageChange(false);
+		gridUltimosModificadosCiudadano = new DefaultDataGrid("gridUltimosModificadosCiudadano", new DataProviderAdapter(listDataProvider), cols);
+		gridUltimosModificadosCiudadano.setRowsPerPage(7);
+		gridUltimosModificadosCiudadano.setClickRowToSelect(true);
+		gridUltimosModificadosCiudadano.setAllowSelectMultiple(true);
+		gridUltimosModificadosCiudadano.setClickRowToDeselect(true);
+		gridUltimosModificadosCiudadano.setCleanSelectionOnPageChange(false);
         
 	}
 
@@ -263,7 +192,8 @@ public class HomePageAdministrativo extends BasePage{
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().isNotDownFiltro());
 		List<IReclamo> listaDevolucion = new ArrayList<IReclamo>();
 		for(int i = lista.size()-1 ;i>=0;i--){
-			listaDevolucion.add(lista.get(i));
+			if(lista.get(i).getCiudadanoGeneradorReclamo().equals(Context.getInstance().getUsuario().getNombreUsuario()))
+				listaDevolucion.add(lista.get(i));
 		}
 		return listaDevolucion;
 	
