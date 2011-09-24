@@ -19,6 +19,7 @@ $(document).ready(function() {
 	
 });
 
+
 function validarCampos(){
 	
 	buttonDisabled =  validarSiEsNull($('#calleIncidente')[0]) || validarSiEsNull($('#alturaIncidente')[0]) || 

@@ -19,6 +19,9 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
+import wicket.contrib.gmap.api.GLatLng;
+import wicket.contrib.gmap.util.Geocoder;
+
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
@@ -31,6 +34,7 @@ import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoForm;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
@@ -40,6 +44,7 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 	private IReclamo reclamoOriginal = new Reclamo();
 	private ModificarReclamoForm _self = this;
 	private ImageFactory img = null;
+	private static String KEY = "ABQIAAAASNhk0DNhWwkPk0Y12RIrThTwM0brOpm-All5BF6PoaKBxRWWERRi58__PuwPgysGGKPkLxYHu8hULg";
 	
 	public ModificarReclamoForm(String id, String idReclamo) throws Exception {
 		super(id);
@@ -133,6 +138,28 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 						String estado = reclamoModificado.getEstadoDescripcion();
 						reclamoModificado.cambiarEstado(estado);
 						
+						if (reclamoOriginal.getAlturaIncidente() != reclamoModificado.getAlturaIncidente() || 
+							reclamoOriginal.getCalleIncidente() != reclamoModificado.getCalleIncidente()){
+							
+							/*
+							 * CONVERSION CALLE A COORDENADAS GPS
+							 */
+							GLatLng coordenadas = null;
+							Double latitud,longitud;
+							String direccion = reclamoModificado.getCalleIncidente() + " " + reclamoModificado.getAlturaIncidente() + ",Capital Federal";
+							Geocoder geocoder = new Geocoder(KEY);
+							try {
+								 coordenadas = geocoder.geocode(direccion);
+								 latitud = coordenadas.getLat();
+								 longitud = coordenadas.getLng();
+								 reclamoModificado.setLatitudIncidente(latitud.toString());
+								 reclamoModificado.setLongitudIncidente(longitud.toString());
+							} catch (Exception e) {
+								LogFwk.getInstance(AltaReclamoPage.class).error("Problema al generar coordenadas. Stack: " + e);
+							}
+							// FIN CONVERSION CALLE A COORDENADAS GPS
+							
+						}
 						//Elimino el reclamoOriginal, guardando el reclamoNuevo
 						ReclamoManager.getInstance().eliminarReclamo(reclamoOriginal);
 						

@@ -8,7 +8,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
-import ar.com.thinksoft.ac.webac.HomePage;
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 
 @SuppressWarnings("serial")
 public class ConfiguracionForm extends Form<Configuracion> {

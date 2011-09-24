@@ -7,8 +7,8 @@ import org.apache.wicket.markup.html.link.IPageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 import ar.com.thinksoft.ac.intac.IPermiso;
-import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.web.Context;
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 import ar.com.thinksoft.ac.webac.web.registro.RegistroPage;
 

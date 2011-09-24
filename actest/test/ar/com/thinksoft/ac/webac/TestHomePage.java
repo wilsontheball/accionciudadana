@@ -3,6 +3,8 @@ package ar.com.thinksoft.ac.webac;
 import junit.framework.TestCase;
 import org.apache.wicket.util.tester.WicketTester;
 
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
+
 /**
  * Simple test using the WicketTester
  */
