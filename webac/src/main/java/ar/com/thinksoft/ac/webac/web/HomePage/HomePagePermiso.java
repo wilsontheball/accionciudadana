@@ -1,4 +1,4 @@
-package ar.com.thinksoft.ac.webac;
+package ar.com.thinksoft.ac.webac.web.HomePage;
 
 import ar.com.thinksoft.ac.webac.seguridad.Permiso;
 

@@ -73,6 +73,13 @@
 			<artifactId>mail</artifactId>
 			<version>1.4.3</version>
 		</dependency>
+		
+		<!-- GMAP2 DEPENDENCY -->
+		<dependency>
+			<groupId>org.wicketstuff</groupId>
+			<artifactId>gmap2</artifactId>
+			<version>1.4.17.2</version>
+		</dependency>
 
 		<!-- JETTY DEPENDENCIES FOR TESTING -->
 		<dependency>
@@ -164,6 +171,12 @@
             <name>visural-wicket</name>
             <url>http://visural-wicket.googlecode.com/svn/trunk/visural-wicket/maven/</url>
         </repository>
+		
+		<repository>
+			<id>releases</id>
+			<name>Releases</name>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+		</repository>
 	</repositories>
 
 	<build>

@@ -1,7 +1,7 @@
 package ar.com.thinksoft.ac.webac.usuario;
 
 import ar.com.thinksoft.ac.intac.IUsuario;
-import ar.com.thinksoft.ac.webac.HomePagePermiso;
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePagePermiso;
 
 /**
  * 
