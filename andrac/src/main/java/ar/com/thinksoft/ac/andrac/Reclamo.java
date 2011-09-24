@@ -4,14 +4,15 @@ import java.util.List;
 
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.intac.utils.classes.ReclamoMovil;
 
 /**
  * Representa un reclamo de usuario.
  * 
- * @since 18-09-2011
- * @author Hernan
+ * @since 24-09-2011
+ * @author Paul
  */
-public class Reclamo implements IReclamo {
+public class Reclamo extends ReclamoMovil {
 	private static final long serialVersionUID = 1L;
 
 	public Reclamo(String calle, String altura, String latitud,
@@ -28,7 +29,6 @@ public class Reclamo implements IReclamo {
 		this.setCiudadanoGeneradorReclamo(ciudadano);
 		this.setObservaciones(observaciones);
 		this.setBarrioIncidente(barrio);
-		this.setComunaIncidente(comuna);
 		this.setImagen(imagen);
 	}
 
@@ -118,22 +118,19 @@ public class Reclamo implements IReclamo {
 	}
 
 	public void setCalleIncidente(String calle) {
-		// TODO Auto-generated method stub
-
+		this.nombreCalle = calle;
 	}
 
 	public void setAlturaIncidente(String altura) {
-		// TODO Auto-generated method stub
-
+		this.alturaCalle = altura;
 	}
 
 	public void setLatitudIncidente(String latitud) {
-		// TODO Auto-generated method stub
-
+		this.latitudIncidente = latitud;
 	}
 
 	public void setLongitudIncidente(String longitud) {
-		// TODO Auto-generated method stub
+		this.longitudIncidente = longitud;
 
 	}
 

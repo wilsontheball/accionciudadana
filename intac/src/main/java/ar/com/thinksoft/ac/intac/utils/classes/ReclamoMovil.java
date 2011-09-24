@@ -1,0 +1,23 @@
+package ar.com.thinksoft.ac.intac.utils.classes;
+
+import ar.com.thinksoft.ac.intac.IImagen;
+import ar.com.thinksoft.ac.intac.IReclamo;
+
+public abstract class ReclamoMovil implements IReclamo {
+
+	private static final long serialVersionUID = 1L;
+
+	protected String alturaCalle;
+	protected String nombreBarrio;
+	protected String nombreCalle;
+	protected String nombreCiudadano;
+	// private String estadoReclamo;
+	protected String fechaCreacion;
+	protected String fechaModificacion;
+	protected int id; // Es para DB nomas...
+	protected IImagen fotoIncidente;
+	protected String latitudIncidente;
+	protected String longitudIncidente;
+	protected String observaciones;
+	protected String tipoIncidente;
+}
