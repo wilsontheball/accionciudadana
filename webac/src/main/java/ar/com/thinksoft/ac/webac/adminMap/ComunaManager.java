@@ -6,80 +6,55 @@ import java.util.List;
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
-import ar.com.thinksoft.ac.webac.repository.Repository;
 
 import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.api.GPolygon;
 
 public class ComunaManager {
 	
-	private static ComunaManager instance = null;
-	private static String colorLinea = "#000000";
-	private static String colorCritico = "#FF0000";
-	private static String colorIntermedio = "#FFFF00";
-	private static String colorPasable = "#33FF00";
-	private static float opacity = Float.valueOf("0.5");
-	private static List<Comuna> listaComunas = new ArrayList<Comuna>();
-	
-	public static ComunaManager getInstance(){
-		if(instance == null){
-			instance = new ComunaManager();
-		}
-		return instance;
-	}
+	private String colorLinea = "#000000";
+	private String colorCritico = "#FF0000";
+	private String colorIntermedio = "#FFFF00";
+	private String colorPasable = "#33FF00";
+	private float opacity = Float.valueOf("0.5");
+	private static int UMBRAL_MINIMO = 25;
+	private static int UMBRAL_MAXIMO = 55;
+	private List<Comuna> listaComunas = new ArrayList<Comuna>();
 	
 	public ComunaManager(){
-		/*
-		 * crear comuna por comuna (ya que no estan en memoria).
-		 */
 		crearComunas();
-		for(Comuna comuna : getListaComunas())
-			guardarComunaADB(comuna);
+		/*for(Comuna comuna : getListaComunas())
+			guardarComunaADB(comuna);*/
 	}
 	
-
-
 	public Comuna crearComuna(String nombre, String colorEstado, GLatLng... gLatLngs){
 		GPolygon poligono = new GPolygon(getColorLinea(), 1, 1, colorEstado, getOpacity(), gLatLngs);
 		return new Comuna(nombre,poligono);
 	}
 	
-	public void guardarComunaADB(Comuna comuna){
-		Repository.getInstance().store(comuna);
-	}
-
-	public Comuna obtenerComunaDesdeDB(String nombre) throws Exception{
-		Comuna comunaFinder = new Comuna(nombre);
-		List<Comuna> comunaList = Repository.getInstance().queryByExample(comunaFinder);
-		if(comunaList.size() == 1)
-			return comunaList.get(0);
-		else
-			throw new Exception("Comuna no encontrada");
-	}
-	
 	private String getEstadoComuna(List<IReclamo> reclamos, String comuna) {
-		String estado;
 		int reclamosNotDown = 0;
 		List<IReclamo> reclamosComunaNotDown = new ArrayList<IReclamo>();
 		for(IReclamo reclamo: reclamos){
 			if(reclamo.isNotDown()){
-				reclamosNotDown += 1;
+				reclamosNotDown = reclamosNotDown + 1;
 			if(comuna.equals(reclamo.getComunaIncidente()))
 				reclamosComunaNotDown.add(reclamo);
 			}
 		}
 		
-		float estadistica = (reclamosComunaNotDown.size()/reclamosNotDown)*100;
-		if(estadistica<40){
-			estado = getColorPasable();
-		}else{
-			if(estadistica>60){
-				estado = getColorCritico();
-			}else{
-				estado = getColorIntermedio();
-			}
+		if(reclamosNotDown == 0)
+			return getColorPasable();
+		else{
+			double estadistica = (reclamosComunaNotDown.size()/reclamosNotDown)*100;
+			if(estadistica<UMBRAL_MINIMO)
+				return getColorPasable();
+			if(estadistica>UMBRAL_MAXIMO)
+				return getColorCritico();
+			if(estadistica>=UMBRAL_MINIMO && estadistica<=UMBRAL_MAXIMO)
+				return getColorIntermedio();
 		}
-		return estado;
+		return "";
 	}
 	
 	/*
@@ -319,51 +294,51 @@ public class ComunaManager {
 	/*
 	 * GETTERS Y SETTERS
 	 */
-	public static void setColorLinea(String colorLinea) {
-		ComunaManager.colorLinea = colorLinea;
+	public void setColorLinea(String colorLinea) {
+		this.colorLinea = colorLinea;
 	}
 
-	public static String getColorLinea() {
+	public String getColorLinea() {
 		return colorLinea;
 	}
 
-	public static void setColorCritico(String colorCritico) {
-		ComunaManager.colorCritico = colorCritico;
+	public void setColorCritico(String colorCritico) {
+		this.colorCritico = colorCritico;
 	}
 
-	public static String getColorCritico() {
+	public String getColorCritico() {
 		return colorCritico;
 	}
 
-	public static void setOpacity(float opacity) {
-		ComunaManager.opacity = opacity;
+	public void setOpacity(float opacity) {
+		this.opacity = opacity;
 	}
 
-	public static float getOpacity() {
+	public float getOpacity() {
 		return opacity;
 	}
 
-	public static void setColorPasable(String colorPasable) {
-		ComunaManager.colorPasable = colorPasable;
+	public void setColorPasable(String colorPasable) {
+		this.colorPasable = colorPasable;
 	}
 
-	public static String getColorPasable() {
+	public String getColorPasable() {
 		return colorPasable;
 	}
 
-	public static void setColorIntermedio(String colorIntermedio) {
-		ComunaManager.colorIntermedio = colorIntermedio;
+	public  void setColorIntermedio(String colorIntermedio) {
+		this.colorIntermedio = colorIntermedio;
 	}
 
-	public static String getColorIntermedio() {
+	public String getColorIntermedio() {
 		return colorIntermedio;
 	}
 
-	public static void setListaComunas(List<Comuna> listaComunas) {
-		ComunaManager.listaComunas = listaComunas;
+	public void setListaComunas(List<Comuna> listaComunas) {
+		this.listaComunas = listaComunas;
 	}
 
-	public static List<Comuna> getListaComunas() {
+	public List<Comuna> getListaComunas() {
 		return listaComunas;
 	}
 	

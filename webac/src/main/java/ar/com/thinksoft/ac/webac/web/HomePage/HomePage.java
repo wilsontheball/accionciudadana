@@ -2,7 +2,7 @@ package ar.com.thinksoft.ac.webac.web.HomePage;
 
 import org.apache.wicket.PageParameters;
 import ar.com.thinksoft.ac.webac.seguridad.Permiso;
-import ar.com.thinksoft.ac.webac.web.HomePage.Ciudadano.HomePageCiudadano;
+import ar.com.thinksoft.ac.webac.web.HomePage.Administrativo.HomePageAdministrativo;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 
 /**
@@ -21,10 +21,12 @@ public class HomePage extends BasePage {
 	public HomePage(final PageParameters parameters) {
 		
 		//SI es ciudadano
-		setResponsePage(HomePageCiudadano.class);
+		//TODO
+		//setResponsePage(HomePageCiudadano.class);
 		
 		//SI ES ADMIN
-		//setResponsePage(HomePageAdministrativo.class);
+		//TODO: if(Context.getInstance().getUsuario().equals("administrator"))
+			setResponsePage(HomePageAdministrativo.class);
 	}
 
 	
