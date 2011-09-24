@@ -1,5 +1,6 @@
 package ar.com.thinksoft.ac.andrac;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
 
@@ -13,7 +14,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -110,6 +113,19 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				// TODO agregar campo barrio a la pantalla
 				this.getRepo().publicarReclamoGPS(tipo, "Almagro", latitud,
 						longitud, observ);
+				// XXX Probando Goeocoder....
+				Geocoder geocoder = new Geocoder(this);
+				try {
+					Address dir = geocoder.getFromLocation(-34.60891,
+							-58.56421, 1).get(0);
+					Toast.makeText(this, "Direccion es: " + dir.getAdminArea(),
+							Toast.LENGTH_LONG).show();
+				} catch (IOException e) {
+					Toast.makeText(this, "Fallo Geocoder", Toast.LENGTH_LONG)
+							.show();
+					e.printStackTrace();
+				}
+				// XXX Hasta aqui probando Goeocoder....
 				Toast.makeText(this, R.string.reclamo_enviado,
 						Toast.LENGTH_LONG).show();
 				this.finish();

@@ -10,10 +10,10 @@ import org.junit.Test;
 
 import ar.com.thinksoft.ac.intac.IPermitible;
 import ar.com.thinksoft.ac.intac.IUsuario;
-import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.WicketApplication;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.webac.usuario.UsuarioFactory;
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 
 public class PermisosTest {
 	

@@ -1,9 +1,10 @@
 package ar.com.thinksoft.ac.andrac;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -15,6 +16,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Se encarga de presentar los datos de perfil de usuario y da la posibilidad de
@@ -63,7 +67,7 @@ public class PerfilUsuario extends Activity {
 	}
 
 	// Probando JSON
-	private String url = "http://192.168.1.102:9998/wilsond/flights";
+	private String url = "http://192.168.1.108:6060/wilsond/";
 
 	private EditText getSalida() {
 		return (EditText) findViewById(R.id.salida);
@@ -83,34 +87,21 @@ public class PerfilUsuario extends Activity {
 			HttpGet method = new HttpGet(url);
 			HttpResponse httpResponse = httpClient.execute(method);
 			InputStream is = httpResponse.getEntity().getContent();
-			response = convertStreamToString(is);
+			Gson gson = new Gson();
+			Reader reader = new InputStreamReader(is);
+			Type collectionType = new TypeToken<List<Data>>() {
+			}.getType();
+			List<Data> lista = gson.fromJson(reader, collectionType);
+			for (Data d : lista) {
+				response = response + " : " + d.getName() + " - "
+						+ d.getValue() + "\n";
+			}
 		} catch (Exception e) {
 			getSalida().append("ERROR de conexion: " + e.getMessage());
 			e.printStackTrace();
 		}
-		Log.i("phpwsex", "JSON Response: " + response);
+		Log.i(PerfilUsuario.class.getName(), "JSON Response: " + response);
 		return response;
 	}
 
-	private String convertStreamToString(InputStream is) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		StringBuilder sb = new StringBuilder();
-
-		String line = null;
-		try {
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
-			}
-		} catch (IOException e) {
-			getSalida().append("ERROR de lectura: " + e.getMessage());
-			e.printStackTrace();
-		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return sb.toString();
-	}
 }

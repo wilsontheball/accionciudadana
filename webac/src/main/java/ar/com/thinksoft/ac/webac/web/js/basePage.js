@@ -9,7 +9,6 @@ $(document).ready(function() {
 	
 });
 
-
 /*
  * FUNCIONES DE VALIDACION
  */

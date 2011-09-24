@@ -1,7 +1,15 @@
 package ar.com.thinksoft.ac.webac.procesoUnificador;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.logging.LogFwk;
+import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 
 public class Unificador {
 
@@ -9,27 +17,46 @@ public class Unificador {
     
     public Unificador() {
     	
-        timer = new Timer();
-		timer.schedule(new TimerTask(){
+		try{
+			timer= new Timer();
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(Calendar.HOUR, 2);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.AM_PM, Calendar.AM);
+			Date date = calendar.getTime();
 			
-			/**
-			 * Este metodo corre la tarea diaria, ya que 86400 son la cantidad de segundos que tiene un dia.
-			 * Falta modificar para que sea a una determinada hora... porque si se cae el servidor a las 4 de la
-			 * tarde y se levanta nuevamente, va a ejecutar la tarea al otro dia a las 4 de la tarde. Quiza por el
-			 * negocio no nos convenga, ya que se volveria lento el sistema (en el unico caso que haya muchos reclamos
-			 * a unificar).
-			 */
-			@Override
-			public void run() {
-				
-				/*
-	        	 * Aca va el metodo unificador
-	        	 */
-	        	        	
-	        	timer.cancel(); 
-				
+			//La tarea se va a ejecutar 1 hora antes, es decir, 01:00 AM
+			timer.schedule(new UnificarReclamos(), date, 1000 * 60 * 60 * 24);
+			
+		}catch (Exception e) {
+			LogFwk.getInstance(Unificador.class).error("Error no controlado");
+		}
+    }
+    
+    
+    public class UnificarReclamos extends TimerTask {
+    	
+    	private List<IReclamo> listaReclamos = new ArrayList<IReclamo>();
+
+		public void run() {
+	    	// Damos baja prioridad al hilo
+	    	Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+	    	listaReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
+	    	for(IReclamo reclamo:listaReclamos){
+	    		if(reclamo.isNotDown())
+	    			compararReclamoConTodos(reclamo);
+	    	}
+    	}
+
+		private void compararReclamoConTodos(IReclamo reclamo) {
+			for(IReclamo reclamoBase: listaReclamos){
+				if((reclamo.getFechaReclamo().compareTo(reclamoBase.getFechaReclamo()) <= 0))
+					reclamo.unificar(reclamoBase);
+				else
+					reclamoBase.unificar(reclamo);
 			}
-		},
-		0, 86400);
+		}
     }
 }  
+
+

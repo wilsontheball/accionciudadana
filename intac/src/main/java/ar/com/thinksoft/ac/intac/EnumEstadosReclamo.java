@@ -6,7 +6,7 @@ import java.util.List;
 public enum EnumEstadosReclamo {
 	
 	activo("Activo"), 
-	baja("Baja"), 
+	asociado("Asociado"), 
 	cancelado("Cancelado"), 
 	demorado("Demorado"),
 	enProgreso("En progreso"),
@@ -23,7 +23,7 @@ public enum EnumEstadosReclamo {
     public static List<String> getlistaEstadosReclamo(){
     	listaEstadoReclamo.clear();
     	listaEstadoReclamo.add(EnumEstadosReclamo.activo.getEstado());
-    	listaEstadoReclamo.add(EnumEstadosReclamo.baja.getEstado());
+    	listaEstadoReclamo.add(EnumEstadosReclamo.asociado.getEstado());
     	listaEstadoReclamo.add(EnumEstadosReclamo.cancelado.getEstado());
     	listaEstadoReclamo.add(EnumEstadosReclamo.demorado.getEstado());
     	listaEstadoReclamo.add(EnumEstadosReclamo.enProgreso.getEstado());

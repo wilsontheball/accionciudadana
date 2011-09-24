@@ -16,22 +16,26 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
+import wicket.contrib.gmap.api.GLatLng;
+import wicket.contrib.gmap.util.Geocoder;
+
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.web.Context;
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 
 @SuppressWarnings("serial")
 public class AltaReclamoForm extends Form<Reclamo> {
 	
 	private AltaReclamoForm _self = this;
 	private ImageFactory img = null;
+	private static String KEY = "ABQIAAAASNhk0DNhWwkPk0Y12RIrThTwM0brOpm-All5BF6PoaKBxRWWERRi58__PuwPgysGGKPkLxYHu8hULg";
 	
 	public AltaReclamoForm(String id) {
 		super(id);
@@ -45,6 +49,12 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		
 		TextField<String> altura = new TextField<String>("alturaIncidente",this.createBind(model,"alturaIncidente"));
 		add(altura);
+		
+		TextField<String> latitudIncidente = new TextField<String>("latitudIncidente",this.createBind(model,"latitudIncidente"));
+		add(latitudIncidente);
+		
+		TextField<String> longitudIncidente = new TextField<String>("longitudIncidente",this.createBind(model,"longitudIncidente"));
+		add(longitudIncidente);
 		
 		TextField<String> ciudadanoTextBox = new TextField<String>("CiudadanoGeneradorReclamo",this.getName());
 		ciudadanoTextBox.setEnabled(false);
@@ -89,8 +99,11 @@ public class AltaReclamoForm extends Form<Reclamo> {
 						//metodos agregados a mano
 						reclamo.setId();
 						reclamo.setPrioridad(EnumPrioridadReclamo.noAsignada.getPrioridad());
-						reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
-						reclamo.setComunaIncidente();
+						
+						if(img != null){
+							reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
+							img.deleteImage();
+						}
 						reclamo.setCiudadanoGeneradorReclamo(Context.getInstance().getUsuario().getNombreUsuario());
 						Date fecha = new Date();
 						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
@@ -98,8 +111,25 @@ public class AltaReclamoForm extends Form<Reclamo> {
 						reclamo.setFechaUltimaModificacionReclamo(formato.format(fecha));
 						//fin metodos agregados a mano
 						
+						/*
+						 * CONVERSION CALLE A COORDENADAS GPS
+						 */
+						GLatLng coordenadas = null;
+						Double latitud,longitud;
+						String direccion = reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + ",Capital Federal";
+						Geocoder geocoder = new Geocoder(KEY);
+						try {
+							 coordenadas = geocoder.geocode(direccion);
+							 latitud = coordenadas.getLat();
+							 longitud = coordenadas.getLng();
+							 reclamo.setLatitudIncidente(latitud.toString());
+							 reclamo.setLongitudIncidente(longitud.toString());
+						} catch (Exception e) {
+							LogFwk.getInstance(AltaReclamoPage.class).error("Problema al generar coordenadas. Stack: " + e);
+						}
+						// FIN CONVERSION CALLE A COORDENADAS GPS
+						
 						reclamo.activar();
-						img.deleteImage();
 						setResponsePage(HomePage.class);
 					}
 		        }

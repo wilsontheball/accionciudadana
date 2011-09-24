@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+	
 	<head>
 		<meta http-equiv="Content-Type"	content="text/html; charset=UTF-8">
 		<title>Acci&oacute;n Ciudadana</title>
@@ -22,11 +23,7 @@
 					
 						
 					
-					<div class="loginAndLogout">
-						<span wicket:id="username" style="padding-right:20px;"></span>
-						<a href="#" wicket:id="login">Login</a> 
-						<a href="#" wicket:id="logout">Logout</a>
-					</div>
+					
 				</div>
 			</div>
 
@@ -43,7 +40,17 @@
 		                <li><a wicket:id="altaReclamoLink" href="#">Alta de Reclamos</a></li>
 		                <li><a wicket:id="busquedaReclamoLink" href="#">Listado de Reclamos</a></li>
 		                </ul>
-		          </li>
+		          	</li>
+		          	
+		          	<li><a href="#" wicket:id="configLink" id="current">Configuraci&oacute;n</a></li>
+		          	
+		          	<li style="float:right; ">
+			          	<div class="loginAndLogout">
+							<a href="#" wicket:id="login">Login</a> 
+							<a href="#" wicket:id="logout">Logout</a>
+						</div>
+		          	</li>
+		          	<label wicket:id="username" class="usuario"></label>
 				</ul>
 			</div>
 			<!-- ACA EMPIEZA EL MENU -->

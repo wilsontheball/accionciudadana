@@ -16,25 +16,33 @@
 				<table align="center">
 					<tr>
 						<td>
-			<!------------------------- FORMULARIO DE DETALLE ------------------------->
+						
 							<table class="contenedorText">
-								<tr>
+								<tr class="asociados">
 									<td>
-										<label>Calle - Altura:</label>
+										<label> Cantidad de reclamos asociados: </label>
 									</td>
 									<td class="detalleBlock">
-								 		<label wicket:id="calleIncidente" id="calleIncidente"></label> - 
+										<label wicket:id="cantidadAsociados" class="numAsociados"></label>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label>Calle y Altura:</label>
+									</td>
+									<td class="detalleBlock">
+								 		<label wicket:id="calleIncidente" id="calleIncidente"></label>  
 								 		<label wicket:id="alturaIncidente" id="alturaIncidente" size="5"></label>
 									</td>
 								</tr>	
 								
 								<tr>
 									<td>
-										<label>Coordenadas Latitud - Longitud: </label>
+										<label>Coordenadas Latitud y Longitud: </label>
 									</td>
 									<td style="text-align:left;" class="detalleBlock">
-								 		<label wicket:id="latitudIncidente" id="latitudIncidente" size="7"></label> - 
-								 		<label wicket:id="longitudIncidente" id="longitudIncidente" size="7"></label>
+								 		<label wicket:id="latitudIncidente" id="latitudIncidente" class="latitudIncidente" size="7"></label> , 
+								 		<label wicket:id="longitudIncidente" id="longitudIncidente" class="longitudIncidente" size="7"></label>
 								 	</td>
 								</tr>
 								
@@ -106,7 +114,7 @@
 										<label>Tipo de Incidente:</label>
 									</td>
 									<td>
-								 		<label wicket:id="tipoIncidente" class="detalleBlock"></label>
+								 		<label wicket:id="tipoIncidente" class="detalleBlock tipoIncidente"></label>
 								 	</td>
 								</tr>		
 								<tr>
@@ -129,14 +137,16 @@
 			
 						</td>
 							
-			<!-------------------------  IMAGEN ------------------------------>
 			
 						<td class="contenedorImagen">
 							<img class="imagen"/>
 						</td>
+						<td class="contenedorMapa">
+							<img class="map"/>
+						</td>
 					</tr>
 				</table>			
-			<!------------------------- BOTON SUBMIT ------------------------->
+				
 				<table align="center">
 					<tr>
 						<td>
