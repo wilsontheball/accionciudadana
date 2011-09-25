@@ -19,20 +19,29 @@
 							<label style="color:red;">*</label><label>Estos campos son requeridos.</label>
 						</td>
 						<td align="center">
-							<label style="color:red;">*</label><label>Seleccione el archivo:</label> <input wicket:id="imagen" type="file" id="rutaArchivo" class="imageUploader" onchange="funcionOnChangeCampoIsNull(this)"/>
+							<label>Seleccione el archivo:</label> <input wicket:id="imagen" type="file" id="rutaArchivo" class="imageUploader" onchange="funcionOnChangeCampoIsNull(this)"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
-			<!------------------------- FORMULARIO DE ALTA ------------------------->
+
 							<table class="contenedorText">
 								<tr>
 									<td class="texto">
 										<label style="color:red;">*</label><label>Calle - Altura:</label>
 									</td>
 									<td class="block">
-								 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" onchange="funcionOnChangeCampoIsNull(this)"/> - 
-								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" size="5" onchange="validarNumerosInput(this)"/>
+								 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" class="calleIncidente" onchange="funcionOnChangeCampoIsNull(this)" maxlength="30"/> - 
+								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" class="alturaIncidente" size="5" onchange="validarNumerosInput(this)"/>
+									</td>
+								</tr>	
+								<tr style="display:none;">
+									<td class="texto">
+										<label>Latitud - Longitud:</label>
+									</td>
+									<td class="block">
+								 		<input type="text" wicket:id="latitudIncidente" id="latitudIncidente" class="latitudIncidente"/> - 
+								 		<input type="text" wicket:id="longitudIncidente" id="longitudIncidente" class="longitudIncidente"/>
 									</td>
 								</tr>	
 								<tr>
@@ -72,7 +81,8 @@
 								</tr>
 							</table>
 						</td>
-			<!------------------------- UPLOADER DE IMAGEN ----------------------------->
+
+
 						<td class="uploaderCell">	
 							<table style="width: 50em;">
 								<tr align="center">
@@ -84,7 +94,8 @@
 						</td>
 					</tr>
 				</table>			
-			<!------------------------- CAMPO ERROR ------------------------->
+
+
 				<table align="center">
 					<tr>
 						<td>
@@ -95,7 +106,7 @@
 					</tr>
 				</table>
 				
-			<!------------------------- BOTON SUBMIT ------------------------->
+
 				<table align="center">
 					<tr>
 						<td>

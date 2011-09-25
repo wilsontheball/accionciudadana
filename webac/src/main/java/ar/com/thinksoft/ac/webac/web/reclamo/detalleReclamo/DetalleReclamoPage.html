@@ -16,24 +16,32 @@
 				<table align="center">
 					<tr>
 						<td>
-			<!------------------------- FORMULARIO DE DETALLE ------------------------->
-							<table>
-								<tr>
+						
+							<table class="contenedorText">
+								<tr class="asociados">
 									<td>
-										<label>Calle - Altura:</label>
+										<label> Cantidad de reclamos asociados: </label>
 									</td>
 									<td class="detalleBlock">
-								 		<label wicket:id="calleIncidente" id="calleIncidente"></label> - 
+										<label wicket:id="cantidadAsociados" class="numAsociados"></label>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label>Calle y Altura:</label>
+									</td>
+									<td class="detalleBlock">
+								 		<label wicket:id="calleIncidente" id="calleIncidente"></label>  
 								 		<label wicket:id="alturaIncidente" id="alturaIncidente" size="5"></label>
 									</td>
 								</tr>	
 								
 								<tr>
 									<td>
-										<label>Coordenadas Latitud - Longitud: </label>
+										<label>Coordenadas Latitud y Longitud: </label>
 									</td>
 									<td style="text-align:left;" class="detalleBlock">
-								 		<label wicket:id="latitudIncidente" id="latitudIncidente" size="7"></label> - 
+								 		<label wicket:id="latitudIncidente" id="latitudIncidente" size="7"></label> , 
 								 		<label wicket:id="longitudIncidente" id="longitudIncidente" size="7"></label>
 								 	</td>
 								</tr>
@@ -44,6 +52,42 @@
 								 	</td>
 									<td>
 								 		<label wicket:id="ciudadanoReclamo" id="ciudadanoReclamo" class="detalleBlock"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Fecha del reclamo:</label>
+								 	</td>
+									<td>
+								 		<label wicket:id="fechaReclamo" id="fechaReclamo" class="detalleBlock"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Ultima modificacion:</label>
+								 	</td>
+									<td>
+								 		<label wicket:id="fechaUltimaModificacionReclamo" id="fechaUltimaModificacionReclamo" class="detalleBlock"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Barrio:</label>
+								 	</td>
+									<td>
+								 		<label wicket:id="BarrioIncidente" id="BarrioIncidente" class="detalleBlock"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Comuna:</label>
+								 	</td>
+									<td>
+								 		<label wicket:id="ComunaIncidente" id="ComunaIncidente" class="detalleBlock"></label>
 								 	</td>
 								</tr>
 								
@@ -81,22 +125,31 @@
 										<label wicket:id="observaciones" id="observaciones" class="detalleBlock"></label>
 								 	</td>
 								</tr>
+								
+								<tr>
+									<td >
+										<label wicket:id="rutaImagen" class="rutaImagen" style="display:none;"></label>
+									</td>
+									<td>
+								 	</td>
+								</tr>
 							</table>
 			
 						</td>
 							
-			<!-------------------------  IMAGEN --->
-						<td class="imageCell">
-							<img class="imagePreviewer"/>
+			
+						<td class="contenedorImagen">
+							<img class="imagen"/>
 						</td>
 					</tr>
 				</table>			
-			<!------------------------- BOTON SUBMIT ------------------------->
+				
 				<table align="center">
 					<tr>
 						<td>
 							<div>
-								<input type="submit" value="Modificar reclamo" class="block"/>
+								<input type="submit" wicket:id="modificar" value="Modificar reclamo" class="block" style="float: left; margin:20px;"/>
+								<input type="submit" wicket:id="volver" value="Volver" class="block" style="float: right; margin:20px;"/>
 							</div>
 						</td>
 					</tr>

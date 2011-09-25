@@ -16,7 +16,6 @@
 				<tr>
 					<td>
 						
-						<!-- PRIMER COLUMNA DE FILTROS -->
 						<table class="filterTables">
 							<tr>
 								<td>
@@ -47,7 +46,6 @@
 						</table>
 					</td>
 					<td>	
-						<!-- SEGUNDA COLUMNA DE FILTROS -->
 						<table class="filterTables">
 							<tr>
 								<td>
@@ -77,12 +75,15 @@
 						</table>
 					</td>
 					<td>	
-						<!-- TERCERA COLUMNA DE FILTROS -->
 						<table class="filterTables">
 							<tr>
 								<td>
 									<div>
 										<label>Fecha del Incidente <i>(dd/mm/aaaa)</i>: </label>
+									</div>
+									<div>
+										<label>Fecha de ultima modificacion del Reclamo <br>
+										<i>(dd/mm/aaaa)</i>: </label>
 									</div>
 									<div>
 										<label>Usuario: </label>
@@ -93,6 +94,9 @@
 								<td>
 									<div class="block">		
 								 		<input type="text" wicket:id="FechaReclamo" id="FechaReclamo" name="FechaReclamo" datepicker="true"/>
+									</div>
+									<div class="block">		
+								 		<input type="text" wicket:id="FechaUltimaModificacionReclamo" id="FechaUltimaModificacionReclamo" name="FechaUltimaModificacionReclamo" datepicker="true"/>
 									</div>
 									<div class="block">		
 								 		<input type="text" wicket:id="CiudadanoGeneradorReclamo" id="CiudadanoGeneradorReclamo"/>
@@ -107,7 +111,6 @@
 					
 					
 				
-			<!------------------------- BOTON SUBMIT ------------------------->
 				<table align="center">
 					<tr>
 						<td>
@@ -118,23 +121,78 @@
 					</tr>
 				</table>
 				
-				<div wicket:id="grid" align="center" style="width: 93%; margin:20px 50px;"></div>
 				
 				<table align="center">
 					<tr>
 						<td>
-							<div class="block">
-								<input type="submit" wicket:id="detalle" value="Detalle del reclamo"/>
-							</div>
+							<div wicket:id="grid" align="center" class="block" style="width: 99%; margin:5px 10px;"></div>
 						</td>
-						<td>
-							<div class="block">
-								<input type="submit" wicket:id="cancelar" value="Cancelar reclamo"/>
-							</div>
+					</tr>
+				</table>
+				
+				
+				<table align="center"  style="width: 100%;">
+					<tr>
+						<td class="celda">
+							<table>
+								<tr>
+									<td>
+										<div class="block">
+											<input type="submit" wicket:id="detalle" value="Detalle del reclamo"/>
+										</div>
+										<div wicket:id="dialogDetalle">
+				                			<div class="dialogo atencion">
+				                    			<p>Debe seleccionar un &uacute;nico reclamo para ver su detalle.
+				                    			Por favor, seleccione uno y vuelva a intentarlo.<br>
+				                    			Si el problema persiste, no dude en consultar al soporte técnico.</p>
+				                    			<input type="button" wicket:id="volver" value="Volver" style="margin:10px;"/>
+				                			</div>
+            							</div>
+									</td>
+									<td>
+										<div class="block">
+											<input type="button" wicket:id="cancelar" value="Cancelar Reclamo"/>
+										</div>
+										<div wicket:id="dialogCancelar">
+				                			<div class="dialogo">
+				                    			<p >¿Est&aacute; seguro que desea cancelar este reclamo?</p>
+				                    			<input type="button" wicket:id="cancelarReclamo" value="Si" style="margin:10px;"/>
+				                    			<input type="button" wicket:id="volver" value="No" style="margin:10px;"/>
+				                			</div>
+            							</div>	
+            							<div wicket:id="dialogCancelarError">
+				                			<div class="dialogo atencion">
+				                    			<p>Seleccione un &uacute;nico reclamo v&aacute;lido para ser cancelado.<br>
+				                    			Si el problema persiste, no dude en consultar al soporte técnico.</p>
+				                    			<input type="button" wicket:id="volver" value="Volver" style="margin:10px;"/>
+				                			</div>
+            							</div>
+									</td>
+									<td>
+										<div class="block">
+											<input type="button" wicket:id="unificarReclamo" value="Unificar reclamos"/>
+										</div>
+										<div wicket:id="dialogUnificar">
+				                			<div class="dialogo">
+				                    			<p >¿Est&aacute; seguro que desea unificar estos reclamos?</p>
+				                    			<input type="button" wicket:id="unificar" value="Si" style="margin:10px;"/>
+				                    			<input type="button" wicket:id="volver" value="No" style="margin:10px;"/>
+				                			</div>
+            							</div>	
+										<div wicket:id="dialogUnificarError">
+				                			<div class="dialogo atencion">
+				                    			<p>Debe seleccionar dos reclamos v&aacute;lidos para ser unificados.<br>
+				                    			Si el problema persiste, no dude en consultar al soporte técnico.</p>
+				                    			<input type="button" wicket:id="volver" value="Volver" style="margin:10px;"/>
+				                			</div>
+            							</div>	
+									</td>
+								</tr>
+							</table>
 						</td>
-						<td>
+						<td style="float:right;">
 							<div class="block">
-								<input type="submit" wicket:id="unificar" value="Unificar reclamos"/>
+								<input type="submit" wicket:id="exportar" value="Exportar listado actual"/>
 							</div>
 						</td>
 					</tr>

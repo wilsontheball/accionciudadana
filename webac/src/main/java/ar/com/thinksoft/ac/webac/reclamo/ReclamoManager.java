@@ -94,5 +94,9 @@ public class ReclamoManager {
 		}
 	}
 	
+	public void eliminarReclamo(IReclamo reclamo){
+		Repository.getInstance().delete(reclamo);
+		Repository.getInstance().commit();
+	}
 	
 }	

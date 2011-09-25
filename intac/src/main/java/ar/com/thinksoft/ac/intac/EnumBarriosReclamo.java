@@ -45,7 +45,7 @@ public enum EnumBarriosReclamo {
 	MonteCastro("Monte Castro","Comuna 10"),
 	Montserrat("Montserrat","Comuna 1"),
 	NuevaPompeya("Nueva Pompeya","Comuna 4"),
-	Nuniez("Nuñez","Comuna 13"),
+	Nuniez("Nuniez","Comuna 13"),
 	Palermo("Palermo","Comuna 14"),
 	ParqueAvellaneda("Parque Avellaneda","Comuna 9"),
 	ParqueChacabuco("Parque Chacabuco","Comuna 7"),

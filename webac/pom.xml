@@ -52,6 +52,34 @@
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- REPORTING DEPENDENCIA JASPER REPORTS FOR EXPORTING DATA-->
+		<dependency>
+			<groupId>jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>3.5.3</version>
+		</dependency>
+		
+		<!-- JDOM PARA PERSISTENCIA DE CONFIGURACION EN XML -->
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+		</dependency>
+		
+		<!-- JAVAMAIL -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.3</version>
+		</dependency>
+		
+		<!-- GMAP2 DEPENDENCY -->
+		<dependency>
+			<groupId>org.wicketstuff</groupId>
+			<artifactId>gmap2</artifactId>
+			<version>1.4.17.2</version>
+		</dependency>
 
 		<!-- JETTY DEPENDENCIES FOR TESTING -->
 		<dependency>
@@ -85,8 +113,8 @@
 			<artifactId>inmethod-grid</artifactId>
 			<version>1.4.14</version>
 		</dependency>
-		<!-- DEPENDENCIAS DE PROYECTOS WILSON -->
 
+		<!-- DEPENDENCIAS DE PROYECTOS WILSON -->
 		<dependency>
 			<groupId>ar.com.thinksoft.ac</groupId>
 			<artifactId>intac</artifactId>
@@ -94,7 +122,6 @@
 		</dependency>
 		
 		<!-- BD DEPENDENCY - DB40 -->  
-		
 		<dependency>
 			<groupId>com.db4o</groupId>
 			<artifactId>db4o-full-java5</artifactId>
@@ -106,6 +133,19 @@
 			<artifactId>wicket-request</artifactId>
 			<version>1.5-M3</version>
 		</dependency>
+		
+		<!-- WICKET- VISURAL FRAMEWORK -->
+		<dependency>
+            <groupId>com.visural</groupId>
+            <artifactId>visural-common</artifactId>
+            <version>0.5.0</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>com.visural</groupId>
+            <artifactId>visural-wicket-w14</artifactId>
+            <version>0.7.0</version>
+        </dependency>
 		
 	</dependencies>
 	
@@ -121,9 +161,23 @@
 				<enabled>true</enabled>
 			</snapshots>        
 		</repository>
+		<repository>
+            <id>visural-common</id>
+            <name>visural-common</name>
+            <url>http://visural-common.googlecode.com/svn/trunk/visural-common/maven/</url>
+        </repository>
+        <repository>
+            <id>visural-wicket</id>
+            <name>visural-wicket</name>
+            <url>http://visural-wicket.googlecode.com/svn/trunk/visural-wicket/maven/</url>
+        </repository>
+		
+		<repository>
+			<id>releases</id>
+			<name>Releases</name>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+		</repository>
 	</repositories>
-	
-	
 
 	<build>
 		<resources>

@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.util.*;
 import org.junit.*;
 
-import ar.com.thinksoft.ac.estadosReclamo.*;
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
@@ -26,11 +25,11 @@ public class TestReclamo {
 	public void SetUp(){
 		ReclamoManager.getInstance().eliminarTodosReclamos();
 		
-		IReclamo reclamoPrueba = new Reclamo("Avellaneda","3905","50","40",new Date().toString(),EnumTipoReclamo.bache.getTipo(),"Matias","Observaciones vacias",EnumBarriosReclamo.Floresta.getBarrio(),null, new EstadoActivo(), EnumPrioridadReclamo.alta.getPrioridad());
+		IReclamo reclamoPrueba = new Reclamo("Avellaneda","3905","50","40",new Date().toString(),EnumTipoReclamo.bache.getTipo(),"Matias","Observaciones vacias",EnumBarriosReclamo.Floresta.getBarrio(),null, EnumPrioridadReclamo.alta.getPrioridad());
 		
-		IReclamo reclamoPrueba1 = new Reclamo("Beiro","4000","40","60",new Date().toString(),EnumTipoReclamo.caidaObjetos.getTipo(),"Rocio","Rompio la vereda",EnumBarriosReclamo.VillaDevoto.getBarrio(),null,new EstadoEnProgreso(), EnumPrioridadReclamo.media.getPrioridad());
+		IReclamo reclamoPrueba1 = new Reclamo("Beiro","4000","40","60",new Date().toString(),EnumTipoReclamo.caidaObjetos.getTipo(),"Rocio","Rompio la vereda",EnumBarriosReclamo.VillaDevoto.getBarrio(),null, EnumPrioridadReclamo.media.getPrioridad());
 		
-		IReclamo reclamoPrueba2 = new Reclamo("Segurola","300","10","20",new Date().toString(),EnumTipoReclamo.caidaObjetos.getTipo(),"Matias","Se cayo el balcon",EnumBarriosReclamo.Floresta.getBarrio(), null, new EstadoSuspendido(), EnumPrioridadReclamo.baja.getPrioridad());
+		IReclamo reclamoPrueba2 = new Reclamo("Segurola","300","10","20",new Date().toString(),EnumTipoReclamo.caidaObjetos.getTipo(),"Matias","Se cayo el balcon",EnumBarriosReclamo.Floresta.getBarrio(), null,  EnumPrioridadReclamo.baja.getPrioridad());
 		
 		listaReclamosTest.add(reclamoPrueba);
 		listaReclamosTest.add(reclamoPrueba1);
@@ -130,7 +129,6 @@ public class TestReclamo {
 	public void obtenerReclamosPorEstado(){
 		
 		Reclamo reclamo = new Reclamo();
-		reclamo.setEstado(new EstadoEnProgreso());
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
 	
 		assertTrue(lista.size() == 1);

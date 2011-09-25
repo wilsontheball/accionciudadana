@@ -11,7 +11,7 @@ $(document).ready(function() {
 			$('.imagen').css('heigth','auto');
 			$('.imagen').css('width','auto');
 			validarCampos();
-		}, 5000);
+		}, 3 * 1000);
 		
 	});
 	
@@ -19,11 +19,14 @@ $(document).ready(function() {
 	
 });
 
+
 function validarCampos(){
 	
 	buttonDisabled =  validarSiEsNull($('#calleIncidente')[0]) || validarSiEsNull($('#alturaIncidente')[0]) || 
 			validarSiEsNull($('#ciudadanoIncidente')[0]) || validarSiEsNull($('#tipoIncidente')[0]) || 
-			validarSiEsNull($('#barrioIncidente')[0]) || validarSiEsNull($('.imageUploader')[0]);
+			validarSiEsNull($('#barrioIncidente')[0]);
+	
+	// || validarSiEsNull($('.imageUploader')[0])
 	
 	$('.guardarReclamo').attr('disabled',buttonDisabled);
 	
