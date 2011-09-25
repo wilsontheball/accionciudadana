@@ -25,6 +25,14 @@ public class PredicatePorEstado extends Predicate<IReclamo>{
             }
         };
 	}
+	
+	public Predicate<IReclamo> isNotDownFiltro(){
+		return new Predicate<IReclamo>() {
+			public boolean match(IReclamo reclamo) {
+                return (reclamo.isNotDown());
+            }
+        };
+	}
 
 	/**
 	 * @deprecated

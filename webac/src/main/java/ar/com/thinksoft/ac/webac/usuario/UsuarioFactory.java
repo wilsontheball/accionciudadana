@@ -5,7 +5,7 @@ import java.util.List;
 
 import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IUsuario;
-import ar.com.thinksoft.ac.webac.HomePagePermiso;
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePagePermiso;
 
 /**
  * 
