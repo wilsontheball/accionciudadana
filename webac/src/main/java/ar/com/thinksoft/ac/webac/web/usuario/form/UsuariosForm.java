@@ -17,6 +17,7 @@ import ar.com.thinksoft.ac.intac.utils.collections.HArrayList;
 import ar.com.thinksoft.ac.intac.utils.string.StringUtils;
 import ar.com.thinksoft.ac.webac.predicates.registro.PredicateTodosLosUsuarios;
 import ar.com.thinksoft.ac.webac.repository.Repository;
+import ar.com.thinksoft.ac.webac.usuario.UsuarioFactory;
 import ar.com.thinksoft.ac.webac.web.usuario.alta.UsuarioNuevoPage;
 
 import com.inmethod.grid.DataProviderAdapter;
@@ -105,11 +106,13 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 
 				IUsuario usuario = (IUsuario) grid.getSelectedItems()
 						.iterator().next().getObject();
+				new UsuarioFactory().bloquear(usuario);
 				_self.setResponsePage(UsuarioPage.class);
 			}
 
 		});
 
+	
 	}
 
 	/*

@@ -3,25 +3,7 @@
 
 .recuadro{
 	padding-left: 50px;
-	padding-top: 50px;
-}
-
-
-.tabla{
-	display: table;
-}
-
-.cell{
-	display: table-cell;
-}
-
-.cell .left{
-	text-align: right;
-	color: red;
-}
-
-.cell .right{
-	float: right;
+	padding-top: 20px;
 }
 
 .row{

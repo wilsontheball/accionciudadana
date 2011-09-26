@@ -82,4 +82,12 @@ public class UsuarioFactory {
 	private List<IPermiso> getPermisosOperario() {
 		return new ArrayList<IPermiso>();
 	}
+
+	public void bloquear(IUsuario usuario) {
+		usuario.setPermisos(this.getPermisosBloqueados());
+	}
+
+	private List<IPermiso> getPermisosBloqueados() {
+		return new ArrayList<IPermiso>();
+	}
 }
