@@ -3,7 +3,7 @@ package ar.com.thinksoft.ac.webac.web.configuracion;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RadioChoice;
+import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
@@ -63,8 +63,8 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		TextField<String> pathExportDesign = new TextField<String>("pathExportDesign",this.createBind(model,"pathExportDesign"));
 		add(pathExportDesign);
 		
-		TextField<String> pathConfig = new TextField<String>("pathConfig",this.createBind(model,"pathConfig"));
-		add(pathConfig);
+		TextArea<String> keyGoogleMaps = new TextArea<String>("keyGoogleMap",this.createBind(model,"keyGoogleMap"));
+		add(keyGoogleMaps);
 		
 		add(new Button("guardarConfig"){
 			@Override

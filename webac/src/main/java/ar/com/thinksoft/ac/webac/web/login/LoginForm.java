@@ -117,7 +117,6 @@ import ar.com.thinksoft.ac.webac.login.Login;
 import ar.com.thinksoft.ac.webac.login.exceptions.UserNotFoundException;
 import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
-import ar.com.thinksoft.ac.webac.web.HomePage.Administrativo.HomePageAdministrativo;
 
 public class LoginForm extends Form<Void> {
 
@@ -149,9 +148,6 @@ public class LoginForm extends Form<Void> {
 
 		try {
 			IUsuario usuario = login.login();
-			// TODO: aca faltaria ver donde nos metemos el usuario registrado.
-			// Deberia haber algo como un contexto o algo parecido, un
-			// singleton.
 			Context.getInstance().setUsuario(usuario);
 			setResponsePage(HomePage.class);
 		} catch (UserNotFoundException e) {

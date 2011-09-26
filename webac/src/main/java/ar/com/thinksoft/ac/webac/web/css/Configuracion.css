@@ -20,6 +20,14 @@ label
    font-size: 12px;
 }
 
+tr{
+	margin: 10px;	
+}
+
 td.texto{
 	text-align: right;	
+}
+
+.inputText{
+	width: 200px;
 }

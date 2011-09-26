@@ -183,7 +183,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 			        for (IModel model : selected) {
 			           reclamo = (Reclamo) model.getObject();
 			        }
-			        if(!reclamo.isNotDown())
+			        if(reclamo.isNotDown())
 			        	dialogCancelar.open(target);
 			        else
 			        	dialogCancelarError.open(target);
@@ -205,7 +205,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	    		Collection<IModel> selected = grid.getSelectedItems();
 	    		if(selected.size()==2){
 	    			List<IReclamo> lista = obtenerReclamosSeleccionados(selected);
-	    			if(!lista.get(0).isNotDown() && !lista.get(1).isNotDown())
+	    			if(lista.get(0).isNotDown() && lista.get(1).isNotDown())
 	    				dialogUnificar.open(target);
 	    			else
 	    				dialogUnificarError.open(target);

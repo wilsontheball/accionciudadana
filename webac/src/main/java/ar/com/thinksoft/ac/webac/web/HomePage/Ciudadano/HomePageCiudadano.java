@@ -21,7 +21,6 @@ import com.inmethod.grid.datagrid.DefaultDataGrid;
 
 import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
@@ -59,11 +58,13 @@ public class HomePageCiudadano extends BasePage{
 		map.setDraggingEnabled(true);
 		map.setDoubleClickZoomEnabled(true);
 		map.setScrollWheelZoomEnabled(true);
-		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().isNotDownFiltro());
+		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
 		for(IReclamo reclamo : listReclamos){
-			double latitud = Double.valueOf(reclamo.getLatitudIncidente());
-			double longitud = Double.valueOf(reclamo.getLongitudIncidente());
-			map.addOverlay(new GMarker(new GLatLng(latitud,longitud)));
+			if(reclamo.isNotDown()){
+				double latitud = Double.valueOf(reclamo.getLatitudIncidente());
+				double longitud = Double.valueOf(reclamo.getLongitudIncidente());
+				map.addOverlay(new GMarker(new GLatLng(latitud,longitud)));
+			}
 		}
 		
 		return map;
@@ -71,15 +72,15 @@ public class HomePageCiudadano extends BasePage{
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void armarGrillaActiva() {
-		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().isNotDownFiltro());
+		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
 		List<IReclamo> listCiudadano = new ArrayList<IReclamo>();
 		
 		for(IReclamo reclamo : listReclamos){
-			if(reclamo.getCiudadanoGeneradorReclamo().equals(Context.getInstance().getUsuario().getNombreUsuario()))
+			if(reclamo.getCiudadanoGeneradorReclamo().equals(Context.getInstance().getUsuario().getNombreUsuario()) && reclamo.isNotDown())
 				listCiudadano.add(reclamo);
 		}
 		
-		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(listReclamos);
+		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(listCiudadano);
 		List cols = (List) Arrays.asList(
 																	
             new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(120)

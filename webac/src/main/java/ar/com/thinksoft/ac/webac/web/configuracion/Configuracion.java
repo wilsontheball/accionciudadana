@@ -2,13 +2,12 @@ package ar.com.thinksoft.ac.webac.web.configuracion;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 
 import org.jdom.*;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
-import ar.com.thinksoft.ac.webac.repository.Repository;
+import ar.com.thinksoft.ac.webac.logging.LogFwk;
 
 public class Configuracion {
 	
@@ -33,9 +32,10 @@ public class Configuracion {
 	private String user = "user";
 	private String password = "contrasenia";
 	
-	private String pathTempImages = "/tempImages/";
-	private String pathExportDesign = "/export/";
-	private String pathConfig = "/pathConfig/configuracion.xml";
+	private String pathTempImages = "src/main/webapp/tempImages/";
+	private String pathExportDesign = "src/main/webapp/export/";
+	private String pathConfig = "src/main/webapp/configuracion.xml";
+	private String keyGoogleMap = "ABQIAAAASNhk0DNhWwkPk0Y12RIrThTwM0brOpm-All5BF6PoaKBxRWWERRi58__PuwPgysGGKPkLxYHu8hULg";
 	
 	public void guardarConfiguracion(){
 		Element configElement = new Element("configuracion");
@@ -55,22 +55,20 @@ public class Configuracion {
 		
 		configElement.addContent(new Element("pathTempImages").addContent(this.getPathTempImages()));
 		configElement.addContent(new Element("pathExportDesign").addContent(this.getPathExportDesign()));
-		configElement.addContent(new Element("pathConfig").addContent(this.getPathConfig()));
-		
+		configElement.addContent(new Element("keyGoogleMap").addContent(this.getKeyGoogleMap()));
 		
 		XMLOutputter outputter = new XMLOutputter();
 		try {
-		    outputter.output(configDocument, System.out);
-		    File file = new File(this.getPathConfig());
+		    File file = new File(this.pathConfig);
 		    if(!file.exists()){
 		    	file.createNewFile();
 		    }
 		    
-		    FileWriter writer = new FileWriter(this.getPathConfig());
+		    FileWriter writer = new FileWriter(this.pathConfig);
 			outputter.output(configDocument, writer);
 			writer.close();
 		} catch (java.io.IOException e) {
-		    e.printStackTrace();
+			LogFwk.getInstance(Configuracion.class).error("Error al escribir el archivo de configuracion. Creacion abortada");
 		}
 		
 	}
@@ -79,7 +77,7 @@ public class Configuracion {
 		
 		try {
 			SAXBuilder builder = new SAXBuilder();
-			File xmlFile = new File(this.getPathConfig());
+			File xmlFile = new File(this.pathConfig);
 			Document document = (Document) builder.build(xmlFile);
 			Element rootNode = document.getRootElement();
 			this.setHoraUnificador(rootNode.getChildText("horaUnificador"));
@@ -96,12 +94,10 @@ public class Configuracion {
 			
 			this.setPathTempImages(rootNode.getChildText("pathTempImages"));
 			this.setPathExportDesign(rootNode.getChildText("pathExportDesign"));
-			this.setPathConfig(rootNode.getChildText("pathConfig"));
+			this.setKeyGoogleMap(rootNode.getChildText("keyGoogleMap"));
 			
-		  } catch (IOException io) {
-			System.out.println(io.getMessage());
-		  } catch (JDOMException jdomex) {
-			System.out.println(jdomex.getMessage());
+		  } catch (Exception io) {
+			  LogFwk.getInstance(Configuracion.class).error("No se encontro ningun archivo de configuracion. Se creara uno automaticamente");
 		  }
 	}
 	
@@ -177,13 +173,13 @@ public class Configuracion {
 	public String getPathExportDesign() {
 		return pathExportDesign;
 	}
-	public void setPathConfig(String pathConfig) {
-		this.pathConfig = pathConfig;
+
+	public void setKeyGoogleMap(String keyGoogleMap) {
+		this.keyGoogleMap = keyGoogleMap;
 	}
-	public String getPathConfig() {
-		return pathConfig;
+
+	public String getKeyGoogleMap() {
+		return keyGoogleMap;
 	}
-	
-	
 
 }

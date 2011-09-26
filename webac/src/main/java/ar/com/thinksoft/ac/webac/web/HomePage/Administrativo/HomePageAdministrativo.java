@@ -25,7 +25,6 @@ import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.adminMap.Comuna;
 import ar.com.thinksoft.ac.webac.adminMap.ComunaManager;
-import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
@@ -149,8 +148,14 @@ public class HomePageAdministrativo extends BasePage{
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void armarGrillaActiva() {
-		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().isNotDownFiltro());
-		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(listReclamos);
+		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
+		List<IReclamo> listNotDownReclamos = new ArrayList<IReclamo>();
+		for(IReclamo reclamo : listReclamos){
+			if(reclamo.isNotDown())
+				listNotDownReclamos.add(reclamo);
+		}
+			
+		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(listNotDownReclamos);
 		List cols = (List) Arrays.asList(
 																	
             new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(120)
