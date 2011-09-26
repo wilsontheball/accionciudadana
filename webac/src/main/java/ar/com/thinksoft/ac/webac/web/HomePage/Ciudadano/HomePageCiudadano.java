@@ -189,7 +189,7 @@ public class HomePageCiudadano extends BasePage{
 	 * esta creando uno nuevo clonado y los atributos actualizados.
 	 */
 	private List<IReclamo> listaOrdenadaPorFecha() {
-		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().isNotDownFiltro());
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerTodosReclamos();
 		List<IReclamo> listaDevolucion = new ArrayList<IReclamo>();
 		for(int i = lista.size()-1 ;i>=0;i--){
 			if(lista.get(i).getCiudadanoGeneradorReclamo().equals(Context.getInstance().getUsuario().getNombreUsuario()))

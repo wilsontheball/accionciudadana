@@ -260,7 +260,7 @@ public class HomePageAdministrativo extends BasePage{
 	 * esta creando uno nuevo clonado y los atributos actualizados.
 	 */
 	private List<IReclamo> listaOrdenadaPorFecha() {
-		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().isNotDownFiltro());
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerTodosReclamos();
 		List<IReclamo> listaDevolucion = new ArrayList<IReclamo>();
 		for(int i = lista.size()-1 ;i>=0;i--){
 			listaDevolucion.add(lista.get(i));
