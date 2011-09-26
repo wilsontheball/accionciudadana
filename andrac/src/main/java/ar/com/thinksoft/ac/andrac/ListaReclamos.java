@@ -12,14 +12,17 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 /**
- * La clase se encarga de manejar el listado de reclamos realizados.
+ * La clase se encarga de manejar el listado de reclamos realizados por usuario.
  * 
- * @since 07-09-2011
+ * @since 25-09-2011
  * @author Paul
  */
 public class ListaReclamos extends Activity {
 	// Codigo de error
 	private final int ERROR = -1;
+
+	// Mensaje de error
+	private String mensajeError = "Error!";
 
 	// Almacena reclamo para mostrar su detalle
 	private ReclamoItem reclamo = null;
@@ -31,7 +34,7 @@ public class ListaReclamos extends Activity {
 	 * Se encarga de la creacion de la ventana. Le asigna Layout. Obtiene los
 	 * reclamos realizados del Repositorio y los carga al listado.
 	 * 
-	 * @since 28-08-2011
+	 * @since 25-09-2011
 	 * @author Paul
 	 * @param savedInstanceState
 	 */
@@ -40,9 +43,11 @@ public class ListaReclamos extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lista_reclamos);
 
+		// Obtiene los reclamos de usuario.
+		this.reclamos = (ReclamoItem[]) this.getRepo().getReclamosUsuario();
+
 		// Carga el listado con los reclamos.
 		ListView listado = (ListView) findViewById(R.id.list);
-		this.reclamos = (ReclamoItem[]) this.getRepo().getReclamosUsuario();
 		listado.setAdapter(new ReclamoAdapter(this, this.reclamos));
 		listado.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -50,6 +55,7 @@ public class ListaReclamos extends Activity {
 				mostrarDialogo(posicion);
 			}
 		});
+
 	}
 
 	/**
@@ -119,12 +125,13 @@ public class ListaReclamos extends Activity {
 			return new AlertDialog.Builder(ListaReclamos.this)
 					.setIcon(R.drawable.alert_dialog_icon)
 					.setTitle(R.string.advertencia)
-					.setMessage("Error")
+					.setMessage(this.mensajeError)
 					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									/* User clicked OK so do some stuff */
+									// Cierra la pantalla
+									finish();
 								}
 							}).create();
 		default:

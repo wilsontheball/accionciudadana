@@ -31,7 +31,8 @@ public class RestHandler extends AbstractHandler
 		Request req = (request instanceof Request ? (Request) request
 				: HttpConnection.getCurrentConnection().getRequest());
 		try {
-			// String methodName = request.getRequestURI().substring(1);
+			String methodName = request.getRequestURI().substring(1);
+			System.out.println(methodName);
 			List<Reclamo> list = Repositorio.getInstancia().getReclamos(
 					"usuario");
 			response.setContentType("application/json");

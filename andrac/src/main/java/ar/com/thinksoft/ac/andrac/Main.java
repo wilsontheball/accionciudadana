@@ -1,6 +1,8 @@
 package ar.com.thinksoft.ac.andrac;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,7 +17,7 @@ import android.widget.Toast;
 /**
  * La clase se encarga de manejar la pantalla Home.
  * 
- * @since 07-09-2011
+ * @since 25-09-2011
  * @author Paul
  */
 public class Main extends Activity {
@@ -23,6 +25,9 @@ public class Main extends Activity {
 	private final int INICIAR_RECLAMO = 0;
 	private final int LISTA_RECLAMOS = 1;
 	private final int PERFIL_USUARIO = 2;
+
+	private ProgressDialog procesando = null;
+	private boolean obtenerReclamosCancelado = false;
 
 	private String[] ventanas = { "Iniciar Reclamo", "Lista Reclamos",
 			"Perfil Usuario" };
@@ -148,7 +153,7 @@ public class Main extends Activity {
 			this.startActivity(new Intent(this, IniciarReclamo.class));
 			break;
 		case LISTA_RECLAMOS:
-			this.startActivity(new Intent(this, ListaReclamos.class));
+			this.mostrarObteniendoReclamos();
 			break;
 		case PERFIL_USUARIO:
 			this.startActivity(new Intent(this, PerfilUsuario.class));
@@ -156,6 +161,49 @@ public class Main extends Activity {
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * Muestra la ventana de reclamos de usuario.
+	 * 
+	 * @since 25-09-2011
+	 * @author Paul
+	 */
+	private void mostrarVentanaReclamos() {
+		this.startActivity(new Intent(this, ListaReclamos.class));
+	}
+
+	/**
+	 * Muestra un dialogo procesando.
+	 * 
+	 * @since 25-09-2011
+	 * @author Paul
+	 */
+	private void mostrarObteniendoReclamos() {
+		this.procesando = new ProgressDialog(Main.this);
+		this.procesando.setMessage(getString(R.string.obteniendo_reclamos));
+		this.procesando.setButton(getString(R.string.cancelar),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// TODO Debe parar obtension de reclamos
+						obtenerReclamosCancelado = true;
+						dialog.cancel();
+					}
+				});
+		this.procesando
+				.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+					public void onDismiss(DialogInterface dialog) {
+						// TODO Auto-generated method stub
+						if (obtenerReclamosCancelado == true) {
+							mostrarVentanaReclamos();
+						}
+
+					}
+
+				});
+		this.procesando.setCancelable(false);
+		this.procesando.show();
 	}
 
 	private Aplicacion getAplicacion() {

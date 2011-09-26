@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
@@ -24,7 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
-import ar.com.thinksoft.ac.intac.IUsuario;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -38,8 +38,11 @@ import com.google.gson.reflect.TypeToken;
 public class Repositorio {
 
 	byte[] imagenBytes = null;
-	private IUsuario usuarioActual = null;
+	private Usuario usuarioActual = null;
 	private String nombreUsuario = null;
+
+	// Probando JSON
+	private String url = "http://192.168.1.108:6060";
 
 	/**
 	 * Devuelve un objeto Usuario desde la base de datos
@@ -49,10 +52,10 @@ public class Repositorio {
 	 * @param nick
 	 *            nombre del usuario
 	 * @param pass
-	 *            contrase�a del usuario
+	 *            contrasenia del usuario
 	 * @return Usuario o null si la operacion fallo
 	 */
-	public IUsuario getUsuario(String nick, String pass) {
+	public Usuario getUsuario(String nick, String pass) {
 		// TODO no esta implementada la conexion a la BD
 		return null;
 	}
@@ -96,55 +99,34 @@ public class Repositorio {
 	}
 
 	/**
-	 * Obtiene los reclamos realizados del usuario.
+	 * Obtiene los reclamos realizados del usuario listos para mostrar.
 	 * 
-	 * @since 06-08-2011
+	 * @since 25-09-2011
 	 * @author Paul
-	 * @param nick
-	 *            NickName del usuario.
-	 * @return Array de reclamos.
+	 * @return Array de reclamos listo para mostrar.
 	 */
 	public ReclamoItem[] getReclamosUsuario() {
-		// TODO Falta implementar la conexion al servidor.
-		// TODO Probando... Es un generador bobo de reclamos.
+		ArrayList<ReclamoItem> listaItems = new ArrayList<ReclamoItem>();
 
-		return new ReclamoItem[] {
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011"),
-				new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
-						"20-Agosto-2011"),
-				new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
-						"20-Agosto-2011"),
-				new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
-						"20-Agosto-2011"),
-				new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
-						"20-Agosto-2011"),
-				new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
-						"20-Agosto-2011"),
-				new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
-						"20-Agosto-2011"),
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011"),
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011"),
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011"),
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011"),
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011"),
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011"),
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011"),
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011"),
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011"),
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011"),
-				new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-						"19-Agosto-2011") };
+		// XXX Es solo para probar!!!!!!!!!!!!!!
+		ReclamoItem[] arrayVacio = new ReclamoItem[0];
+		return arrayVacio;
+		// XXX Hasta aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+		// TODO Falta implementar validaciones en la conexion al servidor.
+		// List<Reclamo> reclamos = this.obtenerReclamos(this.nombreUsuario);
+		// for (Reclamo rec : reclamos) {
+		// listaItems.add(new ReclamoItem(rec.getEstadoDescripcion(), rec
+		// .getTipoIncidente(), rec.getCalleIncidente() + " "
+		// + rec.getAlturaIncidente(), rec.getFechaReclamo()));
+		// }
+		// return (ReclamoItem[]) listaItems.toArray();
+
+		// return new ReclamoItem[] {
+		// new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
+		// "19-Agosto-2011"),
+		// new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
+		// "20-Agosto-2011"), };
 	}
 
 	public boolean publicarReclamoDireccion(String tipo, String barrio,
@@ -170,16 +152,14 @@ public class Repositorio {
 	}
 
 	private void enviarReclamo(Reclamo reclamo) {
-		// TODO Falta obtener URL
-		String url = "";
 
 		Gson gson = new Gson();
 		String json = gson.toJson(reclamo);
 
-		HttpResponse re;
+		HttpResponse responce;
 		try {
-			re = this.doPost(url, new JSONObject(json));
-			String temp = EntityUtils.toString(re.getEntity());
+			responce = this.doPost(url, new JSONObject(json));
+			String temp = EntityUtils.toString(responce.getEntity());
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -213,27 +193,32 @@ public class Repositorio {
 		return response;
 	}
 
-	private List<Reclamo> obtenerReclamos() {
-		// TODO falta obtener URL
-		String url = "";
-		InputStream source = obtenerFlujoEntrada(url);
+	/**
+	 * Se conecta a Wilsond para obtener reclamos hechos por un usuario.
+	 * 
+	 * @since 25-09-2011
+	 * @author Paul
+	 * @param usuario
+	 *            Nick de usuario.
+	 * @return Lista de reclamos hecho por un usuario.
+	 */
+	private List<Reclamo> obtenerReclamos(String usuario) {
 
-		Gson gson = new Gson();
+		try {
+			DefaultHttpClient httpClient = new DefaultHttpClient();
+			HttpGet method = new HttpGet(url + "/reclamos");
+			HttpResponse httpResponse = httpClient.execute(method);
+			InputStream is = httpResponse.getEntity().getContent();
+			Gson gson = new Gson();
+			Reader reader = new InputStreamReader(is);
+			Type collectionType = new TypeToken<List<Reclamo>>() {
+			}.getType();
+			return gson.fromJson(reader, collectionType);
 
-		Reader reader = new InputStreamReader(source);
-
-		Type collectionType = new TypeToken<List<Reclamo>>() {
-		}.getType();
-		return gson.fromJson(reader, collectionType);
-
-		// SearchResponse response = gson.fromJson(reader,
-		// SearchResponse.class);
-		// List<Result> results = response.results;
-		// Toast.makeText(this, response.query, Toast.LENGTH_SHORT).show();
-		// for (Result result : results) {
-		// Toast.makeText(this, result.fromUser, Toast.LENGTH_SHORT).show();
-		// }
-
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public boolean publicarReclamoGPS(String tipo, String barrio,
@@ -255,11 +240,11 @@ public class Repositorio {
 		return this.imagenBytes;
 	}
 
-	public IUsuario getUsuarioActual() {
+	public Usuario getUsuarioActual() {
 		return this.usuarioActual;
 	}
 
-	public void setUsuarioActual(IUsuario usuario) {
+	public void setUsuarioActual(Usuario usuario) {
 		this.usuarioActual = usuario;
 	}
 

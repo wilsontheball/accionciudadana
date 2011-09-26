@@ -3,6 +3,14 @@ package ar.com.thinksoft.ac.intac.utils.classes;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 
+/**
+ * Es un DTO para intercambiar los datos de reclamo entre Andrac y Wilsond.
+ * Cumpliendo con GSON la clase asegura que los objetos de ambos extremos tengan
+ * los mismos nombres de atributos.
+ * 
+ * @since 24-09-2011
+ * @author Paul
+ */
 public abstract class ReclamoMovil implements IReclamo {
 
 	private static final long serialVersionUID = 1L;

@@ -58,6 +58,7 @@
 	<string name="registro_fallido">No se pudo realizar la registración en este
 		momento. Intentelo mas tarde. Disculpe las molestias.
 	</string>
+	<string name="obteniendo_reclamos">Obteniendo reclamos...</string>
 	<string-array name="tipoincidente_array">
 		<item>Bache</item>
 		<item>Caída de Objetos</item>
