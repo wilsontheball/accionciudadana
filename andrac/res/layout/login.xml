@@ -12,7 +12,7 @@
 			<ImageView android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:scaleType="centerInside"
 				android:layout_marginLeft="2dip" android:layout_marginRight="2dip"
-				android:layout_weight="1" android:src="@drawable/icon" />
+				android:layout_weight="1" android:src="@drawable/icono" />
 			<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:gravity="center"
 				android:paddingBottom="2dip" android:textAppearance="@android:style/TextAppearance.Large"
