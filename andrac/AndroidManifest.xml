@@ -4,7 +4,7 @@
 	android:versionName="@string/version">
 	<application android:icon="@drawable/icono" android:label="@string/app_name"
 		android:name=".Aplicacion" android:theme="@style/CustomTheme">
-		<activity android:name=".Main">
+		<activity android:name=".Main" android:configChanges="keyboard|keyboardHidden|orientation">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
