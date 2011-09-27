@@ -52,9 +52,17 @@ public class Repositorio {
 		ArrayList<Reclamo> lista = new ArrayList<Reclamo>();
 
 		// XXX Solo para probar.......
-		lista.add(new Reclamo());
-		lista.add(new Reclamo());
-		lista.add(new Reclamo());
+
+		Reclamo rec = new Reclamo();
+		rec.setAlturaIncidente("45");
+		rec.setBarrioIncidente("Belgrano");
+		rec.setCalleIncidente("Cabildo");
+		rec.setCiudadanoGeneradorReclamo("pepe");
+		rec.setFechaReclamo("hoy");
+		rec.setTipoIncidente("CACA DE PERRO");
+
+		lista.add(rec);
+
 		// XXX fin
 
 		return lista;

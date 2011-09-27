@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -66,14 +67,14 @@ public class PerfilUsuario extends Activity {
 		this.finish();
 	}
 
-	// Probando JSON
-	private String url = "http://192.168.1.108:6060/wilsond/";
+	private String url = "http://10.24.192.183:6060/";
 
 	private EditText getSalida() {
 		return (EditText) findViewById(R.id.salida);
 	}
 
 	public void probar(View v) {
+		// XXX Probando JSON!!!!!!!!!!!!!!!!!!!!!!!!!!
 		getSalida().append("Conectando...\n");
 		String respuesta = this.getJSONdata(this.url);
 		getSalida().append(respuesta);
@@ -84,18 +85,41 @@ public class PerfilUsuario extends Activity {
 		String response = "";
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpGet method = new HttpGet(url);
+			// XXX Obtiene reclamos
+			HttpGet method = new HttpGet(url + FuncionRest.RECLAMOS);
 			HttpResponse httpResponse = httpClient.execute(method);
 			InputStream is = httpResponse.getEntity().getContent();
 			Gson gson = new Gson();
 			Reader reader = new InputStreamReader(is);
-			Type collectionType = new TypeToken<List<Data>>() {
+			Type collectionType = new TypeToken<List<Reclamo>>() {
 			}.getType();
-			List<Data> lista = gson.fromJson(reader, collectionType);
-			for (Data d : lista) {
-				response = response + " : " + d.getName() + " - "
-						+ d.getValue() + "\n";
+			List<Reclamo> lista = gson.fromJson(reader, collectionType);
+			response = response + "RECLAMOS\n";
+			for (Reclamo d : lista) {
+				response = response + " : " + d.getCalleIncidente() + " - "
+						+ d.getAlturaIncidente() + ": " + d.getTipoIncidente()
+						+ "\n";
 			}
+
+			// XXX Obtiene perfil
+			HttpGet method2 = new HttpGet(url + FuncionRest.PERFIL);
+			HttpResponse httpResponse2 = httpClient.execute(method2);
+			InputStream is2 = httpResponse2.getEntity().getContent();
+			Gson gson2 = new Gson();
+			Reader reader2 = new InputStreamReader(is2);
+			Usuario perfil = gson2.fromJson(reader2, Usuario.class);
+			response = response + "\nPERFIL\n" + perfil.toString();
+
+			// XXX Obtiene validacion
+			// XXX FALLA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			// HttpGet method3 = new HttpGet(url + FuncionRest.RECLAMOS);
+			// HttpResponse httpResponse3 = httpClient.execute(method3);
+			// InputStream is3 = httpResponse3.getEntity().getContent();
+			// Gson gson3 = new Gson();
+			// Reader reader3 = new InputStreamReader(is3);
+			// Boolean valor = gson3.fromJson(reader3, Boolean.class);
+			// response = response + "\nVALIDAR\n" + valor.toString();
+
 		} catch (Exception e) {
 			getSalida().append("ERROR de conexion: " + e.getMessage());
 			e.printStackTrace();

@@ -7,7 +7,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.UsuarioMovil;
 /**
  * DTO que contiene datos de usuario.
  * 
- * @since 25-09-2011
+ * @since 27-09-2011
  * @author Paul
  */
 public class Usuario extends UsuarioMovil {
@@ -36,73 +36,58 @@ public class Usuario extends UsuarioMovil {
 	}
 
 	public String getContrasenia() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.password;
 	}
 
 	public String getNombreUsuario() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.nick;
 	}
 
 	public Long getDni() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.dni;
 	}
 
 	public String getMail() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.mail;
 	}
 
 	public String getApellido() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.apellido;
 	}
 
 	public String getNombre() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.nombre;
 	}
 
 	public Long getTelefono() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.telefono;
 	}
 
 	public void setContrasenia(String contrasenia) {
-		// TODO Auto-generated method stub
-
+		this.password = contrasenia;
 	}
 
 	public void setNombreUsuario(String nombreUsuario) {
-		// TODO Auto-generated method stub
-
+		this.nick = nombreUsuario;
 	}
 
-	public void setDni(Long DNI) {
-		// TODO Auto-generated method stub
-
+	public void setDni(Long dni) {
+		this.dni = dni;
 	}
 
 	public void setMail(String mail) {
-		// TODO Auto-generated method stub
-
+		this.mail = mail;
 	}
 
 	public void setApellido(String apellido) {
-		// TODO Auto-generated method stub
-
+		this.apellido = apellido;
 	}
 
 	public void setNombre(String nombre) {
-		// TODO Auto-generated method stub
-
+		this.nombre = nombre;
 	}
 
 	public void setTelefono(Long telefono) {
-		// TODO Auto-generated method stub
-
+		this.telefono = telefono;
 	}
-
 }
