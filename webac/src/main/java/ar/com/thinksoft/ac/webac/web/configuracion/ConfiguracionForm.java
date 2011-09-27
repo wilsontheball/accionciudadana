@@ -1,28 +1,31 @@
 package ar.com.thinksoft.ac.webac.web.configuracion;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-
-import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
+import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 
 @SuppressWarnings("serial")
 public class ConfiguracionForm extends Form<Configuracion> {
 	
 	private ConfiguracionForm _self = this;
 	
+	@SuppressWarnings("rawtypes")
 	public ConfiguracionForm(String id) {
 		super(id);
 		setMultiPart(false);
 		
-		CompoundPropertyModel<Configuracion> model = new CompoundPropertyModel<Configuracion>(new Configuracion());
-		setModel(model);
-		
 		Configuracion.getInstance().cargarConfiguracion();
+		
+		CompoundPropertyModel<Configuracion> model = new CompoundPropertyModel<Configuracion>(Configuracion.getInstance());
+		setModel(model);
 		
 		//UNIFICADOR CONFIGURATION
 		TextField<String> horaUnificador = new TextField<String>("horaUnificador",this.createBind(model,"horaUnificador"));
@@ -53,7 +56,7 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		TextField<String> user = new TextField<String>("user",this.createBind(model,"user"));
 		add(user);
 		
-		TextField<String> password = new TextField<String>("password",this.createBind(model,"password"));
+		PasswordTextField password = new PasswordTextField("password",this.createBind(model,"password"));
 		add(password);
 		
 		//PATHS CONFIGURATION
@@ -63,21 +66,28 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		TextField<String> pathExportDesign = new TextField<String>("pathExportDesign",this.createBind(model,"pathExportDesign"));
 		add(pathExportDesign);
 		
+		TextField<String> pathConfig = new TextField<String>("pathConfig",this.createBind(model,"pathConfig"));
+		add(pathConfig);
+		
+		TextField<String> pathDownloadApp = new TextField<String>("pathDownloadApp",this.createBind(model,"pathDownloadApp"));
+		add(pathDownloadApp);
+		
 		TextArea<String> keyGoogleMaps = new TextArea<String>("keyGoogleMap",this.createBind(model,"keyGoogleMap"));
 		add(keyGoogleMaps);
 		
-		add(new Button("guardarConfig"){
+		add(new AjaxLink("guardarConfig"){
 			@Override
-			public void onSubmit(){
+			public void onClick(AjaxRequestTarget target){
 				Configuracion configuracion = _self.getModelObject();
 				configuracion.guardarConfiguracion();
+				_self.setResponsePage(LoginPage.class);
 			}
 		});
 		
 		add(new Button("cancelar"){
 			@Override
 			public void onSubmit(){
-				_self.setResponsePage(HomePage.class);
+				_self.setResponsePage(LoginPage.class);
 			}
 		});
 		

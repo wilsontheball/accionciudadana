@@ -2,12 +2,19 @@ var _self = this;
 
 $(document).ready(function() {
 	
+	credentialsChange();
 	$('.auth').click(function(){
-		var checked = $('.auth').attr('checked');
-		$('.userCredentials').css('display',checked);
-		$('.passwordCredentials').css('display',checked);
+		_self.credentialsChange();
+	
 	});
 	
 
 });
 
+function credentialsChange(){
+	if(!$('.auth')[0].checked){
+		$('.credenciales').css('display','none');
+	}else{
+		$('.credenciales').css('display','block');
+	}
+}

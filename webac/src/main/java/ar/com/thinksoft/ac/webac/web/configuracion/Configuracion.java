@@ -35,40 +35,47 @@ public class Configuracion {
 	private String pathTempImages = "src/main/webapp/tempImages/";
 	private String pathExportDesign = "src/main/webapp/export/";
 	private String pathConfig = "src/main/webapp/configuracion.xml";
+	private String pathDownloadApp = "src/main/webapp/download/accionCiudadana.apk";
 	private String keyGoogleMap = "ABQIAAAASNhk0DNhWwkPk0Y12RIrThTwM0brOpm-All5BF6PoaKBxRWWERRi58__PuwPgysGGKPkLxYHu8hULg";
 	
 	public void guardarConfiguracion(){
 		Element configElement = new Element("configuracion");
 		Document configDocument = new Document(configElement);
 		
-		configElement.addContent(new Element("horaUnificador").addContent(this.getHoraUnificador()));
-		configElement.addContent(new Element("minutoUnificador").addContent(this.getMinutoUnificador()));
-		configElement.addContent(new Element("manianaOTardeUnificador").addContent(this.getManianaOTardeUnificador()));
+		configElement.addContent(new Element("horaUnificador").addContent(getHoraUnificador()));
+		configElement.addContent(new Element("minutoUnificador").addContent(getMinutoUnificador()));
+		configElement.addContent(new Element("manianaOTardeUnificador").addContent(getManianaOTardeUnificador()));
 		
-		configElement.addContent(new Element("smtp").addContent(this.getSmtp()));
-		configElement.addContent(new Element("puerto").addContent(this.getPuerto()));
-		configElement.addContent(new Element("desde").addContent(this.getDesdeMail()));
-		configElement.addContent(new Element("tls").addContent(this.getTls().toString()));
-		configElement.addContent(new Element("auth").addContent(this.getAuth().toString()));
-		configElement.addContent(new Element("user").addContent(this.getUser()));
-		configElement.addContent(new Element("password").addContent(this.getPassword()));
+		configElement.addContent(new Element("smtp").addContent(getSmtp()));
+		configElement.addContent(new Element("puerto").addContent(getPuerto()));
+		configElement.addContent(new Element("desde").addContent(getDesdeMail()));
+		configElement.addContent(new Element("tls").addContent(getTls().toString()));
+		configElement.addContent(new Element("auth").addContent(getAuth().toString()));
+		configElement.addContent(new Element("user").addContent(getUser()));
+		configElement.addContent(new Element("password").addContent(getPassword()));
 		
-		configElement.addContent(new Element("pathTempImages").addContent(this.getPathTempImages()));
-		configElement.addContent(new Element("pathExportDesign").addContent(this.getPathExportDesign()));
-		configElement.addContent(new Element("keyGoogleMap").addContent(this.getKeyGoogleMap()));
+		configElement.addContent(new Element("pathTempImages").addContent(getPathTempImages()));
+		configElement.addContent(new Element("pathExportDesign").addContent(getPathExportDesign()));
+		configElement.addContent(new Element("pathConfig").addContent(getPathConfig()));
+		configElement.addContent(new Element("pathDownloadApp").addContent(getPathDownloadApp()));
+		configElement.addContent(new Element("keyGoogleMap").addContent(getKeyGoogleMap()));
 		
 		XMLOutputter outputter = new XMLOutputter();
 		try {
-		    File file = new File(this.pathConfig);
+		    File file = new File(getPathConfig());
 		    if(!file.exists()){
 		    	file.createNewFile();
 		    }
 		    
-		    FileWriter writer = new FileWriter(this.pathConfig);
+		    FileWriter writer = new FileWriter(getPathConfig());
 			outputter.output(configDocument, writer);
-			writer.close();
+			outputter.output(configDocument, System.out);
+			writer.flush();
+            writer.close();
+            
 		} catch (java.io.IOException e) {
 			LogFwk.getInstance(Configuracion.class).error("Error al escribir el archivo de configuracion. Creacion abortada");
+			System.out.println("falla el guardado");
 		}
 		
 	}
@@ -77,62 +84,65 @@ public class Configuracion {
 		
 		try {
 			SAXBuilder builder = new SAXBuilder();
-			File xmlFile = new File(this.pathConfig);
+			File xmlFile = new File(getPathConfig());
 			Document document = (Document) builder.build(xmlFile);
 			Element rootNode = document.getRootElement();
-			this.setHoraUnificador(rootNode.getChildText("horaUnificador"));
-			this.setMinutoUnificador(rootNode.getChildText("minutoUnificador"));
-			this.setManianaOTardeUnificador(rootNode.getChildText("manianaOTardeUnificador"));
+			setHoraUnificador(rootNode.getChildText("horaUnificador"));
+			setMinutoUnificador(rootNode.getChildText("minutoUnificador"));
+			setManianaOTardeUnificador(rootNode.getChildText("manianaOTardeUnificador"));
 			
-			this.setSmtp(rootNode.getChildText("smtp"));
-			this.setPuerto(rootNode.getChildText("puerto"));
-			this.setDesdeMail(rootNode.getChildText("desde"));
-			this.setTLS(Boolean.valueOf(rootNode.getChildText("tls")));
-			this.setAuth(Boolean.valueOf(rootNode.getChildText("auth")));
-			this.setUser(rootNode.getChildText("user"));
-			this.setPassword(rootNode.getChildText("password"));
+			setSmtp(rootNode.getChildText("smtp"));
+			setPuerto(rootNode.getChildText("puerto"));
+			setDesdeMail(rootNode.getChildText("desde"));
+			setTLS(Boolean.valueOf(rootNode.getChildText("tls")));
+			setAuth(Boolean.valueOf(rootNode.getChildText("auth")));
+			setUser(rootNode.getChildText("user"));
+			setPassword(rootNode.getChildText("password"));
 			
-			this.setPathTempImages(rootNode.getChildText("pathTempImages"));
-			this.setPathExportDesign(rootNode.getChildText("pathExportDesign"));
-			this.setKeyGoogleMap(rootNode.getChildText("keyGoogleMap"));
+			setPathTempImages(rootNode.getChildText("pathTempImages"));
+			setPathExportDesign(rootNode.getChildText("pathExportDesign"));
+			setPathConfig(rootNode.getChildText("pathConfig"));
+			setPathDownloadApp(rootNode.getChildText("pathDownloadApp"));
+			setKeyGoogleMap(rootNode.getChildText("keyGoogleMap"));
 			
 		  } catch (Exception io) {
 			  LogFwk.getInstance(Configuracion.class).error("No se encontro ningun archivo de configuracion. Se creara uno automaticamente");
+			  System.out.println("falla la carga");
 		  }
 	}
 	
-	public void setHoraUnificador(String horaUnificador) {
-		this.horaUnificador = horaUnificador;
+	public void setHoraUnificador(String HoraUnificador) {
+		horaUnificador = HoraUnificador;
 	}
 	public String getHoraUnificador() {
 		return horaUnificador;
 	}
-	public void setMinutoUnificador(String minutoUnificador) {
-		this.minutoUnificador = minutoUnificador;
+	public void setMinutoUnificador(String minutosUnificador) {
+		minutoUnificador = minutosUnificador;
 	}
 	public String getMinutoUnificador() {
 		return minutoUnificador;
 	}
-	public void setManianaOTardeUnificador(String manianaOTardeUnificador) {
-		this.manianaOTardeUnificador = manianaOTardeUnificador;
+	public void setManianaOTardeUnificador(String AMoPMUnificador) {
+		manianaOTardeUnificador = AMoPMUnificador;
 	}
 	public String getManianaOTardeUnificador() {
 		return manianaOTardeUnificador;
 	}
-	public void setSmtp(String smtp) {
-		this.smtp = smtp;
+	public void setSmtp(String Smtp) {
+		smtp = Smtp;
 	}
 	public String getSmtp() {
 		return smtp;
 	}
-	public void setPuerto(String port) {
-		this.port = port;
+	public void setPuerto(String puerto) {
+		port = puerto;
 	}
 	public String getPuerto() {
 		return port;
 	}
-	public void setDesdeMail(String fromMail) {
-		this.fromMail = fromMail;
+	public void setDesdeMail(String desdeMail) {
+		fromMail = desdeMail;
 	}
 	public String getDesdeMail() {
 		return fromMail;
@@ -143,43 +153,59 @@ public class Configuracion {
 	public Boolean getTls() {
 		return TLS;
 	}
-	public void setAuth(Boolean auth) {
-		this.auth = auth;
+	public void setAuth(Boolean autorizado) {
+		auth = autorizado;
 	}
 	public Boolean getAuth() {
 		return auth;
 	}
-	public void setUser(String user) {
-		this.user = user;
+	public void setUser(String usuario) {
+		user = usuario;
 	}
 	public String getUser() {
 		return user;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String pass) {
+		password = pass;
 	}
 	public String getPassword() {
 		return password;
 	}
-	public void setPathTempImages(String pathTempImages) {
-		this.pathTempImages = pathTempImages;
+	public void setPathTempImages(String pathTemp) {
+		pathTempImages = pathTemp;
 	}
 	public String getPathTempImages() {
 		return pathTempImages;
 	}
-	public void setPathExportDesign(String pathExportDesign) {
-		this.pathExportDesign = pathExportDesign;
+	public void setPathExportDesign(String pathDesign) {
+		pathExportDesign = pathDesign;
 	}
 	public String getPathExportDesign() {
 		return pathExportDesign;
 	}
 
-	public void setKeyGoogleMap(String keyGoogleMap) {
-		this.keyGoogleMap = keyGoogleMap;
+	public void setKeyGoogleMap(String keyGoogleMaps) {
+		keyGoogleMap = keyGoogleMaps;
 	}
 
 	public String getKeyGoogleMap() {
 		return keyGoogleMap;
+	}
+
+	public void setPathConfig(String pathConfiguracion) {
+		pathConfig = pathConfiguracion;
+	}
+
+	public String getPathConfig() {
+		return pathConfig;
+	}
+
+	public void setPathDownloadApp(String pathDownload) {
+		pathDownloadApp = pathDownload;
+	}
+
+	public String getPathDownloadApp() {
+		return pathDownloadApp;
 	}
 
 }

@@ -15,7 +15,7 @@
 				<table align="center">
 					<tr>
 						<td class="texto">
-							<label>Hora - Minuto - Antes o despues del mediodia:</label>
+							<label>Hora - Minuto - AM/PM:</label>
 						</td>
 						<td class="block">
 					 		<input type="text" wicket:id="horaUnificador" id="horaUnificador" size="2"/>
@@ -68,21 +68,21 @@
 					 	</td>
 					</tr>
 					
-					<tr class="credenciales">
-						<td class="texto">
+					<tr>
+						<td class="texto credenciales">
 							<label>Usuario: </label>
 						</td>
 						<td class="block">
-					 		<input type="text" wicket:id="user" id="user" class="inputText userCredentials"/>
+					 		<input type="text" wicket:id="user" id="user" class="inputText credenciales"/>
 					 	</td>
 					</tr>
 					
-					<tr class="credenciales">
-						<td class="texto">
-							<label>Contrase&nacute;a: </label>
+					<tr>
+						<td class="texto credenciales" >
+							<label>Contrase&ntilde;a: </label>
 						</td>
 						<td class="block">
-					 		<input type="text" wicket:id="password" id="password" class="inputText passwordCredentials"/>
+					 		<input type="password" wicket:id="password" id="password" class="inputText credenciales"/>
 					 	</td>
 					</tr>
 					
@@ -109,7 +109,25 @@
 							<label>Ruta del archivo de configuraci&oacute;n: </label>
 						</td>
 						<td class="block">
-					 		<textarea rows="2" cols="40" wicket:id="keyGoogleMap" id="keyGoogleMap" style="resize:none;"></textarea>
+					 		<input type="text" wicket:id="pathConfig" id="pathConfig" class="inputText"/>
+					 	</td>
+					</tr>
+					
+					<tr>
+						<td class="texto">
+							<label>Ruta de descarga de la Aplicaci&oacute;n Android: </label>
+						</td>
+						<td class="block">
+					 		<input type="text" wicket:id="pathDownloadApp" id="pathDownloadApp" class="inputText"/>
+					 	</td>
+					</tr>
+					
+					<tr>
+						<td class="texto">
+							<label>Clave de Google Maps: </label>
+						</td>
+						<td class="block">
+					 		<textarea rows="2" cols="45" wicket:id="keyGoogleMap" id="keyGoogleMap" style="resize:none;"></textarea>
 					 	</td>
 					</tr>
 					
