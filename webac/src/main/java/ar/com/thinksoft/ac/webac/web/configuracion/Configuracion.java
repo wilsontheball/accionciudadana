@@ -24,8 +24,8 @@ public class Configuracion {
 	private String minutoUnificador = "0";
 	private String manianaOTardeUnificador = "AM";
 	
-	private String smtp = "smtp.example.com";
-	private String port = "puerto";
+	private String smtp;
+	private String port;
 	private String fromMail ="example@example.com";
 	private Boolean TLS = true;
 	private Boolean auth = true;
@@ -78,6 +78,7 @@ public class Configuracion {
 			System.out.println("falla el guardado");
 		}
 		
+		instance = null;
 	}
 	
 	public void cargarConfiguracion(){

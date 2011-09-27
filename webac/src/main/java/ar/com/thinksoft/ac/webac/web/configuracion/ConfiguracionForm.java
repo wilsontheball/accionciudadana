@@ -22,8 +22,6 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		super(id);
 		setMultiPart(false);
 		
-		Configuracion.getInstance().cargarConfiguracion();
-		
 		CompoundPropertyModel<Configuracion> model = new CompoundPropertyModel<Configuracion>(Configuracion.getInstance());
 		setModel(model);
 		
@@ -38,7 +36,7 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		add(manianaOTardeUnificador);
 		
 		//MAIL CONFIGURATION
-		TextField<String> smtp = new TextField<String>("smtp",this.createBind(model,"smtp"));
+		TextField<String> smtp = new TextField<String>("smtp",this.createBind(model,"Smtp"));
 		add(smtp);
 		
 		TextField<String> puerto = new TextField<String>("puerto",this.createBind(model,"puerto"));
@@ -75,14 +73,15 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		TextArea<String> keyGoogleMaps = new TextArea<String>("keyGoogleMap",this.createBind(model,"keyGoogleMap"));
 		add(keyGoogleMaps);
 		
-		add(new AjaxLink("guardarConfig"){
-			@Override
-			public void onClick(AjaxRequestTarget target){
+		add(new Button("guardarConfig"));
+		
+		/*{
+			public void onSubmit(){
 				Configuracion configuracion = _self.getModelObject();
 				configuracion.guardarConfiguracion();
-				_self.setResponsePage(LoginPage.class);
+				//_self.setResponsePage(LoginPage.class);
 			}
-		});
+		}*/
 		
 		add(new Button("cancelar"){
 			@Override
@@ -92,6 +91,14 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		});
 		
 	}
+	
+	@SuppressWarnings("unused")
+	@Override
+	public void onSubmit(){
+		Configuracion configuracion = getModelObject();
+		
+	}
+	
 	
 	private IModel<String> createBind(CompoundPropertyModel<Configuracion> model,String property){
 		return model.bind(property);
