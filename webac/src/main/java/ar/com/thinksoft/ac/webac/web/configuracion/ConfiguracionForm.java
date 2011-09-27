@@ -2,7 +2,6 @@ package ar.com.thinksoft.ac.webac.web.configuracion;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
@@ -22,6 +21,8 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		super(id);
 		setMultiPart(false);
 		
+		Configuracion.getInstance().cargarConfiguracion();
+		
 		CompoundPropertyModel<Configuracion> model = new CompoundPropertyModel<Configuracion>(Configuracion.getInstance());
 		setModel(model);
 		
@@ -36,7 +37,7 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		add(manianaOTardeUnificador);
 		
 		//MAIL CONFIGURATION
-		TextField<String> smtp = new TextField<String>("smtp",this.createBind(model,"Smtp"));
+		TextField<String> smtp = new TextField<String>("smtp",this.createBind(model,"smtp"));
 		add(smtp);
 		
 		TextField<String> puerto = new TextField<String>("puerto",this.createBind(model,"puerto"));
@@ -73,32 +74,23 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		TextArea<String> keyGoogleMaps = new TextArea<String>("keyGoogleMap",this.createBind(model,"keyGoogleMap"));
 		add(keyGoogleMaps);
 		
-		add(new Button("guardarConfig"));
-		
-		/*{
-			public void onSubmit(){
+		add(new AjaxLink("guardarConfig"){
+			@Override
+			public void onClick(AjaxRequestTarget target){
 				Configuracion configuracion = _self.getModelObject();
 				configuracion.guardarConfiguracion();
-				//_self.setResponsePage(LoginPage.class);
+				_self.setResponsePage(LoginPage.class);
 			}
-		}*/
+		});
 		
-		add(new Button("cancelar"){
+		add(new AjaxLink("cancelar"){
 			@Override
-			public void onSubmit(){
+			public void onClick(AjaxRequestTarget target){
 				_self.setResponsePage(LoginPage.class);
 			}
 		});
 		
 	}
-	
-	@SuppressWarnings("unused")
-	@Override
-	public void onSubmit(){
-		Configuracion configuracion = getModelObject();
-		
-	}
-	
 	
 	private IModel<String> createBind(CompoundPropertyModel<Configuracion> model,String property){
 		return model.bind(property);
