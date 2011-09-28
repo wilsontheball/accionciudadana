@@ -3,6 +3,7 @@ package ar.com.thinksoft.ac.webac.web.configuracion;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Serializable;
+import java.io.ObjectInputStream.GetField;
 
 import org.jdom.*;
 import org.jdom.input.SAXBuilder;
@@ -10,9 +11,9 @@ import org.jdom.output.XMLOutputter;
 
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 
-@SuppressWarnings("serial")
-public class Configuracion implements Serializable {
+public class Configuracion implements Serializable{
 	
+	private static final long serialVersionUID = -2152931626161062997L;
 	private static Configuracion instance = null;
 	
 	public static Configuracion getInstance(){
@@ -22,25 +23,13 @@ public class Configuracion implements Serializable {
 		return instance;
 	}
 	
-	public Configuracion(){
-		
-	}
+	private String horaUnificador;
+	private String minutoUnificador;
+	private String manianaOTardeUnificador;
 	
-	public Configuracion(String smtp){
-		this.setSmtp(smtp);
-	}
-	
-	private String horaUnificador = "0";
-	private String minutoUnificador = "0";
-	private String manianaOTardeUnificador = "AM";
-	
-	private String smtp = "smtp.example.com";
-	private String port = "587";
-	private String fromMail ="example@example.com";
-	private Boolean TLS = true;
-	private Boolean auth = true;
-	private String user = "user";
-	private String password = "contrasenia";
+	private String smtp;
+	private String port;
+	private String fromMail;
 	
 	private String pathTempImages = "src/main/webapp/tempImages/";
 	private String pathExportDesign = "src/main/webapp/export/";
@@ -59,10 +48,6 @@ public class Configuracion implements Serializable {
 		configElement.addContent(new Element("smtp").addContent(this.getSmtp()));
 		configElement.addContent(new Element("puerto").addContent(this.getPuerto()));
 		configElement.addContent(new Element("desde").addContent(this.getDesdeMail()));
-		configElement.addContent(new Element("tls").addContent(this.getTls().toString()));
-		configElement.addContent(new Element("auth").addContent(this.getAuth().toString()));
-		configElement.addContent(new Element("user").addContent(this.getUser()));
-		configElement.addContent(new Element("password").addContent(this.getPassword()));
 		
 		configElement.addContent(new Element("pathTempImages").addContent(this.getPathTempImages()));
 		configElement.addContent(new Element("pathExportDesign").addContent(this.getPathExportDesign()));
@@ -105,10 +90,6 @@ public class Configuracion implements Serializable {
 			this.setSmtp(rootNode.getChildText("smtp"));
 			this.setPuerto(rootNode.getChildText("puerto"));
 			this.setDesdeMail(rootNode.getChildText("desde"));
-			this.setTLS(Boolean.valueOf(rootNode.getChildText("tls")));
-			this.setAuth(Boolean.valueOf(rootNode.getChildText("auth")));
-			this.setUser(rootNode.getChildText("user"));
-			this.setPassword(rootNode.getChildText("password"));
 			
 			this.setPathTempImages(rootNode.getChildText("pathTempImages"));
 			this.setPathExportDesign(rootNode.getChildText("pathExportDesign"));
@@ -158,30 +139,6 @@ public class Configuracion implements Serializable {
 	public String getDesdeMail() {
 		return this.fromMail;
 	}
-	public void setTLS(Boolean tLS) {
-		this.TLS = tLS;
-	}
-	public Boolean getTls() {
-		return this.TLS;
-	}
-	public void setAuth(Boolean autorizado) {
-		this.auth = autorizado;
-	}
-	public Boolean getAuth() {
-		return this.auth;
-	}
-	public void setUser(String usuario) {
-		this.user = usuario;
-	}
-	public String getUser() {
-		return this.user;
-	}
-	public void setPassword(String pass) {
-		this.password = pass;
-	}
-	public String getPassword() {
-		return this.password;
-	}
 	public void setPathTempImages(String pathTemp) {
 		this.pathTempImages = pathTemp;
 	}
@@ -217,6 +174,20 @@ public class Configuracion implements Serializable {
 
 	public String getPathDownloadApp() {
 		return this.pathDownloadApp;
+	}
+	
+	public void clone(Configuracion config){
+		this.fromMail = config.getDesdeMail();
+		this.horaUnificador = config.getHoraUnificador();
+		this.keyGoogleMap = config.getKeyGoogleMap();
+		this.manianaOTardeUnificador = config.getManianaOTardeUnificador();
+		this.minutoUnificador = config.getMinutoUnificador();
+		this.pathConfig = config.getPathConfig();
+		this.pathDownloadApp = config.getPathDownloadApp();
+		this.pathExportDesign = config.getPathExportDesign();
+		this.pathTempImages = config.getPathTempImages();
+		this.port = config.getPuerto();
+		this.smtp = config.getSmtp();
 	}
 
 }

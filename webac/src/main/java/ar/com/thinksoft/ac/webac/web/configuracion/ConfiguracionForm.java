@@ -1,10 +1,8 @@
 package ar.com.thinksoft.ac.webac.web.configuracion;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.PasswordTextField;
+import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -16,79 +14,55 @@ public class ConfiguracionForm extends Form<Configuracion> {
 	
 	private ConfiguracionForm _self = this;
 	
-	@SuppressWarnings("rawtypes")
 	public ConfiguracionForm(String id) {
 		super(id);
 		setMultiPart(false);
 		
-		Configuracion.getInstance().cargarConfiguracion();
-		
-		CompoundPropertyModel<Configuracion> model = new CompoundPropertyModel<Configuracion>(Configuracion.getInstance());
+		CompoundPropertyModel<Configuracion> model = new CompoundPropertyModel<Configuracion>(new Configuracion());
 		setModel(model);
 		
 		//UNIFICADOR CONFIGURATION
-		TextField<String> horaUnificador = new TextField<String>("horaUnificador",this.createBind(model,"horaUnificador"));
-		add(horaUnificador);
+		add(new TextField<String>("horaUnificador",this.createBind(model,"horaUnificador")));
 		
-		TextField<String> minutoUnificador = new TextField<String>("minutoUnificador",this.createBind(model,"minutoUnificador"));
-		add(minutoUnificador);
+		add(new TextField<String>("minutoUnificador",this.createBind(model,"minutoUnificador")));
 		
-		TextField<String> manianaOTardeUnificador = new TextField<String>("manianaOTardeUnificador",this.createBind(model,"manianaOTardeUnificador"));
-		add(manianaOTardeUnificador);
+		add(new TextField<String>("manianaOTardeUnificador",this.createBind(model,"manianaOTardeUnificador")));
 		
 		//MAIL CONFIGURATION
-		TextField<String> smtp = new TextField<String>("smtp",this.createBind(model,"smtp"));
-		add(smtp);
+		add(new TextField<String>("smtp",this.createBind(model,"smtp")));
 		
-		TextField<String> puerto = new TextField<String>("puerto",this.createBind(model,"puerto"));
-		add(puerto);
+		add(new TextField<String>("puerto",this.createBind(model,"puerto")));
 		
-		TextField<String> desde = new TextField<String>("desdeMail",this.createBind(model,"desdeMail"));
-		add(desde);
-		
-		CheckBox tls = new CheckBox("tls",this.createBindBoolean(model,"tls"));
-		add(tls);
-		
-		CheckBox auth = new CheckBox("auth",this.createBindBoolean(model,"auth"));
-		add(auth);
-		
-		TextField<String> user = new TextField<String>("user",this.createBind(model,"user"));
-		add(user);
-		
-		PasswordTextField password = new PasswordTextField("password",this.createBind(model,"password"));
-		add(password);
+		add(new TextField<String>("desdeMail",this.createBind(model,"desdeMail")));
 		
 		//PATHS CONFIGURATION
-		TextField<String> pathTempImages = new TextField<String>("pathTempImages",this.createBind(model,"pathTempImages"));
-		add(pathTempImages);
+		add(new TextField<String>("pathTempImages",this.createBind(model,"pathTempImages")));
 		
-		TextField<String> pathExportDesign = new TextField<String>("pathExportDesign",this.createBind(model,"pathExportDesign"));
-		add(pathExportDesign);
+		add(new TextField<String>("pathExportDesign",this.createBind(model,"pathExportDesign")));
 		
-		TextField<String> pathConfig = new TextField<String>("pathConfig",this.createBind(model,"pathConfig"));
-		add(pathConfig);
+		add(new TextField<String>("pathConfig",this.createBind(model,"pathConfig")));
 		
-		TextField<String> pathDownloadApp = new TextField<String>("pathDownloadApp",this.createBind(model,"pathDownloadApp"));
-		add(pathDownloadApp);
+		add(new TextField<String>("pathDownloadApp",this.createBind(model,"pathDownloadApp")));
 		
-		TextArea<String> keyGoogleMaps = new TextArea<String>("keyGoogleMap",this.createBind(model,"keyGoogleMap"));
-		add(keyGoogleMaps);
+		add(new TextArea<String>("keyGoogleMap",this.createBind(model,"keyGoogleMap")));
 		
-		add(new AjaxLink("guardarConfig"){
+		Button guardar =new Button("guardarConfig"){
+			@SuppressWarnings("unused")
 			@Override
-			public void onClick(AjaxRequestTarget target){
-				Configuracion configuracion = _self.getModelObject();
-				configuracion.guardarConfiguracion();
+			public void onSubmit(){
+				Configuracion config = _self.getModelObject();
+			}
+		};
+		guardar.setDefaultFormProcessing(false);
+		add(guardar);
+		
+		
+		SubmitLink cancelar = new SubmitLink("cancelar"){
+			public void onSubmit() {
 				_self.setResponsePage(LoginPage.class);
 			}
-		});
-		
-		add(new AjaxLink("cancelar"){
-			@Override
-			public void onClick(AjaxRequestTarget target){
-				_self.setResponsePage(LoginPage.class);
-			}
-		});
+		};
+		add(cancelar);
 		
 	}
 	
@@ -96,7 +70,4 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		return model.bind(property);
 	}
 	
-	private IModel<Boolean> createBindBoolean(CompoundPropertyModel<Configuracion> model,String property){
-		return model.bind(property);
-	}
 }
