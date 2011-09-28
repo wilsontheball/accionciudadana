@@ -8,7 +8,6 @@ package ar.com.thinksoft.ac.intac.utils.classes;
  */
 public abstract class FuncionRest {
 	// Funciones tipo GET
-	public static final String VALIDAR = "validar";
-	public static final String PERFIL = "perfil";
-	public static final String RECLAMOS = "reclamos";
+	public static final String GETPERFIL = "perfil";
+	public static final String GETRECLAMOS = "reclamos";
 }

@@ -1,4 +1,4 @@
-package ar.com.thinksoft.ac.andrac;
+package ar.com.thinksoft.ac.andrac.dominio;
 
 import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IPermitible;

@@ -38,7 +38,7 @@ public class RestHandler extends AbstractHandler
 			try {
 				String methodName = request.getRequestURI().substring(1);
 				System.out.println(methodName);
-				if (methodName.equalsIgnoreCase(FuncionRest.RECLAMOS)) {
+				if (methodName.equalsIgnoreCase(FuncionRest.GETRECLAMOS)) {
 					// Atiende pedido de reclamos de usuario.
 					// XXX por ahora siempre devuelve FRUTA!!!!!!!!!!!!!!!!
 					System.out.println("RECLAMOS");
@@ -49,7 +49,7 @@ public class RestHandler extends AbstractHandler
 					response.getWriter().write(new Gson().toJson(list));
 					// response.setStatus(HttpServletResponse.SC_OK);
 					req.setHandled(true);
-				} else if (methodName.equalsIgnoreCase(FuncionRest.PERFIL)) {
+				} else if (methodName.equalsIgnoreCase(FuncionRest.GETPERFIL)) {
 					// Atiende pedido de perfil de usuario.
 					// XXX por ahora siempre devuelve FRUTA!!!!!!!!!!!!!!!!
 					response.setContentType("application/json");
@@ -65,19 +65,10 @@ public class RestHandler extends AbstractHandler
 					response.getWriter().write(new Gson().toJson(usr));
 					System.out.println("PERFIL");
 					req.setHandled(true);
-				} else if (methodName.equalsIgnoreCase(FuncionRest.VALIDAR)) {
-					// Atiende validacion de user-pass.
-					// XXX por ahora siempre devuelve TRUE!!!!!!!!!!!!!!!!
-					System.out.println("VALIDAR");
-					response.setContentType("application/json");
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write(new Gson().toJson(true));
-					req.setHandled(true);
 				} else {
 					System.out.println("Funcion Desconocida:");
-					System.out.println("!= " + FuncionRest.RECLAMOS);
-					System.out.println("!= " + FuncionRest.PERFIL);
-					System.out.println("!= " + FuncionRest.VALIDAR);
+					System.out.println("!= " + FuncionRest.GETRECLAMOS);
+					System.out.println("!= " + FuncionRest.GETPERFIL);
 					req.setHandled(false);
 				}
 
