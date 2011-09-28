@@ -3,7 +3,6 @@ package ar.com.thinksoft.ac.webac.web.configuracion;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Serializable;
-import java.io.ObjectInputStream.GetField;
 
 import org.jdom.*;
 import org.jdom.input.SAXBuilder;
@@ -23,13 +22,18 @@ public class Configuracion implements Serializable{
 		return instance;
 	}
 	
-	private String horaUnificador;
-	private String minutoUnificador;
+	private Integer horaUnificador;
+	private Integer minutoUnificador;
 	private String manianaOTardeUnificador;
 	
 	private String smtp;
 	private String port;
 	private String fromMail;
+	private Boolean TLS;
+	private Boolean auth;
+	private String user;
+	private String password;
+	
 	
 	private String pathTempImages = "src/main/webapp/tempImages/";
 	private String pathExportDesign = "src/main/webapp/export/";
@@ -41,13 +45,17 @@ public class Configuracion implements Serializable{
 		Element configElement = new Element("configuracion");
 		Document configDocument = new Document(configElement);
 		
-		configElement.addContent(new Element("horaUnificador").addContent(this.getHoraUnificador()));
-		configElement.addContent(new Element("minutoUnificador").addContent(this.getMinutoUnificador()));
+		configElement.addContent(new Element("horaUnificador").addContent(this.getHoraUnificador().toString()));
+		configElement.addContent(new Element("minutoUnificador").addContent(this.getMinutoUnificador().toString()));
 		configElement.addContent(new Element("manianaOTardeUnificador").addContent(this.getManianaOTardeUnificador()));
 		
 		configElement.addContent(new Element("smtp").addContent(this.getSmtp()));
 		configElement.addContent(new Element("puerto").addContent(this.getPuerto()));
 		configElement.addContent(new Element("desde").addContent(this.getDesdeMail()));
+		configElement.addContent(new Element("tls").addContent(this.getTLS().toString()));
+		configElement.addContent(new Element("auth").addContent(this.getAuth().toString()));
+		configElement.addContent(new Element("user").addContent(this.getUser()));
+		configElement.addContent(new Element("password").addContent(this.getPassword()));
 		
 		configElement.addContent(new Element("pathTempImages").addContent(this.getPathTempImages()));
 		configElement.addContent(new Element("pathExportDesign").addContent(this.getPathExportDesign()));
@@ -64,7 +72,6 @@ public class Configuracion implements Serializable{
 		    
 		    FileWriter writer = new FileWriter(this.getPathConfig());
 			outputter.output(configDocument, writer);
-			outputter.output(configDocument, System.out);
 			writer.flush();
             writer.close();
             
@@ -83,13 +90,17 @@ public class Configuracion implements Serializable{
 			File xmlFile = new File(this.getPathConfig());
 			Document document = (Document) builder.build(xmlFile);
 			Element rootNode = document.getRootElement();
-			this.setHoraUnificador(rootNode.getChildText("horaUnificador"));
-			this.setMinutoUnificador(rootNode.getChildText("minutoUnificador"));
+			this.setHoraUnificador(Integer.valueOf(rootNode.getChildText("horaUnificador")));
+			this.setMinutoUnificador(Integer.valueOf(rootNode.getChildText("minutoUnificador")));
 			this.setManianaOTardeUnificador(rootNode.getChildText("manianaOTardeUnificador"));
 			
 			this.setSmtp(rootNode.getChildText("smtp"));
 			this.setPuerto(rootNode.getChildText("puerto"));
 			this.setDesdeMail(rootNode.getChildText("desde"));
+			this.setTLS(Boolean.valueOf(rootNode.getChildText("tls")));
+			this.setAuth(Boolean.valueOf(rootNode.getChildText("auth")));
+			this.setUser(rootNode.getChildText("user"));
+			this.setPassword(rootNode.getChildText("password"));
 			
 			this.setPathTempImages(rootNode.getChildText("pathTempImages"));
 			this.setPathExportDesign(rootNode.getChildText("pathExportDesign"));
@@ -103,16 +114,16 @@ public class Configuracion implements Serializable{
 		  }
 	}
 	
-	public void setHoraUnificador(String HoraUnificador) {
+	public void setHoraUnificador(Integer HoraUnificador) {
 		this.horaUnificador = HoraUnificador;
 	}
-	public String getHoraUnificador() {
+	public Integer getHoraUnificador() {
 		return this.horaUnificador;
 	}
-	public void setMinutoUnificador(String minutosUnificador) {
+	public void setMinutoUnificador(Integer minutosUnificador) {
 		this.minutoUnificador = minutosUnificador;
 	}
-	public String getMinutoUnificador() {
+	public Integer getMinutoUnificador() {
 		return this.minutoUnificador;
 	}
 	public void setManianaOTardeUnificador(String AMoPMUnificador) {
@@ -176,18 +187,36 @@ public class Configuracion implements Serializable{
 		return this.pathDownloadApp;
 	}
 	
-	public void clone(Configuracion config){
-		this.fromMail = config.getDesdeMail();
-		this.horaUnificador = config.getHoraUnificador();
-		this.keyGoogleMap = config.getKeyGoogleMap();
-		this.manianaOTardeUnificador = config.getManianaOTardeUnificador();
-		this.minutoUnificador = config.getMinutoUnificador();
-		this.pathConfig = config.getPathConfig();
-		this.pathDownloadApp = config.getPathDownloadApp();
-		this.pathExportDesign = config.getPathExportDesign();
-		this.pathTempImages = config.getPathTempImages();
-		this.port = config.getPuerto();
-		this.smtp = config.getSmtp();
+	public void setAuth(Boolean auth) {
+		this.auth = auth;
+	}
+
+	public Boolean getAuth() {
+		return auth;
+	}
+
+	public void setTLS(Boolean tLS) {
+		TLS = tLS;
+	}
+
+	public Boolean getTLS() {
+		return TLS;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPassword() {
+		return password;
 	}
 
 }

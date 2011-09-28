@@ -38,6 +38,7 @@ import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 import ar.com.thinksoft.ac.webac.web.export.ObjectDataSource;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
@@ -53,7 +54,6 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	
 	private DataGrid grid;
 	private BusquedaReclamoForm _self = this;
-	private static final String PATH = "src/main/webapp/export/";
 	private Dialog dialogCancelar = null;
 	private Dialog dialogCancelarError = null;
 	private Dialog dialogDetalle = null;
@@ -376,17 +376,17 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	    parameters.put("Title", "Listado de Reclamos - Accion Ciudadana");
 	
 	    try {
-	      // compile report design
-	      JasperReport jasperReport = JasperCompileManager.compileReport(PATH + "design.jrxml");
-	      
-	      // create an object datasourse from the reclamo's list
-	      ObjectDataSource dataSource = new ObjectDataSource(reclamos);
-	
-	      // fill the report 
-	      JasperPrint jasperPrint = JasperFillManager.fillReport(
-	          jasperReport, parameters, dataSource);
-	      
-	     arrayBytes = JasperExportManager.exportReportToPdf(jasperPrint);
+	    	// compile report design
+	    	Configuracion.getInstance().cargarConfiguracion();
+		    JasperReport jasperReport = JasperCompileManager.compileReport(Configuracion.getInstance().getPathExportDesign());
+		      
+		    // create an object datasourse from the reclamo's list
+		    ObjectDataSource dataSource = new ObjectDataSource(reclamos);
+		
+		    // fill the report 
+		    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+		      
+		    arrayBytes = JasperExportManager.exportReportToPdf(jasperPrint);
 	      
 	    } catch (JRException e) {
 	    	throw new Exception("Imposible exportar a pdf. Consulte con nuestro soporte tecnico");

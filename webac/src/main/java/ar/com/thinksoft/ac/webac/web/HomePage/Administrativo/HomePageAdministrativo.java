@@ -28,10 +28,11 @@ import ar.com.thinksoft.ac.webac.adminMap.ComunaManager;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 public class HomePageAdministrativo extends BasePage{
 	
-	private static String KEY = "ABQIAAAASNhk0DNhWwkPk0Y12RIrThTwM0brOpm-All5BF6PoaKBxRWWERRi58__PuwPgysGGKPkLxYHu8hULg";
+	private static String KEY = "";
 	private DataGrid gridActivos;
 	private DataGrid gridUltimosModificados;
 	
@@ -41,6 +42,10 @@ public class HomePageAdministrativo extends BasePage{
 	}
 	
 	public HomePageAdministrativo(final PageParameters parameters){
+		
+		Configuracion.getInstance().cargarConfiguracion();
+		KEY = Configuracion.getInstance().getKeyGoogleMap();
+		
 		add(CSSPackageResource.getHeaderContribution(HomePage.class,"../css/Home.css"));
 		
 		armarGrillaActiva();
