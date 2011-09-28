@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import ar.com.thinksoft.ac.andrac.R;
+import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.dominio.Usuario;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
@@ -70,8 +71,6 @@ public class PerfilUsuario extends Activity {
 		this.finish();
 	}
 
-	private String url = "http://10.24.192.183:6060/";
-
 	private EditText getSalida() {
 		return (EditText) findViewById(R.id.salida);
 	}
@@ -79,7 +78,9 @@ public class PerfilUsuario extends Activity {
 	public void probar(View v) {
 		// XXX Probando JSON!!!!!!!!!!!!!!!!!!!!!!!!!!
 		getSalida().append("Conectando...\n");
-		String respuesta = this.getJSONdata(this.url);
+		String respuesta = this
+				.getJSONdata(((Aplicacion) this.getApplication())
+						.getRepositorio().getSrvUrl());
 		getSalida().append(respuesta);
 		// RestClient.connect(url);
 	}
@@ -89,7 +90,7 @@ public class PerfilUsuario extends Activity {
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			// XXX Obtiene reclamos
-			HttpGet method = new HttpGet(url + FuncionRest.GETRECLAMOS);
+			HttpGet method = new HttpGet(url + "/" + FuncionRest.GETRECLAMOS);
 			HttpResponse httpResponse = httpClient.execute(method);
 			InputStream is = httpResponse.getEntity().getContent();
 			Gson gson = new Gson();

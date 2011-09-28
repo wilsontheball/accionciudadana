@@ -52,20 +52,18 @@ public class Repositorio {
 		ArrayList<Reclamo> lista = new ArrayList<Reclamo>();
 
 		// XXX Solo para probar.......
-
-		Reclamo rec = new Reclamo();
-		rec.setAlturaIncidente("45");
-		rec.setBarrioIncidente("Belgrano");
-		rec.setCalleIncidente("Cabildo");
-		rec.setCiudadanoGeneradorReclamo("pepe");
-		rec.setFechaReclamo("hoy");
-		rec.setTipoIncidente("CACA DE PERRO");
-
-		lista.add(rec);
-
+		for (int i = 0; i < 100; i++) {
+			Reclamo rec = new Reclamo();
+			rec.setAlturaIncidente("45");
+			rec.setBarrioIncidente("Belgrano");
+			rec.setCalleIncidente("Cabildo");
+			rec.setCiudadanoGeneradorReclamo("pepe");
+			rec.setFechaReclamo("hoy " + i);
+			rec.setTipoIncidente("CACA DE PERRO");
+			lista.add(rec);
+		}
 		// XXX fin
 
 		return lista;
 	}
-
 }

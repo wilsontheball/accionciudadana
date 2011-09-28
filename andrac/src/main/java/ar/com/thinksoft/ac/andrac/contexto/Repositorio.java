@@ -36,7 +36,7 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Abstrae la conexion remota a la base de datos
  * 
- * @since 11-09-2011
+ * @since 27-09-2011
  * @author Paul
  */
 public class Repositorio {
@@ -44,6 +44,7 @@ public class Repositorio {
 	byte[] imagenBytes = null;
 	private Usuario usuarioActual = null;
 	private String nombreUsuario = null;
+	private List<Reclamo> reclamos = null;
 
 	/**
 	 * Devuelve la URL del servidor.
@@ -53,7 +54,7 @@ public class Repositorio {
 	 * @return URL del servidor REST
 	 */
 	public String getSrvUrl() {
-		return "http://192.168.1.108:6060";
+		return "http://10.24.192.183:6060";
 	}
 
 	/**
@@ -120,9 +121,25 @@ public class Repositorio {
 	public ReclamoItem[] getReclamosUsuario() {
 		ArrayList<ReclamoItem> listaItems = new ArrayList<ReclamoItem>();
 
+		if (this.reclamos != null) {
+			for (Reclamo rec : this.reclamos) {
+				listaItems.add(new ReclamoItem(rec.getEstadoDescripcion(), rec
+						.getTipoIncidente(), rec.getCalleIncidente() + " "
+						+ rec.getAlturaIncidente(), rec.getFechaReclamo()));
+			}
+		}
+		ReclamoItem[] arrayItems = new ReclamoItem[listaItems.size()];
+
+		// Se hace asi por que falla el metodo de conversion de lista.
+		int i = 0;
+		for (ReclamoItem item : listaItems) {
+			arrayItems[i++] = item;
+		}
+		return arrayItems;
+
 		// XXX Es solo para probar!!!!!!!!!!!!!!
-		ReclamoItem[] arrayVacio = new ReclamoItem[0];
-		return arrayVacio;
+		// ReclamoItem[] arrayVacio = new ReclamoItem[0];
+		// return arrayVacio;
 		// XXX Hasta aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		// TODO Falta implementar validaciones en la conexion al servidor.
@@ -139,6 +156,19 @@ public class Repositorio {
 		// "19-Agosto-2011"),
 		// new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
 		// "20-Agosto-2011"), };
+	}
+
+	/**
+	 * Guarda los reclamos realizados del usuario tal como llegaron del
+	 * servidor.
+	 * 
+	 * @since 28-09-2011
+	 * @author Paul
+	 * @param reclamos
+	 *            Array de reclamos tal como llego de servidor.
+	 */
+	public void setReclamosUsuario(List<Reclamo> reclamos) {
+		this.reclamos = reclamos;
 	}
 
 	public boolean publicarReclamoDireccion(String tipo, String barrio,

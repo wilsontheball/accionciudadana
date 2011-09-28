@@ -1,7 +1,9 @@
 package ar.com.thinksoft.ac.wilsond;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,41 +21,63 @@ import com.google.gson.Gson;
 /**
  * Maneja los pedidos de distintos webservicies.
  * 
- * @since 24-09-2011
+ * @since 28-09-2011
  * @author Paul
  */
 public class RestHandler extends AbstractHandler
 
-// TODO No es funcional!!! Por ahora simpre devuelve reclamos. Falta implementar
-// el resto de las funcionalidades!!!!!!!
+// TODO No es funcional!!! Falta implementar el resto de las
+// funcionalidades!!!!!!!
 {
 	public void handle(String target, Request baseRequest,
 			HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
+
+		String funcion = null;
+		String nick = null;
+		String pass = null;
 
 		if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.GET)) {
 			// Atiende los GET
 			Request req = (request instanceof Request ? (Request) request
 					: HttpConnection.getCurrentConnection().getRequest());
 			try {
-				String methodName = request.getRequestURI().substring(1);
-				System.out.println(methodName);
-				if (methodName.equalsIgnoreCase(FuncionRest.GETRECLAMOS)) {
+				StringTokenizer tokens = new StringTokenizer(
+						request.getRequestURI(), "/");
+				if (tokens.hasMoreElements()) {
+					funcion = (String) tokens.nextElement();
+				}
+				if (tokens.hasMoreElements()) {
+					nick = (String) tokens.nextElement();
+				}
+				if (tokens.hasMoreElements()) {
+					pass = (String) tokens.nextElement();
+				}
+
+				// String funcion = request.getRequestURI().substring(1);
+
+				System.out.println("[" + new Date().toString() + "] " + funcion
+						+ "::" + nick + "::" + pass);
+
+				if (funcion.equalsIgnoreCase(FuncionRest.GETRECLAMOS)) {
 					// Atiende pedido de reclamos de usuario.
+
 					// XXX por ahora siempre devuelve FRUTA!!!!!!!!!!!!!!!!
-					System.out.println("RECLAMOS");
 					List<Reclamo> list = Repositorio.getInstancia()
 							.getReclamos("usuario");
 					response.setContentType("application/json");
 					response.setCharacterEncoding("UTF-8");
+					// XXX hasta aca FRUTA!!!!!!!!!!!!!!!!
+
 					response.getWriter().write(new Gson().toJson(list));
 					// response.setStatus(HttpServletResponse.SC_OK);
 					req.setHandled(true);
-				} else if (methodName.equalsIgnoreCase(FuncionRest.GETPERFIL)) {
+				} else if (funcion.equalsIgnoreCase(FuncionRest.GETPERFIL)) {
 					// Atiende pedido de perfil de usuario.
-					// XXX por ahora siempre devuelve FRUTA!!!!!!!!!!!!!!!!
 					response.setContentType("application/json");
 					response.setCharacterEncoding("UTF-8");
+
+					// XXX por ahora siempre devuelve FRUTA!!!!!!!!!!!!!!!!
 					Usuario usr = new Usuario();
 					usr.setApellido("Fulano");
 					usr.setContrasenia("123");
@@ -62,11 +86,13 @@ public class RestHandler extends AbstractHandler
 					usr.setNombre("Pepe");
 					usr.setNombreUsuario("pepe");
 					usr.setTelefono(1540405050L);
+					// XXX hasta aqui FRUTA!!!!!!!!!!!!!!!!
+
 					response.getWriter().write(new Gson().toJson(usr));
-					System.out.println("PERFIL");
 					req.setHandled(true);
 				} else {
-					System.out.println("Funcion Desconocida:");
+					System.out.print("[" + new Date().toString() + "] "
+							+ "Funcion Desconocida:");
 					System.out.println("!= " + FuncionRest.GETRECLAMOS);
 					System.out.println("!= " + FuncionRest.GETPERFIL);
 					req.setHandled(false);

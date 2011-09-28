@@ -38,53 +38,43 @@ public class Reclamo extends ReclamoMovil {
 	}
 
 	public String getCalleIncidente() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.nombreCalle;
 	}
 
 	public String getAlturaIncidente() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.alturaCalle;
 	}
 
 	public String getLatitudIncidente() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.latitudIncidente;
 	}
 
 	public String getLongitudIncidente() {
-		// TODO Auto-generated method stub
-		return null;
+		return longitudIncidente;
 	}
 
 	public String getTipoIncidente() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.tipoIncidente;
 	}
 
 	public String getFechaReclamo() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.fechaCreacion;
 	}
 
 	public String getFechaUltimaModificacionReclamo() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.fechaModificacion;
 	}
 
 	public String getCiudadanoGeneradorReclamo() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.nombreCiudadano;
 	}
 
 	public String getObservaciones() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.observaciones;
 	}
 
 	public String getBarrioIncidente() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.nombreBarrio;
 	}
 
 	public String getComunaIncidente() {
@@ -131,37 +121,30 @@ public class Reclamo extends ReclamoMovil {
 
 	public void setLongitudIncidente(String longitud) {
 		this.longitudIncidente = longitud;
-
 	}
 
 	public void setTipoIncidente(String tipo) {
-		// TODO Auto-generated method stub
-
+		this.tipoIncidente = tipo;
 	}
 
 	public void setFechaReclamo(String fechaYHora) {
-		// TODO Auto-generated method stub
-
+		this.fechaCreacion = fechaYHora;
 	}
 
 	public void setFechaUltimaModificacionReclamo(String fecha) {
-		// TODO Auto-generated method stub
-
+		this.fechaModificacion = fecha;
 	}
 
 	public void setCiudadanoGeneradorReclamo(String ciudadano) {
-		// TODO Auto-generated method stub
-
+		this.nombreCiudadano = ciudadano;
 	}
 
 	public void setObservaciones(String observaciones) {
-		// TODO Auto-generated method stub
-
+		this.observaciones = observaciones;
 	}
 
 	public void setBarrioIncidente(String barrio) {
-		// TODO Auto-generated method stub
-
+		this.nombreBarrio = barrio;
 	}
 
 	public void setComunaIncidentePorBarrio(String barrio) {
