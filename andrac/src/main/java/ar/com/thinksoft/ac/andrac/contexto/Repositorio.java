@@ -11,7 +11,6 @@ import java.util.List;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -24,7 +23,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
 import ar.com.thinksoft.ac.andrac.adapter.ReclamoItem;
 import ar.com.thinksoft.ac.andrac.dominio.Imagen;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
@@ -42,9 +40,10 @@ import com.google.gson.reflect.TypeToken;
 public class Repositorio {
 
 	byte[] imagenBytes = null;
-	private Usuario usuarioActual = null;
-	private String nombreUsuario = null;
+	private Usuario perfilUsuario = null;
 	private List<Reclamo> reclamos = null;
+	private String nombreUsuario = "nick";
+	private String pass = "pass";
 
 	/**
 	 * Devuelve la URL del servidor.
@@ -136,26 +135,6 @@ public class Repositorio {
 			arrayItems[i++] = item;
 		}
 		return arrayItems;
-
-		// XXX Es solo para probar!!!!!!!!!!!!!!
-		// ReclamoItem[] arrayVacio = new ReclamoItem[0];
-		// return arrayVacio;
-		// XXX Hasta aqui!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-		// TODO Falta implementar validaciones en la conexion al servidor.
-		// List<Reclamo> reclamos = this.obtenerReclamos(this.nombreUsuario);
-		// for (Reclamo rec : reclamos) {
-		// listaItems.add(new ReclamoItem(rec.getEstadoDescripcion(), rec
-		// .getTipoIncidente(), rec.getCalleIncidente() + " "
-		// + rec.getAlturaIncidente(), rec.getFechaReclamo()));
-		// }
-		// return (ReclamoItem[]) listaItems.toArray();
-
-		// return new ReclamoItem[] {
-		// new ReclamoItem("Activo", "Bache", "Rivadavia 9345",
-		// "19-Agosto-2011"),
-		// new ReclamoItem("Suspendido", "Arbol Caido", "Rivadavia 9345",
-		// "20-Agosto-2011"), };
 	}
 
 	/**
@@ -282,12 +261,12 @@ public class Repositorio {
 		return this.imagenBytes;
 	}
 
-	public Usuario getUsuarioActual() {
-		return this.usuarioActual;
+	public Usuario getPerfilUsuario() {
+		return this.perfilUsuario;
 	}
 
-	public void setUsuarioActual(Usuario usuario) {
-		this.usuarioActual = usuario;
+	public void setPerfilUsuario(Usuario perfil) {
+		this.perfilUsuario = perfil;
 	}
 
 	public String getNombreUsuario() {
@@ -298,33 +277,16 @@ public class Repositorio {
 		this.nombreUsuario = usuario;
 	}
 
-	private InputStream obtenerFlujoEntrada(String url) {
-
-		DefaultHttpClient client = new DefaultHttpClient();
-
-		HttpGet getRequest = new HttpGet(url);
-
-		try {
-
-			HttpResponse getResponse = client.execute(getRequest);
-			final int statusCode = getResponse.getStatusLine().getStatusCode();
-
-			if (statusCode != HttpStatus.SC_OK) {
-				Log.w(getClass().getSimpleName(), "Error " + statusCode
-						+ " for URL " + url);
-				return null;
-			}
-
-			HttpEntity getResponseEntity = getResponse.getEntity();
-			return getResponseEntity.getContent();
-
-		} catch (IOException e) {
-			getRequest.abort();
-			Log.w(getClass().getSimpleName(), "Error for URL " + url, e);
-		}
-
-		return null;
-
+	public void setPass(String pass) {
+		this.pass = pass;
 	}
 
+	public String getPass() {
+		// Aseguro que no devuelva null;
+		if (this.pass == null) {
+			return "";
+		} else {
+			return this.pass;
+		}
+	}
 }

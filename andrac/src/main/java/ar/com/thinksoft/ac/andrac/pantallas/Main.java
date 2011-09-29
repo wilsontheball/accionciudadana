@@ -25,7 +25,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * La clase se encarga de manejar la pantalla Home.
  * 
- * @since 25-09-2011
+ * @since 29-09-2011
  * @author Paul
  */
 public class Main extends Activity implements ReceptorRest {
@@ -73,14 +73,15 @@ public class Main extends Activity implements ReceptorRest {
 	 * @since 17-08-2011
 	 * @author Paul
 	 */
-	@Override
-	protected void onStart() {
-		super.onStart();
-		// Muestra la ventana Login una sola vez
-		if (this.getAplicacion().getResultadoLogin() == Activity.RESULT_FIRST_USER) {
-			this.mostrarLogin();
-		}
-	}
+	// @Override
+	// protected void onStart() {
+	// super.onStart();
+	// // Muestra la ventana Login una sola vez
+	// if (this.getAplicacion().getResultadoLogin() ==
+	// Activity.RESULT_FIRST_USER) {
+	// this.mostrarLogin();
+	// }
+	// }
 
 	/**
 	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
@@ -146,9 +147,9 @@ public class Main extends Activity implements ReceptorRest {
 	 * @since 19-07-2011
 	 * @author Paul
 	 */
-	private void mostrarLogin() {
-		this.startActivityForResult(new Intent(this, Login.class), 0);
-	}
+	// private void mostrarLogin() {
+	// this.startActivityForResult(new Intent(this, Login.class), 0);
+	// }
 
 	/**
 	 * Muestra una ventana segun la opcion seleccionada en la lista.
@@ -166,7 +167,7 @@ public class Main extends Activity implements ReceptorRest {
 			this.iniciarServicioRest(FuncionRest.GETRECLAMOS);
 			break;
 		case PERFIL_USUARIO:
-			this.startActivity(new Intent(this, PerfilUsuario.class));
+			this.iniciarServicioRest(FuncionRest.GETPERFIL);
 			break;
 		default:
 			break;
@@ -181,6 +182,16 @@ public class Main extends Activity implements ReceptorRest {
 	 */
 	private void mostrarVentanaReclamos() {
 		this.startActivity(new Intent(this, ListaReclamos.class));
+	}
+
+	/**
+	 * Muestra la ventana de perfil de usuario.
+	 * 
+	 * @since 29-09-2011
+	 * @author Paul
+	 */
+	private void mostrarVentanaPerfil() {
+		this.startActivity(new Intent(this, PerfilUsuario.class));
 	}
 
 	/**
@@ -222,7 +233,7 @@ public class Main extends Activity implements ReceptorRest {
 	 * Muestra una ventana dialogo "Procesando". Al hacer clic en el boton
 	 * finaliza servicio que corre en este momento.
 	 * 
-	 * @since 28-09-2011
+	 * @since 29-09-2011
 	 * @author Paul
 	 * @param mensaje
 	 *            Texto que se va a mostrar en el dialogo.
@@ -234,12 +245,13 @@ public class Main extends Activity implements ReceptorRest {
 		String mensaje = "no tiene mensaje!!";
 		if (FuncionRest.GETRECLAMOS.equals(funcion)) {
 			mensaje = getString(R.string.obteniendo_reclamos);
+		} else if (FuncionRest.GETPERFIL.equals(funcion)) {
+			mensaje = getString(R.string.obteniendo_perfil);
 		} else {
-			Log.d(this.getClass().getName(), "Error Funcion: " + funcion);
+			Log.d(this.getClass().getName(), "Funcion sin mensaje: " + funcion);
 			this.cancelarServicioRest();
 			return;
 		}
-
 		this.procesando.setMessage(mensaje);
 		this.procesando.setButton(getString(R.string.cancelar),
 				new DialogInterface.OnClickListener() {
@@ -311,7 +323,12 @@ public class Main extends Activity implements ReceptorRest {
 		case ServicioRest.FIN:
 			// Servicio Finalizo: Cierra dialogo procesando.
 			this.cerrarProcesando();
-			this.mostrarVentanaReclamos();
+			if (FuncionRest.GETRECLAMOS.equals(funcion)) {
+				this.mostrarVentanaReclamos();
+			} else if (FuncionRest.GETPERFIL.equals(funcion)) {
+				this.mostrarVentanaPerfil();
+			}
+
 			break;
 		case ServicioRest.ERROR:
 			// Servicio Fallo: Cierra dialogo procesando.

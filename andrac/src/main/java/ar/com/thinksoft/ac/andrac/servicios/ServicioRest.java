@@ -23,12 +23,13 @@ import android.util.Log;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
+import ar.com.thinksoft.ac.andrac.dominio.Usuario;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 
 /**
  * Se encarga de correr en 2do plano todas las funciones de conexion a servidor.
  * 
- * @since 28-09-2011
+ * @since 29-09-2011
  * @author Paul
  */
 public class ServicioRest extends IntentService {
@@ -54,38 +55,50 @@ public class ServicioRest extends IntentService {
 		Log.d(this.getClass().getName(), receptor.toString());
 		String funcion = intent.getStringExtra(FUN);
 		Log.d(this.getClass().getName(), funcion);
-		if (funcion.equals(FuncionRest.GETRECLAMOS)) {
-			Bundle bundle = new Bundle();
-			bundle.putString(FUN, FuncionRest.GETRECLAMOS);
+
+		Bundle bundle = new Bundle();
+		try {
+			bundle.putString(FUN, funcion);
 			receptor.send(RUN, bundle);
-			try {
+			if (FuncionRest.GETRECLAMOS.equals(funcion)) {
+				// Funcion GET Reclamos.
 				this.getReclamos(this.getRepo().getSrvUrl());
-				bundle.putString(FUN, FuncionRest.GETRECLAMOS);
-				receptor.send(FIN, bundle);
-			} catch (ClientProtocolException e) {
-				bundle.putString(FUN, FuncionRest.GETRECLAMOS);
+			} else if (FuncionRest.GETPERFIL.equals(funcion)) {
+				// Funcion GET Perfil.
+				this.getPerfil(this.getRepo().getSrvUrl());
+			} else {
+				// Funcion desconocida!
+				bundle.putString(FUN, funcion);
 				receptor.send(ERROR, bundle);
-				Log.e(this.getClass().getName(), e.toString());
-			} catch (IOException e) {
-				bundle.putString(FUN, FuncionRest.GETRECLAMOS);
-				receptor.send(ERROR, bundle);
-				Log.e(this.getClass().getName(), e.toString());
-			} catch (Exception e) {
-				bundle.putString(FUN, FuncionRest.GETRECLAMOS);
-				receptor.send(ERROR, bundle);
-				Log.e(this.getClass().getName(), e.toString());
+				this.stopSelf();
+				Log.e(this.getClass().getName(), "Funcion desconocida!");
+				return;
 			}
-		} else {
-			Log.d(this.getClass().getName(),
-					"Funcion desconocida: " + funcion.toString());
+			bundle.putString(FUN, funcion);
+			receptor.send(FIN, bundle);
 			this.stopSelf();
+		} catch (ClientProtocolException e) {
+			bundle.putString(FUN, funcion);
+			receptor.send(ERROR, bundle);
+			this.stopSelf();
+			Log.e(this.getClass().getName(), e.toString());
+		} catch (IOException e) {
+			bundle.putString(FUN, funcion);
+			receptor.send(ERROR, bundle);
+			this.stopSelf();
+			Log.e(this.getClass().getName(), e.toString());
+		} catch (Exception e) {
+			bundle.putString(FUN, funcion);
+			receptor.send(ERROR, bundle);
+			this.stopSelf();
+			Log.e(this.getClass().getName(), e.toString());
 		}
 	}
 
 	/**
 	 * Obtiene los reclamos del servidor Rest.
 	 * 
-	 * @since 20-09-2011
+	 * @since 28-09-2011
 	 * @author Paul
 	 * @param url
 	 *            URL del servidor.
@@ -94,10 +107,10 @@ public class ServicioRest extends IntentService {
 	 */
 	private void getReclamos(String url) throws ClientProtocolException,
 			IOException {
-		String respuesta = "";
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETRECLAMOS + "/"
-				+ "nick" + "/" + "pass");
+				+ this.getRepo().getNombreUsuario() + "/"
+				+ this.getRepo().getPass());
 		HttpResponse httpResponse = httpClient.execute(method);
 		InputStream is = httpResponse.getEntity().getContent();
 		Gson gson = new Gson();
@@ -108,6 +121,7 @@ public class ServicioRest extends IntentService {
 		this.getRepo().setReclamosUsuario(reclamos);
 
 		// XXX Imprime reclamos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		String respuesta = "";
 		respuesta = respuesta + "RECLAMOS\n";
 		for (Reclamo d : reclamos) {
 			respuesta = respuesta + " : " + d.getCalleIncidente() + " - "
@@ -116,6 +130,30 @@ public class ServicioRest extends IntentService {
 		}
 		Log.d(this.getClass().getName(), respuesta);
 		// XXX Imprime reclamos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	}
+
+	/**
+	 * Obtiene perfil de usuario del servidor Rest.
+	 * 
+	 * @since 29-09-2011
+	 * @author Paul
+	 * @param url
+	 *            URL del servidor.
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	private void getPerfil(String url) throws ClientProtocolException,
+			IOException {
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETPERFIL + "/"
+				+ this.getRepo().getNombreUsuario() + "/"
+				+ this.getRepo().getPass());
+		HttpResponse httpResponse = httpClient.execute(method);
+		InputStream is = httpResponse.getEntity().getContent();
+		Gson gson = new Gson();
+		Reader reader = new InputStreamReader(is);
+		Usuario perfil = gson.fromJson(reader, Usuario.class);
+		this.getRepo().setPerfilUsuario(perfil);
 	}
 
 	/**
