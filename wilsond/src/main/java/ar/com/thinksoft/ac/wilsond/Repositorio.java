@@ -6,6 +6,7 @@ import java.util.List;
 
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
+import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 
 /**
  * Representa un repositorio de reclamos. Implementa Singleton. Internamente se
@@ -62,17 +63,9 @@ public class Repositorio {
 		rec1.setCalleIncidente("Cabildo");
 		rec1.setCiudadanoGeneradorReclamo("pepe");
 		rec1.setFechaReclamo(new Date().toString());
-		rec1.setTipoIncidente(EnumEstadosReclamo.activo.getEstado());
+		rec1.cambiarEstado(EnumEstadosReclamo.activo.getEstado());
+		rec1.setTipoIncidente(EnumTipoReclamo.accesibilidad.getTipo());
 		lista.add(rec1);
-
-		Reclamo rec2 = new Reclamo();
-		rec2.setAlturaIncidente("245");
-		rec2.setBarrioIncidente(EnumBarriosReclamo.Belgrano.getBarrio());
-		rec2.setCalleIncidente("Cabildo");
-		rec2.setCiudadanoGeneradorReclamo("pepe");
-		rec2.setFechaReclamo(new Date().toString());
-		rec2.setTipoIncidente(EnumEstadosReclamo.asociado.getEstado());
-		lista.add(rec2);
 
 		Reclamo rec3 = new Reclamo();
 		rec3.setAlturaIncidente("345");
@@ -80,7 +73,8 @@ public class Repositorio {
 		rec3.setCalleIncidente("Cabildo");
 		rec3.setCiudadanoGeneradorReclamo("pepe");
 		rec3.setFechaReclamo(new Date().toString());
-		rec3.setTipoIncidente(EnumEstadosReclamo.cancelado.getEstado());
+		rec3.cambiarEstado(EnumEstadosReclamo.cancelado.getEstado());
+		rec3.setTipoIncidente(EnumTipoReclamo.bache.getTipo());
 		lista.add(rec3);
 
 		Reclamo rec4 = new Reclamo();
@@ -89,7 +83,8 @@ public class Repositorio {
 		rec4.setCalleIncidente("Cabildo");
 		rec4.setCiudadanoGeneradorReclamo("pepe");
 		rec4.setFechaReclamo(new Date().toString());
-		rec4.setTipoIncidente(EnumEstadosReclamo.demorado.getEstado());
+		rec4.cambiarEstado(EnumEstadosReclamo.demorado.getEstado());
+		rec4.setTipoIncidente(EnumTipoReclamo.caidaObjetos.getTipo());
 		lista.add(rec4);
 
 		Reclamo rec5 = new Reclamo();
@@ -98,7 +93,8 @@ public class Repositorio {
 		rec5.setCalleIncidente("Cabildo");
 		rec5.setCiudadanoGeneradorReclamo("pepe");
 		rec5.setFechaReclamo(new Date().toString());
-		rec5.setTipoIncidente(EnumEstadosReclamo.enProgreso.getEstado());
+		rec5.cambiarEstado(EnumEstadosReclamo.enProgreso.getEstado());
+		rec5.setTipoIncidente(EnumTipoReclamo.elementosViales.getTipo());
 		lista.add(rec5);
 
 		Reclamo rec6 = new Reclamo();
@@ -107,7 +103,8 @@ public class Repositorio {
 		rec6.setCalleIncidente("Cabildo");
 		rec6.setCiudadanoGeneradorReclamo("pepe");
 		rec6.setFechaReclamo(new Date().toString());
-		rec6.setTipoIncidente(EnumEstadosReclamo.suspendido.getEstado());
+		rec6.cambiarEstado(EnumEstadosReclamo.suspendido.getEstado());
+		rec6.setTipoIncidente(EnumTipoReclamo.inundaciones.getTipo());
 		lista.add(rec6);
 
 		Reclamo rec7 = new Reclamo();
@@ -116,7 +113,8 @@ public class Repositorio {
 		rec7.setCalleIncidente("Cabildo");
 		rec7.setCiudadanoGeneradorReclamo("pepe");
 		rec7.setFechaReclamo(new Date().toString());
-		rec7.setTipoIncidente(EnumEstadosReclamo.terminado.getEstado());
+		rec7.cambiarEstado(EnumEstadosReclamo.terminado.getEstado());
+		rec7.setTipoIncidente(EnumTipoReclamo.roturaElementosPublicos.getTipo());
 		lista.add(rec7);
 		// XXX fin
 

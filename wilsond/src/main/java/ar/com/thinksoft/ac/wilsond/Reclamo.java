@@ -72,8 +72,7 @@ public class Reclamo extends ReclamoMovil {
 	}
 
 	public String getEstadoDescripcion() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.estadoReclamo;
 	}
 
 	public String getPrioridad() {
@@ -157,8 +156,7 @@ public class Reclamo extends ReclamoMovil {
 	}
 
 	public void cambiarEstado(String estadoDescripcion) {
-		// TODO Auto-generated method stub
-
+		this.estadoReclamo = estadoDescripcion;
 	}
 
 	public boolean isNotDown() {

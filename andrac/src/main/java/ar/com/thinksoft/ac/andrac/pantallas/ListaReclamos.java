@@ -1,11 +1,14 @@
 package ar.com.thinksoft.ac.andrac.pantallas;
 
+import java.util.StringTokenizer;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -141,7 +144,7 @@ public class ListaReclamos extends Activity {
 							}).create();
 		default:
 			return new AlertDialog.Builder(ListaReclamos.this)
-					.setIcon(R.drawable.ic_popup_reminder)
+					.setIcon(this.obtenerIcono(this.reclamo.getEstado()))
 					.setTitle(this.reclamo.getEstado())
 					.setMessage(this.reclamo.getResumen())
 					.setPositiveButton(R.string.ok,
@@ -152,5 +155,26 @@ public class ListaReclamos extends Activity {
 								}
 							}).create();
 		}
+	}
+
+	private int obtenerIcono(String estadoOriginal) {
+		try {
+			String estado = this.limpiarCadena(estadoOriginal);
+			Log.d(this.getClass().getName(), "Estado:" + estado);
+			return this.getResources().getIdentifier(estado, "drawable",
+					"ar.com.thinksoft.ac.andrac");
+		} catch (Exception e) {
+			Log.e(this.getClass().getName(), e.toString());
+			return R.drawable.alert_dialog_icon;
+		}
+	}
+
+	private String limpiarCadena(String s) {
+		StringTokenizer st = new StringTokenizer(s.toLowerCase().trim(), " ",
+				false);
+		String t = "";
+		while (st.hasMoreElements())
+			t += st.nextElement();
+		return t;
 	}
 }

@@ -1,10 +1,6 @@
 package ar.com.thinksoft.ac.andrac.contexto;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +9,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -29,7 +24,6 @@ import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.dominio.Usuario;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * Abstrae la conexion remota a la base de datos
@@ -54,7 +48,8 @@ public class Repositorio {
 	 */
 	public String getSrvUrl() {
 		// return "http://10.24.192.183:6060";
-		return "http://192.168.1.108:6060";
+		// return "http://192.168.1.108:6060";
+		return "http://96.126.102.85:6060";
 	}
 
 	/**

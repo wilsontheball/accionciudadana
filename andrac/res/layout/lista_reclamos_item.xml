@@ -14,6 +14,6 @@
 		<TextView android:id="@+id/item_direccion"
 			android:layout_width="match_parent" android:layout_height="wrap_content"
 			android:textStyle="normal" android:textAppearance="@android:style/TextAppearance.Small"
-			android:text="SubTitulo" />
+			android:text="SubTitulo" android:textColor="@color/color_texto" />
 	</LinearLayout>
 </LinearLayout>
