@@ -60,6 +60,7 @@
 	</string>
 	<string name="obteniendo_reclamos">Obteniendo reclamos...</string>
 	<string name="obteniendo_perfil">Obteniendo datos de perfil...</string>
+	<string name="perfil_titulo">Perfil de Usuario</string>
 	<string-array name="tipoincidente_array">
 		<item>Bache</item>
 		<item>Caída de Objetos</item>

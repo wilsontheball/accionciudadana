@@ -33,14 +33,14 @@ public class Main extends Activity implements ReceptorRest {
 	private final int INICIAR_RECLAMO = 0;
 	private final int LISTA_RECLAMOS = 1;
 	private final int PERFIL_USUARIO = 2;
+	private final int REGISTRAR_USUARIO = 3;
 
-	private ProgressDialog procesando = null;
+	private String[] ventanas = { "Iniciar Reclamo", "Lista Reclamos",
+			"Perfil Usuario", "Registrar Usuario" };
 
 	private Intent servicioRest;
 	private ReceptorResultados receptor;
-
-	private String[] ventanas = { "Iniciar Reclamo", "Lista Reclamos",
-			"Perfil Usuario" };
+	private ProgressDialog procesando = null;
 
 	/**
 	 * Se encarga de la creacion de la ventana.
@@ -161,7 +161,7 @@ public class Main extends Activity implements ReceptorRest {
 	private void mostrarVentana(int posicion) {
 		switch (posicion) {
 		case INICIAR_RECLAMO:
-			this.startActivity(new Intent(this, IniciarReclamo.class));
+			this.mostrarVentanaReclamo();
 			break;
 		case LISTA_RECLAMOS:
 			this.iniciarServicioRest(FuncionRest.GETRECLAMOS);
@@ -169,29 +169,12 @@ public class Main extends Activity implements ReceptorRest {
 		case PERFIL_USUARIO:
 			this.iniciarServicioRest(FuncionRest.GETPERFIL);
 			break;
+		case REGISTRAR_USUARIO:
+			this.mostrarVentanaRegistro();
+			break;
 		default:
 			break;
 		}
-	}
-
-	/**
-	 * Muestra la ventana de reclamos de usuario.
-	 * 
-	 * @since 25-09-2011
-	 * @author Paul
-	 */
-	private void mostrarVentanaReclamos() {
-		this.startActivity(new Intent(this, ListaReclamos.class));
-	}
-
-	/**
-	 * Muestra la ventana de perfil de usuario.
-	 * 
-	 * @since 29-09-2011
-	 * @author Paul
-	 */
-	private void mostrarVentanaPerfil() {
-		this.startActivity(new Intent(this, PerfilUsuario.class));
 	}
 
 	/**
@@ -340,7 +323,7 @@ public class Main extends Activity implements ReceptorRest {
 	}
 
 	/**
-	 * Devuelve repector.
+	 * Devuelve receptor.
 	 * 
 	 * @since 28-09-2011
 	 * @author Paul
@@ -352,6 +335,46 @@ public class Main extends Activity implements ReceptorRest {
 			this.receptor.setReceiver(this);
 		}
 		return receptor;
+	}
+
+	/**
+	 * Muestra la ventana de reclamo.
+	 * 
+	 * @since 29-09-2011
+	 * @author Paul
+	 */
+	private void mostrarVentanaReclamo() {
+		this.startActivity(new Intent(this, IniciarReclamo.class));
+	}
+
+	/**
+	 * Muestra la ventana de reclamos de usuario.
+	 * 
+	 * @since 25-09-2011
+	 * @author Paul
+	 */
+	private void mostrarVentanaReclamos() {
+		this.startActivity(new Intent(this, ListaReclamos.class));
+	}
+
+	/**
+	 * Muestra la ventana de perfil de usuario.
+	 * 
+	 * @since 29-09-2011
+	 * @author Paul
+	 */
+	private void mostrarVentanaPerfil() {
+		this.startActivity(new Intent(this, PerfilUsuario.class));
+	}
+
+	/**
+	 * Muestra la ventana de registro de usuario.
+	 * 
+	 * @since 29-09-2011
+	 * @author Paul
+	 */
+	private void mostrarVentanaRegistro() {
+		this.startActivity(new Intent(this, Registro.class));
 	}
 
 }

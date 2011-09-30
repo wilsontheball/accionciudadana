@@ -53,7 +53,8 @@ public class Repositorio {
 	 * @return URL del servidor REST
 	 */
 	public String getSrvUrl() {
-		return "http://10.24.192.183:6060";
+		// return "http://10.24.192.183:6060";
+		return "http://192.168.1.108:6060";
 	}
 
 	/**
@@ -223,24 +224,24 @@ public class Repositorio {
 	 *            Nick de usuario.
 	 * @return Lista de reclamos hecho por un usuario.
 	 */
-	private List<Reclamo> obtenerReclamos(String usuario) {
-
-		try {
-			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpGet method = new HttpGet(this.getSrvUrl() + "/reclamos");
-			HttpResponse httpResponse = httpClient.execute(method);
-			InputStream is = httpResponse.getEntity().getContent();
-			Gson gson = new Gson();
-			Reader reader = new InputStreamReader(is);
-			Type collectionType = new TypeToken<List<Reclamo>>() {
-			}.getType();
-			return gson.fromJson(reader, collectionType);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+	// private List<Reclamo> obtenerReclamos(String usuario) {
+	//
+	// try {
+	// DefaultHttpClient httpClient = new DefaultHttpClient();
+	// HttpGet method = new HttpGet(this.getSrvUrl() + "/reclamos");
+	// HttpResponse httpResponse = httpClient.execute(method);
+	// InputStream is = httpResponse.getEntity().getContent();
+	// Gson gson = new Gson();
+	// Reader reader = new InputStreamReader(is);
+	// Type collectionType = new TypeToken<List<Reclamo>>() {
+	// }.getType();
+	// return gson.fromJson(reader, collectionType);
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// return null;
+	// }
+	// }
 
 	public boolean publicarReclamoGPS(String tipo, String barrio,
 			String latitud, String longitud, String observacion) {
