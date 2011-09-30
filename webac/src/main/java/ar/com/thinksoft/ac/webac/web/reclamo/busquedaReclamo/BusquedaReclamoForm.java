@@ -35,9 +35,12 @@ import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.intac.IUsuario;
+import ar.com.thinksoft.ac.webac.predicates.PredicatePorCiudadano;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 import ar.com.thinksoft.ac.webac.web.export.ObjectDataSource;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
@@ -59,12 +62,18 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	private Dialog dialogDetalle = null;
 	private Dialog dialogUnificar = null;
 	private Dialog dialogUnificarError = null;
-	private ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
+	private ListDataProvider<IReclamo> listDataProvider;
+	private IUsuario ciudadano = Context.getInstance().getUsuario();
 	
 	@SuppressWarnings("rawtypes")
 	public BusquedaReclamoForm(String id) {
 		
 		super(id);
+		//TODO
+		if("administrator".equals(ciudadano.getNombreUsuario()))
+			listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
+		else
+			listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorCiudadano().filtrar(ciudadano.getNombreUsuario())));
 		
 		CompoundPropertyModel<IReclamo> model = new CompoundPropertyModel<IReclamo>(new Reclamo());
 		
@@ -105,6 +114,11 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				@Override
 				public void onSubmit() {
 					IReclamo reclamo = _self.getModelObject();
+					
+					//TODO
+					if(!ciudadano.getNombreUsuario().equals("administrator"))
+						reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
+					
 					listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
 					grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				}
@@ -263,6 +277,10 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
         	@Override
 			public void onSubmit() {
         		IReclamo reclamo = _self.getModelObject();
+        		//TODO
+        		if(!ciudadano.getNombreUsuario().equals("administrator"))
+        			reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
+        		
         		ByteArrayResource bar = null;
 				try {
 					bar = new ByteArrayResource("application/pdf", exportTable(reclamo));

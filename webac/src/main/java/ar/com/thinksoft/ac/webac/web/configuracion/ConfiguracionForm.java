@@ -4,6 +4,7 @@ import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -39,7 +40,7 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		add(new CheckBox("TLS", this.createBindBoolean(model,"TLS")));
 		add(new CheckBox("auth", this.createBindBoolean(model,"auth")));
 		add(new TextField<String>("user",this.createBind(model,"user")));
-		add(new TextField<String>("password",this.createBind(model,"password")));
+		add(new PasswordTextField("password",this.createBind(model,"password")));
 		//FIN MAIL
 		
 		//CONFIGURACION DE RUTAS
@@ -50,25 +51,25 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		
 		WebComponent help1 = new WebComponent("help1");
 		BeautyTipBehavior tooltip1 = new BeautyTipBehavior("Ingrese una ruta v&aacute;lida y el nombre del archivo correcto");
-		tooltip1.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true);
+		tooltip1.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true).setShrinkToFit(true);
 		help1.add(tooltip1);
 		add(help1);
 		
 		WebComponent help2 = new WebComponent("help2");
 		BeautyTipBehavior tooltip2 = new BeautyTipBehavior("Ingrese una ruta v&aacute;lida y el nombre del archivo correcto");
-		tooltip2.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true);
+		tooltip2.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true).setShrinkToFit(true);
 		help2.add(tooltip2);
 		add(help2);
 		
 		WebComponent help3 = new WebComponent("help3");
 		BeautyTipBehavior tooltip3 = new BeautyTipBehavior("Ingrese una ruta v&aacute;lida y el nombre del archivo correcto");
-		tooltip3.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true);
+		tooltip3.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true).setShrinkToFit(true);
 		help3.add(tooltip3);
 		add(help3);
 		
 		WebComponent help4 = new WebComponent("help4");
 		BeautyTipBehavior tooltip4 = new BeautyTipBehavior("Ingrese una ruta v&aacute;lida y el nombre del archivo correcto");
-		tooltip4.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true);
+		tooltip4.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true).setShrinkToFit(true);
 		help4.add(tooltip4);
 		add(help4);
 		// FIN RUTAS
