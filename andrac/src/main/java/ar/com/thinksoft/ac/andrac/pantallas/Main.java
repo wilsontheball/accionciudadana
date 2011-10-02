@@ -1,6 +1,8 @@
 package ar.com.thinksoft.ac.andrac.pantallas;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,18 +27,21 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * La clase se encarga de manejar la pantalla Home.
  * 
- * @since 29-09-2011
+ * @since 01-10-2011
  * @author Paul
  */
 public class Main extends Activity implements ReceptorRest {
 
+	private static final int DIALOGO_LOGIN = 0;
+	private static final int ERROR_CONEXION = 1;
 	private final int INICIAR_RECLAMO = 0;
 	private final int LISTA_RECLAMOS = 1;
-	private final int PERFIL_USUARIO = 2;
-	private final int REGISTRAR_USUARIO = 3;
+	private final int RECLAMOS_GUARDADOS = 2;
+	private final int PERFIL_USUARIO = 3;
+	private final int REGISTRAR_USUARIO = 4;
 
 	private String[] ventanas = { "Iniciar Reclamo", "Lista Reclamos",
-			"Perfil Usuario", "Registrar Usuario" };
+			"Reclamos Guardados", "Perfil Usuario", "Registrar Usuario" };
 
 	private Intent servicioRest;
 	private ReceptorResultados receptor;
@@ -165,6 +170,9 @@ public class Main extends Activity implements ReceptorRest {
 			break;
 		case LISTA_RECLAMOS:
 			this.iniciarServicioRest(FuncionRest.GETRECLAMOS);
+			break;
+		case RECLAMOS_GUARDADOS:
+			this.mostrarVentanaReclamosGuardados();
 			break;
 		case PERFIL_USUARIO:
 			this.iniciarServicioRest(FuncionRest.GETPERFIL);
@@ -323,6 +331,48 @@ public class Main extends Activity implements ReceptorRest {
 	}
 
 	/**
+	 * Crea ventanas de dialogo. (Se hace de esta forma en Android 2.2)
+	 * 
+	 * @since 23-08-2011
+	 * @author Paul
+	 */
+
+	// TODO Terminar creacion de dialogos!!!!!!!!!!!!!!!!!!
+	@Override
+	protected Dialog onCreateDialog(int tipo) {
+		Dialog unDialog = null;
+		switch (tipo) {
+		case DIALOGO_LOGIN:
+			unDialog = new AlertDialog.Builder(Main.this)
+			// .setIcon(R.drawable.icono)
+			// .setTitle(R.string.login_titulo)
+			// .setMessage(mensageAlerta)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									finish();
+								}
+							}).create();
+			break;
+		case ERROR_CONEXION:
+			unDialog = new AlertDialog.Builder(Main.this)
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(R.string.error_conexion)
+					.setMessage(R.string.mensaje_error_conexion)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									/* Solo cierra el dialogo */
+								}
+							}).create();
+			break;
+		}
+		return unDialog;
+	}
+
+	/**
 	 * Devuelve receptor.
 	 * 
 	 * @since 28-09-2011
@@ -355,6 +405,16 @@ public class Main extends Activity implements ReceptorRest {
 	 */
 	private void mostrarVentanaReclamos() {
 		this.startActivity(new Intent(this, ListaReclamos.class));
+	}
+
+	/**
+	 * Muestra la ventana de reclamos guardados en el celular.
+	 * 
+	 * @since 01-10-2011
+	 * @author Paul
+	 */
+	private void mostrarVentanaReclamosGuardados() {
+		this.startActivity(new Intent(this, ListaReclamosGuardados.class));
 	}
 
 	/**

@@ -34,6 +34,8 @@ import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
 import ar.com.thinksoft.ac.andrac.listener.UbicacionSpinnerListener;
+import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
+import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 
 /**
  * Maneja creacion de un reclamo.
@@ -63,13 +65,19 @@ public class IniciarReclamo extends Activity implements LocationListener {
 
 		Spinner spinnerUbicacion = (Spinner) findViewById(R.id.ubicacion);
 		Spinner spinnerIncidente = (Spinner) findViewById(R.id.tipo_incidente);
+		Spinner spinnerBarrio = (Spinner) findViewById(R.id.tipo_barrio);
 
 		ArrayAdapter<CharSequence> adapterUbicacion = ArrayAdapter
 				.createFromResource(this, R.array.ubicacion_array,
 						android.R.layout.simple_spinner_item);
-		ArrayAdapter<CharSequence> adapterIncidente = ArrayAdapter
-				.createFromResource(this, R.array.tipoincidente_array,
-						android.R.layout.simple_spinner_item);
+		
+		ArrayAdapter<String> adapterIncidente = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item,
+				EnumTipoReclamo.getListaTiposReclamo());
+
+		ArrayAdapter<String> adapterBarrio = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item,
+				EnumBarriosReclamo.getListaBarriosReclamo());
 
 		adapterUbicacion
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -78,6 +86,10 @@ public class IniciarReclamo extends Activity implements LocationListener {
 		adapterIncidente
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerIncidente.setAdapter(adapterIncidente);
+
+		adapterBarrio
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerBarrio.setAdapter(adapterBarrio);
 
 		spinnerUbicacion
 				.setOnItemSelectedListener(new UbicacionSpinnerListener());

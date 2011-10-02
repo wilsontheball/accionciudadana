@@ -61,16 +61,8 @@
 	<string name="obteniendo_reclamos">Obteniendo reclamos...</string>
 	<string name="obteniendo_perfil">Obteniendo datos de perfil...</string>
 	<string name="perfil_titulo">Perfil de Usuario</string>
-	<string-array name="tipoincidente_array">
-		<item>Bache</item>
-		<item>Caída de Objetos</item>
-		<item>ABL</item>
-		<item>Rotura de elementos públicos</item>
-		<item>Elementos viales</item>
-		<item>Inundaciones</item>
-		<item>Transporte Público</item>
-		<item>Accesibilidad</item>
-	</string-array>
+	<string name="error_conexion">Error de Conexión</string>
+	<string name="mensaje_error_conexion">No se pudo conectar al servidor.</string>
 	<string-array name="ubicacion_array">
 		<item>Ubicación por Coordenada GPS</item>
 		<item>Ubicación por Calle y Altura</item>

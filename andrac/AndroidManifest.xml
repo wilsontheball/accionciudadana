@@ -24,6 +24,8 @@
 			android:configChanges="keyboard|keyboardHidden|orientation" />
 		<activity android:name=".pantallas.PerfilUsuario"
 			android:configChanges="keyboard|keyboardHidden|orientation" />
+		<activity android:name=".pantallas.ListaReclamosGuardados"
+			android:configChanges="keyboard|keyboardHidden|orientation" />
 		<service android:name=".servicios.ServicioRest"
 			android:enabled="true" />
 	</application>

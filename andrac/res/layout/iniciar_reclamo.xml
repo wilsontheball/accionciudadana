@@ -22,6 +22,8 @@
 			android:weightSum="1" android:layout_weight="0.58">
 			<Spinner android:layout_height="wrap_content" android:id="@+id/tipo_incidente"
 				android:layout_width="match_parent" />
+			<Spinner android:layout_height="wrap_content" android:id="@+id/tipo_barrio"
+				android:layout_width="match_parent" />
 			<Spinner android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:id="@+id/ubicacion" />
 			<LinearLayout android:orientation="horizontal"
