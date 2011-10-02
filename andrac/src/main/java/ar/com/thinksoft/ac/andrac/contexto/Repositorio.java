@@ -1,7 +1,6 @@
 package ar.com.thinksoft.ac.andrac.contexto;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
@@ -18,7 +17,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ar.com.thinksoft.ac.andrac.adapter.ReclamoItem;
 import ar.com.thinksoft.ac.andrac.dominio.Imagen;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.dominio.Usuario;
@@ -36,8 +34,8 @@ public class Repositorio {
 	byte[] imagenBytes = null;
 	private Usuario perfilUsuario = null;
 	private List<Reclamo> reclamos = null;
-	private String nombreUsuario = "nick";
-	private String pass = "pass";
+	private String nick = null;
+	private String pass = null;
 
 	/**
 	 * Devuelve la URL del servidor.
@@ -113,24 +111,15 @@ public class Repositorio {
 	 * @author Paul
 	 * @return Array de reclamos listo para mostrar.
 	 */
-	public ReclamoItem[] getReclamosUsuario() {
-		ArrayList<ReclamoItem> listaItems = new ArrayList<ReclamoItem>();
-
-		if (this.reclamos != null) {
-			for (Reclamo rec : this.reclamos) {
-				listaItems.add(new ReclamoItem(rec.getEstadoDescripcion(), rec
-						.getTipoIncidente(), rec.getCalleIncidente() + " "
-						+ rec.getAlturaIncidente(), rec.getFechaReclamo()));
-			}
-		}
-		ReclamoItem[] arrayItems = new ReclamoItem[listaItems.size()];
+	public Reclamo[] getReclamosUsuario() {
+		Reclamo[] arrayReclamos = new Reclamo[this.reclamos.size()];
 
 		// Se hace asi por que falla el metodo de conversion de lista.
 		int i = 0;
-		for (ReclamoItem item : listaItems) {
-			arrayItems[i++] = item;
+		for (Reclamo rec : this.reclamos) {
+			arrayReclamos[i++] = rec;
 		}
-		return arrayItems;
+		return arrayReclamos;
 	}
 
 	/**
@@ -144,6 +133,18 @@ public class Repositorio {
 	 */
 	public void setReclamosUsuario(List<Reclamo> reclamos) {
 		this.reclamos = reclamos;
+	}
+
+	/**
+	 * Obtiene los reclamos guardados en el celular.
+	 * 
+	 * @since 25-09-2011
+	 * @author Paul
+	 * @return Array de reclamos listo para mostrar.
+	 */
+	public Reclamo[] getReclamosGuardados() {
+		// TODO Falta implementar como levantar los reclamos gurdados!!!!!!!!
+		return new Reclamo[0];
 	}
 
 	public boolean publicarReclamoDireccion(String tipo, String barrio,
@@ -160,7 +161,7 @@ public class Repositorio {
 		String fecha = "";
 		String fechaModificacion = "";
 		Reclamo reclamo = new Reclamo(calle, altura, latitud, longitud, tipo,
-				fecha, fechaModificacion, this.getNombreUsuario(), observacion,
+				fecha, fechaModificacion, this.getNick(), observacion,
 				barrio, comuna, imagen);
 
 		this.enviarReclamo(reclamo);
@@ -265,12 +266,12 @@ public class Repositorio {
 		this.perfilUsuario = perfil;
 	}
 
-	public String getNombreUsuario() {
-		return this.nombreUsuario;
+	public String getNick() {
+		return this.nick;
 	}
 
-	public void setNombreUsuario(String usuario) {
-		this.nombreUsuario = usuario;
+	public void setNick(String usuario) {
+		this.nick = usuario;
 	}
 
 	public void setPass(String pass) {

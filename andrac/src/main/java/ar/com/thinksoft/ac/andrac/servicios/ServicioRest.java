@@ -50,6 +50,7 @@ public class ServicioRest extends IntentService {
 	 * @since 28-09-2011
 	 * @author Paul
 	 */
+	@Override
 	protected void onHandleIntent(Intent intent) {
 		final ResultReceiver receptor = intent.getParcelableExtra(REC);
 		Log.d(this.getClass().getName(), receptor.toString());
@@ -109,7 +110,7 @@ public class ServicioRest extends IntentService {
 			IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETRECLAMOS + "/"
-				+ this.getRepo().getNombreUsuario() + "/"
+				+ this.getRepo().getNick() + "/"
 				+ this.getRepo().getPass());
 		HttpResponse httpResponse = httpClient.execute(method);
 		InputStream is = httpResponse.getEntity().getContent();
@@ -146,7 +147,7 @@ public class ServicioRest extends IntentService {
 			IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETPERFIL + "/"
-				+ this.getRepo().getNombreUsuario() + "/"
+				+ this.getRepo().getNick() + "/"
 				+ this.getRepo().getPass());
 		HttpResponse httpResponse = httpClient.execute(method);
 		InputStream is = httpResponse.getEntity().getContent();
