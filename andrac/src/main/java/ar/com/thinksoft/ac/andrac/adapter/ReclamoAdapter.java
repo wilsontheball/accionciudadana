@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ar.com.thinksoft.ac.andrac.R;
+import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 
 /**
  * Adapta ReclamoItem a un item de la ListView
@@ -18,14 +19,14 @@ import ar.com.thinksoft.ac.andrac.R;
  * @author Paul
  * @since 11-08-2011
  */
-public class ReclamoAdapter extends ArrayAdapter<ReclamoItem> {
+public class ReclamoAdapter extends ArrayAdapter<Reclamo> {
 
 	// Almacena acceso a la Activity padre
 	Activity context = null;
 	// Almacena la coleccion de reclamos
-	ReclamoItem[] reclamos;
+	Reclamo[] reclamos;
 
-	public ReclamoAdapter(Activity context, ReclamoItem[] reclamos) {
+	public ReclamoAdapter(Activity context, Reclamo[] reclamos) {
 		super(context, R.layout.lista_reclamos_item, reclamos);
 		this.context = context;
 		this.reclamos = reclamos;
@@ -37,6 +38,7 @@ public class ReclamoAdapter extends ArrayAdapter<ReclamoItem> {
 	 * @author Paul
 	 * @since 11-08-2011
 	 */
+	@Override
 	public View getView(int position, View convertView, ViewGroup padre) {
 		LayoutInflater inflater = this.context.getLayoutInflater();
 		View item = inflater.inflate(R.layout.lista_reclamos_item, null);
@@ -47,7 +49,7 @@ public class ReclamoAdapter extends ArrayAdapter<ReclamoItem> {
 		// Muestra el icono del estado de reclamo
 		try {
 			String estado = this.limpiarCadena((this.reclamos[position]
-					.getEstado()));
+					.getEstadoDescripcion()));
 			Log.d(this.getClass().getName(), "Estado:" + estado);
 			int id = padre.getResources().getIdentifier(estado, "drawable",
 					"ar.com.thinksoft.ac.andrac");
@@ -59,14 +61,15 @@ public class ReclamoAdapter extends ArrayAdapter<ReclamoItem> {
 
 		// Asigna el tipo de incidente
 		TextView titulo = (TextView) item.findViewById(R.id.item_tipo);
-		titulo.setText(this.reclamos[position].getTipo());
+		titulo.setText(this.reclamos[position].getTipoIncidente());
 		Log.d(this.getClass().getName(),
-				"Tipo:" + this.reclamos[position].getTipo());
+				"Tipo:" + this.reclamos[position].getTipoIncidente());
 
 		// Asigna la direccion
 		TextView subTitulo = (TextView) item.findViewById(R.id.item_direccion);
-		subTitulo.setText(this.reclamos[position].getDireccion() + "  "
-				+ this.reclamos[position].getFechaHora());
+		subTitulo.setText(this.reclamos[position].getCalleIncidente() + " "
+				+ this.reclamos[position].getAlturaIncidente() + " "
+				+ this.reclamos[position].getFechaReclamo());
 
 		return (item);
 	}

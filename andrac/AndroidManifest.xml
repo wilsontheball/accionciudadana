@@ -13,7 +13,7 @@
 		</activity>
 		<activity android:name=".pantallas.Login"
 			android:configChanges="keyboard|keyboardHidden|orientation"
-			android:icon="@drawable/alert_dialog_icon" />
+			android:icon="@drawable/alert_dialog_icon" android:theme="@android:style/Theme.Dialog" />
 		<activity android:name=".pantallas.Registro"
 			android:configChanges="keyboard|keyboardHidden|orientation" />
 		<activity android:name=".pantallas.ListaReclamos"

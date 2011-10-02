@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
+import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
 import ar.com.thinksoft.ac.andrac.servicios.ReceptorRest;
 import ar.com.thinksoft.ac.andrac.servicios.ReceptorResultados;
 import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
@@ -152,9 +153,9 @@ public class Main extends Activity implements ReceptorRest {
 	 * @since 19-07-2011
 	 * @author Paul
 	 */
-	// private void mostrarLogin() {
-	// this.startActivityForResult(new Intent(this, Login.class), 0);
-	// }
+	private void mostrarLogin() {
+		this.startActivityForResult(new Intent(this, Login.class), 0);
+	}
 
 	/**
 	 * Muestra una ventana segun la opcion seleccionada en la lista.
@@ -175,7 +176,8 @@ public class Main extends Activity implements ReceptorRest {
 			this.mostrarVentanaReclamosGuardados();
 			break;
 		case PERFIL_USUARIO:
-			this.iniciarServicioRest(FuncionRest.GETPERFIL);
+			this.mostrarLogin();
+			// this.iniciarServicioRest(FuncionRest.GETPERFIL);
 			break;
 		case REGISTRAR_USUARIO:
 			this.mostrarVentanaRegistro();
@@ -192,6 +194,7 @@ public class Main extends Activity implements ReceptorRest {
 	 * @author Paul
 	 */
 	private void iniciarServicioRest(String funcion) {
+
 		try {
 			// Crea un servicio.
 			this.servicioRest = new Intent(Intent.ACTION_SYNC, null, this,
@@ -278,6 +281,17 @@ public class Main extends Activity implements ReceptorRest {
 	 */
 	private Aplicacion getAplicacion() {
 		return (Aplicacion) this.getApplication();
+	}
+
+	/**
+	 * Devuelve el Repositorio
+	 * 
+	 * @since 22-07-2011
+	 * @author Paul
+	 * @return repositorio
+	 */
+	private Repositorio getRepo() {
+		return ((Aplicacion) this.getApplication()).getRepositorio();
 	}
 
 	/**
