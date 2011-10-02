@@ -1,5 +1,7 @@
 package ar.com.thinksoft.ac.wilsond;
 
+import java.util.List;
+
 import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IPermitible;
 import ar.com.thinksoft.ac.intac.utils.classes.UsuarioMovil;
@@ -43,8 +45,8 @@ public class Usuario extends UsuarioMovil {
 		return this.nick;
 	}
 
-	public Long getDni() {
-		return this.dni;
+	public String getDni() {
+		return this.dni.toString();
 	}
 
 	public String getMail() {
@@ -59,8 +61,8 @@ public class Usuario extends UsuarioMovil {
 		return this.nombre;
 	}
 
-	public Long getTelefono() {
-		return this.telefono;
+	public String getTelefono() {
+		return this.telefono.toString();
 	}
 
 	public void setContrasenia(String contrasenia) {
@@ -71,7 +73,7 @@ public class Usuario extends UsuarioMovil {
 		this.nick = nombreUsuario;
 	}
 
-	public void setDni(Long dni) {
+	public void setDni(String dni) {
 		this.dni = dni;
 	}
 
@@ -87,7 +89,13 @@ public class Usuario extends UsuarioMovil {
 		this.nombre = nombre;
 	}
 
-	public void setTelefono(Long telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
+
+	public void setPermisos(List<IPermiso> permisosAdministrativos) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -19,6 +19,7 @@ public abstract class ReclamoMovil implements IReclamo {
 	protected String nombreBarrio;
 	protected String nombreCalle;
 	protected String nombreCiudadano;
+	protected String mailCiudadano;
 	protected String estadoReclamo;
 	protected String fechaCreacion;
 	protected String fechaModificacion;

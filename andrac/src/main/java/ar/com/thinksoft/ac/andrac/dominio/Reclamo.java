@@ -225,4 +225,14 @@ public class Reclamo extends ReclamoMovil {
 
 	}
 
+	public String getMailCiudadanoGeneradorReclamo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setMailCiudadanoGeneradorReclamo(String mail) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
