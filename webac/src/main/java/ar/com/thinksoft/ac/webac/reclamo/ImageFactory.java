@@ -47,7 +47,7 @@ public class ImageFactory {
 				image.createNewFile();
 			image.write(stream);
 		}else
-			throw new Exception("no tiene un formato válido");
+			throw new Exception("no tiene un formato valido");
 	}
 	
 	public void deleteImage(){
