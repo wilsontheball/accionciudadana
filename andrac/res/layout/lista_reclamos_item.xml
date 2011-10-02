@@ -7,13 +7,13 @@
 		android:layout_marginRight="6dip" />
 	<LinearLayout android:orientation="vertical"
 		android:layout_width="match_parent" android:layout_height="wrap_content">
-		<TextView android:id="@+id/item_tipo" android:layout_width="fill_parent"
+		<TextView android:id="@+id/item_tipo" android:layout_width="match_parent"
 			android:layout_height="wrap_content" android:textStyle="bold"
 			android:textAppearance="@android:style/TextAppearance.Medium"
 			android:text="Titulo" />
 		<TextView android:id="@+id/item_direccion"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_width="match_parent" android:layout_height="wrap_content"
 			android:textStyle="normal" android:textAppearance="@android:style/TextAppearance.Small"
-			android:text="SubTitulo" />
+			android:text="SubTitulo" android:textColor="@color/color_texto" />
 	</LinearLayout>
 </LinearLayout>

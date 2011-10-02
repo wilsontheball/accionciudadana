@@ -1,11 +1,14 @@
 package ar.com.thinksoft.ac.webac.web.HomePage;
 
 import org.apache.wicket.PageParameters;
+
+import ar.com.thinksoft.ac.webac.login.Login;
 import ar.com.thinksoft.ac.webac.seguridad.Permiso;
 import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.HomePage.Administrativo.HomePageAdministrativo;
 import ar.com.thinksoft.ac.webac.web.HomePage.Ciudadano.HomePageCiudadano;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
+import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 
 /**
  * Homepage
@@ -21,11 +24,14 @@ public class HomePage extends BasePage {
 	}
 
 	public HomePage(final PageParameters parameters) {
-		
-		if(Context.getInstance().getUsuario().getNombreUsuario().equals("administrator"))
-			setResponsePage(HomePageAdministrativo.class);
-		else
-			setResponsePage(HomePageCiudadano.class);
+		if(Context.getInstance().getUsuario() != null){
+			if(Context.getInstance().getUsuario().getNombreUsuario().equals("administrator"))
+				setResponsePage(HomePageAdministrativo.class);
+			else
+				setResponsePage(HomePageCiudadano.class);
+		}else{
+			setResponsePage(LoginPage.class);
+		}
 	}
 
 	

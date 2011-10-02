@@ -1,130 +1,160 @@
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 
 <head>
-<title>Configuraci&oacute;n</title>
+<title>Configuracion</title>
 </head>
 
 <body>
 	<wicket:extend>
-		<div class="configuracion">
+		<div class="config">
 			<div align="center">
 				<h1>Configuraci&oacute;n</h1>
 			</div>
 			<form wicket:id="configuracionForm">
-			
-				<table align="center">
-					<tr>
-						<td class="texto">
-							<label>Hora - Minuto - Antes o despues del mediodia:</label>
-						</td>
-						<td class="block">
-					 		<input type="text" wicket:id="horaUnificador" id="horaUnificador" size="2"/>
-					 		<input type="text" wicket:id="minutoUnificador" id="minutoUnificador" size="2" />
-					 		<input type="text" wicket:id="manianaOTardeUnificador" id="minutoUnificador" size="2" />
-						</td>
-					</tr>	
-					<tr>
-						<td class="texto">
-					 		<label>SMTP:</label>
-					 	</td>
-						<td class="block">
-					 		<input type="text" wicket:id="smtp" id="smtp" />
-					 	</td>
-					</tr>
-						
-					<tr>
-						<td class="texto">
-							<label>Puerto: </label>
-						</td>
-						<td class="block">
-					 		<input type="text" wicket:id="puerto" id="puerto" />
-					 	</td>
-					</tr>
-					
-					<tr>
-						<td class="texto">
-							<label>Desde: </label>
-						</td>
-						<td class="block">
-					 		<input type="text" wicket:id="desdeMail" id="desdeMail" />
-					 	</td>
-					</tr>
-					
-					<tr>
-						<td class="texto">
-							<label>TLS: </label>
-						</td>
-						<td class="block">
-					 		<input type="checkbox" wicket:id="tls" id="tls" />
-					 	</td>
-					</tr>
-					
-					<tr>
-						<td class="texto">
-							<label>Necesita credenciales: </label>
-						</td>
-						<td class="block">
-					 		<input type="checkbox" wicket:id="auth" id="auth" />
-					 	</td>
-					</tr>
-					
-					<tr class="credenciales">
-						<td class="texto">
-							<label>Usuario: </label>
-						</td>
-						<td class="block">
-					 		<input type="text" wicket:id="user" id="user" />
-					 	</td>
-					</tr>
-					
-					<tr class="credenciales">
-						<td class="texto">
-							<label>Contrase&nacute;a: </label>
-						</td>
-						<td class="block">
-					 		<input type="text" wicket:id="password" id="password" />
-					 	</td>
-					</tr>
-					
-					<tr>
-						<td class="texto">
-							<label>Ruta de imagenes temporales: </label>
-						</td>
-						<td class="block">
-					 		<input type="text" wicket:id="pathTempImages" id="pathTempImages" />
-					 	</td>
-					</tr>
-					
-					<tr>
-						<td class="texto">
-							<label>Ruta de archivo diseñador de archivo PDF: </label>
-						</td>
-						<td class="block">
-					 		<input type="text" wicket:id="pathExportDesign" id="pathExportDesign" />
-					 	</td>
-					</tr>
-					
-					<tr>
-						<td class="texto">
-							<label>Ruta del archivo de configuraci&oacute;n: </label>
-						</td>
-						<td class="block">
-					 		<input type="text" wicket:id="pathConfig" id="pathConfig" />
-					 	</td>
-					</tr>
-					
-						
-				</table>			
-
-
 				<table align="center">
 					<tr>
 						<td>
-							<div class="block">
-								<input type="text" class="error" border="none" size="50"/>
-							</div>
+							<h2 align="right">Proceso autom&aacute;tico de unificaci&oacute;n:</h2>
 						</td>
 					</tr>
+					<tr>
+						<td class="texto">
+							<label>Hora - Minuto - AM/PM</label><br>
+							<label style="font-style:italic;">(se debe reiniciar el servidor)</label>
+						</td>
+						<td class="block">
+							<input type="text" wicket:id="horaUnificador" id="horaUnificador" class="horaUnificador" size="2" maxlength="2"/> - 
+							<input type="text" wicket:id="minutoUnificador" id="minutoUnificador" class="minutoUnificador" size="2" maxlength="2"/> - 
+							<input type="text" wicket:id="manianaOTardeUnificador" id="manianaOTardeUnificador" class="manianaOTardeUnificador" size="2" maxlength="2"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h2 align="right">Configuraci&oacute;n del env&iacute;o de mail:</h2>
+						</td>
+					</tr>					
+					<tr>
+						<td class="texto">
+					 		<label>Smtp:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="text" wicket:id="smtp" id="smtp" style="width:200px;"/>
+					 	</td>
+					</tr>
+					<tr>
+						<td class="texto">
+					 		<label>Puerto:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="text" wicket:id="puerto" id="puerto" style="width:200px;"/>
+					 	</td>
+					</tr>
+					<tr>
+						<td class="texto">
+					 		<label>Desde:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="text" wicket:id="desdeMail" id="desdeMail" style="width:200px;"/>
+					 	</td>
+					</tr>
+					<tr>
+						<td class="texto">
+					 		<label>TLS:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="checkbox" wicket:id="TLS" id="TLS"/>
+					 	</td>
+					</tr>
+					<tr>
+						<td class="texto">
+					 		<label>Necesito credenciales:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="checkbox" wicket:id="auth" id="auth" class="auth"/>
+					 	</td>
+					</tr>
+					<tr>
+						<td class="texto credenciales">
+					 		<label>Usuario:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="text" wicket:id="user" id="user" class="credenciales" style="width:200px;"/>
+					 	</td>
+					</tr>
+					<tr>
+						<td class="texto credenciales">
+					 		<label>Password:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="password" wicket:id="password" id="password" class="credenciales" style="width:200px;"/>
+					 	</td>
+					</tr>
+					<tr>
+						<td>
+							<h2 align="right">Rutas de archivos:</h2>
+						</td>
+					</tr>
+					<tr>
+						<td class="texto">
+					 		<label>Ruta de imagenes temporales:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="text" wicket:id="pathTempImages" id="pathTempImages" class="inputText"/>
+					 	</td>
+					 	<td>
+						 	<div class="help" wicket:id="help1"></div>
+						</td>
+					</tr>
+					<tr>
+						<td class="texto">
+					 		<label>Ruta del archivo estilo exportaci&oacute;n:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="text" wicket:id="pathExportDesign" id="pathExportDesign" class="inputText"/>
+					 	</td>
+					 	<td>
+						 	<div class="help" wicket:id="help2"></div>
+						</td>
+					</tr>
+						<tr>
+							<td class="texto">
+						 		<label>Ruta del archivo de configuraci&oacute;n:</label>
+						 	</td>
+							<td class="block">
+						 		<input type="text" wicket:id="pathConfig" id="pathConfig" class="inputText"/>
+						 	</td>
+						 	<td>
+						 		<div class="help" wicket:id="help3"></div>
+						 	</td>
+						</tr>
+						
+						<tr>
+							<td class="texto">
+						 		<label>Ruta de la aplicaci&oacute;n Android:</label>
+						 	</td>
+							<td class="block">
+						 		<input type="text" wicket:id="pathDownloadApp" id="pathDownloadApp" class="inputText"/>
+						 	</td>
+						 	<td>
+						 		<div class="help" wicket:id="help4"></div>
+						 	</td>
+						</tr>
+						<tr>
+							<td>
+								<h2 align="right">Clave de Google Maps:</h2>
+							</td>
+						</tr>
+						<tr>
+							<td class="texto">
+						 		<label>Clave:</label>
+						 	</td>
+							<td class="block">
+						 		<textarea wicket:id="keyGoogleMap" id="keyGoogleMap" rows="2" cols="45" style="resize:none;"></textarea>
+						 	</td>
+						 	<td>
+						 		<div class="help" wicket:id="helpGoogle"></div>
+						 	</td>
+						</tr>
 				</table>
 				
 
@@ -132,7 +162,7 @@
 					<tr>
 						<td>
 							<div>
-								<input type="submit" wicket:id="guardarConfig" value="Guardar configuraci&oacute;n" class="block" style="float: left; margin:20px;"/>
+								<input type="submit" wicket:id="guardarConfig" value="Guardar" class="block" style="float: left; margin:20px;"/>
 								<input type="submit" wicket:id="cancelar" value="Cancelar" class="block" style="float: right; margin:20px;"/>
 							</div>
 						</td>

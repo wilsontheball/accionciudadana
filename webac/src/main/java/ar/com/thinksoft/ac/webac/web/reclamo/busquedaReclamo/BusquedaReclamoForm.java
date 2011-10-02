@@ -35,9 +35,13 @@ import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.intac.IUsuario;
+import ar.com.thinksoft.ac.webac.predicates.PredicatePorCiudadano;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.Context;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 import ar.com.thinksoft.ac.webac.web.export.ObjectDataSource;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
@@ -53,18 +57,23 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	
 	private DataGrid grid;
 	private BusquedaReclamoForm _self = this;
-	private static final String PATH = "src/main/webapp/export/";
 	private Dialog dialogCancelar = null;
 	private Dialog dialogCancelarError = null;
 	private Dialog dialogDetalle = null;
 	private Dialog dialogUnificar = null;
 	private Dialog dialogUnificarError = null;
-	private ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
+	private ListDataProvider<IReclamo> listDataProvider;
+	private IUsuario ciudadano = Context.getInstance().getUsuario();
 	
 	@SuppressWarnings("rawtypes")
 	public BusquedaReclamoForm(String id) {
 		
 		super(id);
+		//TODO
+		if("administrator".equals(ciudadano.getNombreUsuario()))
+			listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
+		else
+			listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorCiudadano().filtrar(ciudadano.getNombreUsuario())));
 		
 		CompoundPropertyModel<IReclamo> model = new CompoundPropertyModel<IReclamo>(new Reclamo());
 		
@@ -105,6 +114,11 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				@Override
 				public void onSubmit() {
 					IReclamo reclamo = _self.getModelObject();
+					
+					//TODO
+					if(!ciudadano.getNombreUsuario().equals("administrator"))
+						reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
+					
 					listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
 					grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				}
@@ -183,7 +197,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 			        for (IModel model : selected) {
 			           reclamo = (Reclamo) model.getObject();
 			        }
-			        if(!reclamo.isNotDown())
+			        if(reclamo.isNotDown())
 			        	dialogCancelar.open(target);
 			        else
 			        	dialogCancelarError.open(target);
@@ -205,7 +219,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	    		Collection<IModel> selected = grid.getSelectedItems();
 	    		if(selected.size()==2){
 	    			List<IReclamo> lista = obtenerReclamosSeleccionados(selected);
-	    			if(!lista.get(0).isNotDown() && !lista.get(1).isNotDown())
+	    			if(lista.get(0).isNotDown() && lista.get(1).isNotDown())
 	    				dialogUnificar.open(target);
 	    			else
 	    				dialogUnificarError.open(target);
@@ -226,10 +240,9 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 					reclamo.unificar(reclamo2);
 				else
 					reclamo2.unificar(reclamo);
-				
-				listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
-				grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				dialogUnificar.close(target);
+				setResponsePage(BusquedaReclamoPage.class);
+		        setRedirect(true);
 			}
 			
 			private List<IReclamo> obtenerReclamosSeleccionados(
@@ -263,6 +276,10 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
         	@Override
 			public void onSubmit() {
         		IReclamo reclamo = _self.getModelObject();
+        		//TODO
+        		if(!ciudadano.getNombreUsuario().equals("administrator"))
+        			reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
+        		
         		ByteArrayResource bar = null;
 				try {
 					bar = new ByteArrayResource("application/pdf", exportTable(reclamo));
@@ -376,17 +393,17 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	    parameters.put("Title", "Listado de Reclamos - Accion Ciudadana");
 	
 	    try {
-	      // compile report design
-	      JasperReport jasperReport = JasperCompileManager.compileReport(PATH + "design.jrxml");
-	      
-	      // create an object datasourse from the reclamo's list
-	      ObjectDataSource dataSource = new ObjectDataSource(reclamos);
-	
-	      // fill the report 
-	      JasperPrint jasperPrint = JasperFillManager.fillReport(
-	          jasperReport, parameters, dataSource);
-	      
-	     arrayBytes = JasperExportManager.exportReportToPdf(jasperPrint);
+	    	// compile report design
+	    	Configuracion.getInstance().cargarConfiguracion();
+		    JasperReport jasperReport = JasperCompileManager.compileReport(Configuracion.getInstance().getPathExportDesign());
+		      
+		    // create an object datasourse from the reclamo's list
+		    ObjectDataSource dataSource = new ObjectDataSource(reclamos);
+		
+		    // fill the report 
+		    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+		      
+		    arrayBytes = JasperExportManager.exportReportToPdf(jasperPrint);
 	      
 	    } catch (JRException e) {
 	    	throw new Exception("Imposible exportar a pdf. Consulte con nuestro soporte tecnico");

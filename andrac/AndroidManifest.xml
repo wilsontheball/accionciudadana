@@ -2,22 +2,30 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="ar.com.thinksoft.ac.andrac" android:versionCode="0"
 	android:versionName="@string/version">
-	<application android:icon="@drawable/icon" android:label="@string/app_name"
-		android:name=".Aplicacion" android:theme="@style/CustomButton">
-		<activity android:name=".Main">
+	<application android:icon="@drawable/icono" android:label="@string/app_name"
+		android:name=".contexto.Aplicacion" android:theme="@style/CustomTheme">
+		<activity android:name=".pantallas.Main"
+			android:configChanges="keyboard|keyboardHidden|orientation">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".Login" android:configChanges="keyboard|keyboardHidden|orientation"
+		<activity android:name=".pantallas.Login"
+			android:configChanges="keyboard|keyboardHidden|orientation"
 			android:icon="@drawable/alert_dialog_icon" />
-		<activity android:name=".Registro" android:configChanges="keyboard|keyboardHidden|orientation" />
-		<activity android:name=".ListaReclamos"
+		<activity android:name=".pantallas.Registro"
 			android:configChanges="keyboard|keyboardHidden|orientation" />
-		<activity android:name=".IniciarReclamo"
+		<activity android:name=".pantallas.ListaReclamos"
 			android:configChanges="keyboard|keyboardHidden|orientation" />
-		<activity android:name=".CamaraView" android:configChanges="keyboard|keyboardHidden|orientation" />
+		<activity android:name=".pantallas.IniciarReclamo"
+			android:configChanges="keyboard|keyboardHidden|orientation" />
+		<activity android:name=".pantallas.CamaraView"
+			android:configChanges="keyboard|keyboardHidden|orientation" />
+		<activity android:name=".pantallas.PerfilUsuario"
+			android:configChanges="keyboard|keyboardHidden|orientation" />
+		<service android:name=".servicios.ServicioRest"
+			android:enabled="true" />
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -25,6 +33,7 @@
 	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
 	<uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES" />
 	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-feature android:name="android.hardware.camera" />
 	<uses-feature android:name="android.hardware.camera.autofocus" />
 	<uses-sdk android:targetSdkVersion="8" android:minSdkVersion="8" />
