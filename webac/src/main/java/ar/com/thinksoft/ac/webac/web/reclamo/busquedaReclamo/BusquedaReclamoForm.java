@@ -240,10 +240,9 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 					reclamo.unificar(reclamo2);
 				else
 					reclamo2.unificar(reclamo);
-				
-				listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
-				grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				dialogUnificar.close(target);
+				setResponsePage(BusquedaReclamoPage.class);
+		        setRedirect(true);
 			}
 			
 			private List<IReclamo> obtenerReclamosSeleccionados(
