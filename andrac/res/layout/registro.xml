@@ -1,17 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:gravity="center"
-	android:scrollbarAlwaysDrawVerticalTrack="true" android:background="@color/color_fondo">
+	android:orientation="vertical" android:layout_width="match_parent"
+	android:layout_height="match_parent" android:gravity="center"
+	android:scrollbarAlwaysDrawVerticalTrack="true">
 	<LinearLayout android:orientation="vertical"
 		android:layout_width="match_parent" android:layout_height="match_parent"
-		android:gravity="center_horizontal" android:isScrollContainer="true"
-		android:background="@color/color_fondo">
+		android:gravity="center_horizontal" android:isScrollContainer="true">
 		<LinearLayout android:orientation="vertical"
 			android:layout_width="match_parent" android:layout_height="match_parent"
 			android:gravity="center_horizontal" android:isScrollContainer="true"
-			android:background="@color/color_fondo" android:layout_marginLeft="10dip"
-			android:layout_marginRight="10dip">
+			android:layout_marginLeft="10dip" android:layout_marginRight="10dip">
 			<TextView android:layout_width="wrap_content"
 				android:textColor="@color/color_texto" android:textAppearance="@android:style/TextAppearance.Large"
 				android:layout_height="wrap_content" android:paddingBottom="2dip"
@@ -20,44 +18,44 @@
 				android:textColor="@color/color_texto" android:textAppearance="@android:style/TextAppearance.Small"
 				android:layout_height="wrap_content" android:paddingBottom="2dip"
 				android:text="@string/registro_sub_titulo" android:gravity="center" />
-			<EditText android:id="@+id/nombre" android:layout_width="fill_parent"
+			<EditText android:id="@+id/nombre" android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:inputType="textPersonName"
 				android:textAppearance="@android:style/TextAppearance.Large"
 				android:hint="@string/nombre" />
-			<EditText android:id="@+id/apellido" android:layout_width="fill_parent"
+			<EditText android:id="@+id/apellido" android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:inputType="textPersonName"
 				android:textAppearance="@android:style/TextAppearance.Large"
 				android:hint="@string/apellido" />
-			<EditText android:id="@+id/nick" android:layout_width="fill_parent"
+			<EditText android:id="@+id/nick" android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:inputType="text"
 				android:textAppearance="@android:style/TextAppearance.Large"
 				android:hint="@string/nick_name" />
-			<EditText android:id="@+id/dni" android:layout_width="fill_parent"
+			<EditText android:id="@+id/dni" android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:inputType="number"
 				android:textAppearance="@android:style/TextAppearance.Large"
 				android:hint="@string/dni" />
-			<EditText android:id="@+id/mail" android:layout_width="fill_parent"
+			<EditText android:id="@+id/mail" android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:inputType="textEmailAddress"
 				android:textAppearance="@android:style/TextAppearance.Large"
 				android:hint="@string/mail" />
 			<EditText android:id="@+id/mail_confirm"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_width="match_parent" android:layout_height="wrap_content"
 				android:inputType="textEmailAddress" android:textAppearance="@android:style/TextAppearance.Large"
 				android:hint="@string/mail_confirm" />
-			<EditText android:id="@+id/tel" android:layout_width="fill_parent"
+			<EditText android:id="@+id/tel" android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:inputType="phone"
 				android:textAppearance="@android:style/TextAppearance.Large"
 				android:hint="@string/telefono" />
-			<EditText android:id="@+id/pass" android:layout_width="fill_parent"
+			<EditText android:id="@+id/pass" android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:inputType="textPassword"
 				android:textAppearance="@android:style/TextAppearance.Large"
 				android:hint="@string/password" />
 			<EditText android:id="@+id/pass_confirm"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_width="match_parent" android:layout_height="wrap_content"
 				android:inputType="textPassword" android:textAppearance="@android:style/TextAppearance.Large"
 				android:hint="@string/password_confirm" />
 			<LinearLayout android:orientation="horizontal"
-				android:layout_width="fill_parent" android:layout_height="wrap_content">
+				android:layout_width="match_parent" android:layout_height="wrap_content">
 				<Button android:id="@+id/boton_registrar"
 					android:layout_height="wrap_content" android:layout_width="match_parent"
 					android:enabled="true" android:text="@string/ok" android:onClick="registrar"

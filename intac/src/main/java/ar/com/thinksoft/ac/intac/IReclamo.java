@@ -30,6 +30,8 @@ public interface IReclamo extends Serializable{
 	
 	public String getCiudadanoGeneradorReclamo();
 	
+	public String getMailCiudadanoGeneradorReclamo();
+	
 	public String getObservaciones();
 	
 	public String getBarrioIncidente();
@@ -65,6 +67,8 @@ public interface IReclamo extends Serializable{
 	public void setFechaUltimaModificacionReclamo(String fecha);
 	
 	public void setCiudadanoGeneradorReclamo(String ciudadano);
+	
+	public void setMailCiudadanoGeneradorReclamo(String mail);
 	
 	public void setObservaciones(String observaciones);
 	

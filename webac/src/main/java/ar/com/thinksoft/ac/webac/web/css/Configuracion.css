@@ -20,6 +20,20 @@ label
    font-size: 12px;
 }
 
+tr{
+	margin: 10px;	
+}
+
 td.texto{
 	text-align: right;	
+}
+
+.inputText{
+	width: 370px;
+}
+
+.help{
+	width:20px;
+	height: 20px;
+	background: transparent url(/images/help.png) 0 3px no-repeat;
 }

@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.intac;
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface IUsuario extends Serializable {
 
@@ -27,7 +28,7 @@ public interface IUsuario extends Serializable {
 
 	public String getNombreUsuario();
 
-	public Long getDni();
+	public String getDni();
 
 	public String getMail();
 
@@ -35,13 +36,13 @@ public interface IUsuario extends Serializable {
 
 	public String getNombre();
 
-	public Long getTelefono();
+	public String getTelefono();
 
 	public void setContrasenia(String contrasenia);
 
 	public void setNombreUsuario(String nombreUsuario);
 
-	public void setDni(Long DNI);
+	public void setDni(String DNI);
 
 	public void setMail(String mail);
 
@@ -49,6 +50,8 @@ public interface IUsuario extends Serializable {
 
 	public void setNombre(String nombre);
 
-	public void setTelefono(Long telefono);
+	public void setTelefono(String telefono);
+
+	void setPermisos(List<IPermiso> permisosAdministrativos);
 
 }

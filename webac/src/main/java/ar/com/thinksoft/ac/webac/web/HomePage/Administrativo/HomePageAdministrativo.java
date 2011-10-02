@@ -25,14 +25,14 @@ import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.adminMap.Comuna;
 import ar.com.thinksoft.ac.webac.adminMap.ComunaManager;
-import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 public class HomePageAdministrativo extends BasePage{
 	
-	private static String KEY = "ABQIAAAASNhk0DNhWwkPk0Y12RIrThTwM0brOpm-All5BF6PoaKBxRWWERRi58__PuwPgysGGKPkLxYHu8hULg";
+	private static String KEY = "";
 	private DataGrid gridActivos;
 	private DataGrid gridUltimosModificados;
 	
@@ -42,6 +42,10 @@ public class HomePageAdministrativo extends BasePage{
 	}
 	
 	public HomePageAdministrativo(final PageParameters parameters){
+		
+		Configuracion.getInstance().cargarConfiguracion();
+		KEY = Configuracion.getInstance().getKeyGoogleMap();
+		
 		add(CSSPackageResource.getHeaderContribution(HomePage.class,"../css/Home.css"));
 		
 		armarGrillaActiva();
@@ -149,8 +153,14 @@ public class HomePageAdministrativo extends BasePage{
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void armarGrillaActiva() {
-		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().isNotDownFiltro());
-		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(listReclamos);
+		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
+		List<IReclamo> listNotDownReclamos = new ArrayList<IReclamo>();
+		for(IReclamo reclamo : listReclamos){
+			if(reclamo.isNotDown())
+				listNotDownReclamos.add(reclamo);
+		}
+			
+		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(listNotDownReclamos);
 		List cols = (List) Arrays.asList(
 																	
             new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(120)
@@ -260,7 +270,7 @@ public class HomePageAdministrativo extends BasePage{
 	 * esta creando uno nuevo clonado y los atributos actualizados.
 	 */
 	private List<IReclamo> listaOrdenadaPorFecha() {
-		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().isNotDownFiltro());
+		List<IReclamo> lista = ReclamoManager.getInstance().obtenerTodosReclamos();
 		List<IReclamo> listaDevolucion = new ArrayList<IReclamo>();
 		for(int i = lista.size()-1 ;i>=0;i--){
 			listaDevolucion.add(lista.get(i));
