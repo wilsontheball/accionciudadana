@@ -10,6 +10,7 @@ import java.util.TimerTask;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 public class Unificador {
 
@@ -18,11 +19,17 @@ public class Unificador {
     public Unificador() {
     	
 		try{
+			Configuracion.getInstance().cargarConfiguracion();
 			timer= new Timer();
 			Calendar calendar = Calendar.getInstance();
-			calendar.set(Calendar.HOUR, 2);
-			calendar.set(Calendar.MINUTE, 0);
-			calendar.set(Calendar.AM_PM, Calendar.AM);
+			calendar.set(Calendar.HOUR, Configuracion.getInstance().getHoraUnificador());
+			calendar.set(Calendar.MINUTE, Configuracion.getInstance().getMinutoUnificador());
+			
+			int parteDelDia = 0;
+			if("PM".equals(Configuracion.getInstance().getManianaOTardeUnificador()))
+				parteDelDia = 1;
+			
+			calendar.set(Calendar.AM_PM, parteDelDia);
 			Date date = calendar.getTime();
 			
 			//La tarea se va a ejecutar 1 hora antes, es decir, 01:00 AM

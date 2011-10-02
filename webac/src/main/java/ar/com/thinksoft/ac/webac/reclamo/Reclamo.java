@@ -326,9 +326,9 @@ public class Reclamo implements IReclamo,Serializable{
 	}
 	
 	public boolean isNotDown(){
-		return  this.getEstadoDescripcion() != EnumEstadosReclamo.cancelado.getEstado() &&
-				this.getEstadoDescripcion() != EnumEstadosReclamo.terminado.getEstado() &&
-				this.getEstadoDescripcion() != EnumEstadosReclamo.asociado.getEstado();
+		return  (!this.getEstadoDescripcion().equals(EnumEstadosReclamo.cancelado.getEstado())) &&
+				(!this.getEstadoDescripcion().equals(EnumEstadosReclamo.terminado.getEstado())) &&
+				(!this.getEstadoDescripcion().equals(EnumEstadosReclamo.asociado.getEstado()));
 	}
 	
 	public boolean isIgual(IReclamo reclamo){

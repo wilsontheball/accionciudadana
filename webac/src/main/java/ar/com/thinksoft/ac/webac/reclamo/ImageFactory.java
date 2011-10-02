@@ -7,10 +7,10 @@ import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.util.file.File;
 
 import ar.com.thinksoft.ac.intac.IImagen;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 public class ImageFactory {
 	
-	private static final String PATH = "src/main/webapp/tempImages/";
 	private File image;
 	private File directorio;
 	
@@ -19,6 +19,7 @@ public class ImageFactory {
 	private String contentTypeImagen;
 	
 	public ImageFactory(FileUpload file) throws Exception{
+		Configuracion.getInstance().cargarConfiguracion();
 		bytesImagen = file.getBytes();
 		fileNameImagen = file.getClientFileName();
 		contentTypeImagen = file.getContentType();
@@ -27,6 +28,7 @@ public class ImageFactory {
 	}
 	
 	public ImageFactory(IImagen imagen) throws Exception{
+		Configuracion.getInstance().cargarConfiguracion();
 		bytesImagen = imagen.getBytes();
 		fileNameImagen = imagen.getFileName();
 		contentTypeImagen = imagen.getContentType();
@@ -40,7 +42,7 @@ public class ImageFactory {
 		if("image/jpeg".equals(contentType) || "image/jpg".equals(contentType)||"image/png".equals(contentType)
 		||"image/bmp".equals(contentType)||"image/gif".equals(contentType)){
 			
-			image = new File(PATH + fileName);
+			image = new File(Configuracion.getInstance().getPathTempImages() + fileName);
 			if(!image.exists())
 				image.createNewFile();
 			image.write(stream);
@@ -54,7 +56,7 @@ public class ImageFactory {
 	}
 	
 	private void crearDirectorioTemporal(){
-		directorio = new File(PATH);
+		directorio = new File(Configuracion.getInstance().getPathTempImages());
 		if(!directorio.exists()){
 			directorio.mkdir();
 		}

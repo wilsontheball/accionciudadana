@@ -16,7 +16,6 @@ import ar.com.thinksoft.ac.webac.web.logout.LogoutPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoPage;
 import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
-import ar.com.thinksoft.ac.webac.web.logout.LogoutPage;
 
 public abstract class BasePage extends Permitible {
 
@@ -27,24 +26,17 @@ public abstract class BasePage extends Permitible {
 			setResponsePage(LoginPage.class);
 		} else {
 */
-			add(CSSPackageResource.getHeaderContribution(BasePage.class,
-					"../css/BasePage.css"));
-			add(CSSPackageResource.getHeaderContribution(BasePage.class,
-			"../css/jquery-ui.css"));
-			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,
-					"../js/jquery.js"));
-			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,
-			"../js/jquery-ui.js"));
-			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,
-			"../js/basePage.js"));
+			add(CSSPackageResource.getHeaderContribution(BasePage.class,"../css/BasePage.css"));
+			add(CSSPackageResource.getHeaderContribution(BasePage.class,"../css/jquery-ui.css"));
+			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/jquery.js"));
+			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/jquery-ui.js"));
+			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/basePage.js"));
 			this.appendLinks();
 
 			add(this.userNameComponent());
 
-			BookmarkablePageLink<IPageLink> logout = new BookmarkablePageLink<IPageLink>(
-					"logout", LogoutPage.class);
-			BookmarkablePageLink<IPageLink> login = new BookmarkablePageLink<IPageLink>(
-					"login", LoginPage.class);
+			BookmarkablePageLink<IPageLink> logout = new BookmarkablePageLink<IPageLink>("logout", LogoutPage.class);
+			BookmarkablePageLink<IPageLink> login = new BookmarkablePageLink<IPageLink>("login", LoginPage.class);
 			add(logout);
 			add(login);
 
