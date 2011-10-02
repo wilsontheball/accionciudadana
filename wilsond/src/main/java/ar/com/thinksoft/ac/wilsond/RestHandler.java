@@ -81,11 +81,11 @@ public class RestHandler extends AbstractHandler
 					Usuario usr = new Usuario();
 					usr.setApellido("Fulano");
 					usr.setContrasenia("123");
-					usr.setDni(1000111L);
+					usr.setDni("10000000");
 					usr.setMail("pepito@hot.com");
 					usr.setNombre("Pepe");
 					usr.setNombreUsuario("pepe");
-					usr.setTelefono(1540405050L);
+					usr.setTelefono("456123");
 					// XXX hasta aqui FRUTA!!!!!!!!!!!!!!!!
 
 					response.getWriter().write(new Gson().toJson(usr));

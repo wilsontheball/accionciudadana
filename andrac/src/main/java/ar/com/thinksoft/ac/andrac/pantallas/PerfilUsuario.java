@@ -104,7 +104,7 @@ public class PerfilUsuario extends Activity {
 		return ((EditText) findViewById(R.id.nick)).getText().toString();
 	}
 
-	private void setDNI(Long dni) {
+	private void setDNI(String dni) {
 		((EditText) findViewById(R.id.dni)).setText(dni + "");
 	}
 
@@ -120,7 +120,7 @@ public class PerfilUsuario extends Activity {
 		return ((EditText) findViewById(R.id.mail)).getText().toString();
 	}
 
-	private void setTelefono(Long telefono) {
+	private void setTelefono(String telefono) {
 		((EditText) findViewById(R.id.tel)).setText(telefono + "");
 	}
 

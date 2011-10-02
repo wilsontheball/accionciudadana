@@ -74,6 +74,14 @@ public class Reclamo extends ReclamoMovil {
 	public String getEstadoDescripcion() {
 		return this.estadoReclamo;
 	}
+	
+	public String getMailCiudadanoGeneradorReclamo() {
+		return this.mailCiudadano;
+	}
+
+	public void setMailCiudadanoGeneradorReclamo(String mail) {
+		this.mailCiudadano = mail;
+	}
 
 	public String getPrioridad() {
 		// TODO Auto-generated method stub
@@ -208,5 +216,7 @@ public class Reclamo extends ReclamoMovil {
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 }

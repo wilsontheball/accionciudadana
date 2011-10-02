@@ -1,7 +1,8 @@
 package ar.com.thinksoft.ac.webac.predicates.registro;
 
 import ar.com.thinksoft.ac.intac.IUsuario;
-import ar.com.thinksoft.ac.webac.web.usuario.alta.UsuarioFilterObject;
+import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioFilterObject;
+
 import com.db4o.query.Predicate;
 
 public class PredicateFiltroUsuario extends Predicate<IUsuario> {

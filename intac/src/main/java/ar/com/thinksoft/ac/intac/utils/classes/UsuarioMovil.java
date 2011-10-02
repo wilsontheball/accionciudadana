@@ -15,10 +15,10 @@ public abstract class UsuarioMovil implements IUsuario {
 	private static final long serialVersionUID = 1L;
 
 	protected String apellido;
-	protected Long dni;
+	protected String dni;
 	protected String mail;
 	protected String nombre;
 	protected String nick;
 	protected String password;
-	protected Long telefono;
+	protected String telefono;
 }
