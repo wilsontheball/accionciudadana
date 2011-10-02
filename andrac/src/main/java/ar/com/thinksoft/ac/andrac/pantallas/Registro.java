@@ -1,4 +1,4 @@
-package ar.com.thinksoft.ac.andrac;
+package ar.com.thinksoft.ac.andrac.pantallas;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -8,11 +8,13 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import ar.com.thinksoft.ac.andrac.R;
+import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 
 /**
  * La clase se encarga de manejar la pantalla de Registro.
  * 
- * @since 23-08-2011
+ * @since 07-09-2011
  * @author Paul
  */
 public class Registro extends Activity {
@@ -42,14 +44,16 @@ public class Registro extends Activity {
 
 	/**
 	 * Atiende los cambios de configuracion, como rotacion de pantalla, etc...
+	 * Refresca la imagen de background.
 	 * 
-	 * @since 12-08-2011
+	 * @since 07-09-2011
 	 * @author Paul
 	 * @param newConfig
 	 */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
 	}
 
 	/**
