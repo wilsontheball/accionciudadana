@@ -1,4 +1,4 @@
-package ar.com.thinksoft.ac.andrac;
+package ar.com.thinksoft.ac.andrac.adapter;
 
 /**
  * Representa informacion relevante para seguimiento de reclamo.

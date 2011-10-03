@@ -105,6 +105,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 							img.deleteImage();
 						}
 						reclamo.setCiudadanoGeneradorReclamo(Context.getInstance().getUsuario().getNombreUsuario());
+						reclamo.setMailCiudadanoGeneradorReclamo(Context.getInstance().getUsuario().getMail());
 						Date fecha = new Date();
 						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 						reclamo.setFechaReclamo(formato.format(fecha));

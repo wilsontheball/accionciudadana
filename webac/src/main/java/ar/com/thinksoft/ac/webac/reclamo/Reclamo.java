@@ -9,6 +9,7 @@ import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.mail.MailManager;
 
 /**
  * Implementacion de IReclamo en intac
@@ -30,6 +31,7 @@ public class Reclamo implements IReclamo,Serializable{
 	private String fechaUltimaModificacion;
 	private String tipoReclamo;
 	private String ciudadanoReclamo;
+	private String mailCiudadanoReclamo;
 	private String observaciones;
 	private String barrioIncidente;
 	private String comunaIncidente;
@@ -159,6 +161,10 @@ public class Reclamo implements IReclamo,Serializable{
 	public String getCiudadanoGeneradorReclamo() {
 		return this.ciudadanoReclamo;
 	}
+	
+	public String getMailCiudadanoGeneradorReclamo(){
+		return this.mailCiudadanoReclamo;
+	}
 
 	public String getObservaciones() {
 		return this.observaciones;
@@ -230,7 +236,10 @@ public class Reclamo implements IReclamo,Serializable{
 
 	public void setCiudadanoGeneradorReclamo(String ciudadano) {
 		this.ciudadanoReclamo = ciudadano;
-		
+	}
+	
+	public void setMailCiudadanoGeneradorReclamo(String mail){
+		this.mailCiudadanoReclamo = mail;
 	}
 
 	public void setObservaciones(String observaciones) {
@@ -299,6 +308,7 @@ public class Reclamo implements IReclamo,Serializable{
 		this.barrioIncidente = reclamo.getBarrioIncidente();
 		this.calleReclamo = reclamo.getCalleIncidente();
 		this.ciudadanoReclamo = reclamo.getCiudadanoGeneradorReclamo();
+		this.mailCiudadanoReclamo = reclamo.getMailCiudadanoGeneradorReclamo();
 		this.comunaIncidente = reclamo.getComunaIncidente();
 		this.estadoDescripcion = reclamo.getEstadoDescripcion();
 		this.fechaReclamo = reclamo.getFechaReclamo();

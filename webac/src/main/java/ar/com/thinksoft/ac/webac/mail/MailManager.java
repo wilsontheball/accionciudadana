@@ -2,7 +2,6 @@ package ar.com.thinksoft.ac.webac.mail;
 
 import java.util.Properties;
 
-import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -22,41 +21,35 @@ public class MailManager {
 		return instance;
 	}
 	
-	public void enviarMail(String mailDestino, String asunto){
-		Authenticator auth = null;
+	public void enviarMail(String mailDestino, String asuntoMail, String cuerpoMail){
 		Configuracion.getInstance().cargarConfiguracion();
 		
-		// Get system properties
-		Properties props = System.getProperties();
-		
 		// Setup mail server
-		props.put("mail.smtp.host", Configuracion.getInstance().getSmtp());
-		props.put("mail.smtp.port", Configuracion.getInstance().getPuerto());
-		props.put("mail.smtp.starttls.enable", Configuracion.getInstance().getTLS().toString());
-		props.put("mail.smtp.auth", Configuracion.getInstance().getAuth().toString());
-		props.put("mail.smtp.user", Configuracion.getInstance().getUser());
-		props.put("mail.smtp.socketFactory.port", Configuracion.getInstance().getPuerto());
-		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.socketFactory.fallback", "false");
+		Properties props = new Properties();
+		// Nombre del host de correo, es smtp.gmail.com
+		props.setProperty("mail.smtp.host", Configuracion.getInstance().getSmtp());
+		// TLS si está disponible
+		props.setProperty("mail.smtp.starttls.enable", Configuracion.getInstance().getTLS().toString());
+		// Puerto de gmail para envio de correos
+		props.setProperty("mail.smtp.port",Configuracion.getInstance().getPuerto());
+		// Si requiere o no usuario y password para conectarse.
+		props.setProperty("mail.smtp.auth", Configuracion.getInstance().getAuth().toString());
+		// Nombre del usuario
+		props.setProperty("mail.smtp.user", "Accion Ciudadana");
 		
-		//Si necesito credenciales...
-		if(Configuracion.getInstance().getAuth())
-			auth = new PassAuthenticator();
 		
 		// Get session
-		Session session = Session.getDefaultInstance(props, auth);
-		
+		Session session = Session.getDefaultInstance(props);
 		// Define message
 		MimeMessage message = new MimeMessage(session);
 		try {
 			message.setFrom(new InternetAddress(Configuracion.getInstance().getDesdeMail()));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailDestino));
-			message.setSubject("Hello JavaMail");
-			message.setText("Welcome to JavaMail");
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress("matias.tarriopages@gmail.com"));
+			message.setSubject(asuntoMail);
+			message.setText(cuerpoMail);
 			
-			Transport transport = session.getTransport("smtps");
-			transport.connect (	Configuracion.getInstance().getSmtp(), Integer.valueOf(Configuracion.getInstance().getPuerto()),
-								Configuracion.getInstance().getUser(), Configuracion.getInstance().getPassword());
+			Transport transport = session.getTransport("smtp");
+			transport.connect(Configuracion.getInstance().getUser(),Configuracion.getInstance().getPassword());
 			transport.sendMessage(message, message.getAllRecipients());
 			transport.close();  
 			
@@ -64,6 +57,10 @@ public class MailManager {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static String armarTextoCambioEstados(String estado){
+		return "";
 	}
 
 }
