@@ -34,6 +34,7 @@ import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoForm;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
@@ -134,9 +135,15 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 						reclamoModificado.setFechaUltimaModificacionReclamo(formato.format(fecha));
 						
+						//Cambio la prioridad de acuerdo a la prioridad elegida
+						String prioridad = reclamoModificado.getPrioridad();
+						if(prioridad != "" && prioridad != null)
+							reclamoModificado.setPrioridad(prioridad);
+						
 						//Cambio el estado de acuerdo al estado elegido
 						String estado = reclamoModificado.getEstadoDescripcion();
-						reclamoModificado.cambiarEstado(estado);
+						if(estado != "" && estado != null)
+							reclamoModificado.cambiarEstado(estado);
 						
 						if (reclamoOriginal.getAlturaIncidente() != reclamoModificado.getAlturaIncidente() || 
 							reclamoOriginal.getCalleIncidente() != reclamoModificado.getCalleIncidente()){
@@ -191,7 +198,7 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 	 * TODO: Implementar con los permisos de modificacion de estado
 	 */
 	private boolean isPermitido() {
-		return true;
+		return Context.getInstance().getUsuario().getNombreUsuario().equals("administrator");
 	}
 	
 	private IModel<String> createBind(CompoundPropertyModel<Reclamo> model,String property){

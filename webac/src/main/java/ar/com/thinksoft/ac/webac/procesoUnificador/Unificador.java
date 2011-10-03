@@ -1,5 +1,7 @@
 package ar.com.thinksoft.ac.webac.procesoUnificador;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -50,10 +52,29 @@ public class Unificador {
 	    	Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
 	    	listaReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
 	    	for(IReclamo reclamo:listaReclamos){
-	    		if(reclamo.isNotDown())
+	    		//Si el reclamo es mayor a un año, lo cancelo.
+	    		try {
+					if(reclamoMayorAnio(reclamo))
+						reclamo.cancelarReclamo();
+				} catch (ParseException e) {
+					LogFwk.getInstance(Unificador.class).error("No se pudo hacer el proceso cancelatorio de reclamos debido a una falla en una fecha");
+				}
+				
+				//Si el reclamo no esta caido, se compara y si es posible, se unifica
+				if(reclamo.isNotDown())
 	    			compararReclamoConTodos(reclamo);
 	    	}
     	}
+
+		private boolean reclamoMayorAnio(IReclamo reclamo) throws ParseException {
+			long millisecs_per_day = 24 * 60 * 60 * 1000;
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			Date dateReclamo;
+			dateReclamo = (Date)formatter.parse(reclamo.getFechaReclamo());
+			Date hoy = new Date();
+			long diferencia = ( hoy.getTime() - dateReclamo.getTime() )/millisecs_per_day;
+			return diferencia >= 365;
+		}
 
 		private void compararReclamoConTodos(IReclamo reclamo) {
 			for(IReclamo reclamoBase: listaReclamos){

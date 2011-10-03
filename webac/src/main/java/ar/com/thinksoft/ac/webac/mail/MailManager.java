@@ -8,6 +8,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 public class MailManager {
@@ -44,7 +45,7 @@ public class MailManager {
 		MimeMessage message = new MimeMessage(session);
 		try {
 			message.setFrom(new InternetAddress(Configuracion.getInstance().getDesdeMail()));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress("matias.tarriopages@gmail.com"));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailDestino));
 			message.setSubject(asuntoMail);
 			message.setText(cuerpoMail);
 			
@@ -59,8 +60,26 @@ public class MailManager {
 		
 	}
 	
-	public static String armarTextoCambioEstados(String estado){
-		return "";
+	public String armarTextoCambioEstados(String estado, IReclamo reclamo){
+		return 	"Su reclamo con detalle: \n\n"+
+				"Direccion: " + reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + "\n" +
+				"Tipo de incidente: " + reclamo.getTipoIncidente() + "\n" +
+				"Barrio: " + reclamo.getBarrioIncidente() + "\n" + 
+				"Comuna: " + reclamo.getComunaIncidente() + "\n" +
+				"Fecha del reclamo: " + reclamo.getFechaReclamo() + "\n" +
+				"Observaciones: " + reclamo.getObservaciones() + "\n\n" +
+				"se encuentra actualmente " + estado + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAccion Ciudadana";
+	}
+	
+	public String armarTextoCambioPrioridad(String prioridad, IReclamo reclamo){
+		return 	"Su reclamo con detalle: \n\n"+
+		"Direccion: " + reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + "\n" +
+		"Tipo de incidente: " + reclamo.getTipoIncidente() + "\n" +
+		"Barrio: " + reclamo.getBarrioIncidente() + "\n" + 
+		"Comuna: " + reclamo.getComunaIncidente() + "\n" +
+		"Fecha del reclamo: " + reclamo.getFechaReclamo() + "\n" +
+		"Observaciones: " + reclamo.getObservaciones() + "\n\n" +
+		"se encuentra actualmente con prioridad " + prioridad + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAccion Ciudadana";
 	}
 
 }

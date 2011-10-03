@@ -68,6 +68,7 @@ public class Reclamo implements IReclamo,Serializable{
 	public void cancelarReclamo(){
 		this.estadoDescripcion = EnumEstadosReclamo.cancelado.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Cancelacion de reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 	
 	/**
@@ -77,6 +78,7 @@ public class Reclamo implements IReclamo,Serializable{
 	public void setAsociadoReclamo(){
 		this.estadoDescripcion = EnumEstadosReclamo.asociado.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Asociacion de reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 	
 	/**
@@ -86,6 +88,7 @@ public class Reclamo implements IReclamo,Serializable{
 	public void suspender(){
 		this.estadoDescripcion = EnumEstadosReclamo.suspendido.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Suspension de reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 	
 	/**
@@ -95,6 +98,7 @@ public class Reclamo implements IReclamo,Serializable{
 	public void activar(){
 		this.estadoDescripcion = EnumEstadosReclamo.activo.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Activacion de reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 	
 	/**
@@ -104,6 +108,7 @@ public class Reclamo implements IReclamo,Serializable{
 	public void enProgreso(){
 		this.estadoDescripcion = EnumEstadosReclamo.enProgreso.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Solucion en progreso del reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 	
 	/**
@@ -113,6 +118,7 @@ public class Reclamo implements IReclamo,Serializable{
 	public void demorar(){
 		this.estadoDescripcion = EnumEstadosReclamo.demorado.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Demora del reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 	
 	/**
@@ -122,6 +128,7 @@ public class Reclamo implements IReclamo,Serializable{
 	public void terminar(){
 		this.estadoDescripcion = EnumEstadosReclamo.terminado.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Finalizacion de reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 
 	// get ATRIBUTOS
@@ -263,6 +270,7 @@ public class Reclamo implements IReclamo,Serializable{
 	
 	public void setPrioridad(String prioridad){
 		this.prioridad = prioridad;
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Cambio de prioridad del reclamo", MailManager.getInstance().armarTextoCambioPrioridad(this.prioridad, this));
 	}
 
 	public void setComunaIncidentePorBarrio(String barrio){

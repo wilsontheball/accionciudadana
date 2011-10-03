@@ -1,5 +1,7 @@
 package ar.com.thinksoft.ac.webac.web.configuracion;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBox;
@@ -19,6 +21,7 @@ import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 public class ConfiguracionForm extends Form<Configuracion> {
 	private ConfiguracionForm _self = this;
 	
+	@SuppressWarnings("rawtypes")
 	public ConfiguracionForm(String id) {
 		super(id);
 		setMultiPart(false);
@@ -96,9 +99,9 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		        }
 	    );
 		
-		add(new Button("cancelar") {
+		add(new AjaxLink("cancelar") {
 			@Override
-			public void onSubmit() {
+			public void onClick(AjaxRequestTarget target) {
 				setResponsePage(LoginPage.class);
 			}
 		});
