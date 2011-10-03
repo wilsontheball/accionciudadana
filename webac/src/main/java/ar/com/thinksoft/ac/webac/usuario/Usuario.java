@@ -3,6 +3,8 @@ package ar.com.thinksoft.ac.webac.usuario;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.authroles.authorization.strategies.role.Roles;
+
 import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IPermitible;
 import ar.com.thinksoft.ac.intac.IUsuario;
@@ -41,7 +43,7 @@ public class Usuario implements IUsuario {
 	 */
 	private boolean posee(IPermiso permiso) {
 
-		for (IPermiso permisoPropio : this.getPermisos()) {
+		for (IPermiso permisoPropio : this.getRoles()) {
 			if (permisoPropio.equals(permiso))
 				return true;
 		}
@@ -55,13 +57,13 @@ public class Usuario implements IUsuario {
 
 	// ************************* GETTERS & SETTERS ***********************
 
-	private List<IPermiso> getPermisos() {
+	private List<IPermiso> getRoles() {
 		return this.permisos;
 	}
 
 	@Override
 	public int cantidadPermisos() {
-		return this.getPermisos().size();
+		return this.getRoles().size();
 	}
 
 	@Override
@@ -141,7 +143,7 @@ public class Usuario implements IUsuario {
 	}
 
 	@Override
-	public void setPermisos(List<IPermiso> permisos) {
+	public void setRoles(List<IPermiso> permisos) {
 		this.permisos = permisos;
 	}
 

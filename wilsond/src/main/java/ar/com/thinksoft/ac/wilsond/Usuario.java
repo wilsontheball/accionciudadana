@@ -93,7 +93,7 @@ public class Usuario extends UsuarioMovil {
 		this.telefono = telefono;
 	}
 
-	public void setPermisos(List<IPermiso> permisosAdministrativos) {
+	public void setRoles(List<IPermiso> permisosAdministrativos) {
 		// TODO Auto-generated method stub
 		
 	}

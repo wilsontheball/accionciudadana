@@ -52,6 +52,6 @@ public interface IUsuario extends Serializable {
 
 	public void setTelefono(String telefono);
 
-	void setPermisos(List<IPermiso> permisosAdministrativos);
+	void setRoles(List<IPermiso> permisosAdministrativos);
 
 }

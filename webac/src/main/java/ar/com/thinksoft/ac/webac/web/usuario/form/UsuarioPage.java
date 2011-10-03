@@ -6,6 +6,7 @@ import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoPage;
 
+
 public class UsuarioPage extends BasePage {
 
 	@Override

@@ -63,11 +63,11 @@ public class UsuarioFactory {
 	}
 
 	public void toAdministrador(IUsuario usuario) {
-		usuario.setPermisos(this.getPermisosAdministrativos());
+		usuario.setRoles(this.getPermisosAdministrativos());
 	}
 
 	public void toCiudadano(IUsuario usuario) {
-		usuario.setPermisos(this.getPermisosCiudadano());
+		usuario.setRoles(this.getPermisosCiudadano());
 		
 	}
 
@@ -76,7 +76,7 @@ public class UsuarioFactory {
 	}
 
 	public void toOperario(IUsuario usuario) {
-		usuario.setPermisos(this.getPermisosOperario());
+		usuario.setRoles(this.getPermisosOperario());
 	}
 
 	private List<IPermiso> getPermisosOperario() {
@@ -84,7 +84,7 @@ public class UsuarioFactory {
 	}
 
 	public void bloquear(IUsuario usuario) {
-		usuario.setPermisos(this.getPermisosBloqueados());
+		usuario.setRoles(this.getPermisosBloqueados());
 	}
 
 	private List<IPermiso> getPermisosBloqueados() {
