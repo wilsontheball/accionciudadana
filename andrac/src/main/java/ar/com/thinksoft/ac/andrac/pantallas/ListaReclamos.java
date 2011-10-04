@@ -15,9 +15,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.adapter.ReclamoAdapter;
-import ar.com.thinksoft.ac.andrac.adapter.ReclamoItem;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
+import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 
 /**
  * La clase se encarga de manejar el listado de reclamos realizados por usuario.
@@ -33,10 +33,10 @@ public class ListaReclamos extends Activity {
 	private String mensajeError = "Error!";
 
 	// Almacena reclamo para mostrar su detalle
-	private ReclamoItem reclamo = null;
+	private Reclamo reclamo = null;
 
 	// Almacena reclamos para pasarlos al listener
-	private ReclamoItem[] reclamos;
+	private Reclamo[] reclamos;
 
 	/**
 	 * Se encarga de la creacion de la ventana. Le asigna Layout. Obtiene los
@@ -52,7 +52,7 @@ public class ListaReclamos extends Activity {
 		setContentView(R.layout.lista_reclamos);
 
 		// Obtiene los reclamos de usuario.
-		this.reclamos = (ReclamoItem[]) this.getRepo().getReclamosUsuario();
+		this.reclamos = (Reclamo[]) this.getRepo().getReclamosUsuario();
 
 		// Carga el listado con los reclamos.
 		ListView listado = (ListView) findViewById(R.id.list);
@@ -63,7 +63,6 @@ public class ListaReclamos extends Activity {
 				mostrarDialogo(posicion);
 			}
 		});
-
 	}
 
 	/**
@@ -109,7 +108,7 @@ public class ListaReclamos extends Activity {
 	 * @author Paul
 	 */
 	public void mostrarDialogo(int posicion) {
-		ReclamoItem reclamo = reclamos[posicion];
+		Reclamo reclamo = reclamos[posicion];
 		if (reclamo != null) {
 			this.reclamo = reclamo;
 			this.showDialog(posicion);
@@ -144,9 +143,11 @@ public class ListaReclamos extends Activity {
 							}).create();
 		default:
 			return new AlertDialog.Builder(ListaReclamos.this)
-					.setIcon(this.obtenerIcono(this.reclamo.getEstado()))
-					.setTitle(this.reclamo.getEstado())
-					.setMessage(this.reclamo.getResumen())
+					.setIcon(
+							this.obtenerIcono(this.reclamo
+									.getEstadoDescripcion()))
+					.setTitle(this.reclamo.getEstadoDescripcion())
+					.setMessage(this.armarResumen(this.reclamo))
 					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -176,5 +177,15 @@ public class ListaReclamos extends Activity {
 		while (st.hasMoreElements())
 			t += st.nextElement();
 		return t;
+	}
+
+	private String armarResumen(Reclamo reclamo) {
+
+		String resumen = reclamo.getTipoIncidente() + "\n"
+				+ reclamo.getCalleIncidente() + " "
+				+ reclamo.getAlturaIncidente() + "\n"
+				+ reclamo.getFechaReclamo();
+		return resumen;
+
 	}
 }

@@ -35,6 +35,7 @@ import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorCiudadano;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
@@ -44,7 +45,6 @@ import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 import ar.com.thinksoft.ac.webac.web.export.ObjectDataSource;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
-
 import com.inmethod.grid.DataProviderAdapter;
 import com.inmethod.grid.SizeUnit;
 import com.inmethod.grid.column.PropertyColumn;
@@ -69,7 +69,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	public BusquedaReclamoForm(String id) {
 		
 		super(id);
-		//TODO
+		//TODO: modificar por tipo de usuario
 		if("administrator".equals(ciudadano.getNombreUsuario()))
 			listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
 		else
@@ -115,7 +115,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				public void onSubmit() {
 					IReclamo reclamo = _self.getModelObject();
 					
-					//TODO
+					//TODO: modificar por tipo de usuario
 					if(!ciudadano.getNombreUsuario().equals("administrator"))
 						reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
 					
@@ -169,7 +169,13 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		        for (IModel model : selected) {
 		           reclamo = (Reclamo) model.getObject();
 		        }
-		        reclamo.cancelarReclamo();
+		        
+		        try{
+		        	reclamo.cancelarReclamo();
+				} catch (Exception e1) {
+					LogFwk.getInstance(BusquedaReclamoForm.class).error("No se pudo enviar mail al cancelar reclamo. Detalle: " + e1.getMessage());
+				}
+				
 				dialogCancelar.close(target);
 				setResponsePage(BusquedaReclamoPage.class);
 		        setRedirect(true);
@@ -236,10 +242,16 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				List<IReclamo> listaReclamosSeleccionados = obtenerReclamosSeleccionados(selected);
 				IReclamo reclamo = listaReclamosSeleccionados.get(0);
 				IReclamo reclamo2 = listaReclamosSeleccionados.get(1);
-				if((reclamo.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) <= 0))
-					reclamo.unificar(reclamo2);
-				else
-					reclamo2.unificar(reclamo);
+				
+				try{
+					if((reclamo.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) <= 0))
+						reclamo.unificar(reclamo2);
+					else
+						reclamo2.unificar(reclamo);
+				} catch (Exception e) {
+					LogFwk.getInstance(BusquedaReclamoForm.class).error("No se pudo hacer la unificacion de reclamos. Detalle: " + e.getMessage());
+				}
+				
 				dialogUnificar.close(target);
 				setResponsePage(BusquedaReclamoPage.class);
 		        setRedirect(true);
@@ -271,26 +283,28 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	    	}
 	    });
         
+        
         ///////////// EXPORTAR ////////////////////////
+        
         add(new Button("exportar"){
         	@Override
 			public void onSubmit() {
         		IReclamo reclamo = _self.getModelObject();
-        		//TODO
+        		//TODO cambiar por tipo de usuario
         		if(!ciudadano.getNombreUsuario().equals("administrator"))
         			reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
         		
         		ByteArrayResource bar = null;
 				try {
 					bar = new ByteArrayResource("application/pdf", exportTable(reclamo));
-
 				} catch (Exception e) {
-					e.printStackTrace();
+					LogFwk.getInstance(BusquedaReclamoForm.class).error("Error en la exportacion. Detalle: " + e.getMessage());
 				}
         		IResourceStream stream = bar.getResourceStream();
         		RequestCycle.get().setRequestTarget(new ResourceStreamRequestTarget(stream, "accionCiudadana.pdf"));
         		
         	}
+
         });
         
         ///////////// FIN ////////////////////////
@@ -406,6 +420,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		    arrayBytes = JasperExportManager.exportReportToPdf(jasperPrint);
 	      
 	    } catch (JRException e) {
+	    	LogFwk.getInstance(BusquedaReclamoForm.class).error("Imposible exportar a pdf. Detalle: "+e.getMessage());
 	    	throw new Exception("Imposible exportar a pdf. Consulte con nuestro soporte tecnico");
 	    }
 		return arrayBytes;

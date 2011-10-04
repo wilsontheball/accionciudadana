@@ -7,6 +7,8 @@ import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.util.file.File;
 
 import ar.com.thinksoft.ac.intac.IImagen;
+import ar.com.thinksoft.ac.webac.exceptions.FormatoImagenException;
+import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 public class ImageFactory {
@@ -46,8 +48,10 @@ public class ImageFactory {
 			if(!image.exists())
 				image.createNewFile();
 			image.write(stream);
-		}else
-			throw new Exception("no tiene un formato valido");
+		}else{
+			LogFwk.getInstance(ImageFactory.class).error("La imagen no tiene un formato valido");
+			throw new FormatoImagenException("La imagen no tiene un formato valido.");
+		}
 	}
 	
 	public void deleteImage(){

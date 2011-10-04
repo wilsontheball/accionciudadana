@@ -34,6 +34,8 @@ import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
 import ar.com.thinksoft.ac.andrac.listener.UbicacionSpinnerListener;
+import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
+import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 
 /**
  * Maneja creacion de un reclamo.
@@ -54,7 +56,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	private CountDownTimer timer = null;
 	private String tituloAlerta = "";
 	private String mensageAlerta = "";
-	private Random random = new Random(new Date().getSeconds());
+	private Random random = new Random(new Date().getTime() * 1000); //get seconds
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,13 +65,19 @@ public class IniciarReclamo extends Activity implements LocationListener {
 
 		Spinner spinnerUbicacion = (Spinner) findViewById(R.id.ubicacion);
 		Spinner spinnerIncidente = (Spinner) findViewById(R.id.tipo_incidente);
+		Spinner spinnerBarrio = (Spinner) findViewById(R.id.tipo_barrio);
 
 		ArrayAdapter<CharSequence> adapterUbicacion = ArrayAdapter
 				.createFromResource(this, R.array.ubicacion_array,
 						android.R.layout.simple_spinner_item);
-		ArrayAdapter<CharSequence> adapterIncidente = ArrayAdapter
-				.createFromResource(this, R.array.tipoincidente_array,
-						android.R.layout.simple_spinner_item);
+
+		ArrayAdapter<String> adapterIncidente = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item,
+				EnumTipoReclamo.getListaTiposReclamo());
+
+		ArrayAdapter<String> adapterBarrio = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item,
+				EnumBarriosReclamo.getListaBarriosReclamo());
 
 		adapterUbicacion
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -78,6 +86,10 @@ public class IniciarReclamo extends Activity implements LocationListener {
 		adapterIncidente
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerIncidente.setAdapter(adapterIncidente);
+
+		adapterBarrio
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerBarrio.setAdapter(adapterBarrio);
 
 		spinnerUbicacion
 				.setOnItemSelectedListener(new UbicacionSpinnerListener());
@@ -101,6 +113,9 @@ public class IniciarReclamo extends Activity implements LocationListener {
 		String tipo = ((Spinner) findViewById(R.id.tipo_incidente))
 				.getSelectedItem().toString();
 
+		String barrio = ((Spinner) findViewById(R.id.tipo_barrio))
+				.getSelectedItem().toString();
+
 		// Este campo puede ser nulo
 		String observ = ((EditText) findViewById(R.id.observaciones)).getText()
 				.toString();
@@ -115,21 +130,22 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				String longitud = ((EditText) findViewById(R.id.longitud))
 						.getText().toString();
 				// TODO agregar campo barrio a la pantalla
-				this.getRepo().publicarReclamoGPS(tipo, "Almagro", latitud,
+				this.getRepo().publicarReclamoGPS(tipo, barrio, latitud,
 						longitud, observ);
+
 				// XXX Probando Goeocoder....
 				Geocoder geocoder = new Geocoder(this);
 				try {
 					Address dir = geocoder.getFromLocation(-34.60891,
 							-58.56421, 1).get(0);
-					Toast.makeText(this, "Direccion es: " + dir.getAdminArea(),
-							Toast.LENGTH_LONG).show();
+					Log.d(this.getClass().getName(),
+							"Direccion es: " + dir.getAdminArea());
 				} catch (IOException e) {
-					Toast.makeText(this, "Fallo Geocoder", Toast.LENGTH_LONG)
-							.show();
-					e.printStackTrace();
+					Log.d(this.getClass().getName(),
+							"Fallo Geocoder" + e.toString());
 				}
 				// XXX Hasta aqui probando Goeocoder....
+
 				Toast.makeText(this, R.string.reclamo_enviado,
 						Toast.LENGTH_LONG).show();
 				this.finish();
@@ -149,7 +165,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 					String altura = ((EditText) findViewById(R.id.altura))
 							.getText().toString();
 					// TODO agregar campo barrio a la pantalla
-					this.getRepo().publicarReclamoDireccion(tipo, "Almagro",
+					this.getRepo().publicarReclamoDireccion(tipo, barrio,
 							calle, altura, observ);
 					Toast.makeText(this, R.string.reclamo_enviado,
 							Toast.LENGTH_LONG).show();

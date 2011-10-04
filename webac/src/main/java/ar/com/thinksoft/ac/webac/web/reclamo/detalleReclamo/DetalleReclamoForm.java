@@ -30,9 +30,10 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 		setMultiPart(true);
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorUUID().filtrar(idReclamo));
 		
-		if(lista.size()!= 1)
+		if(lista.size()!= 1){
+			//TODO: dialogo error
 			throw new Exception("error en la base de datos, por favor, comuniquese con el equipo de soporte tecnico");
-		
+		}
 		reclamo = lista.get(0);
 		CompoundPropertyModel<Reclamo> model = new CompoundPropertyModel<Reclamo>(reclamo);
 		setModel(model);
@@ -62,7 +63,6 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 			img = new ImageFactory(imagen);
 			add(new Label("rutaImagen",imagen.getFileName()));
 		}catch(Exception e){
-			LogFwk.getInstance(DetalleReclamoForm.class).error("no existe imagen para este reclamo");
 			add(new Label("rutaImagen",""));
 		}
 		

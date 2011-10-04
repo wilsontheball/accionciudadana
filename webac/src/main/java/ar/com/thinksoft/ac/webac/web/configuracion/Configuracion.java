@@ -8,6 +8,7 @@ import org.jdom.*;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
+import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 
 public class Configuracion implements Serializable{
@@ -41,7 +42,7 @@ public class Configuracion implements Serializable{
 	private String pathDownloadApp = "src/main/webapp/download/accionCiudadana.apk";
 	private String keyGoogleMap = "ABQIAAAASNhk0DNhWwkPk0Y12RIrThTwM0brOpm-All5BF6PoaKBxRWWERRi58__PuwPgysGGKPkLxYHu8hULg";
 	
-	public void guardarConfiguracion(){
+	public void guardarConfiguracion() throws ConfiguracionException{
 		Element configElement = new Element("configuracion");
 		Document configDocument = new Document(configElement);
 		
@@ -76,14 +77,14 @@ public class Configuracion implements Serializable{
             writer.close();
             
 		} catch (java.io.IOException e) {
-			LogFwk.getInstance(Configuracion.class).error("Error al escribir el archivo de configuracion. Creacion abortada");
-			System.out.println("falla el guardado");
+			LogFwk.getInstance(Configuracion.class).error("Error al escribir el archivo de configuracion. Detalle: " + e.getMessage());
+			throw new ConfiguracionException("Error al escribir el archivo de configuracion. Detalle: " + e.getMessage());
 		}
 		
 		instance = null;
 	}
 	
-	public void cargarConfiguracion(){
+	public void cargarConfiguracion() throws ConfiguracionException{
 		
 		try {
 			SAXBuilder builder = new SAXBuilder();
@@ -108,9 +109,9 @@ public class Configuracion implements Serializable{
 			this.setPathDownloadApp(rootNode.getChildText("pathDownloadApp"));
 			this.setKeyGoogleMap(rootNode.getChildText("keyGoogleMap"));
 			
-		  } catch (Exception io) {
-			  LogFwk.getInstance(Configuracion.class).error("No se encontro ningun archivo de configuracion. Se creara uno automaticamente");
-			  System.out.println("falla la carga");
+		  } catch (Exception e) {
+			  LogFwk.getInstance(Configuracion.class).error("Error al leer el archivo de configuracion. Detalle: " + e.getMessage());
+			  throw new ConfiguracionException("Error al leer el archivo de configuracion. Detalle: " + e.getMessage());
 		  }
 	}
 	

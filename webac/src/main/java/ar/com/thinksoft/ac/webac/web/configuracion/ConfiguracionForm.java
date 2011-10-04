@@ -1,5 +1,7 @@
 package ar.com.thinksoft.ac.webac.web.configuracion;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBox;
@@ -13,17 +15,23 @@ import org.apache.wicket.model.IModel;
 import com.visural.wicket.behavior.beautytips.BeautyTipBehavior;
 import com.visural.wicket.behavior.beautytips.TipPosition;
 
+import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 
 @SuppressWarnings("serial")
 public class ConfiguracionForm extends Form<Configuracion> {
 	private ConfiguracionForm _self = this;
 	
+	@SuppressWarnings("rawtypes")
 	public ConfiguracionForm(String id) {
 		super(id);
 		setMultiPart(false);
 		
-		Configuracion.getInstance().cargarConfiguracion();
+		try {
+			Configuracion.getInstance().cargarConfiguracion();
+		} catch (ConfiguracionException e) {
+			// TODO dialogo error
+		}
 		CompoundPropertyModel<Configuracion> model = new CompoundPropertyModel<Configuracion>(Configuracion.getInstance());
 		setModel(model);
 		
@@ -90,15 +98,19 @@ public class ConfiguracionForm extends Form<Configuracion> {
 				@Override
 				public void onSubmit() {
 					Configuracion config = _self.getModelObject();
-					config.guardarConfiguracion();
+					try {
+						config.guardarConfiguracion();
+					} catch (ConfiguracionException e) {
+						// TODO dialogo error
+					}
 					setResponsePage(LoginPage.class);
 					}
 		        }
 	    );
 		
-		add(new Button("cancelar") {
+		add(new AjaxLink("cancelar") {
 			@Override
-			public void onSubmit() {
+			public void onClick(AjaxRequestTarget target) {
 				setResponsePage(LoginPage.class);
 			}
 		});

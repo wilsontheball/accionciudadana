@@ -13,6 +13,7 @@ public class LogoutPage extends BasePage{
 		Context.getInstance().invalidate();
 		getSession().invalidateNow();
 		setResponsePage(LoginPage.class);
+		setRedirect(true);
 	}
 
 }

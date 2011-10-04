@@ -116,7 +116,7 @@ public class TestReclamo {
 	}
 	
 	@Test
-	public void obtenerReclamosPorPrioridad(){
+	public void obtenerReclamosPorPrioridad() throws Exception{
 		
 		Reclamo reclamo = new Reclamo();
 		reclamo.setPrioridad(EnumPrioridadReclamo.media.getPrioridad());
@@ -135,7 +135,7 @@ public class TestReclamo {
 	}
 	
 	@Test
-	public void modificarReclamo(){
+	public void modificarReclamo() throws Exception{
 		
 		Reclamo reclamo = new Reclamo();
 		reclamo.setPrioridad(EnumPrioridadReclamo.media.getPrioridad());

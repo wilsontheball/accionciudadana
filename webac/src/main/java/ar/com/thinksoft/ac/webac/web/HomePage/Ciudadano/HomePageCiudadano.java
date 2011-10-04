@@ -13,6 +13,7 @@ import wicket.contrib.gmap.GMap2;
 import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.api.GMarker;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
@@ -33,7 +34,11 @@ public class HomePageCiudadano extends BasePage{
 	
 	public HomePageCiudadano(final PageParameters parameters){
 		
-		Configuracion.getInstance().cargarConfiguracion();
+		try {
+			Configuracion.getInstance().cargarConfiguracion();
+		} catch (ConfiguracionException e) {
+			//TODO dialogo error
+		}
 		KEY = Configuracion.getInstance().getKeyGoogleMap();
 		
 		add(CSSPackageResource.getHeaderContribution(HomePage.class,"../css/Home.css"));

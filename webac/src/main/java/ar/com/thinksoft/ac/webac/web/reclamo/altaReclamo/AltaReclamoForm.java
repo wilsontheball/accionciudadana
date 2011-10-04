@@ -76,10 +76,12 @@ public class AltaReclamoForm extends Form<Reclamo> {
 			@Override
 		    protected void onSubmit(AjaxRequestTarget arg0) { 
 				final FileUpload file = fileUploadField.getFileUpload();
-				try {
-					img = new ImageFactory(file);
-				} catch (Exception e) {
-				}
+					try {
+						img = new ImageFactory(file);
+					} catch (Exception e) {
+						LogFwk.getInstance(AltaReclamoForm.class).error("Problemas al crear la imagen. Detalle: " + e.getMessage());
+						//TODO: dialogo error
+					}
 		    }
 			@Override
 			protected void onError(AjaxRequestTarget target){
@@ -98,7 +100,12 @@ public class AltaReclamoForm extends Form<Reclamo> {
 					if(!isReclamoNoValido(reclamo)){
 						//metodos agregados a mano
 						reclamo.setId();
-						reclamo.setPrioridad(EnumPrioridadReclamo.noAsignada.getPrioridad());
+						
+						try {
+							reclamo.setPrioridad(EnumPrioridadReclamo.noAsignada.getPrioridad());
+						} catch (Exception e1) {
+							LogFwk.getInstance(AltaReclamoForm.class).error("No se pudo enviar mail al cambiar prioridad. Detalle: " + e1.getMessage());
+						}
 						
 						if(img != null){
 							reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
@@ -126,11 +133,17 @@ public class AltaReclamoForm extends Form<Reclamo> {
 							 reclamo.setLatitudIncidente(latitud.toString());
 							 reclamo.setLongitudIncidente(longitud.toString());
 						} catch (Exception e) {
-							LogFwk.getInstance(AltaReclamoPage.class).error("Problema al generar coordenadas. Stack: " + e);
+							LogFwk.getInstance(AltaReclamoPage.class).error("Problema al generar coordenadas. Detalle: " + e);
+							//TODO: dialogo error
 						}
-						// FIN CONVERSION CALLE A COORDENADAS GPS
 						
-						reclamo.activar();
+						// FIN CONVERSION CALLE A COORDENADAS GPS
+						try{
+							reclamo.activar();
+						} catch (Exception e1) {
+							LogFwk.getInstance(AltaReclamoForm.class).error("No se pudo enviar mail al cambiar prioridad. Detalle: " + e1.getMessage());
+						}
+						
 						setResponsePage(HomePage.class);
 					}
 		        }
