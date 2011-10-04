@@ -1,16 +1,13 @@
 package ar.com.thinksoft.ac.webac.usuario;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 
-import ar.com.thinksoft.ac.intac.IPermiso;
-import ar.com.thinksoft.ac.intac.IPermitible;
 import ar.com.thinksoft.ac.intac.IUsuario;
 
 @SuppressWarnings("serial")
 public class Usuario implements IUsuario {
 
-	private List<IPermiso> permisos;
+	private Roles permisos;
 	private String nombreUsuario;
 	private String contrasenia;
 	private String telefono;
@@ -20,7 +17,7 @@ public class Usuario implements IUsuario {
 	private String dni;
 
 	public Usuario() {
-		this.permisos = new ArrayList<IPermiso>();
+		this.permisos = new Roles();
 		this.setApellido("");
 		this.setContrasenia("");
 		this.setDni("");
@@ -30,38 +27,14 @@ public class Usuario implements IUsuario {
 		this.setTelefono("");
 	}
 
-	@Override
-	public boolean tenesPermisosPara(IPermitible permitible) {
-		return this.posee(permitible.getPermisoNecesario());
-	}
-
-	/**
-	 * Determina si el permiso que se le pasa por parametro esta dentro de su
-	 * coleccion de permisos
-	 */
-	private boolean posee(IPermiso permiso) {
-
-		for (IPermiso permisoPropio : this.getRoles()) {
-			if (permisoPropio.equals(permiso))
-				return true;
-		}
-
-		return false;
-	}
-
-	public void addPermiso(IPermiso permiso) {
-		this.permisos.add(permiso);
+	public void addRole(String role) {
+		this.permisos.add(role);
 	}
 
 	// ************************* GETTERS & SETTERS ***********************
 
-	private List<IPermiso> getRoles() {
+	public Roles getRoles() {
 		return this.permisos;
-	}
-
-	@Override
-	public int cantidadPermisos() {
-		return this.getRoles().size();
 	}
 
 	@Override
@@ -140,9 +113,5 @@ public class Usuario implements IUsuario {
 		this.telefono = telefono;
 	}
 
-	@Override
-	public void setRoles(List<IPermiso> permisos) {
-		this.permisos = permisos;
-	}
 
 }

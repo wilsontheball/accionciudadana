@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thinksoft.ac.intac.IPermiso;
-import ar.com.thinksoft.ac.webac.web.HomePage.HomePagePermiso;
 
 /**
  * 
@@ -51,9 +50,6 @@ public class UsuarioFactory {
 	private Usuario construirUsuarioComun() {
 
 		Usuario usuario = this.crearUsuario();
-
-		usuario.addPermiso(new HomePagePermiso());
-
 		return usuario;
 	}
 	
@@ -62,11 +58,9 @@ public class UsuarioFactory {
 	}
 
 	public void toAdministrador(Usuario usuario) {
-		usuario.setRoles(this.getPermisosAdministrativos());
 	}
 
 	public void toCiudadano(Usuario usuario) {
-		usuario.setRoles(this.getPermisosCiudadano());
 		
 	}
 
@@ -75,7 +69,6 @@ public class UsuarioFactory {
 	}
 
 	public void toOperario(Usuario usuario) {
-		usuario.setRoles(this.getPermisosOperario());
 	}
 
 	private List<IPermiso> getPermisosOperario() {
@@ -83,7 +76,6 @@ public class UsuarioFactory {
 	}
 
 	public void bloquear(Usuario usuario) {
-		usuario.setRoles(this.getPermisosBloqueados());
 	}
 
 	private List<IPermiso> getPermisosBloqueados() {
