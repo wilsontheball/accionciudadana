@@ -10,6 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.exceptions.UnificadorException;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
@@ -18,7 +19,7 @@ public class Unificador {
 
     private Timer timer;
     
-    public Unificador() {
+    public Unificador() throws UnificadorException {
     	
 		try{
 			Configuracion.getInstance().cargarConfiguracion();
@@ -38,12 +39,13 @@ public class Unificador {
 			timer.schedule(new UnificarReclamos(), date, 1000 * 60 * 60 * 24);
 			
 		}catch (Exception e) {
-			LogFwk.getInstance(Unificador.class).error("Error no controlado");
+			LogFwk.getInstance(Unificador.class).error("Error durante la ejecucion del proceso unificador de reclamos. Detalle: " + e.getMessage());
+			throw new UnificadorException("Error durante la ejecucion del proceso unificador de reclamos. Detalle: " + e.getMessage());
 		}
     }
     
     
-    public class UnificarReclamos extends TimerTask {
+    public class UnificarReclamos extends TimerTask{
     	
     	private List<IReclamo> listaReclamos = new ArrayList<IReclamo>();
 
@@ -55,7 +57,11 @@ public class Unificador {
 	    		//Si el reclamo es mayor a un año, lo cancelo.
 	    		try {
 					if(reclamoMayorAnio(reclamo))
-						reclamo.cancelarReclamo();
+						try {
+							reclamo.cancelarReclamo();
+						} catch (Exception e) {
+							LogFwk.getInstance(Unificador.class).error("No se pudo cancelar reclamo durante el proceso automatico. Detalle: " + e.getMessage());
+						}
 				} catch (ParseException e) {
 					LogFwk.getInstance(Unificador.class).error("No se pudo hacer el proceso cancelatorio de reclamos debido a una falla en una fecha");
 				}
@@ -78,10 +84,15 @@ public class Unificador {
 
 		private void compararReclamoConTodos(IReclamo reclamo) {
 			for(IReclamo reclamoBase: listaReclamos){
-				if((reclamo.getFechaReclamo().compareTo(reclamoBase.getFechaReclamo()) <= 0))
-					reclamo.unificar(reclamoBase);
-				else
-					reclamoBase.unificar(reclamo);
+				try {
+					if((reclamo.getFechaReclamo().compareTo(reclamoBase.getFechaReclamo()) <= 0))
+						reclamo.unificar(reclamoBase);
+					else
+						reclamoBase.unificar(reclamo);
+					
+				} catch (Exception e) {
+					LogFwk.getInstance(Unificador.class).error("No se pudo hacer el proceso unificaodr de reclamos. Detalle: " + e.getMessage());
+				}
 			}
 		}
     }

@@ -80,11 +80,11 @@ public interface IReclamo extends Serializable{
 	
 	public void setImagen(IImagen imagen);
 	
-	public void setPrioridad(String prioridad);
+	public void setPrioridad(String prioridad) throws Exception;
 
 	public void clone(IReclamo reclamoOriginal);
 
-	public void cambiarEstado(String estadoDescripcion);
+	public void cambiarEstado(String estadoDescripcion) throws Exception;
 
 	// Fin seteo atributos
 	
@@ -94,21 +94,21 @@ public interface IReclamo extends Serializable{
 	
 	public boolean isIgual(IReclamo reclamo);
 	
-	public void unificar(IReclamo reclamo);
+	public void unificar(IReclamo reclamo) throws Exception;
 	
-	public void cancelarReclamo();
+	public void cancelarReclamo() throws Exception;
 
-	public void setAsociadoReclamo();
+	public void setAsociadoReclamo() throws Exception;
 	
-	public void suspender();
+	public void suspender() throws Exception;
 
-	public void activar();
+	public void activar() throws Exception;
 	
-	public void enProgreso();
+	public void enProgreso() throws Exception;
 	
-	public void demorar();
+	public void demorar() throws Exception;
 	
-	public void terminar();
+	public void terminar() throws Exception;
 	
 }
 

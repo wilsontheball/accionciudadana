@@ -35,8 +35,6 @@ import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.Context;
-import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
-import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoForm;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
 @SuppressWarnings("serial")
@@ -52,9 +50,10 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 		setMultiPart(true);
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorUUID().filtrar(idReclamo));
 		
-		if(lista.size()!= 1)
+		if(lista.size()!= 1){
+			//TODO: dialogo error
 			throw new Exception("error en la base de datos, por favor, comuniquese con el equipo de soporte tecnico");
-		
+		}
 		reclamoOriginal = lista.get(0);
 		
 		IReclamo reclamo = new Reclamo();
@@ -102,6 +101,8 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 				try {
 					img = new ImageFactory(file);
 				} catch (Exception e) {
+					LogFwk.getInstance(ModificarReclamoForm.class).error("Problemas al crear la imagen. Detalle: " + e.getMessage());
+					//TODO: dialogo error
 				}
 		    }
 			@Override
@@ -117,7 +118,6 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 			img = new ImageFactory(imagen);
 			add(new Label("rutaImagen",imagen.getFileName()));
 		}catch(Exception e){
-			LogFwk.getInstance(DetalleReclamoForm.class).error("no existe imagen para este reclamo");
 			add(new Label("rutaImagen",""));
 		}
 		
@@ -137,13 +137,23 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 						
 						//Cambio la prioridad de acuerdo a la prioridad elegida
 						String prioridad = reclamoModificado.getPrioridad();
-						if(prioridad != "" && prioridad != null)
-							reclamoModificado.setPrioridad(prioridad);
+						if(prioridad != "" && prioridad != null){
+							try {
+								reclamoModificado.setPrioridad(prioridad);
+							} catch (Exception e) {
+								LogFwk.getInstance(ModificarReclamoForm.class).error("Problema al enviar mail por cambio de prioridad. Detalle: " + e.getMessage());
+							}
+						}
 						
 						//Cambio el estado de acuerdo al estado elegido
 						String estado = reclamoModificado.getEstadoDescripcion();
-						if(estado != "" && estado != null)
-							reclamoModificado.cambiarEstado(estado);
+						if(estado != "" && estado != null){
+							try {
+								reclamoModificado.cambiarEstado(estado);
+							} catch (Exception e) {
+								LogFwk.getInstance(ModificarReclamoForm.class).error("Problema al enviar mail por cambio de estado. Detalle: " + e.getMessage());
+							}
+						}
 						
 						if (reclamoOriginal.getAlturaIncidente() != reclamoModificado.getAlturaIncidente() || 
 							reclamoOriginal.getCalleIncidente() != reclamoModificado.getCalleIncidente()){
@@ -162,7 +172,7 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 								 reclamoModificado.setLatitudIncidente(latitud.toString());
 								 reclamoModificado.setLongitudIncidente(longitud.toString());
 							} catch (Exception e) {
-								LogFwk.getInstance(AltaReclamoPage.class).error("Problema al generar coordenadas. Stack: " + e);
+								LogFwk.getInstance(ModificarReclamoForm.class).error("Problema al generar coordenadas. Stack: " + e);
 							}
 							// FIN CONVERSION CALLE A COORDENADAS GPS
 							

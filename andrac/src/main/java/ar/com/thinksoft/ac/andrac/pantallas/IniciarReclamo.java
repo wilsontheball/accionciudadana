@@ -56,7 +56,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	private CountDownTimer timer = null;
 	private String tituloAlerta = "";
 	private String mensageAlerta = "";
-	private Random random = new Random(new Date().getSeconds());
+	private Random random = new Random(new Date().getTime() * 1000); //get seconds
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

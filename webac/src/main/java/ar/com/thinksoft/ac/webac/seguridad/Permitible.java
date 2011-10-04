@@ -28,6 +28,4 @@ public abstract class Permitible extends WebPage implements IPermitible{
 		return usuario.tenesPermisosPara(this);
 	}
 	
-	
-	
 }

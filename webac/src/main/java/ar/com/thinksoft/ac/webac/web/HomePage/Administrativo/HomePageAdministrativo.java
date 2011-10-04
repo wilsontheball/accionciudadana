@@ -25,6 +25,7 @@ import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.adminMap.Comuna;
 import ar.com.thinksoft.ac.webac.adminMap.ComunaManager;
+import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
@@ -43,7 +44,11 @@ public class HomePageAdministrativo extends BasePage{
 	
 	public HomePageAdministrativo(final PageParameters parameters){
 		
-		Configuracion.getInstance().cargarConfiguracion();
+		try {
+			Configuracion.getInstance().cargarConfiguracion();
+		} catch (ConfiguracionException e) {
+			// TODO dialogo error
+		}
 		KEY = Configuracion.getInstance().getKeyGoogleMap();
 		
 		add(CSSPackageResource.getHeaderContribution(HomePage.class,"../css/Home.css"));

@@ -15,6 +15,7 @@ import org.apache.wicket.model.IModel;
 import com.visural.wicket.behavior.beautytips.BeautyTipBehavior;
 import com.visural.wicket.behavior.beautytips.TipPosition;
 
+import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 
 @SuppressWarnings("serial")
@@ -26,7 +27,11 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		super(id);
 		setMultiPart(false);
 		
-		Configuracion.getInstance().cargarConfiguracion();
+		try {
+			Configuracion.getInstance().cargarConfiguracion();
+		} catch (ConfiguracionException e) {
+			// TODO dialogo error
+		}
 		CompoundPropertyModel<Configuracion> model = new CompoundPropertyModel<Configuracion>(Configuracion.getInstance());
 		setModel(model);
 		
@@ -93,7 +98,11 @@ public class ConfiguracionForm extends Form<Configuracion> {
 				@Override
 				public void onSubmit() {
 					Configuracion config = _self.getModelObject();
-					config.guardarConfiguracion();
+					try {
+						config.guardarConfiguracion();
+					} catch (ConfiguracionException e) {
+						// TODO dialogo error
+					}
 					setResponsePage(LoginPage.class);
 					}
 		        }
