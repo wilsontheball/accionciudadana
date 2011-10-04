@@ -228,12 +228,6 @@ public class UsuarioNuevoForm extends Form<Usuario> {
 	}
 
 	protected void convertUsuario(String tipoUsuario, Usuario usuario) {
-		if (TipoUsuario.Administrador.toString().equals(tipoUsuario))
-			new UsuarioFactory().toAdministrador(usuario);
-		if (TipoUsuario.Ciudadano.toString().equals(tipoUsuario))
-			new UsuarioFactory().toCiudadano(usuario);
-		if (TipoUsuario.Operario.toString().equals(tipoUsuario))
-			new UsuarioFactory().toOperario(usuario);
 	}
 
 }

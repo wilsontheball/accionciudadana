@@ -1,9 +1,5 @@
 package ar.com.thinksoft.ac.webac.usuario;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ar.com.thinksoft.ac.intac.IPermiso;
 
 /**
  * 
@@ -53,32 +49,4 @@ public class UsuarioFactory {
 		return usuario;
 	}
 	
-	private List<IPermiso> getPermisosAdministrativos(){
-		return new ArrayList<IPermiso>();
-	}
-
-	public void toAdministrador(Usuario usuario) {
-	}
-
-	public void toCiudadano(Usuario usuario) {
-		
-	}
-
-	private List<IPermiso> getPermisosCiudadano() {
-		return new ArrayList<IPermiso>();
-	}
-
-	public void toOperario(Usuario usuario) {
-	}
-
-	private List<IPermiso> getPermisosOperario() {
-		return new ArrayList<IPermiso>();
-	}
-
-	public void bloquear(Usuario usuario) {
-	}
-
-	private List<IPermiso> getPermisosBloqueados() {
-		return new ArrayList<IPermiso>();
-	}
 }
