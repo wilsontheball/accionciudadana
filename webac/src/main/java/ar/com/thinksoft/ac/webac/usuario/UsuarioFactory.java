@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thinksoft.ac.intac.IPermiso;
-import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePagePermiso;
 
 /**
@@ -16,18 +15,18 @@ import ar.com.thinksoft.ac.webac.web.HomePage.HomePagePermiso;
  */
 public class UsuarioFactory {
 
-	public IUsuario construirCiudadano() {
-		IUsuario usuario = this.construirUsuarioComun();
+	public Usuario construirCiudadano() {
+		Usuario usuario = this.construirUsuarioComun();
 		return usuario;
 	}
 
-	public IUsuario construirOperador() {
-		IUsuario usuario = this.construirAministrativo();
+	public Usuario construirOperador() {
+		Usuario usuario = this.construirAministrativo();
 		return usuario;
 	}
 
-	public IUsuario construirAdministrador() {
-		IUsuario usuario = this.construirAministrativo();
+	public Usuario construirAdministrador() {
+		Usuario usuario = this.construirAministrativo();
 		return usuario;
 	}
 
@@ -37,21 +36,21 @@ public class UsuarioFactory {
 	 * Construye un administrativo que es un usuario comun con los permisos
 	 * propios de un administrativo
 	 */
-	private IUsuario construirAministrativo() {
-		IUsuario usuario = this.construirUsuarioComun();
+	private Usuario construirAministrativo() {
+		Usuario usuario = this.construirUsuarioComun();
 		return usuario;
 	}
 
-	private IUsuario crearUsuario() {
+	private Usuario crearUsuario() {
 		return new Usuario();
 	}
 
 	/**
 	 * Construye un usuario base con los permisos comunes
 	 */
-	private IUsuario construirUsuarioComun() {
+	private Usuario construirUsuarioComun() {
 
-		IUsuario usuario = this.crearUsuario();
+		Usuario usuario = this.crearUsuario();
 
 		usuario.addPermiso(new HomePagePermiso());
 
@@ -62,11 +61,11 @@ public class UsuarioFactory {
 		return new ArrayList<IPermiso>();
 	}
 
-	public void toAdministrador(IUsuario usuario) {
+	public void toAdministrador(Usuario usuario) {
 		usuario.setRoles(this.getPermisosAdministrativos());
 	}
 
-	public void toCiudadano(IUsuario usuario) {
+	public void toCiudadano(Usuario usuario) {
 		usuario.setRoles(this.getPermisosCiudadano());
 		
 	}
@@ -75,7 +74,7 @@ public class UsuarioFactory {
 		return new ArrayList<IPermiso>();
 	}
 
-	public void toOperario(IUsuario usuario) {
+	public void toOperario(Usuario usuario) {
 		usuario.setRoles(this.getPermisosOperario());
 	}
 
@@ -83,7 +82,7 @@ public class UsuarioFactory {
 		return new ArrayList<IPermiso>();
 	}
 
-	public void bloquear(IUsuario usuario) {
+	public void bloquear(Usuario usuario) {
 		usuario.setRoles(this.getPermisosBloqueados());
 	}
 

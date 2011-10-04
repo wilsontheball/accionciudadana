@@ -9,19 +9,11 @@ import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.Model;
 
-import com.inmethod.grid.DataProviderAdapter;
-import com.inmethod.grid.SizeUnit;
-import com.inmethod.grid.column.PropertyColumn;
-import com.inmethod.grid.datagrid.DataGrid;
-import com.inmethod.grid.datagrid.DefaultDataGrid;
-
 import wicket.contrib.gmap.GMap2;
 import wicket.contrib.gmap.api.GIcon;
 import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.api.GMarker;
 import wicket.contrib.gmap.api.GMarkerOptions;
-
-import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.adminMap.Comuna;
 import ar.com.thinksoft.ac.webac.adminMap.ComunaManager;
@@ -30,16 +22,17 @@ import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
+import com.inmethod.grid.DataProviderAdapter;
+import com.inmethod.grid.SizeUnit;
+import com.inmethod.grid.column.PropertyColumn;
+import com.inmethod.grid.datagrid.DataGrid;
+import com.inmethod.grid.datagrid.DefaultDataGrid;
+
 public class HomePageAdministrativo extends BasePage{
 	
 	private static String KEY = "";
 	private DataGrid gridActivos;
 	private DataGrid gridUltimosModificados;
-	
-	@Override
-	public IPermiso getPermisoNecesario() {
-		return new HomePageAdministrativoPermiso();
-	}
 	
 	public HomePageAdministrativo(final PageParameters parameters){
 		
@@ -278,4 +271,5 @@ public class HomePageAdministrativo extends BasePage{
 		return listaDevolucion;
 	
 	}
+
 }

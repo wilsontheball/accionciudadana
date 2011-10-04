@@ -12,6 +12,12 @@ import org.apache.wicket.model.Model;
 import wicket.contrib.gmap.GMap2;
 import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.api.GMarker;
+import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.Context;
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
+import ar.com.thinksoft.ac.webac.web.base.BasePage;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 import com.inmethod.grid.DataProviderAdapter;
 import com.inmethod.grid.SizeUnit;
@@ -19,25 +25,11 @@ import com.inmethod.grid.column.PropertyColumn;
 import com.inmethod.grid.datagrid.DataGrid;
 import com.inmethod.grid.datagrid.DefaultDataGrid;
 
-import ar.com.thinksoft.ac.intac.IPermiso;
-import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
-import ar.com.thinksoft.ac.webac.web.Context;
-import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
-import ar.com.thinksoft.ac.webac.web.HomePage.Administrativo.HomePageAdministrativoPermiso;
-import ar.com.thinksoft.ac.webac.web.base.BasePage;
-import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
-
 public class HomePageCiudadano extends BasePage{
 	
 	private static String KEY = "";
 	private DataGrid gridActivosCiudadano;
 	private DataGrid gridUltimosModificadosCiudadano;
-	
-	@Override
-	public IPermiso getPermisoNecesario() {
-		return new HomePageAdministrativoPermiso();
-	}
 	
 	public HomePageCiudadano(final PageParameters parameters){
 		

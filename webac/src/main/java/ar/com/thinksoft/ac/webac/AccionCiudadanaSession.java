@@ -4,12 +4,12 @@ import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
 
-import ar.com.thinksoft.ac.intac.IUsuario;
+import ar.com.thinksoft.ac.webac.usuario.Usuario;
 
 public class AccionCiudadanaSession extends AuthenticatedWebSession{
 
 	private static final long serialVersionUID = 6984467993665072474L;
-	private IUsuario usuario;
+	private Usuario usuario;
 	
 	public AccionCiudadanaSession(Request request) {
 		super(request);
@@ -20,11 +20,11 @@ public class AccionCiudadanaSession extends AuthenticatedWebSession{
 		return null;
 	}
 
-	public IUsuario getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(IUsuario usuario) {
+	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 	
