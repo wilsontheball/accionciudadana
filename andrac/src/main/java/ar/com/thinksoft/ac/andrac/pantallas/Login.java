@@ -5,12 +5,18 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
+import ar.com.thinksoft.ac.andrac.servicios.ReceptorRest;
+import ar.com.thinksoft.ac.andrac.servicios.ReceptorResultados;
+import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 
 /**
@@ -20,7 +26,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
  * @author Paul
  * 
  */
-public class Login extends Activity {
+public class Login extends Activity implements ReceptorRest {
 	private static final int LOGIN = 0;
 	private static final int LOGIN_FAIL = 1;
 	private static final int SERVER_ERROR = 2;
@@ -32,6 +38,9 @@ public class Login extends Activity {
 	private String mensageAlerta = "";
 	// Referencia al dialogo procesando
 	private ProgressDialog procesando = null;
+
+	private Intent servicioRest;
+	private ReceptorResultados receptor;
 
 	/**
 	 * Se encarga de la creacion de la ventana.
@@ -56,13 +65,14 @@ public class Login extends Activity {
 	protected void onStart() {
 		super.onStart();
 		// Login no se muestra cuando ya esta autenticado.
-		if ((this.getRepo().getNick() == null)
-				|| (this.getRepo().getPass() == null)) {
-			this.mostrarDialogo(LOGIN);
-		} else {
-			// TODO Debe obtener la funcion desde extras
-			this.ejecutarFuncion(FuncionRest.GETPERFIL);
-		}
+		// if ((this.getRepo().getNick() == null)
+		// || (this.getRepo().getPass() == null)) {
+		// this.mostrarDialogo(LOGIN);
+		// } else {
+		// TODO Debe obtener la funcion desde extras
+		String funcion = getIntent().getExtras().getString(ServicioRest.FUN);
+		this.ejecutarFuncion(funcion);
+		// }
 	}
 
 	/**
@@ -110,6 +120,41 @@ public class Login extends Activity {
 	}
 
 	/**
+	 * Atiende los resultados de los servicios REST.
+	 * 
+	 * @since 28-09-2011
+	 * @author Paul
+	 */
+	public void onReceiveResult(int resultCode, Bundle funcionData) {
+		String funcion = funcionData.getString(ServicioRest.FUN);
+		Log.d(this.getClass().getName(), "Resultado: " + funcion + "["
+				+ resultCode + "]");
+		switch (resultCode) {
+		case ServicioRest.RUN:
+			// Servicio Arranco: Muestra dialogo procesando.
+			mostrarProcesando(funcion);
+			break;
+		case ServicioRest.FIN:
+			// Servicio Finalizo: Cierra dialogo procesando.
+			this.cerrarProcesando();
+			Intent resultado1 = new Intent();
+			resultado1.putExtra(ServicioRest.FUN, funcion);
+			this.setResult(Activity.RESULT_OK, resultado1);
+			this.finish();
+			break;
+		case ServicioRest.ERROR:
+			// Servicio Fallo: Cierra dialogo procesando.
+			this.cerrarProcesando();
+			// TODO handle the error;
+			Intent resultado2 = new Intent();
+			resultado2.putExtra(ServicioRest.FUN, funcion);
+			this.setResult(Activity.RESULT_CANCELED, resultado2);
+			this.finish();
+			break;
+		}
+	}
+
+	/**
 	 * Muestra una ventana de dialogo segun la necesidad.
 	 * 
 	 * @since 23-08-2011
@@ -153,6 +198,8 @@ public class Login extends Activity {
 	 *            Texto que se va a mostrar en el dialogo.
 	 */
 	private void mostrarProcesando(String funcion) {
+		Log.d(this.getClass().getName(), "Procesando: " + funcion);
+
 		this.procesando = new ProgressDialog(Login.this);
 
 		// TODO Definir mensajes para todas las funciones
@@ -181,9 +228,34 @@ public class Login extends Activity {
 		this.procesando.show();
 	}
 
+	/**
+	 * Cierra el dialogo en el caso que exista.
+	 * 
+	 * @since 28-09-2011
+	 * @author Paul
+	 */
+	private void cerrarProcesando() {
+		if (this.procesando != null) {
+			this.procesando.dismiss();
+			this.procesando = null;
+		}
+	}
+
 	private void ejecutarFuncion(String funcion) {
-		// TODO aca se debe conectar al servidor
-		this.mostrarProcesando(FuncionRest.GETPERFIL);
+		try {
+			// Crea un servicio.
+			this.servicioRest = new Intent(Intent.ACTION_SYNC, null, this,
+					ServicioRest.class);
+			this.servicioRest.putExtra(ServicioRest.REC, this.getReceptor());
+			this.servicioRest.putExtra(ServicioRest.FUN, funcion);
+			this.startService(servicioRest);
+
+		} catch (Exception e) {
+			// TODO: mostrar error!!!!
+			Toast.makeText(this, "Fallo iniciar servicio", Toast.LENGTH_SHORT)
+					.show();
+			Log.e(this.getClass().getName(), "Fallo iniciar servicio");
+		}
 	}
 
 	/**
@@ -195,5 +267,20 @@ public class Login extends Activity {
 	 */
 	private Repositorio getRepo() {
 		return ((Aplicacion) this.getApplication()).getRepositorio();
+	}
+
+	/**
+	 * Devuelve receptor.
+	 * 
+	 * @since 28-09-2011
+	 * @author Paul
+	 * @return Objeto receptor.
+	 */
+	private ReceptorResultados getReceptor() {
+		if (this.receptor == null) {
+			this.receptor = new ReceptorResultados(new Handler());
+			this.receptor.setReceiver(this);
+		}
+		return receptor;
 	}
 }

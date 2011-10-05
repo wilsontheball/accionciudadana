@@ -53,9 +53,8 @@ public class ServicioRest extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		final ResultReceiver receptor = intent.getParcelableExtra(REC);
-		Log.d(this.getClass().getName(), receptor.toString());
 		String funcion = intent.getStringExtra(FUN);
-		Log.d(this.getClass().getName(), funcion);
+		Log.d(this.getClass().getName(), "Funcion: " + funcion);
 
 		Bundle bundle = new Bundle();
 		try {
@@ -110,8 +109,7 @@ public class ServicioRest extends IntentService {
 			IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETRECLAMOS + "/"
-				+ this.getRepo().getNick() + "/"
-				+ this.getRepo().getPass());
+				+ this.getRepo().getNick() + "/" + this.getRepo().getPass());
 		HttpResponse httpResponse = httpClient.execute(method);
 		InputStream is = httpResponse.getEntity().getContent();
 		Gson gson = new Gson();
@@ -147,8 +145,7 @@ public class ServicioRest extends IntentService {
 			IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETPERFIL + "/"
-				+ this.getRepo().getNick() + "/"
-				+ this.getRepo().getPass());
+				+ this.getRepo().getNick() + "/" + this.getRepo().getPass());
 		HttpResponse httpResponse = httpClient.execute(method);
 		InputStream is = httpResponse.getEntity().getContent();
 		Gson gson = new Gson();
