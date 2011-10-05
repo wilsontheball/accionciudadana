@@ -10,4 +10,8 @@ public abstract class FuncionRest {
 	// Funciones tipo GET
 	public static final String GETPERFIL = "perfil";
 	public static final String GETRECLAMOS = "reclamos";
+
+	// Funciones tipo PUT
+	public static final String PUTPERFIL = "perfil";
+	public static final String PUTRECLAMO = "reclamo";
 }

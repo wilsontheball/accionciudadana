@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
+import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
@@ -62,10 +63,10 @@ public class ServicioRest extends IntentService {
 			receptor.send(RUN, bundle);
 			if (FuncionRest.GETRECLAMOS.equals(funcion)) {
 				// Funcion GET Reclamos.
-				this.getReclamos(this.getRepo().getSrvUrl());
+				this.getReclamos(getString(R.string.url_wilsond));
 			} else if (FuncionRest.GETPERFIL.equals(funcion)) {
 				// Funcion GET Perfil.
-				this.getPerfil(this.getRepo().getSrvUrl());
+				this.getPerfil(getString(R.string.url_wilsond));
 			} else {
 				// Funcion desconocida!
 				bundle.putString(FUN, funcion);

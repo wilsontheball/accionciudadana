@@ -44,11 +44,11 @@ public class Repositorio {
 	 * @author Paul
 	 * @return URL del servidor REST
 	 */
-	public String getSrvUrl() {
-		// return "http://10.24.192.183:6060";
-		// return "http://192.168.1.108:6060";
-		return "http://96.126.102.85:6060";
-	}
+	// public String getSrvUrl() {
+	// // return "http://10.24.192.183:6060";
+	// // return "http://192.168.1.108:6060";
+	// return "http://96.126.102.85:6060";
+	// }
 
 	/**
 	 * Devuelve un objeto Usuario desde la base de datos
@@ -161,40 +161,40 @@ public class Repositorio {
 		String fecha = "";
 		String fechaModificacion = "";
 		Reclamo reclamo = new Reclamo(calle, altura, latitud, longitud, tipo,
-				fecha, fechaModificacion, this.getNick(), observacion,
-				barrio, comuna, imagen);
+				fecha, fechaModificacion, this.getNick(), observacion, barrio,
+				comuna, imagen);
 
-		this.enviarReclamo(reclamo);
+		// this.enviarReclamo(reclamo);
 
 		return true;
 	}
 
-	private void enviarReclamo(Reclamo reclamo) {
+	// private void enviarReclamo(Reclamo reclamo) {
+	//
+	// Gson gson = new Gson();
+	// String json = gson.toJson(reclamo);
+	//
+	// HttpResponse responce;
+	// try {
+	// responce = this.doPost(this.getSrvUrl(), new JSONObject(json));
+	// String temp = EntityUtils.toString(responce.getEntity());
+	// } catch (ClientProtocolException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// } catch (IOException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// } catch (JSONException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
 
-		Gson gson = new Gson();
-		String json = gson.toJson(reclamo);
-
-		HttpResponse responce;
-		try {
-			responce = this.doPost(this.getSrvUrl(), new JSONObject(json));
-			String temp = EntityUtils.toString(responce.getEntity());
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		// if (temp.compareTo("SUCCESS")==0)
-		// {
-		// Toast.makeText(this, "Sending complete!", Toast.LENGTH_LONG).show();
-		// }
-
-	}
+	// if (temp.compareTo("SUCCESS")==0)
+	// {
+	// Toast.makeText(this, "Sending complete!", Toast.LENGTH_LONG).show();
+	// }
+	//
+	// }
 
 	public HttpResponse doPost(String url, JSONObject c)
 			throws ClientProtocolException, IOException {
