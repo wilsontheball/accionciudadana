@@ -33,14 +33,15 @@ public class Login extends Activity implements ReceptorRest {
 	private static final int CAMPOS_VACIOS = 3;
 
 	// Almacena titulo de la ventana de alerta
-	private String tituloAlerta = "";
+	private String tituloDialogo = "";
 	// Almacena texto de la ventana de alerta
-	private String mensageAlerta = "";
+	private String mensageDialogo = "";
 	// Referencia al dialogo procesando
 	private ProgressDialog procesando = null;
 
 	private Intent servicioRest;
 	private ReceptorResultados receptor;
+	private String funcionAEjecutar = "Funcion desconocida";
 
 	/**
 	 * Se encarga de la creacion de la ventana.
@@ -53,6 +54,7 @@ public class Login extends Activity implements ReceptorRest {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Esta pantalla no tiene layout por que es invisible ;-)
+		funcionAEjecutar = getIntent().getExtras().getString(ServicioRest.FUN);
 	}
 
 	/**
@@ -64,15 +66,14 @@ public class Login extends Activity implements ReceptorRest {
 	@Override
 	protected void onStart() {
 		super.onStart();
+		// TODO implementar Login.
 		// Login no se muestra cuando ya esta autenticado.
-		// if ((this.getRepo().getNick() == null)
-		// || (this.getRepo().getPass() == null)) {
-		// this.mostrarDialogo(LOGIN);
-		// } else {
-		// TODO Debe obtener la funcion desde extras
-		String funcion = getIntent().getExtras().getString(ServicioRest.FUN);
-		this.ejecutarFuncion(funcion);
-		// }
+		if ((this.getRepo().getNick() == null)
+				|| (this.getRepo().getPass() == null)) {
+			this.mostrarDialogo(LOGIN);
+		} else {
+			this.ejecutarFuncion(funcionAEjecutar);
+		}
 	}
 
 	/**
@@ -95,28 +96,56 @@ public class Login extends Activity implements ReceptorRest {
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		return new AlertDialog.Builder(Login.this)
-				.setIcon(R.drawable.alert_dialog_icon)
-				.setTitle(tituloAlerta)
-				.setMessage(mensageAlerta)
-				.setPositiveButton(R.string.ok,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								// TODO lamar al servcio
-								dialog.cancel();
-								ejecutarFuncion(FuncionRest.GETPERFIL);
-							}
-						})
-				.setNegativeButton(R.string.cancelar,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								dialog.cancel();
-								setResult(RESULT_CANCELED);
-								finish();
-							}
-						}).create();
+		AlertDialog dialogo = null;
+		switch (id) {
+		case LOGIN:
+			// Dialogo de Login.
+			dialogo = new AlertDialog.Builder(Login.this)
+					.setIcon(R.drawable.icono)
+					.setTitle(tituloDialogo)
+					.setView(findViewById(R.id.login_dialogo))
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// TODO Obtener los datos ingresados.
+									setDatosLogin("pepe", "123");
+									ejecutarFuncion(funcionAEjecutar);
+									dialog.cancel();
+								}
+							})
+					.setNegativeButton(R.string.cancelar,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// Cierra dialogo.
+									dialog.cancel();
+									// Vuelve a la ventana anterior.
+									salirDePantalla(funcionAEjecutar,
+											RESULT_CANCELED);
+								}
+							}).create();
+			// dialogo.setContentView(findViewById(R.id.login_dialogo));
+			break;
+		default:
+			// Dialogo de comun de Error.
+			dialogo = new AlertDialog.Builder(Login.this)
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(tituloDialogo)
+					.setMessage(mensageDialogo)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// TODO lamar al servcio
+									dialog.cancel();
+									ejecutarFuncion(FuncionRest.GETPERFIL);
+								}
+							}).create();
+			break;
+
+		}
+		return dialogo;
 	}
 
 	/**
@@ -137,19 +166,14 @@ public class Login extends Activity implements ReceptorRest {
 		case ServicioRest.FIN:
 			// Servicio Finalizo: Cierra dialogo procesando.
 			this.cerrarProcesando();
-			Intent resultado1 = new Intent();
-			resultado1.putExtra(ServicioRest.FUN, funcion);
-			this.setResult(Activity.RESULT_OK, resultado1);
-			this.finish();
+			// Vuelve a la ventana anterior.
+			this.salirDePantalla(funcion, RESULT_OK);
 			break;
 		case ServicioRest.ERROR:
 			// Servicio Fallo: Cierra dialogo procesando.
 			this.cerrarProcesando();
-			// TODO handle the error;
-			Intent resultado2 = new Intent();
-			resultado2.putExtra(ServicioRest.FUN, funcion);
-			this.setResult(Activity.RESULT_CANCELED, resultado2);
-			this.finish();
+			// Vuelve a la ventana anterior.
+			this.salirDePantalla(funcion, RESULT_CANCELED);
 			break;
 		}
 	}
@@ -164,23 +188,23 @@ public class Login extends Activity implements ReceptorRest {
 		// Asi, por que no se puede pasar los atributos directamente al Dialogo.
 		switch (codigo) {
 		case LOGIN:
-			this.tituloAlerta = getString(R.string.advertencia);
-			this.mensageAlerta = getString(R.string.server_inaccesible);
+			this.tituloDialogo = getString(R.string.login_titulo);
+			this.mensageDialogo = getString(R.string.login_sub_titulo);
 			this.showDialog(codigo);
 			break;
 		case LOGIN_FAIL:
-			this.tituloAlerta = getString(R.string.advertencia);
-			this.mensageAlerta = getString(R.string.nick_pass_fail);
+			this.tituloDialogo = getString(R.string.advertencia);
+			this.mensageDialogo = getString(R.string.nick_pass_fail);
 			this.showDialog(codigo);
 			break;
 		case SERVER_ERROR:
-			this.tituloAlerta = getString(R.string.advertencia);
-			this.mensageAlerta = getString(R.string.server_inaccesible);
+			this.tituloDialogo = getString(R.string.advertencia);
+			this.mensageDialogo = getString(R.string.server_inaccesible);
 			this.showDialog(codigo);
 			break;
 		case CAMPOS_VACIOS:
-			this.tituloAlerta = getString(R.string.atencion);
-			this.mensageAlerta = getString(R.string.campo_vacio);
+			this.tituloDialogo = getString(R.string.atencion);
+			this.mensageDialogo = getString(R.string.campo_vacio);
 			this.showDialog(codigo);
 			break;
 		default:
@@ -217,11 +241,10 @@ public class Login extends Activity implements ReceptorRest {
 		this.procesando.setButton(getString(R.string.cancelar),
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						// TODO Debe parar servicio que corre
-						// cancelarServicioRest();
+						// Cierra el dialogo.
 						dialog.cancel();
-						setResult(RESULT_CANCELED);
-						finish();
+						// Vuelve a la ventana enterior.
+						salirDePantalla("funcion cancelada", RESULT_CANCELED);
 					}
 				});
 		this.procesando.setCancelable(false);
@@ -282,5 +305,28 @@ public class Login extends Activity implements ReceptorRest {
 			this.receptor.setReceiver(this);
 		}
 		return receptor;
+	}
+
+	private void setDatosLogin(String usuario, String password) {
+		this.getRepo().setNick(usuario);
+		this.getRepo().setPass(password);
+	}
+
+	/**
+	 * Cierra la ventana.
+	 * 
+	 * @param funcion
+	 * @param codigoResultado
+	 */
+	private void salirDePantalla(String funcion, int codigoResultado) {
+		// Termina una conexion. Cuando la hay, no hace nada.
+		if (this.servicioRest != null) {
+			this.stopService(this.servicioRest);
+		}
+		// Carga la devolucion.
+		Intent resultado = new Intent();
+		resultado.putExtra(ServicioRest.FUN, funcion);
+		this.setResult(codigoResultado, resultado);
+		this.finish();
 	}
 }

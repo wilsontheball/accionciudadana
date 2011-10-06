@@ -97,10 +97,9 @@ public class Main extends Activity {
 				this.mostrarVentanaReclamos();
 			}
 		} else if (resultCode == Activity.RESULT_CANCELED) {
-			Log.e(this.getClass().getName(),
-					"Fallo al ejecutar: "
+			Log.i(this.getClass().getName(),
+					"No pudo ejecutar: "
 							+ data.getStringExtra(ServicioRest.FUN));
-			this.salir(null);
 		} else {
 			Log.e(this.getClass().getName(),
 					"Resultado de ejecucion no esperado");
