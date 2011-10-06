@@ -46,8 +46,8 @@ public class Repositorio {
 	 */
 	public String getSrvUrl() {
 		// return "http://10.24.192.183:6060";
-		// return "http://192.168.1.108:6060";
-		return "http://96.126.102.85:6060";
+		 return "http://192.168.0.103:6060";
+		//return "http://96.126.102.85:6060";
 	}
 
 	/**

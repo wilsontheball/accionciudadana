@@ -27,7 +27,7 @@ public class Repository implements ObjectContainer{
 	private static ObjectContainer objectContainer;
 	
 	public Repository(){
-		objectContainer = Db4oClientServer.openClient("localhost", 5555, "wilson", "wilson");
+		objectContainer = Db4oClientServer.openClient("192.168.0.103", 5555, "webac", "webac");
 		LogFwk.getInstance(this.getClass()).info("Inicio de BD");
 	}
 	

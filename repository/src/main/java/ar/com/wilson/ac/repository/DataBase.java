@@ -14,7 +14,9 @@ public class DataBase {
 	 */
 	public void start() {
 		this.server = Db4oClientServer.openServer("repository.db", port);
-		this.server.grantAccess("wilson", "wilson");
+		this.server.grantAccess("webac", "webac");
+		this.server.grantAccess("wilsond", "wilsond");
+		
 	}
 	
 	public void stop(){
