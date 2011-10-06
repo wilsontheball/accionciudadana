@@ -1,6 +1,9 @@
 package ar.com.thinksoft.ac.wilsond;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -36,37 +39,35 @@ public class RestHandler extends AbstractHandler
 		String funcion = null;
 		String nick = null;
 		String pass = null;
+		Request req = (request instanceof Request ? (Request) request
+				: HttpConnection.getCurrentConnection().getRequest());
+		try {
+			StringTokenizer tokens = new StringTokenizer(
+					request.getRequestURI(), "/");
+			if (tokens.hasMoreElements()) {
+				funcion = (String) tokens.nextElement();
+			}
+			if (tokens.hasMoreElements()) {
+				nick = (String) tokens.nextElement();
+			}
+			if (tokens.hasMoreElements()) {
+				pass = (String) tokens.nextElement();
+			}
 
-		if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.GET)) {
-			// Atiende los GET
-			Request req = (request instanceof Request ? (Request) request
-					: HttpConnection.getCurrentConnection().getRequest());
-			try {
-				StringTokenizer tokens = new StringTokenizer(
-						request.getRequestURI(), "/");
-				if (tokens.hasMoreElements()) {
-					funcion = (String) tokens.nextElement();
-				}
-				if (tokens.hasMoreElements()) {
-					nick = (String) tokens.nextElement();
-				}
-				if (tokens.hasMoreElements()) {
-					pass = (String) tokens.nextElement();
-				}
+			// String funcion = request.getRequestURI().substring(1);
 
-				// String funcion = request.getRequestURI().substring(1);
-
-				System.out.println("[" + new Date().toString() + "] " + funcion
-						+ "::" + nick + "::" + pass);
-
+			System.out.println("[" + new Date().toString() + "] " + funcion
+					+ "::" + nick + "::" + pass);
+			if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.GET)) {
+				// Atiende los GET
 				if (funcion.equalsIgnoreCase(FuncionRest.GETRECLAMOS)) {
 					// Atiende pedido de reclamos de usuario.
+					response.setContentType("application/json");
+					response.setCharacterEncoding("UTF-8");
 
 					// XXX por ahora siempre devuelve FRUTA!!!!!!!!!!!!!!!!
 					List<Reclamo> list = Repositorio.getInstancia()
 							.getReclamos("usuario");
-					response.setContentType("application/json");
-					response.setCharacterEncoding("UTF-8");
 					// XXX hasta aca FRUTA!!!!!!!!!!!!!!!!
 
 					response.getWriter().write(new Gson().toJson(list));
@@ -78,14 +79,8 @@ public class RestHandler extends AbstractHandler
 					response.setCharacterEncoding("UTF-8");
 
 					// XXX por ahora siempre devuelve FRUTA!!!!!!!!!!!!!!!!
-					Usuario usr = new Usuario();
-					usr.setApellido("Fulano");
-					usr.setContrasenia("123");
-					usr.setDni("10000000");
-					usr.setMail("pepito@hot.com");
-					usr.setNombre("Pepe");
-					usr.setNombreUsuario("pepe");
-					usr.setTelefono("456123");
+					Usuario usr = Repositorio.getInstancia().getPerfil(
+							"usuario");
 					// XXX hasta aqui FRUTA!!!!!!!!!!!!!!!!
 
 					response.getWriter().write(new Gson().toJson(usr));
@@ -98,13 +93,30 @@ public class RestHandler extends AbstractHandler
 					req.setHandled(false);
 				}
 
-			} catch (Exception e) {
-				e.printStackTrace();
-				req.setHandled(false);
+			} else if (baseRequest.getMethod().equalsIgnoreCase(
+					HttpMethods.POST)) {
+				if (funcion.equalsIgnoreCase(FuncionRest.PUTRECLAMO)) {
+					InputStream instream = request.getInputStream();
+					InputStreamReader isReader = new InputStreamReader(instream);
+					Gson gson = new Gson();
+					Reclamo reclamo = gson.fromJson(isReader, Reclamo.class);
+					Repositorio.getInstancia().guardarReclamo(reclamo);
+				} else {
+					System.out.print("[" + new Date().toString() + "] "
+							+ "Funcion Desconocida:");
+					System.out.println("!= " + FuncionRest.GETRECLAMOS);
+					System.out.println("!= " + FuncionRest.GETPERFIL);
+					req.setHandled(false);
+				}
+
+			} else {
+				System.out.println("No es un get ni post. Es: "
+						+ baseRequest.getMethod());
 			}
 
-		} else {
-			System.out.println("No es un get. Es: " + baseRequest.getMethod());
+		} catch (Exception e) {
+			e.printStackTrace();
+			req.setHandled(false);
 		}
 	}
 }
