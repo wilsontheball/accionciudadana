@@ -7,13 +7,15 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -27,10 +29,13 @@ import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.dominio.Usuario;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 /**
  * Se encarga de correr en 2do plano todas las funciones de conexion a servidor.
  * 
- * @since 29-09-2011
+ * @since 05-10-2011
  * @author Paul
  */
 public class ServicioRest extends IntentService {
@@ -63,10 +68,17 @@ public class ServicioRest extends IntentService {
 			receptor.send(RUN, bundle);
 			if (FuncionRest.GETRECLAMOS.equals(funcion)) {
 				// Funcion GET Reclamos.
-				this.getReclamos(getString(R.string.url_wilsond));
+				this.getReclamos(getString(R.string.url_wilsond), this
+						.getRepo().getNick(), this.getRepo().getPass());
 			} else if (FuncionRest.GETPERFIL.equals(funcion)) {
 				// Funcion GET Perfil.
-				this.getPerfil(getString(R.string.url_wilsond));
+				this.getPerfil(getString(R.string.url_wilsond), this.getRepo()
+						.getNick(), this.getRepo().getPass());
+			} else if (FuncionRest.PUTRECLAMO.equals(funcion)) {
+				// Funcion PUT Reclamo.
+				this.postReclamo(getString(R.string.url_wilsond), this
+						.getRepo().getNick(), this.getRepo().getPass(), this
+						.getRepo().getReclamoAEnviar());
 			} else {
 				// Funcion desconocida!
 				bundle.putString(FUN, funcion);
@@ -106,11 +118,11 @@ public class ServicioRest extends IntentService {
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
-	private void getReclamos(String url) throws ClientProtocolException,
-			IOException {
+	private void getReclamos(String url, String nick, String pass)
+			throws ClientProtocolException, IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETRECLAMOS + "/"
-				+ this.getRepo().getNick() + "/" + this.getRepo().getPass());
+				+ nick + "/" + pass);
 		HttpResponse httpResponse = httpClient.execute(method);
 		InputStream is = httpResponse.getEntity().getContent();
 		Gson gson = new Gson();
@@ -142,17 +154,41 @@ public class ServicioRest extends IntentService {
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
-	private void getPerfil(String url) throws ClientProtocolException,
-			IOException {
+	private void getPerfil(String url, String nick, String pass)
+			throws ClientProtocolException, IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETPERFIL + "/"
-				+ this.getRepo().getNick() + "/" + this.getRepo().getPass());
+				+ nick + "/" + pass);
 		HttpResponse httpResponse = httpClient.execute(method);
 		InputStream is = httpResponse.getEntity().getContent();
 		Gson gson = new Gson();
 		Reader reader = new InputStreamReader(is);
 		Usuario perfil = gson.fromJson(reader, Usuario.class);
 		this.getRepo().setPerfilUsuario(perfil);
+	}
+
+	/**
+	 * Manda un reclamo al servidor Rest.
+	 * 
+	 * @since 05-10-2011
+	 * @author Paul
+	 * @param url
+	 *            URL del servidor.
+	 * @param reclamo
+	 *            Reclamo a enviar.
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	public HttpResponse postReclamo(String url, String nick, String pass,
+			Reclamo reclamo) throws ClientProtocolException, IOException {
+		StringEntity entidad = new StringEntity(new Gson().toJson(reclamo));
+		Header header = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");
+		entidad.setContentEncoding(header);
+
+		HttpPost post = new HttpPost(url + "/" + FuncionRest.PUTRECLAMO + "/"
+				+ nick + "/" + pass);
+		post.setEntity(entidad);
+		return new DefaultHttpClient().execute(post);
 	}
 
 	/**

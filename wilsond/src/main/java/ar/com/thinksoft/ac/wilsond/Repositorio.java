@@ -133,4 +133,62 @@ public class Repositorio {
 
 		return lista;
 	}
+
+	/**
+	 * Obtiene datos de perfil de un usuario.
+	 * 
+	 * @since 05-10-2011
+	 * @author Paul
+	 * @param nombreUsuario
+	 * @return Perfil de usuario.
+	 */
+	public Usuario getPerfil(String nombreUsuario) {
+		Usuario usr = new Usuario();
+
+		// XXX por ahora siempre devuelve FRUTA!!!!!!!!!!!!!!!!
+		usr.setApellido("Fulano");
+		usr.setContrasenia("123");
+		usr.setDni("10000000");
+		usr.setMail("pepito@hot.com");
+		usr.setNombre("Pepe");
+		usr.setNombreUsuario("pepe");
+		usr.setTelefono("456123");
+		// XXX hasta aqui FRUTA!!!!!!!!!!!!!!!!
+		return usr;
+
+	}
+
+	/**
+	 * Almacena un reclamo en la base de datos.
+	 * 
+	 * @since 05-10-2011
+	 * @author Paul
+	 * @param reclamo
+	 *            Reclamo a almacenar.
+	 */
+	public void guardarReclamo(Reclamo reclamo) {
+
+		// XXX Solo para probar!!!!!!!!!!!!!!!!!!!!!!!!!
+		System.out.println("Se recibio un RECLAMO:");
+
+		if (reclamo == null) {
+			System.out.println("reclamo es NULL");
+		} else {
+			System.out.println(reclamo.getAlturaIncidente());
+			System.out.println(reclamo.getBarrioIncidente());
+			System.out.println(reclamo.getCalleIncidente());
+			System.out.println(reclamo.getCiudadanoGeneradorReclamo());
+			System.out.println(reclamo.getComunaIncidente());
+			System.out.println(reclamo.getEstadoDescripcion());
+			System.out.println(reclamo.getFechaReclamo());
+			System.out.println(reclamo.getFechaUltimaModificacionReclamo());
+			System.out.println(reclamo.getId());
+			System.out.println(reclamo.getLatitudIncidente());
+			System.out.println(reclamo.getLongitudIncidente());
+			System.out.println(reclamo.getMailCiudadanoGeneradorReclamo());
+			System.out.println(reclamo.getObservaciones());
+			System.out.println(reclamo.getTipoIncidente());
+		}
+		// XXX Solo para probar!!!!!!!!!!!!!!!!!!!!!!!!!
+	}
 }

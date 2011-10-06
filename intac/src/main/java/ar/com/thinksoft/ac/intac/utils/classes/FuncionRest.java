@@ -12,6 +12,6 @@ public abstract class FuncionRest {
 	public static final String GETRECLAMOS = "reclamos";
 
 	// Funciones tipo PUT
-	public static final String PUTPERFIL = "perfil";
-	public static final String PUTRECLAMO = "reclamo";
+	public static final String PUTPERFIL = "putperfil";
+	public static final String PUTRECLAMO = "putreclamo";
 }

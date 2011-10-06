@@ -1,27 +1,12 @@
 package ar.com.thinksoft.ac.andrac.contexto;
 
-import java.io.IOException;
 import java.util.List;
-
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import ar.com.thinksoft.ac.andrac.dominio.Imagen;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.dominio.Usuario;
-
-import com.google.gson.Gson;
+import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
+import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 
 /**
  * Abstrae la conexion remota a la base de datos
@@ -36,6 +21,7 @@ public class Repositorio {
 	private List<Reclamo> reclamos = null;
 	private String nick = null;
 	private String pass = null;
+	private Reclamo reclamoAEnviar = null;
 
 	/**
 	 * Devuelve la URL del servidor.
@@ -147,7 +133,22 @@ public class Repositorio {
 		return new Reclamo[0];
 	}
 
-	public boolean publicarReclamoDireccion(String tipo, String barrio,
+	private void setReclamoAEnviar(Reclamo reclamoAEnviar) {
+		this.reclamoAEnviar = reclamoAEnviar;
+	}
+
+	public Reclamo getReclamoAEnviar() {
+		// XXX Probado un Mock!!!!!!!!!!!!!!!!!!!!!!!
+
+		Reclamo rec1 = new Reclamo("Cabildo", "145", "latitud...",
+				"longitud...", EnumTipoReclamo.accesibilidad.getTipo(),
+				"ayer.......", "hoy........", "pepe", "Lalala",
+				EnumBarriosReclamo.Belgrano.getBarrio(), "Comuna...", null);
+		return rec1;
+		// XXX Probado un Mock!!!!!!!!!!!!!!!!!!!!!!!
+	}
+
+	public void publicarReclamoDireccion(String tipo, String barrio,
 			String calle, String altura, String observacion) {
 		// TODO falta revisar si contentType es jpeg!!!!!!!!
 		Imagen imagen = new Imagen(this.getImagen(), "jpeg", "prueba");
@@ -163,10 +164,7 @@ public class Repositorio {
 		Reclamo reclamo = new Reclamo(calle, altura, latitud, longitud, tipo,
 				fecha, fechaModificacion, this.getNick(), observacion, barrio,
 				comuna, imagen);
-
-		// this.enviarReclamo(reclamo);
-
-		return true;
+		this.setReclamoAEnviar(reclamo);
 	}
 
 	// private void enviarReclamo(Reclamo reclamo) {
@@ -196,20 +194,20 @@ public class Repositorio {
 	//
 	// }
 
-	public HttpResponse doPost(String url, JSONObject c)
-			throws ClientProtocolException, IOException {
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost request = new HttpPost(url);
-		HttpEntity entity;
-		StringEntity s = new StringEntity(c.toString());
-		s.setContentEncoding((Header) new BasicHeader(HTTP.CONTENT_TYPE,
-				"application/json"));
-		entity = s;
-		request.setEntity(entity);
-		HttpResponse response;
-		response = httpclient.execute(request);
-		return response;
-	}
+	// public HttpResponse doPost(String url, JSONObject c)
+	// throws ClientProtocolException, IOException {
+	// HttpClient httpclient = new DefaultHttpClient();
+	// HttpPost request = new HttpPost(url);
+	// HttpEntity entity;
+	// StringEntity s = new StringEntity(c.toString());
+	// s.setContentEncoding((Header) new BasicHeader(HTTP.CONTENT_TYPE,
+	// "application/json"));
+	// entity = s;
+	// request.setEntity(entity);
+	// HttpResponse response;
+	// response = httpclient.execute(request);
+	// return response;
+	// }
 
 	/**
 	 * Se conecta a Wilsond para obtener reclamos hechos por un usuario.
