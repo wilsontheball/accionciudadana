@@ -1,4 +1,4 @@
-package ar.com.thinksoft.ac.andrac.dominio;
+package ar.com.thinksoft.ac.wilsond;
 
 import ar.com.thinksoft.ac.intac.utils.classes.ImagenMovil;
 
@@ -8,9 +8,9 @@ import ar.com.thinksoft.ac.intac.utils.classes.ImagenMovil;
  * @since 07-10-2011
  * @author Paul
  */
-public class Imagen extends ImagenMovil {
+public class ImagenAndrac extends ImagenMovil {
 
-	public Imagen(byte[] bytes, String contentType, String fileName) {
+	public ImagenAndrac(byte[] bytes, String contentType, String fileName) {
 
 		this.setBytes(bytes);
 		this.setContentType(contentType);

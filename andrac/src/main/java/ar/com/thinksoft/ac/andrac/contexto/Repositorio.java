@@ -1,7 +1,13 @@
 package ar.com.thinksoft.ac.andrac.contexto;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import android.location.Address;
+import android.location.Geocoder;
+import android.util.Log;
 import ar.com.thinksoft.ac.andrac.dominio.Imagen;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.dominio.Usuario;
@@ -19,22 +25,10 @@ public class Repositorio {
 	byte[] imagenBytes = null;
 	private Usuario perfilUsuario = null;
 	private List<Reclamo> reclamos = null;
+	private List<Reclamo> reclamosGuardados = null;
 	private String nick = null;
 	private String pass = null;
 	private Reclamo reclamoAEnviar = null;
-
-	/**
-	 * Devuelve la URL del servidor.
-	 * 
-	 * @since 27-09-2011
-	 * @author Paul
-	 * @return URL del servidor REST
-	 */
-	public String getSrvUrl() {
-		// return "http://10.24.192.183:6060";
-		 return "http://192.168.0.103:6060";
-		//return "http://96.126.102.85:6060";
-	}
 
 	/**
 	 * Devuelve un objeto Usuario desde la base de datos
@@ -124,13 +118,25 @@ public class Repositorio {
 	/**
 	 * Obtiene los reclamos guardados en el celular.
 	 * 
-	 * @since 25-09-2011
-	 * @author Paul
+	 * @since 04-10-2011
+	 * @author Hernan
 	 * @return Array de reclamos listo para mostrar.
 	 */
 	public Reclamo[] getReclamosGuardados() {
-		// TODO Falta implementar como levantar los reclamos gurdados!!!!!!!!
-		return new Reclamo[0];
+
+		// TODO Falta implementar como levantar los reclamos guardados!!!!!!!!
+		Reclamo[] arrayReclamosGuardados = new Reclamo[this.reclamosGuardados
+				.size()];
+		// Se hace asi por que falla el metodo de conversion de lista.
+		int i = 0;
+		for (Reclamo rec : this.reclamosGuardados) {
+			arrayReclamosGuardados[i++] = rec;
+		}
+		return arrayReclamosGuardados;
+	}
+
+	public void setReclamosGuardados(List<Reclamo> reclamos) {
+		this.reclamosGuardados = reclamos;
 	}
 
 	private void setReclamoAEnviar(Reclamo reclamoAEnviar) {
@@ -143,7 +149,7 @@ public class Repositorio {
 		Reclamo rec1 = new Reclamo("Cabildo", "145", "latitud...",
 				"longitud...", EnumTipoReclamo.accesibilidad.getTipo(),
 				"ayer.......", "hoy........", "pepe", "Lalala",
-				EnumBarriosReclamo.Belgrano.getBarrio(), "Comuna...", null);
+				EnumBarriosReclamo.Belgrano.getBarrio(), null);
 		return rec1;
 		// XXX Probado un Mock!!!!!!!!!!!!!!!!!!!!!!!
 	}
@@ -152,18 +158,14 @@ public class Repositorio {
 			String calle, String altura, String observacion) {
 		// TODO falta revisar si contentType es jpeg!!!!!!!!
 		Imagen imagen = new Imagen(this.getImagen(), "jpeg", "prueba");
+		String fecha = this.getFecha();
 
 		// TODO falta implementar obtencion de coordenada
-		String latitud = "";
-		String longitud = "";
-		// TODO falta implementar obtencion de comuna
-		String comuna = "";
-		// TODO falta implementar obtencion de fecha
-		String fecha = "";
-		String fechaModificacion = "";
+		String latitud = "zaraza1";
+		String longitud = "zaraza2";
+
 		Reclamo reclamo = new Reclamo(calle, altura, latitud, longitud, tipo,
-				fecha, fechaModificacion, this.getNick(), observacion, barrio,
-				comuna, imagen);
+				fecha, fecha, this.getNick(), observacion, barrio, imagen);
 		this.setReclamoAEnviar(reclamo);
 	}
 
@@ -238,8 +240,20 @@ public class Repositorio {
 	// }
 
 	public boolean publicarReclamoGPS(String tipo, String barrio,
-			String latitud, String longitud, String observacion) {
+			double latitud, double longitud, String observacion) {
 		// TODO falta implementar
+
+		// XXX Probando Goeocoder....
+		Geocoder geocoder = new Geocoder(null);
+		try {
+			Address dir = geocoder.getFromLocation(latitud, longitud, 1).get(0);
+			Log.d(this.getClass().getName(),
+					"Direccion es: " + dir.getAdminArea());
+		} catch (IOException e) {
+			Log.d(this.getClass().getName(), "Fallo Geocoder" + e.toString());
+		}
+		// XXX Hasta aqui probando Goeocoder....
+
 		return true;
 	}
 
@@ -283,5 +297,12 @@ public class Repositorio {
 		} else {
 			return this.pass;
 		}
+	}
+
+	public String getFecha() {
+		Date date = new java.util.Date();
+		SimpleDateFormat formatter = new java.text.SimpleDateFormat(
+				"dd/MM/yyyy");
+		return formatter.format(date);
 	}
 }

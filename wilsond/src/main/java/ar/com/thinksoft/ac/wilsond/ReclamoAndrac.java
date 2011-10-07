@@ -9,7 +9,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.ReclamoMovil;
 /**
  * Representa un reclamo de usuario.
  * 
- * @since 24-09-2011
+ * @since 07-10-2011
  * @author Paul
  */
 public class ReclamoAndrac extends ReclamoMovil {
@@ -67,14 +67,13 @@ public class ReclamoAndrac extends ReclamoMovil {
 	}
 
 	public IImagen getImagen() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.fotoIncidente;
 	}
 
 	public String getEstadoDescripcion() {
 		return this.estadoReclamo;
 	}
-	
+
 	public String getMailCiudadanoGeneradorReclamo() {
 		return this.mailCiudadano;
 	}
@@ -149,8 +148,7 @@ public class ReclamoAndrac extends ReclamoMovil {
 	}
 
 	public void setImagen(IImagen imagen) {
-		// TODO Auto-generated method stub
-
+		// No hcae nada. Por que no se manda la foto al andrac.
 	}
 
 	public void setPrioridad(String prioridad) {
@@ -216,7 +214,5 @@ public class ReclamoAndrac extends ReclamoMovil {
 		// TODO Auto-generated method stub
 
 	}
-
-
 
 }
