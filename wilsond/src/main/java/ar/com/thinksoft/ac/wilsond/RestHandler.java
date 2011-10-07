@@ -56,7 +56,7 @@ public class RestHandler extends AbstractHandler {
 			}
 		} else {
 			if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.POST)) {
-				atenderPost(baseRequest);
+				atenderPut(baseRequest);
 			}
 			else{
 				// TODO error
@@ -64,17 +64,17 @@ public class RestHandler extends AbstractHandler {
 		}
 	}
 
-	private void atenderPost(HttpServletRequest baseRequest) throws IOException {
+	private void atenderPut(HttpServletRequest baseRequest) throws IOException {
 		
 		if (funcion.equalsIgnoreCase(FuncionRest.PUTRECLAMO)) {
 			InputStream instream = baseRequest.getInputStream();
 			InputStreamReader isReader = new InputStreamReader(instream);
 			Gson gson = new Gson();
-			IReclamo reclamo = gson.fromJson(isReader, IReclamo.class);
+			IReclamo reclamo = ReclamoManager.getInstance().toReclamoInt(gson.fromJson(isReader, IReclamo.class));
 			ReclamoManager.getInstance().guardarReclamo(reclamo);
 			
 		} else {
-			if (funcion.equalsIgnoreCase(FuncionRest.PUTRECLAMO)) 
+			if (funcion.equalsIgnoreCase(FuncionRest.PUTPERFIL)) 
 			{
 				
 			}else{
@@ -99,12 +99,12 @@ public class RestHandler extends AbstractHandler {
 
 	}
 
-	private void atenderPerfilUsuario(HttpServletResponse response, Request req) throws IOException {
+	private void atenderPerfilUsuario(HttpServletResponse response, Request req) throws Exception {
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 
-		UsuarioMovil usr = UsuarioManager.getInstance().getPerfil("usuario");
+		UsuarioMovil usr = UsuarioManager.getInstance().getPerfil("mati");
 		
 		response.getWriter().write(new Gson().toJson(usr));
 		req.setHandled(true);

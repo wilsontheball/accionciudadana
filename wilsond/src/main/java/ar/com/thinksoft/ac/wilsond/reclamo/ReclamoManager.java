@@ -3,6 +3,7 @@ package ar.com.thinksoft.ac.wilsond.reclamo;
 import java.util.ArrayList;
 import java.util.List;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.wilsond.ReclamoAndrac;
 import ar.com.thinksoft.ac.wilsond.Repositorio.Repositorio;
 
@@ -18,14 +19,6 @@ public class ReclamoManager {
 			instance = new ReclamoManager();
 		}
 		return instance;
-	}
-	
-	/**
-	 * Guardar un unico reclamo, ya sea nuevo o para actualizacion en la Base de Datos
-	 * @author Matias
-	 */
-	public void guardarReclamo(IReclamo reclamo){
-		Repositorio.getInstancia().store(reclamo);
 	}
 	
 	/**
@@ -59,6 +52,18 @@ public class ReclamoManager {
 		return  Repositorio.getInstancia().queryByExample(reclamo);
 	}
 	
+	/**
+	 * Almacena un reclamo en la base de datos.
+	 * 
+	 * @since 05-10-2011
+	 * @author Paul
+	 * @param reclamo
+	 * Reclamo a almacenar.
+	 */
+	public void guardarReclamo(IReclamo reclamo) {
+		Repositorio.getInstancia().store(reclamo);
+	}
+	
 	/*
 	 * Traductor de lista IReclamo a lista ReclamoAndrac
 	 */
@@ -75,6 +80,7 @@ public class ReclamoManager {
 			reclamo.cambiarEstado(reclamoInt.getEstadoDescripcion());
 			reclamo.setFechaReclamo(reclamoInt.getFechaReclamo());
 			reclamo.setFechaUltimaModificacionReclamo(reclamoInt.getFechaUltimaModificacionReclamo());
+			reclamo.setId();
 			reclamo.setImagen(null);
 			reclamo.setLatitudIncidente(reclamoInt.getLatitudIncidente());
 			reclamo.setLongitudIncidente(reclamoInt.getLongitudIncidente());
@@ -86,38 +92,31 @@ public class ReclamoManager {
 		return listaDefinitiva;
 	}
 	
-	/**
-	 * Almacena un reclamo en la base de datos.
-	 * 
-	 * @since 05-10-2011
-	 * @author Paul
-	 * @param reclamo
-	 *            Reclamo a almacenar.
+	/*
+	 * Traductor de ReclamoAndroid a ReclamoWeb
 	 */
-	public void guardarReclamoTest(IReclamo reclamo) {
-
-		// XXX Solo para probar!!!!!!!!!!!!!!!!!!!!!!!!!
-		System.out.println("Se recibio un RECLAMO:");
-
-		if (reclamo == null) {
-			System.out.println("reclamo es NULL");
-		} else {
-			System.out.println(reclamo.getAlturaIncidente());
-			System.out.println(reclamo.getBarrioIncidente());
-			System.out.println(reclamo.getCalleIncidente());
-			System.out.println(reclamo.getCiudadanoGeneradorReclamo());
-			System.out.println(reclamo.getComunaIncidente());
-			System.out.println(reclamo.getEstadoDescripcion());
-			System.out.println(reclamo.getFechaReclamo());
-			System.out.println(reclamo.getFechaUltimaModificacionReclamo());
-			System.out.println(reclamo.getId());
-			System.out.println(reclamo.getLatitudIncidente());
-			System.out.println(reclamo.getLongitudIncidente());
-			System.out.println(reclamo.getMailCiudadanoGeneradorReclamo());
-			System.out.println(reclamo.getObservaciones());
-			System.out.println(reclamo.getTipoIncidente());
+	public IReclamo toReclamoInt(IReclamo reclamoAndroid) {
+		IReclamo reclamo = new Reclamo();
+		reclamo.setId();
+		reclamo.setCalleIncidente(reclamoAndroid.getCalleIncidente());
+		reclamo.setAlturaIncidente(reclamoAndroid.getAlturaIncidente());
+		reclamo.setBarrioIncidente(reclamoAndroid.getBarrioIncidente());
+		reclamo.setLatitudIncidente(reclamoAndroid.getLatitudIncidente());
+		reclamo.setLongitudIncidente(reclamoAndroid.getLongitudIncidente());
+		reclamo.setTipoIncidente(reclamoAndroid.getTipoIncidente());
+		reclamo.setFechaReclamo(reclamoAndroid.getFechaReclamo());
+		reclamo.setFechaUltimaModificacionReclamo(reclamoAndroid.getFechaUltimaModificacionReclamo());
+		reclamo.setCiudadanoGeneradorReclamo(reclamoAndroid.getCiudadanoGeneradorReclamo());
+		reclamo.setMailCiudadanoGeneradorReclamo(reclamoAndroid.getMailCiudadanoGeneradorReclamo());
+		reclamo.setObservaciones(reclamoAndroid.getObservaciones());
+		try {
+			reclamo.cambiarEstado(reclamoAndroid.getEstadoDescripcion());
+		} catch (Exception e) {
+			// TODO error estado
 		}
-		// XXX Solo para probar!!!!!!!!!!!!!!!!!!!!!!!!!
+		reclamo.setComunaIncidentePorBarrio(reclamoAndroid.getBarrioIncidente());
+		
+		return reclamo;
 	}
 	
 }
