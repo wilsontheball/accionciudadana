@@ -17,7 +17,7 @@ public class ReclamoAndrac extends ReclamoMovil {
 	private static final long serialVersionUID = 1L;
 
 	public String getId() {
-		return this.id;
+		return "";
 	}
 
 	public String getCalleIncidente() {
@@ -92,8 +92,7 @@ public class ReclamoAndrac extends ReclamoMovil {
 	}
 
 	public void setId() {
-		this.id = "";
-
+		// No hace nada. Por que no se manda id.
 	}
 
 	public void setCalleIncidente(String calle) {
@@ -147,12 +146,7 @@ public class ReclamoAndrac extends ReclamoMovil {
 	}
 
 	public void setImagen(IImagen imagen) {
-<<<<<<< HEAD
-		// No hcae nada. Por que no se manda la foto al andrac.
-=======
-		this.fotoIncidente = imagen;
-
->>>>>>> mati/master
+		// No hace nada. Por que no se manda la foto al andrac.
 	}
 
 	public void setPrioridad(String prioridad) {
