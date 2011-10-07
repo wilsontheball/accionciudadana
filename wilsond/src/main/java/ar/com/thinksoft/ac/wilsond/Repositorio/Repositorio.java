@@ -2,6 +2,8 @@ package ar.com.thinksoft.ac.wilsond.Repositorio;
 
 import java.util.Comparator;
 
+import ar.com.thinksoft.ac.wilsond.configuracion.ConfiguracionWilsonD;
+
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.cs.Db4oClientServer;
@@ -30,7 +32,15 @@ public class Repositorio implements ObjectContainer{
 	 * Constructor privado redefiniendo el que viene por defecto (Singleton).
 	 */
 	private Repositorio() {
-		objectContainer = Db4oClientServer.openClient("192.168.0.103", 5555, "webac", "webac");
+		try {
+			ConfiguracionWilsonD.getInstance().cargarConfiguracion();
+			String ip = ConfiguracionWilsonD.getInstance().getIpBD();
+			int port = Integer.valueOf(ConfiguracionWilsonD.getInstance().getPortBD());
+			objectContainer = Db4oClientServer.openClient(ip, port, "webac", "webac");
+		} catch (Exception e) {
+			objectContainer = Db4oClientServer.openClient("localhost", 5555, "webac", "webac");
+		}
+		
 	}
 
 	/**

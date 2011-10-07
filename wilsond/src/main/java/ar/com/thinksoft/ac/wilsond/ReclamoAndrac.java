@@ -17,8 +17,7 @@ public class ReclamoAndrac extends ReclamoMovil {
 	private static final long serialVersionUID = 1L;
 
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.id;
 	}
 
 	public String getCalleIncidente() {
@@ -67,8 +66,7 @@ public class ReclamoAndrac extends ReclamoMovil {
 	}
 
 	public IImagen getImagen() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.fotoIncidente;
 	}
 
 	public String getEstadoDescripcion() {
@@ -94,7 +92,7 @@ public class ReclamoAndrac extends ReclamoMovil {
 	}
 
 	public void setId() {
-		// TODO Auto-generated method stub
+		this.id = "";
 
 	}
 
@@ -149,7 +147,7 @@ public class ReclamoAndrac extends ReclamoMovil {
 	}
 
 	public void setImagen(IImagen imagen) {
-		// TODO Auto-generated method stub
+		this.fotoIncidente = imagen;
 
 	}
 

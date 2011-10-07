@@ -31,9 +31,7 @@ public class Repositorio {
 	 * @return URL del servidor REST
 	 */
 	public String getSrvUrl() {
-		// return "http://10.24.192.183:6060";
-		 return "http://192.168.0.103:6060";
-		//return "http://96.126.102.85:6060";
+		 return "http://192.168.2.7:6060";
 	}
 
 	/**
