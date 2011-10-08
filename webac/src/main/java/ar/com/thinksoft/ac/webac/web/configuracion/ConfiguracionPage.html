@@ -91,6 +91,27 @@
 					</tr>
 					<tr>
 						<td>
+							<h2 align="right">Base de datos:</h2>
+						</td>
+					</tr>
+					<tr>
+						<td class="texto">
+					 		<label>IP:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="text" wicket:id="ipBD" id="ipBD" class="ipBD" onchange="funcionOnChangeCampoIsNull(this)"/>
+					 	</td>
+					</tr>
+					<tr>
+						<td class="texto">
+					 		<label>Puerto:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="text" wicket:id="portBD" id="portBD" class="portBD" onchange="funcionOnChangeCampoIsNull(this)"/>
+					 	</td>
+					</tr>
+					<tr>
+						<td>
 							<h2 align="right">Rutas de archivos:</h2>
 						</td>
 					</tr>
@@ -101,9 +122,6 @@
 						<td class="block">
 					 		<input type="text" wicket:id="pathTempImages" id="pathTempImages" class="inputText pathTempImages" onchange="funcionOnChangeCampoIsNull(this)"/>
 					 	</td>
-					 	<td>
-						 	<div class="help" wicket:id="help1"></div>
-						</td>
 					</tr>
 					<tr>
 						<td class="texto">
@@ -112,9 +130,6 @@
 						<td class="block">
 					 		<input type="text" wicket:id="pathExportDesign" id="pathExportDesign" class="inputText pathExportDesign" onchange="funcionOnChangeCampoIsNull(this)"/>
 					 	</td>
-					 	<td>
-						 	<div class="help" wicket:id="help2"></div>
-						</td>
 					</tr>
 						<tr>
 							<td class="texto">
@@ -122,9 +137,6 @@
 						 	</td>
 							<td class="block">
 						 		<input type="text" wicket:id="pathConfig" id="pathConfig" class="inputText pathConfig" onchange="funcionOnChangeCampoIsNull(this)"/>
-						 	</td>
-						 	<td>
-						 		<div class="help" wicket:id="help3"></div>
 						 	</td>
 						</tr>
 						
@@ -134,9 +146,6 @@
 						 	</td>
 							<td class="block">
 						 		<input type="text" wicket:id="pathDownloadApp" id="pathDownloadApp" class="inputText pathDownloadApp" onchange="funcionOnChangeCampoIsNull(this)"/>
-						 	</td>
-						 	<td>
-						 		<div class="help" wicket:id="help4"></div>
 						 	</td>
 						</tr>
 						<tr>
@@ -150,9 +159,6 @@
 						 	</td>
 							<td class="block">
 						 		<textarea wicket:id="keyGoogleMap" id="keyGoogleMap" class="pathDownloadApp" rows="2" cols="45" style="resize:none;" onchange="funcionOnChangeCampoIsNull(this)"></textarea>
-						 	</td>
-						 	<td>
-						 		<div class="help" wicket:id="helpGoogle"></div>
 						 	</td>
 						</tr>
 				</table>

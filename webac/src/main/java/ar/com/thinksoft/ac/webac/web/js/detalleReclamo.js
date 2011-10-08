@@ -16,5 +16,5 @@ $(document).ready(function() {
 	
 	var latitud = $('.latitudIncidente')[0].textContent;
 	var longitud = $('.longitudIncidente')[0].textContent;
-	$('.map').attr('src',"http://maps.google.com/maps/api/staticmap?zoom=14&size=512x512&maptype=roadmap&markers=color:blue|"+ latitud +"," + longitud + "&sensor=false");
+	$('.map').attr('src',"http://maps.google.com/maps/api/staticmap?zoom=16&size=450x450&maptype=roadmap&markers=color:blue|"+ latitud +"," + longitud + "&sensor=false");
 });

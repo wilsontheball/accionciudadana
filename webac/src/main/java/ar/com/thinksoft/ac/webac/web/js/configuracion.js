@@ -25,6 +25,7 @@ function validarCampos(){
 			validarSiEsNull($('.manianaOTardeUnificador')[0]) || validarSiEsNull($('.smtp')[0]) || 
 			validarSiEsNull($('.puerto')[0]) || validarSiEsNull($('.desdeMail')[0]) || 
 			validarSiEsNull($('.user')[0]) || validarSiEsNull($('.password')[0]) || 
+			validarSiEsNull($('.ipBD')[0]) || validarSiEsNull($('.portBD')[0]) || 
 			validarSiEsNull($('.pathTempImages')[0]) || validarSiEsNull($('.pathExportDesign')[0]) || 
 			validarSiEsNull($('.pathConfig')[0]) || validarSiEsNull($('.pathDownloadApp')[0]) || 
 			validarSiEsNull($('.pathDownloadApp')[0]);

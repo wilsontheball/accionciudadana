@@ -35,6 +35,8 @@ public class Configuracion implements Serializable{
 	private String user;
 	private String password;
 	
+	private String ipBD;
+	private String portBD;
 	
 	private String pathTempImages = "src/main/webapp/tempImages/";
 	private String pathExportDesign = "src/main/webapp/export/";
@@ -57,6 +59,9 @@ public class Configuracion implements Serializable{
 		configElement.addContent(new Element("auth").addContent(this.getAuth().toString()));
 		configElement.addContent(new Element("user").addContent(this.getUser()));
 		configElement.addContent(new Element("password").addContent(this.getPassword()));
+		
+		configElement.addContent(new Element("ipBD").addContent(this.getIpBD()));
+		configElement.addContent(new Element("portBD").addContent(this.getPortBD()));
 		
 		configElement.addContent(new Element("pathTempImages").addContent(this.getPathTempImages()));
 		configElement.addContent(new Element("pathExportDesign").addContent(this.getPathExportDesign()));
@@ -102,6 +107,9 @@ public class Configuracion implements Serializable{
 			this.setAuth(Boolean.valueOf(rootNode.getChildText("auth")));
 			this.setUser(rootNode.getChildText("user"));
 			this.setPassword(rootNode.getChildText("password"));
+			
+			this.setIpBD(rootNode.getChildText("ipBD"));
+			this.setPortBD(rootNode.getChildText("portBD"));
 			
 			this.setPathTempImages(rootNode.getChildText("pathTempImages"));
 			this.setPathExportDesign(rootNode.getChildText("pathExportDesign"));
@@ -218,6 +226,22 @@ public class Configuracion implements Serializable{
 
 	public String getPassword() {
 		return password;
+	}
+
+	public void setIpBD(String ipBD) {
+		this.ipBD = ipBD;
+	}
+
+	public String getIpBD() {
+		return ipBD;
+	}
+
+	public void setPortBD(String portBD) {
+		this.portBD = portBD;
+	}
+
+	public String getPortBD() {
+		return portBD;
 	}
 
 }

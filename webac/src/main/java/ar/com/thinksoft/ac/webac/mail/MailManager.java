@@ -72,25 +72,35 @@ public class MailManager {
 	}
 	
 	public String armarTextoCambioEstados(String estado, IReclamo reclamo){
-		return 	"Su reclamo con detalle: \n\n"+
-				"Direccion: " + reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + "\n" +
-				"Tipo de incidente: " + reclamo.getTipoIncidente() + "\n" +
-				"Barrio: " + reclamo.getBarrioIncidente() + "\n" + 
-				"Comuna: " + reclamo.getComunaIncidente() + "\n" +
-				"Fecha del reclamo: " + reclamo.getFechaReclamo() + "\n" +
-				"Observaciones: " + reclamo.getObservaciones() + "\n\n" +
-				"se encuentra actualmente " + estado + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAccion Ciudadana";
+		String texto =  "Su reclamo con detalle: \n\n"+
+						"Dirección: " + reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + "\n" +
+						"Tipo de incidente: " + reclamo.getTipoIncidente() + "\n" +
+						"Barrio: " + reclamo.getBarrioIncidente() + "\n" + 
+						"Comuna: " + reclamo.getComunaIncidente() + "\n" +
+						"Fecha del reclamo: " + reclamo.getFechaReclamo() + "\n";
+		
+		if(reclamo.getObservaciones()!=null && reclamo.getObservaciones() != "")
+			texto = texto + "Observaciones: " + reclamo.getObservaciones() + "\n\n";
+		
+		texto = texto + "se encuentra actualmente en estado: " + estado + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAcción Ciudadana";
+		 
+		return texto;
 	}
 	
 	public String armarTextoCambioPrioridad(String prioridad, IReclamo reclamo){
-		return 	"Su reclamo con detalle: \n\n"+
-		"Direccion: " + reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + "\n" +
-		"Tipo de incidente: " + reclamo.getTipoIncidente() + "\n" +
-		"Barrio: " + reclamo.getBarrioIncidente() + "\n" + 
-		"Comuna: " + reclamo.getComunaIncidente() + "\n" +
-		"Fecha del reclamo: " + reclamo.getFechaReclamo() + "\n" +
-		"Observaciones: " + reclamo.getObservaciones() + "\n\n" +
-		"se encuentra actualmente con prioridad " + prioridad + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAccion Ciudadana";
+		String texto = 	"Su reclamo con detalle: \n\n"+
+						"Dirección: " + reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + "\n" +
+						"Tipo de incidente: " + reclamo.getTipoIncidente() + "\n" +
+						"Barrio: " + reclamo.getBarrioIncidente() + "\n" + 
+						"Comuna: " + reclamo.getComunaIncidente() + "\n" +
+						"Fecha del reclamo: " + reclamo.getFechaReclamo() + "\n";
+		
+		if(reclamo.getObservaciones()!=null && reclamo.getObservaciones() != "")
+			texto = texto + "Observaciones: " + reclamo.getObservaciones() + "\n\n";
+		
+		texto = texto + "se encuentra actualmente con prioridad: " + prioridad + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAcción Ciudadana";
+	
+		return texto;
 	}
 
 }

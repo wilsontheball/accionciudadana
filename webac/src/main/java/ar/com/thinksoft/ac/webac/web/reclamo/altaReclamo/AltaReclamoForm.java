@@ -41,8 +41,8 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		super(id);
 		setMultiPart(false);
 		
-		CompoundPropertyModel<Reclamo> model = new CompoundPropertyModel<Reclamo>(new Reclamo());
-		setModel(model);
+		CompoundPropertyModel<IReclamo> model = new CompoundPropertyModel<IReclamo>(new Reclamo());
+		setDefaultModel(model);
 		
 		TextField<String> calle = new TextField<String>("calleIncidente",this.createBind(model,"calleIncidente"));
 		add(calle);
@@ -94,9 +94,11 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		
 		
 		add(new Button("guardarReclamo") {
+				@SuppressWarnings("unchecked")
 				@Override
 				public void onSubmit() {
-					Reclamo reclamo = _self.getModelObject();
+					IModel<IReclamo> model = (IModel<IReclamo>) _self.getDefaultModel();
+					IReclamo reclamo = model.getObject();
 					if(!isReclamoNoValido(reclamo)){
 						//metodos agregados a mano
 						reclamo.setId();
@@ -164,7 +166,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 		
 	}
 	
-	private IModel<String> createBind(CompoundPropertyModel<Reclamo> model,String property){
+	private IModel<String> createBind(CompoundPropertyModel<IReclamo> model,String property){
 		return model.bind(property);
 	}
 	

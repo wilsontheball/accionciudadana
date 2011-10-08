@@ -125,6 +125,7 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 				@Override
 				public void onSubmit() {
 					Reclamo reclamoModificado = _self.getModelObject();
+					IReclamo reclamoO = reclamoOriginal;
 					if(!isReclamoNoValido(reclamoModificado)){
 						if(img != null){
 							reclamoModificado.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
@@ -137,7 +138,7 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 						
 						//Cambio la prioridad de acuerdo a la prioridad elegida
 						String prioridad = reclamoModificado.getPrioridad();
-						if(prioridad != "" && prioridad != null){
+						if(prioridad != "" && prioridad != null && !reclamoO.getPrioridad().equals(prioridad)){
 							try {
 								reclamoModificado.setPrioridad(prioridad);
 							} catch (Exception e) {
@@ -145,18 +146,8 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 							}
 						}
 						
-						//Cambio el estado de acuerdo al estado elegido
-						String estado = reclamoModificado.getEstadoDescripcion();
-						if(estado != "" && estado != null){
-							try {
-								reclamoModificado.cambiarEstado(estado);
-							} catch (Exception e) {
-								LogFwk.getInstance(ModificarReclamoForm.class).error("Problema al enviar mail por cambio de estado. Detalle: " + e.getMessage());
-							}
-						}
-						
 						if (reclamoOriginal.getAlturaIncidente() != reclamoModificado.getAlturaIncidente() || 
-							reclamoOriginal.getCalleIncidente() != reclamoModificado.getCalleIncidente()){
+							!reclamoOriginal.getCalleIncidente().equals(reclamoModificado.getCalleIncidente())){
 							
 							/*
 							 * CONVERSION CALLE A COORDENADAS GPS
@@ -176,6 +167,20 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 							}
 							// FIN CONVERSION CALLE A COORDENADAS GPS
 							
+						}
+
+						//Cambio el estado de acuerdo al estado elegido
+						String estado = reclamoModificado.getEstadoDescripcion();
+						if(!estado.equals(reclamoO.getEstadoDescripcion())){
+							if(estado != "" && estado != null){
+								try {
+									reclamoModificado.cambiarEstado(estado);
+								} catch (Exception e) {
+									LogFwk.getInstance(ModificarReclamoForm.class).error("Problema al enviar mail por cambio de estado. Detalle: " + e.getMessage());
+								}
+							}
+						}else{
+							ReclamoManager.getInstance().guardarReclamo(reclamoModificado);
 						}
 						//Elimino el reclamoOriginal, guardando el reclamoNuevo
 						ReclamoManager.getInstance().eliminarReclamo(reclamoOriginal);

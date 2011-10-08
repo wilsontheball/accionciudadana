@@ -6,6 +6,8 @@ import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
 
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
+import ar.com.thinksoft.ac.webac.web.HomePage.Administrativo.HomePageAdministrativo;
+import ar.com.thinksoft.ac.webac.web.HomePage.Ciudadano.HomePageCiudadano;
 import ar.com.thinksoft.ac.webac.web.configuracion.ConfiguracionPage;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
@@ -43,6 +45,8 @@ public class WicketApplication extends AuthenticatedWebApplication{
 		
 		mountBookmarkablePage("Login", LoginPage.class);
 		mountBookmarkablePage("Home", HomePage.class);
+		mountBookmarkablePage("HomeCiudadano", HomePageCiudadano.class);
+		mountBookmarkablePage("HomeAdministrativo", HomePageAdministrativo.class);
 		mountBookmarkablePage("AltaReclamo", AltaReclamoPage.class);
 		mountBookmarkablePage("ListadoReclamos", BusquedaReclamoPage.class);
 		mountBookmarkablePage("DetalleReclamo", DetalleReclamoPage.class);

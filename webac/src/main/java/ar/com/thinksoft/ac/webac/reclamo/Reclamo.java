@@ -1,6 +1,5 @@
 package ar.com.thinksoft.ac.webac.reclamo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import ar.com.thinksoft.ac.webac.mail.MailManager;
  * @author Matias
  *
  */
-public class Reclamo implements IReclamo,Serializable{
+public class Reclamo implements IReclamo{
 	
 	/**
 	 * 

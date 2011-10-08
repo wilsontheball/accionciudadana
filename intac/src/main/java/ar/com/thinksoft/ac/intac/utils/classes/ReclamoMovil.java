@@ -23,7 +23,7 @@ public abstract class ReclamoMovil implements IReclamo {
 	protected String estadoReclamo;
 	protected String fechaCreacion;
 	protected String fechaModificacion;
-	protected int id; // Es para DB nomas...
+	protected String id;
 	protected IImagen fotoIncidente;
 	protected String latitudIncidente;
 	protected String longitudIncidente;

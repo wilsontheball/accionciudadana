@@ -1,4 +1,4 @@
-package ar.com.thinksoft.ac.wilsond;
+package ar.com.thinksoft.ac.wilsond.usuario;
 
 import ar.com.thinksoft.ac.intac.utils.classes.UsuarioMovil;
 
@@ -8,7 +8,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.UsuarioMovil;
  * @since 27-09-2011
  * @author Paul
  */
-public class Usuario extends UsuarioMovil {
+public class UsuarioAndrac extends UsuarioMovil {
 
 	private static final long serialVersionUID = 1L;
 
