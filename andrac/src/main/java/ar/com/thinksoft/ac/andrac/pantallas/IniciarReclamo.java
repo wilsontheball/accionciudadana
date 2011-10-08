@@ -121,7 +121,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 
 		if (resultCode == Activity.RESULT_OK) {
 			// Resultado devuelto el OK.
-			if (FuncionRest.PUTRECLAMO.equals(data
+			if (FuncionRest.POSTRECLAMO.equals(data
 					.getStringExtra(ServicioRest.FUN))) {
 				// Se envio reclamo.
 				Toast.makeText(this, R.string.reclamo_enviado,
@@ -146,7 +146,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 
 		} else if (resultCode == Activity.RESULT_CANCELED) {
 			// Resultado devuelto el CANCELED.
-			if (FuncionRest.PUTRECLAMO.equals(data
+			if (FuncionRest.POSTRECLAMO.equals(data
 					.getStringExtra(ServicioRest.FUN))) {
 				// Fallo envio de reclamo.
 				// TODO Guardar reclamo no enviado.
@@ -194,7 +194,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 			} else {
 				this.getRepo().publicarReclamoGPS(tipo, barrio,
 						this.latitudActual, this.longitudActual, observ);
-				this.ejecutarFuncionREST(FuncionRest.PUTRECLAMO);
+				this.ejecutarFuncionREST(FuncionRest.POSTRECLAMO);
 				// TODO Mostrar procesando.
 			}
 		} else {
@@ -213,7 +213,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 							.getText().toString();
 					this.getRepo().publicarReclamoDireccion(tipo, barrio,
 							calle, altura, observ);
-					this.ejecutarFuncionREST(FuncionRest.PUTRECLAMO);
+					this.ejecutarFuncionREST(FuncionRest.POSTRECLAMO);
 					// TODO Mostrar procesando.
 				}
 			}

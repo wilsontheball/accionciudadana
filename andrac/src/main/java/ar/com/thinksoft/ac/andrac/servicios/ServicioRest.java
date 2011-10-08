@@ -35,7 +35,7 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Se encarga de correr en 2do plano todas las funciones de conexion a servidor.
  * 
- * @since 05-10-2011
+ * @since 08-10-2011
  * @author Paul
  */
 public class ServicioRest extends IntentService {
@@ -53,7 +53,7 @@ public class ServicioRest extends IntentService {
 	/**
 	 * Atiende la creacion de un servicio.
 	 * 
-	 * @since 28-09-2011
+	 * @since 08-10-2011
 	 * @author Paul
 	 */
 	@Override
@@ -74,11 +74,15 @@ public class ServicioRest extends IntentService {
 				// Funcion GET Perfil.
 				this.getPerfil(getString(R.string.url_wilsond), this.getRepo()
 						.getNick(), this.getRepo().getPass());
-			} else if (FuncionRest.PUTRECLAMO.equals(funcion)) {
-				// Funcion PUT Reclamo.
+			} else if (FuncionRest.POSTRECLAMO.equals(funcion)) {
+				// Funcion POST Reclamo.
 				this.postReclamo(getString(R.string.url_wilsond), this
 						.getRepo().getNick(), this.getRepo().getPass(), this
 						.getRepo().getReclamoAEnviar());
+			} else if (FuncionRest.POSTUSUARIO.equals(funcion)) {
+				// Funcion POST Usuario.
+				this.postUsuario(getString(R.string.url_wilsond), this
+						.getRepo().getUsuarioARegistrar());
 			} else {
 				// Funcion desconocida!
 				bundle.putString(FUN, funcion);
@@ -111,7 +115,7 @@ public class ServicioRest extends IntentService {
 	/**
 	 * Obtiene los reclamos del servidor Rest.
 	 * 
-	 * @since 28-09-2011
+	 * @since 08-10-2011
 	 * @author Paul
 	 * @param url
 	 *            URL del servidor.
@@ -131,17 +135,6 @@ public class ServicioRest extends IntentService {
 		}.getType();
 		List<Reclamo> reclamos = gson.fromJson(reader, collectionType);
 		this.getRepo().setReclamosUsuario(reclamos);
-
-		// XXX Imprime reclamos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		String respuesta = "";
-		respuesta = respuesta + "RECLAMOS\n";
-		for (Reclamo d : reclamos) {
-			respuesta = respuesta + " : " + d.getCalleIncidente() + " - "
-					+ d.getAlturaIncidente() + ": " + d.getTipoIncidente()
-					+ "\n";
-		}
-		Log.d(this.getClass().getName(), respuesta);
-		// XXX Imprime reclamos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 
 	/**
@@ -185,8 +178,31 @@ public class ServicioRest extends IntentService {
 		Header header = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");
 		entidad.setContentEncoding(header);
 
-		HttpPost post = new HttpPost(url + "/" + FuncionRest.PUTRECLAMO + "/"
+		HttpPost post = new HttpPost(url + "/" + FuncionRest.POSTRECLAMO + "/"
 				+ nick + "/" + pass);
+		post.setEntity(entidad);
+		return new DefaultHttpClient().execute(post);
+	}
+
+	/**
+	 * Manda un usuario al servidor Rest. No se manda nick ni pass.
+	 * 
+	 * @since 08-10-2011
+	 * @author Paul
+	 * @param url
+	 *            URL del servidor.
+	 * @param usuario
+	 *            Usuario a enviar.
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	public HttpResponse postUsuario(String url, Usuario usuario)
+			throws ClientProtocolException, IOException {
+		StringEntity entidad = new StringEntity(new Gson().toJson(usuario));
+		Header header = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");
+		entidad.setContentEncoding(header);
+
+		HttpPost post = new HttpPost(url + "/" + FuncionRest.POSTUSUARIO);
 		post.setEntity(entidad);
 		return new DefaultHttpClient().execute(post);
 	}

@@ -67,19 +67,21 @@ public class Login extends Activity implements ReceptorRest {
 	/**
 	 * Revisa si tiene que pedir autenticacion.
 	 * 
-	 * @since 02-10-2011
+	 * @since 08-10-2011
 	 * @author Paul
 	 */
 	@Override
 	protected void onStart() {
 		super.onStart();
 		// TODO implementar Login.
-		// Login no se muestra cuando ya esta autenticado.
-		if ((this.getRepo().getNick() == null)
-				|| (this.getRepo().getPass() == null)) {
-			this.mostrarDialogo(LOGIN);
-		} else {
+		// Login no se muestra cuando ya esta autenticado o cuando la funcion es
+		// POST Usuario.
+		if ((FuncionRest.POSTUSUARIO.equals(this.funcionAEjecutar))
+				|| ((this.getRepo().getNick() != null) && (this.getRepo()
+						.getPass() != null))) {
 			this.ejecutarFuncion(funcionAEjecutar);
+		} else {
+			this.mostrarDialogo(LOGIN);
 		}
 	}
 
@@ -286,9 +288,10 @@ public class Login extends Activity implements ReceptorRest {
 
 		} catch (Exception e) {
 			// TODO: mostrar error!!!!
-			Toast.makeText(this, "Fallo iniciar servicio", Toast.LENGTH_SHORT)
-					.show();
-			Log.e(this.getClass().getName(), "Fallo iniciar servicio");
+			Toast.makeText(this, "Fallo iniciar servicio: " + funcionAEjecutar,
+					Toast.LENGTH_SHORT).show();
+			Log.e(this.getClass().getName(), "Fallo iniciar servicio: "
+					+ funcionAEjecutar);
 		}
 	}
 
@@ -318,6 +321,12 @@ public class Login extends Activity implements ReceptorRest {
 		return receptor;
 	}
 
+	/**
+	 * Alamcena los datos de Login para no tener que pedirlos en cada operacion.
+	 * 
+	 * @param usuario
+	 * @param password
+	 */
 	private void setDatosLogin(String usuario, String password) {
 		this.getRepo().setNick(usuario);
 		this.getRepo().setPass(password);
