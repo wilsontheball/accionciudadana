@@ -31,8 +31,10 @@ import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
 import ar.com.thinksoft.ac.andrac.listener.UbicacionSpinnerListener;
+import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
+import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 
 /**
  * Maneja creacion de un reclamo.
@@ -108,6 +110,66 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	}
 
 	/**
+	 * Atiende resultados de ejecucion tanto de la Camara como de Login.
+	 * 
+	 * @since 07-10-2011
+	 * @author Paul
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (resultCode == Activity.RESULT_OK) {
+			// Resultado devuelto el OK.
+			if (FuncionRest.PUTRECLAMO.equals(data
+					.getStringExtra(ServicioRest.FUN))) {
+				// Se envio reclamo.
+				Toast.makeText(this, R.string.reclamo_enviado,
+						Toast.LENGTH_LONG).show();
+				this.finish();
+			} else if (CamaraView.SACAR_FOTO.equals(data
+					.getStringExtra(CamaraView.FUN))) {
+				// Se saco una foto.
+				ImageView preview = (ImageView) this
+						.findViewById(R.id.fotoPreview);
+				Bitmap foto = this.getFotoPreview(this.getRepo().getImagen());
+				if (foto != null) {
+					preview.setImageBitmap(foto);
+				} else {
+					Log.e(this.getClass().getName(),
+							"this.getRepo().getImagen() es null!");
+				}
+			} else {
+				Log.e(this.getClass().getName(),
+						"No se sabe quien devolvio RESULT_OK");
+			}
+
+		} else if (resultCode == Activity.RESULT_CANCELED) {
+			// Resultado devuelto el CANCELED.
+			if (FuncionRest.PUTRECLAMO.equals(data
+					.getStringExtra(ServicioRest.FUN))) {
+				// Fallo envio de reclamo.
+				// TODO Guardar reclamo no enviado.
+				Toast.makeText(this, "FALLO ENVIAR!", Toast.LENGTH_LONG).show();
+				Log.e(this.getClass().getName(), "Fallo enviar reclamo.");
+			} else if (CamaraView.SACAR_FOTO.equals(data
+					.getStringExtra(CamaraView.FUN))) {
+				// Fallo sacar foto.
+				Log.d(this.getClass().getName(), "No se saco la foto.");
+
+			} else {
+				Log.e(this.getClass().getName(),
+						"No se sabe quien devolvio RESULT_OK");
+			}
+
+		} else {
+			// Resultado devuelto es desconocido.
+			Log.e(this.getClass().getName(),
+					"Es un resultado de ejecucion desconocido.");
+		}
+	}
+
+	/**
 	 * Valida los datos, arma el reclamo y lo envia.
 	 * 
 	 * @since 07-10-2011
@@ -132,10 +194,8 @@ public class IniciarReclamo extends Activity implements LocationListener {
 			} else {
 				this.getRepo().publicarReclamoGPS(tipo, barrio,
 						this.latitudActual, this.longitudActual, observ);
-
-				Toast.makeText(this, R.string.reclamo_enviado,
-						Toast.LENGTH_LONG).show();
-				this.finish();
+				this.ejecutarFuncionREST(FuncionRest.PUTRECLAMO);
+				// TODO Mostrar procesando.
 			}
 		} else {
 			if (((EditText) findViewById(R.id.calle)).getText().toString()
@@ -153,12 +213,23 @@ public class IniciarReclamo extends Activity implements LocationListener {
 							.getText().toString();
 					this.getRepo().publicarReclamoDireccion(tipo, barrio,
 							calle, altura, observ);
-					Toast.makeText(this, R.string.reclamo_enviado,
-							Toast.LENGTH_LONG).show();
-					this.finish();
+					this.ejecutarFuncionREST(FuncionRest.PUTRECLAMO);
+					// TODO Mostrar procesando.
 				}
 			}
 		}
+	}
+
+	/**
+	 * Muestra la ventana de Login esperando resultado de ejecucion.
+	 * 
+	 * @since 07-10-2011
+	 * @author Paul
+	 */
+	private void ejecutarFuncionREST(String funcion) {
+		Intent proceso = new Intent(this, Login.class);
+		proceso.putExtra(ServicioRest.FUN, funcion);
+		this.startActivityForResult(proceso, 0);
 	}
 
 	/**
@@ -235,22 +306,6 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	 */
 	public void tomarFoto(View v) {
 		this.startActivityForResult(new Intent(this, CamaraView.class), 0);
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode != Activity.RESULT_CANCELED) {
-			ImageView preview = (ImageView) this.findViewById(R.id.fotoPreview);
-			Bitmap foto = this.getFotoPreview(this.getRepo().getImagen());
-			if (foto != null) {
-				preview.setImageBitmap(foto);
-			} else {
-				Log.e("IniciarReclamo", "this.getRepo().getImagen() es null!");
-			}
-		} else {
-			Log.e("IniciarReclamo", "Resultado Foto: CANCELED");
-		}
 	}
 
 	/**

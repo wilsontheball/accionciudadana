@@ -11,13 +11,12 @@ import android.util.Log;
 import ar.com.thinksoft.ac.andrac.dominio.Imagen;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.dominio.Usuario;
-import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
-import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
+import ar.com.thinksoft.ac.intac.utils.classes.ImagenMovil;
 
 /**
- * Abstrae la conexion remota a la base de datos
+ * Buzon intermedio para intercambiar datos entre los procesos.
  * 
- * @since 27-09-2011
+ * @since 07-10-2011
  * @author Paul
  */
 public class Repositorio {
@@ -31,8 +30,6 @@ public class Repositorio {
 	private Reclamo reclamoAEnviar = null;
 
 	/**
-<<<<<<< HEAD
-=======
 	 * Devuelve la URL del servidor.
 	 * 
 	 * @since 27-09-2011
@@ -40,12 +37,10 @@ public class Repositorio {
 	 * @return URL del servidor REST
 	 */
 	public String getSrvUrl() {
-		 return "http://192.168.2.7:6060";
+		return "http://192.168.2.7:6060";
 	}
 
 	/**
->>>>>>> mati/master
-	 * Devuelve un objeto Usuario desde la base de datos
 	 * 
 	 * @since 22-07-2011
 	 * @author Paul
@@ -158,20 +153,12 @@ public class Repositorio {
 	}
 
 	public Reclamo getReclamoAEnviar() {
-		// XXX Probado un Mock!!!!!!!!!!!!!!!!!!!!!!!
-
-		Reclamo rec1 = new Reclamo("Cabildo", "145", "latitud...",
-				"longitud...", EnumTipoReclamo.accesibilidad.getTipo(),
-				"ayer.......", "hoy........", "pepe", "Lalala",
-				EnumBarriosReclamo.Belgrano.getBarrio(), null);
-		return rec1;
-		// XXX Probado un Mock!!!!!!!!!!!!!!!!!!!!!!!
+		return this.reclamoAEnviar;
 	}
 
 	public void publicarReclamoDireccion(String tipo, String barrio,
 			String calle, String altura, String observacion) {
-		// TODO falta revisar si contentType es jpeg!!!!!!!!
-		Imagen imagen = new Imagen(this.getImagen(), "jpeg", "prueba");
+		Imagen imagen = new Imagen(this.getImagen(), ImagenMovil.TIPO_JPG);
 		String fecha = this.getFecha();
 
 		// TODO falta implementar obtencion de coordenada
@@ -183,90 +170,32 @@ public class Repositorio {
 		this.setReclamoAEnviar(reclamo);
 	}
 
-	// private void enviarReclamo(Reclamo reclamo) {
-	//
-	// Gson gson = new Gson();
-	// String json = gson.toJson(reclamo);
-	//
-	// HttpResponse responce;
-	// try {
-	// responce = this.doPost(this.getSrvUrl(), new JSONObject(json));
-	// String temp = EntityUtils.toString(responce.getEntity());
-	// } catch (ClientProtocolException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// } catch (JSONException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-
-	// if (temp.compareTo("SUCCESS")==0)
-	// {
-	// Toast.makeText(this, "Sending complete!", Toast.LENGTH_LONG).show();
-	// }
-	//
-	// }
-
-	// public HttpResponse doPost(String url, JSONObject c)
-	// throws ClientProtocolException, IOException {
-	// HttpClient httpclient = new DefaultHttpClient();
-	// HttpPost request = new HttpPost(url);
-	// HttpEntity entity;
-	// StringEntity s = new StringEntity(c.toString());
-	// s.setContentEncoding((Header) new BasicHeader(HTTP.CONTENT_TYPE,
-	// "application/json"));
-	// entity = s;
-	// request.setEntity(entity);
-	// HttpResponse response;
-	// response = httpclient.execute(request);
-	// return response;
-	// }
-
-	/**
-	 * Se conecta a Wilsond para obtener reclamos hechos por un usuario.
-	 * 
-	 * @since 25-09-2011
-	 * @author Paul
-	 * @param usuario
-	 *            Nick de usuario.
-	 * @return Lista de reclamos hecho por un usuario.
-	 */
-	// private List<Reclamo> obtenerReclamos(String usuario) {
-	//
-	// try {
-	// DefaultHttpClient httpClient = new DefaultHttpClient();
-	// HttpGet method = new HttpGet(this.getSrvUrl() + "/reclamos");
-	// HttpResponse httpResponse = httpClient.execute(method);
-	// InputStream is = httpResponse.getEntity().getContent();
-	// Gson gson = new Gson();
-	// Reader reader = new InputStreamReader(is);
-	// Type collectionType = new TypeToken<List<Reclamo>>() {
-	// }.getType();
-	// return gson.fromJson(reader, collectionType);
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// return null;
-	// }
-	// }
-
 	public boolean publicarReclamoGPS(String tipo, String barrio,
 			double latitud, double longitud, String observacion) {
-		// TODO falta implementar
 
-		// XXX Probando Goeocoder....
-		Geocoder geocoder = new Geocoder(null);
-		try {
-			Address dir = geocoder.getFromLocation(latitud, longitud, 1).get(0);
-			Log.d(this.getClass().getName(),
-					"Direccion es: " + dir.getAdminArea());
-		} catch (IOException e) {
-			Log.d(this.getClass().getName(), "Fallo Geocoder" + e.toString());
-		}
+		Imagen imagen = new Imagen(this.getImagen(), ImagenMovil.TIPO_JPG);
+		String fecha = this.getFecha();
+
+		// TODO falta implementar obtencion de direccion
+
+		// XXX Probando Goeocoder.... NO ANDA!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// Geocoder geocoder = new Geocoder(null);
+		// try {
+		// Address dir = geocoder.getFromLocation(latitud, longitud, 1).get(0);
+		// Log.d(this.getClass().getName(),
+		// "Direccion es: " + dir.getAdminArea());
+		// } catch (IOException e) {
+		// Log.d(this.getClass().getName(), "Fallo Geocoder" + e.toString());
+		// }
 		// XXX Hasta aqui probando Goeocoder....
+
+		String calle = "zaraza1";
+		String altura = "zaraza2";
+
+		Reclamo reclamo = new Reclamo(calle, altura, latitud + "", longitud
+				+ "", tipo, fecha, fecha, this.getNick(), observacion, barrio,
+				imagen);
+		this.setReclamoAEnviar(reclamo);
 
 		return true;
 	}

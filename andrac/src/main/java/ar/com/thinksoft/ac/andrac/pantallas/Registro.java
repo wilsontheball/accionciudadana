@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import ar.com.thinksoft.ac.andrac.R;
-import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 

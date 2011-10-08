@@ -10,11 +10,10 @@ import ar.com.thinksoft.ac.intac.utils.classes.ImagenMovil;
  */
 public class Imagen extends ImagenMovil {
 
-	public Imagen(byte[] bytes, String contentType, String fileName) {
+	public Imagen(byte[] bytes, String contentType) {
 
 		this.setBytes(bytes);
 		this.setContentType(contentType);
-		this.setFileName(fileName);
 	}
 
 	public void setBytes(byte[] imagenBytes) {

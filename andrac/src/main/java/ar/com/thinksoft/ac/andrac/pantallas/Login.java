@@ -26,7 +26,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * Pantalla transparente que maneja los servicios y pide autentificacion.
  * 
- * @since 02-10-2011
+ * @since 07-10-2011
  * @author Paul
  * 
  */
@@ -228,7 +228,7 @@ public class Login extends Activity implements ReceptorRest {
 	 * Muestra una ventana dialogo "Procesando". Al hacer clic en el boton
 	 * finaliza servicio que corre en este momento.
 	 * 
-	 * @since 29-09-2011
+	 * @since 07-10-2011
 	 * @author Paul
 	 * @param mensaje
 	 *            Texto que se va a mostrar en el dialogo.
@@ -238,16 +238,15 @@ public class Login extends Activity implements ReceptorRest {
 
 		this.procesando = new ProgressDialog(Login.this);
 
-		// TODO Definir mensajes para todas las funciones
+		// TODO Agregar mensaje al Bunldle!!!!!!!!!!!!!!!!!!
 		String mensaje = "no tiene mensaje!!";
 		if (FuncionRest.GETRECLAMOS.equals(funcion)) {
 			mensaje = getString(R.string.obteniendo_reclamos);
 		} else if (FuncionRest.GETPERFIL.equals(funcion)) {
 			mensaje = getString(R.string.obteniendo_perfil);
 		} else {
-			Log.d(this.getClass().getName(), "Funcion sin mensaje: " + funcion);
-			// TODO this.cancelarServicioRest();
-			return;
+			Log.e(this.getClass().getName(), "Funcion sin mensaje: " + funcion);
+			mensaje = getString(R.string.procesando);
 		}
 		this.procesando.setMessage(mensaje);
 		this.procesando.setButton(getString(R.string.cancelar),
@@ -256,7 +255,7 @@ public class Login extends Activity implements ReceptorRest {
 						// Cierra el dialogo.
 						dialog.cancel();
 						// Vuelve a la ventana enterior.
-						salirDePantalla("funcion cancelada", RESULT_CANCELED);
+						salirDePantalla(funcionAEjecutar, RESULT_CANCELED);
 					}
 				});
 		this.procesando.setCancelable(false);
