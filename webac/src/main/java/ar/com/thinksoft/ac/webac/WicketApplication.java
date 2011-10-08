@@ -3,7 +3,6 @@ package ar.com.thinksoft.ac.webac;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.settings.ISecuritySettings;
 
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.configuracion.ConfiguracionPage;
@@ -22,11 +21,11 @@ import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
  * 
  * @see ar.com.thinksoft.ac.webac.Start#main(String[])
  */
-public class AccionCiudadanaApplication extends AuthenticatedWebApplication {
+public class WicketApplication extends AuthenticatedWebApplication {
 	/**
 	 * Constructor
 	 */
-	public AccionCiudadanaApplication() {
+	public WicketApplication() {
 		super();
 	}
 
@@ -53,24 +52,6 @@ public class AccionCiudadanaApplication extends AuthenticatedWebApplication {
 		mountBookmarkablePage("Usuarios", UsuarioPage.class);
 		mountBookmarkablePage("UsuarioNuevo", UsuarioNuevoPage.class);
 
-	}
-
-	@Override
-	public ISecuritySettings getSecuritySettings() {
-		ISecuritySettings securitySettings = super.getSecuritySettings();
-		
-//		IRoleCheckingStrategy rolesChecking = new IRoleCheckingStrategy() {
-//
-//			@Override
-//			public boolean hasAnyRole(Roles roles) {
-//				return false;
-//			}
-//		};
-//		
-//		securitySettings
-//				.setAuthorizationStrategy(new AnnotationsRoleAuthorizationStrategy(
-//						rolesChecking));
-		return securitySettings;
 	}
 
 	@Override
