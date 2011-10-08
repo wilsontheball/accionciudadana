@@ -321,7 +321,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void armarGrilla() {
-
+		
 		List cols = (List) Arrays.asList(
 			new PropertyColumn("idCol",new Model<String>("Id"),"Id").setInitialSize(0)
 																	.setResizable(false)
