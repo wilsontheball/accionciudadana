@@ -24,12 +24,17 @@ public class HomePage extends BasePage {
 
 	public HomePage(final PageParameters parameters) {
 		if(Context.getInstance().getUsuario() != null){
-			if(Context.getInstance().getUsuario().getNombreUsuario().equals("administrator"))
+			if(Context.getInstance().getUsuario().getNombreUsuario().equals("administrator")){
 				setResponsePage(HomePageAdministrativo.class);
-			else
+				setRedirect(true);
+			}
+			else{
 				setResponsePage(HomePageCiudadano.class);
+				setRedirect(true);
+			}
 		}else{
 			setResponsePage(LoginPage.class);
+			setRedirect(true);
 		}
 	}
 

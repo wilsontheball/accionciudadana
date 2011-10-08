@@ -45,8 +45,9 @@ label
 }
 
 
-.filterTables{
-	margin:0px 50px;
+.grid{
+	width: 98%; 
+	margin:5px 10px;	
 }
 
 <!-- Agregado en estilos propios de inmethod-grid -->

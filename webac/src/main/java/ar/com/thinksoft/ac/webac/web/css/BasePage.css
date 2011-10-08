@@ -5,6 +5,7 @@ html,body {
 	padding: 0;
 	border: 0;
 	height: 100%;
+	width:100%;
 	overflow: auto;
 	font-family: "Calibri", "Tahoma", Arial, Helvetica, sans-serif;
 	font-size: 12px;
