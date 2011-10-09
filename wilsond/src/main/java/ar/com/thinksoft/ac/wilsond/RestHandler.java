@@ -18,6 +18,7 @@ import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 import ar.com.thinksoft.ac.intac.utils.classes.UsuarioMovil;
 import ar.com.thinksoft.ac.wilsond.log.LogManager;
+import ar.com.thinksoft.ac.wilsond.reclamo.ReclamoAndrac;
 import ar.com.thinksoft.ac.wilsond.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.wilsond.usuario.UsuarioAndrac;
 import ar.com.thinksoft.ac.wilsond.usuario.UsuarioManager;
