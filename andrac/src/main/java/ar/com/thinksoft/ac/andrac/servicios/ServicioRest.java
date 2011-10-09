@@ -257,12 +257,6 @@ public class ServicioRest extends IntentService {
 			reclamo.setCalleIncidente(calle);
 		} else if ((reclamo.getCalleIncidente() != null)
 				&& (reclamo.getAlturaIncidente() != null)) {
-
-			// XXX
-			Log.i(this.getClass().getName(),
-					"PASA POR AQUI" + reclamo.getLatitudIncidente()
-							+ reclamo.getLatitudIncidente());
-
 			// Completa latitud y longitud.
 			direccion = this.direccionACoordenada(reclamo.getCalleIncidente(),
 					reclamo.getAlturaIncidente());

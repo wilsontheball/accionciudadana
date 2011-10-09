@@ -45,6 +45,11 @@
 	<string name="latitud">Latitud</string>
 	<string name="longitud">Longitud</string>
 	<string name="reclamo_enviado">Su reclamo ha sido enviado.</string>
+	<string name="reclamo_no_enviado">En este momento no se pudo enviar su reclamo. El
+		mismo se guardará en la "Lista de Reclamos Guardados" para que lo
+		pueda enviar en otro momento.</string>
+	<string name="reclamo_no_guardado">No se ha podido guardar su reclamo. Asegurese de
+		tener permisos para guardar en la memoria.</string>
 	<string name="iniciar_reclamo">Iniciar Reclamo</string>
 	<string name="tipodeincidente_prompt">Tipo de Incidente</string>
 	<string name="gps">GPS</string>

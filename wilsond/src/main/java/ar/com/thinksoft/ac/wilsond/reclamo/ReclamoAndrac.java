@@ -16,6 +16,9 @@ public class ReclamoAndrac extends ReclamoMovil {
 
 	private static final long serialVersionUID = 1L;
 
+	// XXX Se sobreescribe atributo del padre. Habria que hacerlo bien.
+	protected ImagenAndrac fotoIncidente;
+
 	public String getId() {
 		return null;
 	}

@@ -215,6 +215,12 @@ public class Repositorio {
 		return formatter.format(date);
 	}
 
+	public String getHoraConFormato() {
+		Date date = new java.util.Date();
+		SimpleDateFormat formatter = new java.text.SimpleDateFormat("hh-mm-ss");
+		return formatter.format(date);
+	}
+
 	public Usuario getUsuarioARegistrar() {
 		return usuarioARegistrar;
 	}

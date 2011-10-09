@@ -1,7 +1,11 @@
 package ar.com.thinksoft.ac.andrac.pantallas;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
+
+import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,6 +34,7 @@ import android.widget.Toast;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
+import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.listener.UbicacionSpinnerListener;
 import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
@@ -39,8 +44,8 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * Maneja creacion de un reclamo.
  * 
- * @since 07-10-2011
- * @author Paul
+ * @since 09-10-2011
+ * @author Hernan
  */
 public class IniciarReclamo extends Activity implements LocationListener {
 
@@ -48,6 +53,8 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	private final int ERR_CALLE_VACIO = 2;
 	private final int ERR_ALTURA_VACIO = 3;
 	private final int ERR_COORD_VACIO = 4;
+	private final int ERR_FALLO_ENVIO = 5;
+	private final int ERR_FALLO_GUARDAR = 6;
 	private final int COORDENADA_DELAY = 120000; // 2 min para aplicar PLAN B
 	private Random random = new Random(new Date().getTime() * 1000);
 	private double latitudActual;
@@ -149,9 +156,16 @@ public class IniciarReclamo extends Activity implements LocationListener {
 			if (FuncionRest.POSTRECLAMO.equals(data
 					.getStringExtra(ServicioRest.FUN))) {
 				// Fallo envio de reclamo.
-				// TODO Guardar reclamo no enviado.
-				Toast.makeText(this, "FALLO ENVIAR!", Toast.LENGTH_LONG).show();
 				Log.e(this.getClass().getName(), "Fallo enviar reclamo.");
+
+				try {
+					this.guardarReclamo(getRepo().getReclamoAEnviar());
+					this.mostrarAdvertencia(ERR_FALLO_ENVIO);
+				} catch (IOException e) {
+					Log.e(this.getClass().getName(), "Fallo guardar reclamo.");
+					this.mostrarAdvertencia(ERR_FALLO_GUARDAR);
+				}
+
 			} else if (CamaraView.SACAR_FOTO.equals(data
 					.getStringExtra(CamaraView.FUN))) {
 				// Fallo sacar foto.
@@ -195,7 +209,6 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				this.getRepo().publicarReclamoGPS(tipo, barrio,
 						this.latitudActual, this.longitudActual, observ);
 				this.ejecutarFuncionREST(FuncionRest.POSTRECLAMO);
-				// TODO Mostrar procesando.
 			}
 		} else {
 			if (((EditText) findViewById(R.id.calle)).getText().toString()
@@ -214,7 +227,6 @@ public class IniciarReclamo extends Activity implements LocationListener {
 					this.getRepo().publicarReclamoDireccion(tipo, barrio,
 							calle, altura, observ);
 					this.ejecutarFuncionREST(FuncionRest.POSTRECLAMO);
-					// TODO Mostrar procesando.
 				}
 			}
 		}
@@ -376,6 +388,16 @@ public class IniciarReclamo extends Activity implements LocationListener {
 			this.mensageAlerta = getString(R.string.campo_coord_vacio);
 			this.showDialog(numero);
 			break;
+		case ERR_FALLO_ENVIO:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.reclamo_no_enviado);
+			this.showDialog(numero);
+			break;
+		case ERR_FALLO_GUARDAR:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.reclamo_no_guardado);
+			this.showDialog(numero);
+			break;
 		default:
 			break;
 		}
@@ -494,5 +516,32 @@ public class IniciarReclamo extends Activity implements LocationListener {
 
 	public void onProviderDisabled(String provider) {
 		Log.d(this.getClass().getName(), "onProviderDisabled");
+	}
+
+	/**
+	 * Guarda un reclamo en la memoria del celular.
+	 * 
+	 * @since 09-10-2011
+	 * @author Hernan
+	 * @param reclamo
+	 *            Reclamo a guardar.
+	 * @throws IOException
+	 */
+	private void guardarReclamo(Reclamo reclamo) throws IOException {
+
+		// Se crea el nombre de archivo.
+		String fechaConFormato = reclamo.getFechaReclamo().replace('/', '-');
+		String nombreArchivo = reclamo.getTipoIncidente() + " "
+				+ fechaConFormato + " " + getRepo().getHoraConFormato();
+
+		// Se convierte el objeto a array de byte.
+		Gson gson = new Gson();
+		String reclamoString = gson.toJson(reclamo);
+
+		// Se graba el archivo.
+		FileOutputStream stream = openFileOutput(nombreArchivo,
+				Context.MODE_PRIVATE);
+		stream.write(reclamoString.getBytes());
+		stream.close();
 	}
 }

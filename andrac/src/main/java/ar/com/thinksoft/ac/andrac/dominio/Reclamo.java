@@ -6,7 +6,6 @@ import android.util.Log;
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.intac.utils.classes.ImagenMovil;
 import ar.com.thinksoft.ac.intac.utils.classes.ReclamoMovil;
 
 /**
@@ -17,6 +16,9 @@ import ar.com.thinksoft.ac.intac.utils.classes.ReclamoMovil;
  */
 public class Reclamo extends ReclamoMovil {
 	private static final long serialVersionUID = 1L;
+
+	// XXX Se sobreescribe atributo del padre. Habria que hacerlo bien.
+	protected Imagen fotoIncidente;
 
 	public Reclamo(String calle, String altura, String latitud,
 			String longitud, String tipo, String fecha,
@@ -37,7 +39,7 @@ public class Reclamo extends ReclamoMovil {
 	}
 
 	// Para evitar CAST
-	public void setImagen(ImagenMovil imagen) {
+	public void setImagen(Imagen imagen) {
 		this.fotoIncidente = imagen;
 	}
 
@@ -172,7 +174,7 @@ public class Reclamo extends ReclamoMovil {
 	}
 
 	public void setImagen(IImagen imagen) {
-		this.fotoIncidente = (ImagenMovil) imagen;
+		this.fotoIncidente = (Imagen) imagen;
 	}
 
 	public void setPrioridad(String prioridad) {
