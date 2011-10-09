@@ -11,13 +11,12 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.intac.utils.collections.Comparator;
 import ar.com.thinksoft.ac.intac.utils.collections.HArrayList;
 import ar.com.thinksoft.ac.intac.utils.string.StringUtils;
 import ar.com.thinksoft.ac.webac.predicates.registro.PredicateTodosLosUsuarios;
 import ar.com.thinksoft.ac.webac.repository.Repository;
-import ar.com.thinksoft.ac.webac.usuario.UsuarioFactory;
+import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.webac.web.usuario.alta.UsuarioNuevoPage;
 
 import com.inmethod.grid.DataProviderAdapter;
@@ -61,12 +60,12 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 
 				final UsuarioFilterObject filterObject = _self.getModelObject();
 
-				HArrayList<IUsuario> list = HArrayList
+				HArrayList<Usuario> list = HArrayList
 						.toHArrayList(getTodosLosUsuarios());
 
-				List<IUsuario> data = list.filter(new Comparator<IUsuario>() {
+				List<Usuario> data = list.filter(new Comparator<Usuario>() {
 					@Override
-					public boolean apply(IUsuario elem) {
+					public boolean apply(Usuario elem) {
 
 						if (filterObject.isNull()) {
 							return true;
@@ -91,7 +90,7 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 			@Override
 			public void onSubmit() {
 
-				IUsuario usuario = (IUsuario) grid.getSelectedItems()
+				Usuario usuario = (Usuario) grid.getSelectedItems()
 						.iterator().next().getObject();
 				Repository.getInstance().delete(usuario);
 				_self.setResponsePage(UsuarioPage.class);
@@ -104,9 +103,8 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 			@Override
 			public void onSubmit() {
 
-				IUsuario usuario = (IUsuario) grid.getSelectedItems()
+				Usuario usuario = (Usuario) grid.getSelectedItems()
 						.iterator().next().getObject();
-				new UsuarioFactory().bloquear(usuario);
 				_self.setResponsePage(UsuarioPage.class);
 			}
 
@@ -121,7 +119,7 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 
 	private void createTablaUsuarios(String gridName) {
 
-		ListDataProvider<IUsuario> dataProvider = new ListDataProvider<IUsuario>(
+		ListDataProvider<Usuario> dataProvider = new ListDataProvider<Usuario>(
 				this.getTodosLosUsuarios());
 		List<IGridColumn> columnas = this.crearColumnas();
 
@@ -150,7 +148,7 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 		return button;
 	}
 
-	private List<IUsuario> getTodosLosUsuarios() {
+	private List<Usuario> getTodosLosUsuarios() {
 		return Repository.getInstance().query(new PredicateTodosLosUsuarios());
 	}
 
@@ -181,8 +179,8 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 		return model.bind(property);
 	}
 
-	private DataProviderAdapter toDataProvider(List<IUsuario> list) {
-		ListDataProvider<IUsuario> listDataProvider = new ListDataProvider<IUsuario>(
+	private DataProviderAdapter toDataProvider(List<Usuario> list) {
+		ListDataProvider<Usuario> listDataProvider = new ListDataProvider<Usuario>(
 				list);
 		return new DataProviderAdapter(listDataProvider);
 	}

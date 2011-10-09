@@ -17,13 +17,12 @@ import org.apache.wicket.validation.IValidationError;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 
-import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.registro.RegistroManager;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.webac.usuario.UsuarioFactory;
 import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
 
-public class UsuarioNuevoForm extends Form<IUsuario> {
+public class UsuarioNuevoForm extends Form<Usuario> {
 
 	private static final long serialVersionUID = 4530512782651195546L;
 	private String repassword;
@@ -35,7 +34,7 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 
 		this.self = this;
 
-		CompoundPropertyModel<IUsuario> model = new CompoundPropertyModel<IUsuario>(
+		CompoundPropertyModel<Usuario> model = new CompoundPropertyModel<Usuario>(
 				new Usuario());
 		this.setModel(model);
 
@@ -60,7 +59,7 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 
 			@Override
 			public void onSubmit() {
-				IUsuario usuario = self.getModelObject();
+				Usuario usuario = self.getModelObject();
 				if (!usuario.getContrasenia().equals(self.repassword)) {
 					System.out.println("NO SON IGUALES");
 					error("no son iguales");
@@ -87,7 +86,7 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 	 protected void onSubmit() {
 
 		 System.out.println("mati");
-	// IUsuario usuario = getModelObject();
+	// Usuario usuario = getModelObject();
 	// if (!usuario.getContrasenia().equals(this.repassword)) {
 	// System.out.println("NO SON IGUALES");
 	// error("no son iguales");
@@ -99,7 +98,7 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 
 	 }
 
-	private IModel<String> createBind(CompoundPropertyModel<IUsuario> model,
+	private IModel<String> createBind(CompoundPropertyModel<Usuario> model,
 			String property) {
 		return model.bind(property);
 	}
@@ -155,7 +154,7 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 	 */
 
 	protected TextField<String> createRequiredField(String markup,
-			String property, CompoundPropertyModel<IUsuario> model,
+			String property, CompoundPropertyModel<Usuario> model,
 			List<IValidator<String>> validadores) {
 		TextField<String> field = new TextField<String>(markup,
 				this.createBind(model, property));
@@ -170,7 +169,7 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 	}
 
 	protected TextField<String> createUsername(
-			CompoundPropertyModel<IUsuario> model) {
+			CompoundPropertyModel<Usuario> model) {
 
 		List<IValidator<String>> validadores = new ArrayList<IValidator<String>>();
 		validadores.add(this.spaceValidator("nombre de usuario"));
@@ -179,7 +178,7 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 	}
 
 	protected TextField<String> createEmail(
-			CompoundPropertyModel<IUsuario> model) {
+			CompoundPropertyModel<Usuario> model) {
 
 		List<IValidator<String>> validadores = new ArrayList<IValidator<String>>();
 		validadores.add(this.emailValidator());
@@ -228,13 +227,7 @@ public class UsuarioNuevoForm extends Form<IUsuario> {
 		return validationError;
 	}
 
-	protected void convertUsuario(String tipoUsuario, IUsuario usuario) {
-		if (TipoUsuario.Administrador.toString().equals(tipoUsuario))
-			new UsuarioFactory().toAdministrador(usuario);
-		if (TipoUsuario.Ciudadano.toString().equals(tipoUsuario))
-			new UsuarioFactory().toCiudadano(usuario);
-		if (TipoUsuario.Operario.toString().equals(tipoUsuario))
-			new UsuarioFactory().toOperario(usuario);
+	protected void convertUsuario(String tipoUsuario, Usuario usuario) {
 	}
 
 }

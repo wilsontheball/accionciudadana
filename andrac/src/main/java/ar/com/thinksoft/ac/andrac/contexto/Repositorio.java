@@ -140,25 +140,13 @@ public class Repositorio {
 		this.reclamosGuardados = reclamos;
 	}
 
-	private void setReclamoAEnviar(Reclamo reclamoAEnviar) {
-		this.reclamoAEnviar = reclamoAEnviar;
-	}
-
-	public Reclamo getReclamoAEnviar() {
-		return this.reclamoAEnviar;
-	}
-
 	public void publicarReclamoDireccion(String tipo, String barrio,
 			String calle, String altura, String observacion) {
+
 		Imagen imagen = new Imagen(this.getImagen(), ImagenMovil.TIPO_JPG);
 		String fecha = this.getFechaConFormato();
-
-		// TODO falta implementar obtencion de coordenada
-		String latitud = "zaraza1";
-		String longitud = "zaraza2";
-
-		Reclamo reclamo = new Reclamo(calle, altura, latitud, longitud, tipo,
-				fecha, fecha, this.getNick(), observacion, barrio, imagen);
+		Reclamo reclamo = new Reclamo(calle, altura, null, null, tipo, fecha,
+				fecha, this.getNick(), observacion, barrio, imagen);
 		this.setReclamoAEnviar(reclamo);
 	}
 
@@ -167,32 +155,21 @@ public class Repositorio {
 
 		Imagen imagen = new Imagen(this.getImagen(), ImagenMovil.TIPO_JPG);
 		String fecha = this.getFechaConFormato();
-
-		// TODO falta implementar obtencion de direccion
-
-		// XXX Probando Goeocoder.... NO ANDA!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// Geocoder geocoder = new Geocoder(null);
-		// try {
-		// Address dir = geocoder.getFromLocation(latitud, longitud, 1).get(0);
-		// Log.d(this.getClass().getName(),
-		// "Direccion es: " + dir.getAdminArea());
-		// } catch (IOException e) {
-		// Log.d(this.getClass().getName(), "Fallo Geocoder" + e.toString());
-		// }
-		// XXX Hasta aqui probando Goeocoder....
-
-		String calle = "zaraza1";
-		String altura = "zaraza2";
-
-		Reclamo reclamo = new Reclamo(calle, altura, latitud + "", longitud
-				+ "", tipo, fecha, fecha, this.getNick(), observacion, barrio,
-				imagen);
+		Reclamo reclamo = new Reclamo(null, null, latitud + "", longitud + "",
+				tipo, fecha, fecha, this.getNick(), observacion, barrio, imagen);
 		this.setReclamoAEnviar(reclamo);
-
 		return true;
 	}
 
-	/* Getters y Setters */
+	/* **************** Getters y Setters ****************** */
+
+	private void setReclamoAEnviar(Reclamo reclamoAEnviar) {
+		this.reclamoAEnviar = reclamoAEnviar;
+	}
+
+	public Reclamo getReclamoAEnviar() {
+		return this.reclamoAEnviar;
+	}
 
 	public void setImagen(byte[] imagen) {
 		this.imagenBytes = imagen;

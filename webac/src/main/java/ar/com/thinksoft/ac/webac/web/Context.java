@@ -1,6 +1,6 @@
 package ar.com.thinksoft.ac.webac.web;
 
-import ar.com.thinksoft.ac.intac.IUsuario;
+import ar.com.thinksoft.ac.webac.usuario.Usuario;
 
 public class Context {
 
@@ -17,13 +17,13 @@ public class Context {
 		Context.instance = new Context();
 	}
 	
-	private IUsuario usuario;
+	private Usuario usuario;
 
-	public void setUsuario(IUsuario usuario) {
+	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 	
-	public IUsuario getUsuario(){
+	public Usuario getUsuario(){
 		return this.usuario;
 	}
 

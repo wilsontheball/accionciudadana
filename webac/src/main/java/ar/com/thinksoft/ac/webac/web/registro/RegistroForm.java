@@ -13,19 +13,19 @@ import org.apache.wicket.validation.IValidationError;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 
-import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.registro.RegistroManager;
+import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.webac.usuario.UsuarioFactory;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 
-public class RegistroForm extends Form<IUsuario> {
+public class RegistroForm extends Form<Usuario> {
 
 	private String repassword;
 
 	public RegistroForm(String id) {
 		super(id);
 
-		CompoundPropertyModel<IUsuario> model = new CompoundPropertyModel<IUsuario>(
+		CompoundPropertyModel<Usuario> model = new CompoundPropertyModel<Usuario>(
 				new UsuarioFactory().construirCiudadano());
 		setModel(model);
 
@@ -51,7 +51,7 @@ public class RegistroForm extends Form<IUsuario> {
 	@Override
 	protected void onSubmit() {
 
-		IUsuario usuario = getModelObject();
+		Usuario usuario = getModelObject();
 		if (!usuario.getContrasenia().equals(this.repassword)) {
 			System.out.println("NO SON IGUALES");
 			error("no son iguales");
@@ -63,11 +63,11 @@ public class RegistroForm extends Form<IUsuario> {
 	}
 
 	private IModel<String> createStringBind(
-			CompoundPropertyModel<IUsuario> model, String property) {
+			CompoundPropertyModel<Usuario> model, String property) {
 		return model.bind(property);
 	}
 
-	private IModel<Long> createLongBind(CompoundPropertyModel<IUsuario> model,
+	private IModel<Long> createLongBind(CompoundPropertyModel<Usuario> model,
 			String property) {
 		return model.bind(property);
 	}
@@ -104,7 +104,7 @@ public class RegistroForm extends Form<IUsuario> {
 	 */
 
 	protected TextField<String> createRequiredField(String markup,
-			String property, CompoundPropertyModel<IUsuario> model,
+			String property, CompoundPropertyModel<Usuario> model,
 			List<IValidator<String>> validadores) {
 		TextField<String> field = new TextField<String>(markup,
 				this.createStringBind(model, property));
@@ -119,7 +119,7 @@ public class RegistroForm extends Form<IUsuario> {
 	}
 
 	protected TextField<String> createUsername(
-			CompoundPropertyModel<IUsuario> model) {
+			CompoundPropertyModel<Usuario> model) {
 
 		List<IValidator<String>> validadores = new ArrayList<IValidator<String>>();
 		validadores.add(this.spaceValidator("nombre de usuario"));
@@ -128,7 +128,7 @@ public class RegistroForm extends Form<IUsuario> {
 	}
 
 	protected TextField<String> createEmail(
-			CompoundPropertyModel<IUsuario> model) {
+			CompoundPropertyModel<Usuario> model) {
 
 		List<IValidator<String>> validadores = new ArrayList<IValidator<String>>();
 		validadores.add(this.emailValidator());

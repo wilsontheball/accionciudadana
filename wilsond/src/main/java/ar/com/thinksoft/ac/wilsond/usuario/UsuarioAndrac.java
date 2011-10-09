@@ -1,9 +1,5 @@
 package ar.com.thinksoft.ac.wilsond.usuario;
 
-import java.util.List;
-
-import ar.com.thinksoft.ac.intac.IPermiso;
-import ar.com.thinksoft.ac.intac.IPermitible;
 import ar.com.thinksoft.ac.intac.utils.classes.UsuarioMovil;
 
 /**
@@ -15,21 +11,6 @@ import ar.com.thinksoft.ac.intac.utils.classes.UsuarioMovil;
 public class UsuarioAndrac extends UsuarioMovil {
 
 	private static final long serialVersionUID = 1L;
-
-	public boolean tenesPermisosPara(IPermitible permitible) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void addPermiso(IPermiso permiso) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public int cantidadPermisos() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	public boolean hasUsuarioYContrasenia(String nombreUsuario,
 			String contrasenia) {
@@ -91,11 +72,6 @@ public class UsuarioAndrac extends UsuarioMovil {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
-	}
-
-	public void setPermisos(List<IPermiso> permisosAdministrativos) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

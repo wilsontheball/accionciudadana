@@ -1,9 +1,9 @@
 package ar.com.thinksoft.ac.webac.login;
 
-import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.login.exceptions.UserNotFoundException;
 import ar.com.thinksoft.ac.webac.predicates.login.PredicateLogin;
 import ar.com.thinksoft.ac.webac.repository.Repository;
+import ar.com.thinksoft.ac.webac.usuario.Usuario;
 
 public class Login {
 
@@ -31,9 +31,9 @@ public class Login {
 		this.nombreUsuario = nombreUsuario;
 	}
 
-	public IUsuario login() {
+	public Usuario login() {
 		try {
-			IUsuario usuario = Repository
+			Usuario usuario = Repository
 					.getInstance()
 					.query(new PredicateLogin().filtrar(this.nombreUsuario,
 							this.contrasenia)).get(0);
@@ -46,7 +46,7 @@ public class Login {
 
 	public boolean isUsuarioExistente() {
 		try {
-			IUsuario usuario = Repository
+			Usuario usuario = Repository
 					.getInstance()
 					.query(new PredicateLogin().filtrar(this.nombreUsuario,
 							this.contrasenia)).get(0);

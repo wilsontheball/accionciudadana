@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -19,6 +20,8 @@ import org.apache.http.protocol.HTTP;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
@@ -163,7 +166,7 @@ public class ServicioRest extends IntentService {
 	/**
 	 * Manda un reclamo al servidor Rest.
 	 * 
-	 * @since 05-10-2011
+	 * @since 08-10-2011
 	 * @author Paul
 	 * @param url
 	 *            URL del servidor.
@@ -172,8 +175,11 @@ public class ServicioRest extends IntentService {
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
-	public HttpResponse postReclamo(String url, String nick, String pass,
+	private HttpResponse postReclamo(String url, String nick, String pass,
 			Reclamo reclamo) throws ClientProtocolException, IOException {
+
+		this.completarUbicacion(reclamo);
+
 		StringEntity entidad = new StringEntity(new Gson().toJson(reclamo));
 		Header header = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");
 		entidad.setContentEncoding(header);
@@ -196,7 +202,7 @@ public class ServicioRest extends IntentService {
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
-	public HttpResponse postUsuario(String url, Usuario usuario)
+	private HttpResponse postUsuario(String url, Usuario usuario)
 			throws ClientProtocolException, IOException {
 		StringEntity entidad = new StringEntity(new Gson().toJson(usuario));
 		Header header = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");
@@ -216,5 +222,101 @@ public class ServicioRest extends IntentService {
 	 */
 	private Repositorio getRepo() {
 		return ((Aplicacion) this.getApplication()).getRepositorio();
+	}
+
+	/**
+	 * Completa ubicacion de incidente con Geocoding segun lo que falta.
+	 * 
+	 * @since 08-10-2011
+	 * @author Paul
+	 * @param reclamo
+	 * @throws IOException
+	 */
+	private void completarUbicacion(Reclamo reclamo) throws IOException {
+
+		Address direccion = null;
+		if ((reclamo.getLatitudIncidente() != null)
+				&& (reclamo.getLatitudIncidente() != null)) {
+			// Completa calle y altura.
+			String calle = null;
+			String altura = null;
+			direccion = this.coordenadaADireccion(
+					reclamo.getLatitudIncidente(),
+					reclamo.getLongitudIncidente());
+			String lineaDir = direccion.getAddressLine(0);
+			StringTokenizer tokens = new StringTokenizer(lineaDir, " ");
+			if (tokens.hasMoreElements()) {
+				altura = (String) tokens.nextElement();
+			}
+			if (tokens.hasMoreElements()) {
+				calle = (String) tokens.toString();
+			}
+			Log.d(this.getClass().getName(), "GEO obtuvo direccion: " + calle
+					+ " " + altura);
+			reclamo.setAlturaIncidente(altura);
+			reclamo.setCalleIncidente(calle);
+		} else if ((reclamo.getCalleIncidente() != null)
+				&& (reclamo.getAlturaIncidente() != null)) {
+
+			// XXX
+			Log.i(this.getClass().getName(),
+					"PASA POR AQUI" + reclamo.getLatitudIncidente()
+							+ reclamo.getLatitudIncidente());
+
+			// Completa latitud y longitud.
+			direccion = this.direccionACoordenada(reclamo.getCalleIncidente(),
+					reclamo.getAlturaIncidente());
+			Log.d(this.getClass().getName(), "GEO obtuvo coordenada: "
+					+ direccion.getLatitude() + ", " + direccion.getLongitude());
+			reclamo.setLatitudIncidente(direccion.getLatitude() + "");
+			reclamo.setLongitudIncidente(direccion.getLongitude() + "");
+		} else {
+			// No se puede completar.
+			Log.e(this.getClass().getName(), "Reclamo incompleto!");
+			throw new IOException("Reclamo incompleto!");
+		}
+	}
+
+	/**
+	 * Convierte una coordenada a una direccion con Geocoding.
+	 * 
+	 * @since 08-10-2011
+	 * @author Paul
+	 * @param latitud
+	 * @param longitud
+	 * @return Direccion obtenida.
+	 * @throws IOException
+	 */
+	private Address coordenadaADireccion(String unaLatitud, String unaLongitud)
+			throws IOException {
+
+		Double latitud = new Double(unaLatitud);
+		Double longitud = new Double(unaLongitud);
+		// XXX Probando Goeocoder....
+		Geocoder geocoder = new Geocoder(ServicioRest.this);
+		return geocoder.getFromLocation(latitud, longitud, 1).get(0);
+		// XXX Hasta aqui probando Goeocoder....
+
+	}
+
+	/**
+	 * Convierte una direccion a una coordenada con Geocoding.
+	 * 
+	 * @since 08-10-2011
+	 * @author Paul
+	 * @param calle
+	 * @param altura
+	 * @return
+	 * @throws IOException
+	 */
+	private Address direccionACoordenada(String calle, String altura)
+			throws IOException {
+
+		// XXX Probando Goeocoder....
+		Geocoder geocoder = new Geocoder(ServicioRest.this);
+		return geocoder.getFromLocationName(
+				altura + " " + calle + ", " + "Buenos Aires, Argentina", 0)
+				.get(0);
+		// XXX Hasta aqui probando Goeocoder....
 	}
 }

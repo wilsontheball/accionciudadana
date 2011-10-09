@@ -5,17 +5,12 @@ import org.apache.wicket.RequestCycle;
 import org.apache.wicket.request.target.resource.ResourceStreamRequestTarget;
 import org.apache.wicket.util.file.File;
 import org.apache.wicket.util.resource.FileResourceStream;
-import ar.com.thinksoft.ac.intac.IPermiso;
+
 import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 public class DownloadPage extends BasePage{
-	
-	@Override
-	public IPermiso getPermisoNecesario() {
-		return new DownloadPagePermiso();
-	}
 	
 	public DownloadPage(PageParameters params){
 		try {
