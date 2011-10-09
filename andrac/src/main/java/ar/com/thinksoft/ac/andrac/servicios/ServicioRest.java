@@ -246,10 +246,12 @@ public class ServicioRest extends IntentService {
 			String lineaDir = direccion.getAddressLine(0);
 			StringTokenizer tokens = new StringTokenizer(lineaDir, " ");
 			if (tokens.hasMoreElements()) {
-				altura = (String) tokens.nextElement();
+				// altura = (String) tokens.nextElement();
+				altura = direccion.getSubThoroughfare();
 			}
 			if (tokens.hasMoreElements()) {
-				calle = (String) tokens.toString();
+				// calle = (String) tokens.toString();
+				calle = direccion.getThoroughfare();
 			}
 			Log.d(this.getClass().getName(), "GEO obtuvo direccion: " + calle
 					+ " " + altura);
