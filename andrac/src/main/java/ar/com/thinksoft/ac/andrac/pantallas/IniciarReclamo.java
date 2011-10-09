@@ -411,17 +411,36 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		return new AlertDialog.Builder(IniciarReclamo.this)
-				.setIcon(R.drawable.alert_dialog_icon)
-				.setTitle(tituloAlerta)
-				.setMessage(mensageAlerta)
-				.setPositiveButton(R.string.ok,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								/* User clicked OK so do some stuff */
-							}
-						}).create();
+		AlertDialog dialogo = null;
+		switch (id) {
+		case ERR_FALLO_ENVIO:
+			dialogo = new AlertDialog.Builder(IniciarReclamo.this)
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(tituloAlerta)
+					.setMessage(mensageAlerta)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									finish();
+								}
+							}).create();
+			break;
+		default:
+			dialogo = new AlertDialog.Builder(IniciarReclamo.this)
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(tituloAlerta)
+					.setMessage(mensageAlerta)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									/* User clicked OK so do some stuff */
+								}
+							}).create();
+			break;
+		}
+		return dialogo;
 	}
 
 	// Metodos de la interfaz LocationListener
