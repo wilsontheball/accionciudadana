@@ -17,7 +17,7 @@ public class ReclamoAndrac extends ReclamoMovil {
 	private static final long serialVersionUID = 1L;
 
 	public String getId() {
-		return "";
+		return null;
 	}
 
 	public String getCalleIncidente() {

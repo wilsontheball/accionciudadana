@@ -4,6 +4,7 @@ import java.util.List;
 
 import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.intac.utils.classes.UsuarioMovil;
+import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.wilsond.Repositorio.Repositorio;
 
 public class UsuarioManager {
@@ -69,6 +70,34 @@ private static UsuarioManager instance;
 		}
 		
 		throw new Exception("El usuario no fue encontrado");
+	}
+
+	public IUsuario toUsuarioInt(UsuarioAndrac usuarioAndrac) throws Exception {
+		try{
+		IUsuario usuario = new Usuario();
+		usuario.setNombre(usuarioAndrac.getNombre());
+		usuario.setApellido(usuarioAndrac.getApellido());
+		usuario.setDni(usuarioAndrac.getDni());
+		usuario.setMail(usuarioAndrac.getMail());
+		usuario.setTelefono(usuarioAndrac.getTelefono());
+		usuario.setNombreUsuario(usuarioAndrac.getNombreUsuario());
+		usuario.setContrasenia(usuarioAndrac.getContrasenia());
+		return usuario;
+		}catch(Exception e){
+			throw new Exception("No se pudo crear el usuario" + e.getMessage());
+		}
+	}
+	
+	public void guardarUsuario(IUsuario usuario){
+		Repositorio.getInstancia().store(usuario);
+		//enviar mail
+	}
+	
+	public String textoBienvenida(){
+		return "Le damos la bienvenida a Acción Ciudadana.\n"+
+		"Ya puede iniciar reclamos y saber el estado de los mismos a través del tiempo.\n"+
+		"Puede acceder con su usuario desde la aplicación Android o desde nuestra web: www.accion-ciudadana.com.ar.\n"+
+		"No dude en contactarse con nosotros para cualquier consulta.\n\nAcción Ciudadana";
 	}
 
 }
