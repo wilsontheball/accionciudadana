@@ -35,17 +35,16 @@ import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorCiudadano;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 import ar.com.thinksoft.ac.webac.web.export.ObjectDataSource;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
-
 import com.inmethod.grid.DataProviderAdapter;
 import com.inmethod.grid.SizeUnit;
 import com.inmethod.grid.column.PropertyColumn;
@@ -64,7 +63,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	private Dialog dialogUnificar = null;
 	private Dialog dialogUnificarError = null;
 	private ListDataProvider<IReclamo> listDataProvider;
-	private IUsuario ciudadano = Context.getInstance().getUsuario();
+	private Usuario ciudadano = Context.getInstance().getUsuario();
 	
 	@SuppressWarnings("rawtypes")
 	public BusquedaReclamoForm(String id) {

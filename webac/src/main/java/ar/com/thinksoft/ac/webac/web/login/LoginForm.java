@@ -5,7 +5,7 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 
-import ar.com.thinksoft.ac.intac.IUsuario;
+import ar.com.thinksoft.ac.intac.Usuario;
 import ar.com.thinksoft.ac.webac.HomePage;
 import ar.com.thinksoft.ac.webac.login.Login;
 import ar.com.thinksoft.ac.webac.login.exceptions.UserNotFoundException;
@@ -40,7 +40,7 @@ public class LoginForm extends Form<Void> {
 		Login login = new Login(this.nombreUsuario,this.contrasenia);
 
 		try {
-			IUsuario usuario = login.login();
+			Usuario usuario = login.login();
 			// TODO: aca faltaria ver donde nos metemos el usuario registrado.
 			// Deberia haber algo como un contexto o algo parecido, un
 			// singleton.
@@ -112,9 +112,9 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 
-import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.login.Login;
 import ar.com.thinksoft.ac.webac.login.exceptions.UserNotFoundException;
+import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 
@@ -147,7 +147,7 @@ public class LoginForm extends Form<Void> {
 		Login login = new Login(this.nombreUsuario,this.contrasenia);
 
 		try {
-			IUsuario usuario = login.login();
+			Usuario usuario = login.login();
 			Context.getInstance().setUsuario(usuario);
 			setResponsePage(HomePage.class);
 		} catch (UserNotFoundException e) {

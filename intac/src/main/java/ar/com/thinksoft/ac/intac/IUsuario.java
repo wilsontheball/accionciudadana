@@ -1,7 +1,6 @@
 package ar.com.thinksoft.ac.intac;
 
 import java.io.Serializable;
-import java.util.List;
 
 public interface IUsuario extends Serializable {
 
@@ -11,17 +10,6 @@ public interface IUsuario extends Serializable {
 	 * 
 	 * @param codigoSeguridad
 	 */
-	boolean tenesPermisosPara(IPermitible permitible);
-
-	void addPermiso(IPermiso permiso);
-
-	/**
-	 * devuelve la cantidad de permisos de un usuario, es solo a modo de test
-	 * 
-	 * @return
-	 */
-	int cantidadPermisos();
-
 	boolean hasUsuarioYContrasenia(String nombreUsuario, String contrasenia);
 
 	public String getContrasenia();
@@ -51,7 +39,5 @@ public interface IUsuario extends Serializable {
 	public void setNombre(String nombre);
 
 	public void setTelefono(String telefono);
-
-	void setPermisos(List<IPermiso> permisosAdministrativos);
 
 }

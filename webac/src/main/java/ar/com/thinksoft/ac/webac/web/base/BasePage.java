@@ -3,11 +3,11 @@ package ar.com.thinksoft.ac.webac.web.base;
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.IPageLink;
 
-import ar.com.thinksoft.ac.webac.seguridad.Permitible;
 import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.configuracion.ConfiguracionPage;
@@ -18,7 +18,7 @@ import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoPage;
 import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
 
-public abstract class BasePage extends Permitible {
+public abstract class BasePage extends WebPage {
 
 	public BasePage() {
 

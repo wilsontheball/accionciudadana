@@ -1,11 +1,10 @@
 package ar.com.thinksoft.ac.webac;
 
-
-import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.markup.html.WebPage;
 
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
-import ar.com.thinksoft.ac.webac.web.HomePage.Administrativo.HomePageAdministrativo;
-import ar.com.thinksoft.ac.webac.web.HomePage.Ciudadano.HomePageCiudadano;
 import ar.com.thinksoft.ac.webac.web.configuracion.ConfiguracionPage;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
@@ -22,11 +21,12 @@ import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
  * 
  * @see ar.com.thinksoft.ac.webac.Start#main(String[])
  */
-public class WicketApplication extends WebApplication {
+public class WicketApplication extends AuthenticatedWebApplication {
 	/**
 	 * Constructor
 	 */
 	public WicketApplication() {
+		super();
 	}
 
 	/**
@@ -38,13 +38,11 @@ public class WicketApplication extends WebApplication {
 
 	@Override
 	protected void init() {
-		getResourceSettings().setAddLastModifiedTimeToResourceReferenceUrl(true);
+		getResourceSettings()
+				.setAddLastModifiedTimeToResourceReferenceUrl(true);
 		getDebugSettings().setAjaxDebugModeEnabled(false);
-		
 		mountBookmarkablePage("Login", LoginPage.class);
 		mountBookmarkablePage("Home", HomePage.class);
-		mountBookmarkablePage("HomeCiudadano", HomePageCiudadano.class);
-		mountBookmarkablePage("HomeAdministrativo", HomePageAdministrativo.class);
 		mountBookmarkablePage("AltaReclamo", AltaReclamoPage.class);
 		mountBookmarkablePage("ListadoReclamos", BusquedaReclamoPage.class);
 		mountBookmarkablePage("DetalleReclamo", DetalleReclamoPage.class);
@@ -53,7 +51,17 @@ public class WicketApplication extends WebApplication {
 		mountBookmarkablePage("Registro", RegistroPage.class);
 		mountBookmarkablePage("Usuarios", UsuarioPage.class);
 		mountBookmarkablePage("UsuarioNuevo", UsuarioNuevoPage.class);
-		
+
 	}
-	
+
+	@Override
+	protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass() {
+		return AccionCiudadanaSession.class;
+	}
+
+	@Override
+	protected Class<? extends WebPage> getSignInPageClass() {
+		return LoginPage.class;
+	}
+
 }
