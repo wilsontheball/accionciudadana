@@ -6,6 +6,7 @@ import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.intac.utils.classes.UsuarioMovil;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.wilsond.Repositorio.Repositorio;
+import ar.com.thinksoft.ac.wilsond.mail.MailWilsonD;
 
 public class UsuarioManager {
 	
@@ -90,14 +91,8 @@ private static UsuarioManager instance;
 	
 	public void guardarUsuario(IUsuario usuario){
 		Repositorio.getInstancia().store(usuario);
-		//enviar mail
+		MailWilsonD.getInstance().enviarMail(usuario.getMail(), 
+				"Accion Ciudadana - Bienvenido", MailWilsonD.getInstance().armarTextoBienvenida());
 	}
 	
-	public String textoBienvenida(){
-		return "Le damos la bienvenida a Acción Ciudadana.\n"+
-		"Ya puede iniciar reclamos y saber el estado de los mismos a través del tiempo.\n"+
-		"Puede acceder con su usuario desde la aplicación Android o desde nuestra web: www.accion-ciudadana.com.ar.\n"+
-		"No dude en contactarse con nosotros para cualquier consulta.\n\nAcción Ciudadana";
-	}
-
 }

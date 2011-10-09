@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
-import ar.com.thinksoft.ac.wilsond.ReclamoAndrac;
 import ar.com.thinksoft.ac.wilsond.Repositorio.Repositorio;
+import ar.com.thinksoft.ac.wilsond.mail.MailWilsonD;
 
 public class ReclamoManager {
 
@@ -66,9 +66,12 @@ public class ReclamoManager {
 	 * @author Paul
 	 * @param reclamo
 	 *            Reclamo a almacenar.
+	 * @throws Exception 
 	 */
 	public void guardarReclamo(IReclamo reclamo) {
 		Repositorio.getInstancia().store(reclamo);
+		MailWilsonD.getInstance().enviarMail(reclamo.getMailCiudadanoGeneradorReclamo(), 
+				"Accion Ciudadana - Activacion de reclamo", MailWilsonD.getInstance().armarTextoCambioEstados(reclamo.getEstadoDescripcion(), reclamo));
 	}
 
 	/*

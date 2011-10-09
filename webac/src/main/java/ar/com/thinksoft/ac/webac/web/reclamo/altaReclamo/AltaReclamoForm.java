@@ -143,7 +143,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 						try{
 							reclamo.activar();
 						} catch (Exception e1) {
-							LogFwk.getInstance(AltaReclamoForm.class).error("No se pudo enviar mail al cambiar prioridad. Detalle: " + e1.getMessage());
+							LogFwk.getInstance(AltaReclamoForm.class).error("No se pudo enviar mail al crear el reclamo. Detalle: " + e1.getMessage());
 						}
 						
 						setResponsePage(HomePage.class);
