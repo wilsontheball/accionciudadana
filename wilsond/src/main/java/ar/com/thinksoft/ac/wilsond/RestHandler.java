@@ -14,8 +14,10 @@ import org.mortbay.jetty.Request;
 import org.mortbay.jetty.handler.AbstractHandler;
 import com.google.gson.Gson;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 import ar.com.thinksoft.ac.intac.utils.classes.UsuarioMovil;
+import ar.com.thinksoft.ac.wilsond.log.LogManager;
 import ar.com.thinksoft.ac.wilsond.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.wilsond.usuario.UsuarioAndrac;
 import ar.com.thinksoft.ac.wilsond.usuario.UsuarioManager;
@@ -47,20 +49,31 @@ public class RestHandler extends AbstractHandler {
 		if (tokens.hasMoreElements()) {
 			pass = (String) tokens.nextElement();
 		}
-
-		if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.GET)) {
-			try {
-				atenderGet(baseRequest, response);
-			} catch (Exception e) {
-				// TODO error
-				e.printStackTrace();
-			}
-		} else {
-			if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.POST)) {
-				atenderPost(baseRequest);
+		
+		if(UsuarioManager.getInstance().validarUsuario(nick,pass)){
+			if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.GET)) {
+				try {
+					atenderGet(baseRequest, response);
+				} catch (Exception e) {
+					// TODO error en get
+					LogManager.getInstance(RestHandler.class).error("No se pude realizar el GET. Detalle: " + e.getMessage());
+				}
 			} else {
-				// TODO error
+				if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.POST)) {
+					try {
+						atenderPost(baseRequest);
+					} catch (Exception e) {
+						// TODO error en post
+						LogManager.getInstance(RestHandler.class).error("No se pude realizar el POST. Detalle: " + e.getMessage());
+					}
+				} else {
+					// TODO error
+					LogManager.getInstance(RestHandler.class).error("Función desconocida. No es un GET ni un POST. Contacte al Soporte Técnico.");
+				}
 			}
+		}else{
+			//TODO: error validacion de usuario
+			LogManager.getInstance(RestHandler.class).error("El usuario y/o contraseña son incorrectos.");
 		}
 	}
 
@@ -70,33 +83,33 @@ public class RestHandler extends AbstractHandler {
 	 * @since 08-10-2011
 	 * @author Paul
 	 * @param baseRequest
-	 * @throws IOException
+	 * @throws Exception 
 	 */
-	private void atenderPost(HttpServletRequest baseRequest) throws IOException {
+	private void atenderPost(HttpServletRequest baseRequest) throws Exception {
 
 		if (funcion.equalsIgnoreCase(FuncionRest.POSTRECLAMO)) {
 			InputStream instream = baseRequest.getInputStream();
 			InputStreamReader isReader = new InputStreamReader(instream);
 			Gson gson = new Gson();
-			IReclamo reclamo = ReclamoManager.getInstance().toReclamoInt(
-					gson.fromJson(isReader, ReclamoAndrac.class));
+			ReclamoAndrac reclamoAndrac= gson.fromJson(isReader, ReclamoAndrac.class);
+			IReclamo reclamo = ReclamoManager.getInstance().toReclamoInt(reclamoAndrac);
 			ReclamoManager.getInstance().guardarReclamo(reclamo);
+			
 		} else if (funcion.equalsIgnoreCase(FuncionRest.POSTUSUARIO)) {
 			InputStream instream = baseRequest.getInputStream();
 			InputStreamReader isReader = new InputStreamReader(instream);
 			Gson gson = new Gson();
-			gson.fromJson(isReader, UsuarioAndrac.class);
-			// TODO Implementar registro de usuario
+			IUsuario usuario = UsuarioManager.getInstance().toUsuarioInt(gson.fromJson(isReader, UsuarioAndrac.class));
+			UsuarioManager.getInstance().guardarUsuario(usuario);
+			
 		} else {
-			// TODO error... nada conocido
+			throw new Exception("Función desconocida.");
 		}
 	}
 
-	private void atenderGet(HttpServletRequest baseRequest,
-			HttpServletResponse response) throws Exception {
+	private void atenderGet(HttpServletRequest baseRequest,	HttpServletResponse response) throws Exception {
 
-		Request req = (baseRequest instanceof Request ? (Request) baseRequest
-				: HttpConnection.getCurrentConnection().getRequest());
+		Request req = (baseRequest instanceof Request ? (Request) baseRequest: HttpConnection.getCurrentConnection().getRequest());
 
 		if (funcion.equalsIgnoreCase(FuncionRest.GETRECLAMOS)) {
 			atenderReclamos(response, req);
@@ -110,30 +123,33 @@ public class RestHandler extends AbstractHandler {
 
 	}
 
-	private void atenderPerfilUsuario(HttpServletResponse response, Request req)
-			throws Exception {
-
+	private void atenderPerfilUsuario(HttpServletResponse response, Request req)throws Exception {
+		try{
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 
-		UsuarioMovil usr = UsuarioManager.getInstance().getPerfil("mati");
+		UsuarioMovil usr = UsuarioManager.getInstance().getPerfil(nick);
 
 		response.getWriter().write(new Gson().toJson(usr));
 		req.setHandled(true);
+		}catch(Exception e){
+			throw new Exception("No se pudo obtener el perfil del usuario. Detalle: " + e.getMessage());
+		}
 	}
 
-	private void atenderReclamos(HttpServletResponse response, Request req)
-			throws IOException {
-		// TODO: esto debe ser del ciudadano, no TODOS
+	private void atenderReclamos(HttpServletResponse response, Request req)	throws Exception {
+		try{
 		List<ReclamoAndrac> listaReclamosAndrac = ReclamoManager.getInstance()
-				.toReclamoAndrac(
-						ReclamoManager.getInstance().obtenerTodosReclamos());
+				.toReclamoAndrac(ReclamoManager.getInstance().obtenerTodosReclamos(nick));
 
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 
 		response.getWriter().write(new Gson().toJson(listaReclamosAndrac));
 		req.setHandled(true);
+		}catch(Exception e){
+			throw new Exception("No se pudo obtener los reclamos del usuario. Detalle: "+e.getMessage());
+		}
 	}
 
 }

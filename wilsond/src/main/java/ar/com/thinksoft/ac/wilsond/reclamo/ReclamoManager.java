@@ -41,8 +41,10 @@ public class ReclamoManager {
 	 * 
 	 * @author Matias
 	 */
-	public List<IReclamo> obtenerTodosReclamos() {
-		return Repositorio.getInstancia().query(IReclamo.class);
+	public List<IReclamo> obtenerTodosReclamos(String nick) {
+		IReclamo reclamoFiltro = new Reclamo();
+		reclamoFiltro.setCiudadanoGeneradorReclamo(nick);
+		return Repositorio.getInstancia().queryByExample(reclamoFiltro);
 	}
 
 	/**
@@ -103,8 +105,9 @@ public class ReclamoManager {
 	/*
 	 * Traductor de ReclamoAndroid a ReclamoWeb
 	 */
-	public IReclamo toReclamoInt(IReclamo reclamoAndroid) {
-		IReclamo reclamo = (IReclamo) new Reclamo();
+	public IReclamo toReclamoInt(IReclamo reclamoAndroid) throws Exception {
+		try{
+		IReclamo reclamo = new Reclamo();
 		reclamo.setId();
 		reclamo.setCalleIncidente(reclamoAndroid.getCalleIncidente());
 		reclamo.setAlturaIncidente(reclamoAndroid.getAlturaIncidente());
@@ -113,21 +116,19 @@ public class ReclamoManager {
 		reclamo.setLongitudIncidente(reclamoAndroid.getLongitudIncidente());
 		reclamo.setTipoIncidente(reclamoAndroid.getTipoIncidente());
 		reclamo.setFechaReclamo(reclamoAndroid.getFechaReclamo());
-		reclamo.setFechaUltimaModificacionReclamo(reclamoAndroid
-				.getFechaUltimaModificacionReclamo());
-		reclamo.setCiudadanoGeneradorReclamo(reclamoAndroid
-				.getCiudadanoGeneradorReclamo());
-		reclamo.setMailCiudadanoGeneradorReclamo(reclamoAndroid
-				.getMailCiudadanoGeneradorReclamo());
+		reclamo.setFechaUltimaModificacionReclamo(reclamoAndroid.getFechaUltimaModificacionReclamo());
+		reclamo.setCiudadanoGeneradorReclamo(reclamoAndroid.getCiudadanoGeneradorReclamo());
+		reclamo.setMailCiudadanoGeneradorReclamo(reclamoAndroid.getMailCiudadanoGeneradorReclamo());
 		reclamo.setObservaciones(reclamoAndroid.getObservaciones());
-		try {
-			reclamo.cambiarEstado(reclamoAndroid.getEstadoDescripcion());
-		} catch (Exception e) {
-			// TODO error estado
-		}
+		reclamo.cambiarEstado(reclamoAndroid.getEstadoDescripcion());
 		reclamo.setComunaIncidentePorBarrio(reclamoAndroid.getBarrioIncidente());
-
+		
 		return reclamo;
+		
+		}catch(Exception e){
+			throw new Exception("No se pudo crear reclamo" + e.getMessage());
+		}
+		
 	}
 
 }
