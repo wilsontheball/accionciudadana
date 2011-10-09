@@ -1,6 +1,10 @@
 package ar.com.thinksoft.ac.andrac.pantallas;
 
-import java.util.StringTokenizer;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,18 +14,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.adapter.ReclamoAdapter;
-import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
-import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
+
+import com.google.gson.Gson;
 
 /**
  * La clase se encarga de manejar el listado de reclamos guardados por usuario.
  * 
- * @since 02-10-2011
+ * @since 09-10-2011
  * @author Hernan
  */
 public class ListaReclamosGuardados extends Activity {
@@ -43,9 +47,13 @@ public class ListaReclamosGuardados extends Activity {
 		setContentView(R.layout.reclamos_guardados);
 
 		// Obtiene los reclamos guardados del usuario.
-		this.reclamosGuardados = (Reclamo[]) this.getRepo()
-				.getReclamosGuardados();
-
+		try {
+			this.obtenerReclamosGuardados();
+		} catch (FileNotFoundException e) {
+			// No existen reclamos guardados. Muestra nada.
+		} catch (IOException e) {
+			Log.e(this.getClass().getName(), "No se pudo leer reclamo");
+		}
 		// Carga el listado con los reclamos guardados
 		ListView listado = (ListView) findViewById(R.id.reclamos_list);
 		listado.setAdapter(new ReclamoAdapter(this, this.reclamosGuardados));
@@ -123,14 +131,40 @@ public class ListaReclamosGuardados extends Activity {
 	}
 
 	/**
-	 * Devuelve el Repositorio
+	 * Obtiene los reclamos guardados de la memoria
 	 * 
-	 * @since 22-07-2011
-	 * @author Paul
-	 * @return repositorio
+	 * @since 09-10-2011
+	 * @author Hernan
+	 * @throws FileNotFoundException
 	 */
-	private Repositorio getRepo() {
-		return ((Aplicacion) this.getApplication()).getRepositorio();
+	private void obtenerReclamosGuardados() throws FileNotFoundException,
+			IOException {
+		String[] nombresArchivos = this.fileList();
+
+		ArrayList<Reclamo> listaReclamos = new ArrayList<Reclamo>();
+		FileInputStream stream;
+		for (int i = 0; i < nombresArchivos.length; i++) {
+			stream = openFileInput(nombresArchivos[i]);
+			listaReclamos.add(reclamoFromStream(stream));
+		}
+
+		this.reclamosGuardados = new Reclamo[listaReclamos.size()];
+
+		for (int i = 0; i < listaReclamos.size(); i++) {
+			this.reclamosGuardados[i] = listaReclamos.get(i);
+		}
+	}
+
+	/**
+	 * Convierte stream a reclamo.
+	 * 
+	 * @param stream
+	 * @return Un reclamo.
+	 */
+	private Reclamo reclamoFromStream(FileInputStream stream) {
+		InputStreamReader isReader = new InputStreamReader(stream);
+		Gson gson = new Gson();
+		return gson.fromJson(isReader, Reclamo.class);
 	}
 
 	/**
