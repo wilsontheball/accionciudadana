@@ -17,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import ar.com.thinksoft.ac.andrac.R;
-import ar.com.thinksoft.ac.andrac.adapter.ReclamoAdapter;
+import ar.com.thinksoft.ac.andrac.adapter.ReclamoGuardadoAdapter;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 
 import com.google.gson.Gson;
@@ -56,7 +56,8 @@ public class ListaReclamosGuardados extends Activity {
 		}
 		// Carga el listado con los reclamos guardados
 		ListView listado = (ListView) findViewById(R.id.reclamos_list);
-		listado.setAdapter(new ReclamoAdapter(this, this.reclamosGuardados));
+		listado.setAdapter(new ReclamoGuardadoAdapter(this,
+				this.reclamosGuardados));
 		listado.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int posicion, long id) {
@@ -108,13 +109,20 @@ public class ListaReclamosGuardados extends Activity {
 		default:
 			return new AlertDialog.Builder(ListaReclamosGuardados.this)
 					.setIcon(R.drawable.alert_dialog_icon)
-					.setTitle(this.reclamoGuardado.getEstadoDescripcion())
+					.setTitle(R.string.no_enviado)
 					.setMessage(this.armarResumen(this.reclamoGuardado))
-					.setPositiveButton(R.string.ok,
+					.setNegativeButton(R.string.cancelar,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
 									/* User clicked OK so do some stuff */
+								}
+							})
+					.setPositiveButton(R.string.enviar,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// TODO Enviar el reclamo
 								}
 							}).create();
 		}
@@ -123,9 +131,8 @@ public class ListaReclamosGuardados extends Activity {
 	private String armarResumen(Reclamo reclamo) {
 
 		String resumen = reclamo.getTipoIncidente() + "\n"
-				+ reclamo.getCalleIncidente() + " "
-				+ reclamo.getAlturaIncidente() + "\n"
-				+ reclamo.getFechaReclamo();
+				+ reclamo.getBarrioIncidente() + "\n"
+				+ reclamo.getFechaReclamo() + "\n" + reclamo.getObservaciones();
 		return resumen;
 
 	}
