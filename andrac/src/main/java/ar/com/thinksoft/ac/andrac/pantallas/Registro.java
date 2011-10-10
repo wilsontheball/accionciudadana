@@ -12,13 +12,14 @@ import android.view.View;
 import android.widget.EditText;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
+import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
 import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 
 /**
  * La clase se encarga de manejar la pantalla de Registro.
  * 
- * @since 07-09-2011
+ * @since 08-10-2011
  * @author Paul
  */
 public class Registro extends Activity {
@@ -63,7 +64,7 @@ public class Registro extends Activity {
 	/**
 	 * Crea la ventana de Alerta. (Se hace de esta forma en Android 2.2)
 	 * 
-	 * @since 23-08-2011
+	 * @since 08-10-2011
 	 * @author Paul
 	 */
 	@Override
@@ -75,6 +76,7 @@ public class Registro extends Activity {
 					.setIcon(R.drawable.alert_dialog_icon)
 					.setTitle(tituloAlerta)
 					.setMessage(mensageAlerta)
+					.setCancelable(false)
 					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -103,7 +105,7 @@ public class Registro extends Activity {
 	/**
 	 * Captura la respuesta de la ventana Login.
 	 * 
-	 * @since 04-10-2011
+	 * @since 08-10-2011
 	 * @author Paul
 	 */
 	@Override
@@ -112,7 +114,7 @@ public class Registro extends Activity {
 		if (resultCode == Activity.RESULT_OK) {
 			Log.d(this.getClass().getName(),
 					"Se ejecuto: " + data.getStringExtra(ServicioRest.FUN));
-			this.finish();
+			this.mostrarDialogo(REGISTRO_EXITOSO);
 		} else if (resultCode == Activity.RESULT_CANCELED) {
 			Log.e(this.getClass().getName(),
 					"Fallo al ejecutar: "
@@ -124,38 +126,36 @@ public class Registro extends Activity {
 	}
 
 	/**
-	 * Registra al usuario y muestra confirmacion. Responde al boton Aceptar.
+	 * Registra al usuario. Responde al boton Aceptar.
 	 * 
-	 * @since 23-08-2011
+	 * @since 08-10-2011
 	 * @author Paul
 	 * @param v
 	 */
 	public void registrar(View v) {
-		// try {
-		// if (this.camposIncompletos()) {
-		// this.mostrarDialogo(CAMPOS_VACIOS);
-		// } else {
-		// if (!this.getMail().equals(this.getMailConfirm())) {
-		// this.mostrarDialogo(MAIL_NO_COINCIDE);
-		// this.limpiarMail();
-		// } else {
-		// if (!this.getPass().equals(this.getPassConfirm())) {
-		// this.mostrarDialogo(PASS_NO_COINCIDE);
-		// this.limpiarPass();
-		// } else {
-		// ((Aplicacion) this.getApplication()).getRepositorio()
-		// .registrarUsuario(getNombre(), getApellido(),
-		// getUsuario(), getDNI(), getMail(),
-		// getTelefono(), getPass());
-		// this.mostrarDialogo(REGISTRO_EXITOSO);
-		// }
-		// }
-		// }
-		// } catch (Exception e) {
-		// this.mostrarDialogo(REGISTRO_FALLO);
-		// }
+		try {
+			if (this.camposIncompletos()) {
+				this.mostrarDialogo(CAMPOS_VACIOS);
+			} else {
+				if (!this.getMail().equals(this.getMailConfirm())) {
+					this.mostrarDialogo(MAIL_NO_COINCIDE);
+					this.limpiarMail();
+				} else {
+					if (!this.getPass().equals(this.getPassConfirm())) {
+						this.mostrarDialogo(PASS_NO_COINCIDE);
+						this.limpiarPass();
+					} else {
+						this.getRepo().registrarUsuario(getNombre(),
+								getApellido(), getUsuario(), getDNI(),
+								getMail(), getTelefono(), getPass());
+						this.ejecutarFuncion(FuncionRest.POSTUSUARIO);
+					}
+				}
+			}
+		} catch (Exception e) {
+			this.mostrarDialogo(REGISTRO_FALLO);
+		}
 
-		this.ejecutarFuncion(FuncionRest.PUTRECLAMO);
 	}
 
 	/**
@@ -254,6 +254,17 @@ public class Registro extends Activity {
 	private void limpiarPass() {
 		((EditText) findViewById(R.id.pass)).setText("");
 		((EditText) findViewById(R.id.pass_confirm)).setText("");
+	}
+
+	/**
+	 * Devuelve el repositorio.
+	 * 
+	 * @since 22-07-2011
+	 * @author Paul
+	 * @return aplicacion
+	 */
+	private Repositorio getRepo() {
+		return ((Aplicacion) this.getApplication()).getRepositorio();
 	}
 
 	/* Metodos que obtienen el contenido de los campos de la pantalla */

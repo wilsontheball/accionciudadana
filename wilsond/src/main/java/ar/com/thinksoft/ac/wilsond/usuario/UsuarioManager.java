@@ -4,7 +4,9 @@ import java.util.List;
 
 import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.intac.utils.classes.UsuarioMovil;
+import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.wilsond.Repositorio.Repositorio;
+import ar.com.thinksoft.ac.wilsond.mail.MailWilsonD;
 
 public class UsuarioManager {
 	
@@ -71,4 +73,26 @@ private static UsuarioManager instance;
 		throw new Exception("El usuario no fue encontrado");
 	}
 
+	public IUsuario toUsuarioInt(UsuarioAndrac usuarioAndrac) throws Exception {
+		try{
+		IUsuario usuario = new Usuario();
+		usuario.setNombre(usuarioAndrac.getNombre());
+		usuario.setApellido(usuarioAndrac.getApellido());
+		usuario.setDni(usuarioAndrac.getDni());
+		usuario.setMail(usuarioAndrac.getMail());
+		usuario.setTelefono(usuarioAndrac.getTelefono());
+		usuario.setNombreUsuario(usuarioAndrac.getNombreUsuario());
+		usuario.setContrasenia(usuarioAndrac.getContrasenia());
+		return usuario;
+		}catch(Exception e){
+			throw new Exception("No se pudo crear el usuario" + e.getMessage());
+		}
+	}
+	
+	public void guardarUsuario(IUsuario usuario){
+		Repositorio.getInstancia().store(usuario);
+		MailWilsonD.getInstance().enviarMail(usuario.getMail(), 
+				"Accion Ciudadana - Bienvenido", MailWilsonD.getInstance().armarTextoBienvenida());
+	}
+	
 }

@@ -10,6 +10,10 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
@@ -22,7 +26,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * Pantalla transparente que maneja los servicios y pide autentificacion.
  * 
- * @since 02-10-2011
+ * @since 07-10-2011
  * @author Paul
  * 
  */
@@ -38,6 +42,9 @@ public class Login extends Activity implements ReceptorRest {
 	private String mensageDialogo = "";
 	// Referencia al dialogo procesando
 	private ProgressDialog procesando = null;
+
+	private EditText campoNick;
+	private EditText campoPass;
 
 	private Intent servicioRest;
 	private ReceptorResultados receptor;
@@ -60,19 +67,21 @@ public class Login extends Activity implements ReceptorRest {
 	/**
 	 * Revisa si tiene que pedir autenticacion.
 	 * 
-	 * @since 02-10-2011
+	 * @since 08-10-2011
 	 * @author Paul
 	 */
 	@Override
 	protected void onStart() {
 		super.onStart();
 		// TODO implementar Login.
-		// Login no se muestra cuando ya esta autenticado.
-		if ((this.getRepo().getNick() == null)
-				|| (this.getRepo().getPass() == null)) {
-			this.mostrarDialogo(LOGIN);
-		} else {
+		// Login no se muestra cuando ya esta autenticado o cuando la funcion es
+		// POST Usuario.
+		if ((FuncionRest.POSTUSUARIO.equals(this.funcionAEjecutar))
+				|| ((this.getRepo().getNick() != null) && (this.getRepo()
+						.getPass() != null))) {
 			this.ejecutarFuncion(funcionAEjecutar);
+		} else {
+			this.mostrarDialogo(LOGIN);
 		}
 	}
 
@@ -96,20 +105,26 @@ public class Login extends Activity implements ReceptorRest {
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		AlertDialog dialogo = null;
+		Dialog dialogo = null;
 		switch (id) {
 		case LOGIN:
 			// Dialogo de Login.
+			LayoutInflater inflater = (LayoutInflater) Login.this
+					.getSystemService(LAYOUT_INFLATER_SERVICE);
+			View layout = inflater.inflate(R.layout.login_dialogo,
+					(ViewGroup) findViewById(R.id.login_dialogo));
+			campoNick = (EditText) layout.findViewById(R.id.nick);
+			campoPass = (EditText) layout.findViewById(R.id.pass);
 			dialogo = new AlertDialog.Builder(Login.this)
-					.setIcon(R.drawable.icono)
+					.setCancelable(false)
+					.setIcon(R.drawable.lock)
 					.setTitle(tituloDialogo)
-					.setView(findViewById(R.id.login_dialogo))
+					.setView(layout)
 					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									// TODO Obtener los datos ingresados.
-									setDatosLogin("pepe", "123");
+									setDatosLogin(getNick(), getPass());
 									ejecutarFuncion(funcionAEjecutar);
 									dialog.cancel();
 								}
@@ -125,7 +140,6 @@ public class Login extends Activity implements ReceptorRest {
 											RESULT_CANCELED);
 								}
 							}).create();
-			// dialogo.setContentView(findViewById(R.id.login_dialogo));
 			break;
 		default:
 			// Dialogo de comun de Error.
@@ -137,9 +151,9 @@ public class Login extends Activity implements ReceptorRest {
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									// TODO lamar al servcio
 									dialog.cancel();
-									ejecutarFuncion(FuncionRest.GETPERFIL);
+									salirDePantalla(funcionAEjecutar,
+											RESULT_CANCELED);
 								}
 							}).create();
 			break;
@@ -216,7 +230,7 @@ public class Login extends Activity implements ReceptorRest {
 	 * Muestra una ventana dialogo "Procesando". Al hacer clic en el boton
 	 * finaliza servicio que corre en este momento.
 	 * 
-	 * @since 29-09-2011
+	 * @since 07-10-2011
 	 * @author Paul
 	 * @param mensaje
 	 *            Texto que se va a mostrar en el dialogo.
@@ -226,16 +240,15 @@ public class Login extends Activity implements ReceptorRest {
 
 		this.procesando = new ProgressDialog(Login.this);
 
-		// TODO Definir mensajes para todas las funciones
+		// TODO Agregar mensaje al Bunldle!!!!!!!!!!!!!!!!!!
 		String mensaje = "no tiene mensaje!!";
 		if (FuncionRest.GETRECLAMOS.equals(funcion)) {
 			mensaje = getString(R.string.obteniendo_reclamos);
 		} else if (FuncionRest.GETPERFIL.equals(funcion)) {
 			mensaje = getString(R.string.obteniendo_perfil);
 		} else {
-			Log.d(this.getClass().getName(), "Funcion sin mensaje: " + funcion);
-			// TODO this.cancelarServicioRest();
-			return;
+			Log.e(this.getClass().getName(), "Funcion sin mensaje: " + funcion);
+			mensaje = getString(R.string.procesando);
 		}
 		this.procesando.setMessage(mensaje);
 		this.procesando.setButton(getString(R.string.cancelar),
@@ -244,7 +257,7 @@ public class Login extends Activity implements ReceptorRest {
 						// Cierra el dialogo.
 						dialog.cancel();
 						// Vuelve a la ventana enterior.
-						salirDePantalla("funcion cancelada", RESULT_CANCELED);
+						salirDePantalla(funcionAEjecutar, RESULT_CANCELED);
 					}
 				});
 		this.procesando.setCancelable(false);
@@ -275,9 +288,10 @@ public class Login extends Activity implements ReceptorRest {
 
 		} catch (Exception e) {
 			// TODO: mostrar error!!!!
-			Toast.makeText(this, "Fallo iniciar servicio", Toast.LENGTH_SHORT)
-					.show();
-			Log.e(this.getClass().getName(), "Fallo iniciar servicio");
+			Toast.makeText(this, "Fallo iniciar servicio: " + funcionAEjecutar,
+					Toast.LENGTH_SHORT).show();
+			Log.e(this.getClass().getName(), "Fallo iniciar servicio: "
+					+ funcionAEjecutar);
 		}
 	}
 
@@ -307,6 +321,12 @@ public class Login extends Activity implements ReceptorRest {
 		return receptor;
 	}
 
+	/**
+	 * Alamcena los datos de Login para no tener que pedirlos en cada operacion.
+	 * 
+	 * @param usuario
+	 * @param password
+	 */
 	private void setDatosLogin(String usuario, String password) {
 		this.getRepo().setNick(usuario);
 		this.getRepo().setPass(password);
@@ -328,5 +348,22 @@ public class Login extends Activity implements ReceptorRest {
 		resultado.putExtra(ServicioRest.FUN, funcion);
 		this.setResult(codigoResultado, resultado);
 		this.finish();
+	}
+
+	// Getters y setters
+	private void setNick(String text) {
+		this.campoNick.setText(text);
+	}
+
+	private String getNick() {
+		return this.campoNick.getText().toString();
+	}
+
+	private void setPass(String text) {
+		this.campoPass.setText(text);
+	}
+
+	private String getPass() {
+		return this.campoPass.getText().toString();
 	}
 }

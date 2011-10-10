@@ -1,41 +1,45 @@
 package ar.com.thinksoft.ac.andrac.contexto;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import ar.com.thinksoft.ac.andrac.dominio.Imagen;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.dominio.Usuario;
-import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
-import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
+import ar.com.thinksoft.ac.intac.utils.classes.ImagenMovil;
 
 /**
- * Abstrae la conexion remota a la base de datos
+ * Buzon intermedio para intercambiar datos entre los procesos.
  * 
- * @since 27-09-2011
+ * @since 08-10-2011
  * @author Paul
  */
 public class Repositorio {
 
-	byte[] imagenBytes = null;
-	private Usuario perfilUsuario = null;
-	private List<Reclamo> reclamos = null;
+	// Almacenan temporalmente Usuario y Pass en una sesion.
 	private String nick = null;
 	private String pass = null;
+
+	// Almacen intermedio para la foto. De esta forma no hace falta un archivo.
+	private byte[] imagenBytes = null;
+
+	// Almacen intermedio para perfil descargado.
+	private Usuario perfilUsuario = null;
+
+	// Almacen intermedio para los reclamos descargados.
+	private List<Reclamo> reclamos = null;
+
+	// XXX Almacen intermedio para los reclamos guardados???.
+	private List<Reclamo> reclamosGuardados = null;
+
+	// Almacen intermedio para reclamo a enviar.
 	private Reclamo reclamoAEnviar = null;
 
-	/**
-	 * Devuelve la URL del servidor.
-	 * 
-	 * @since 27-09-2011
-	 * @author Paul
-	 * @return URL del servidor REST
-	 */
-	public String getSrvUrl() {
-		 return "http://192.168.2.7:6060";
-	}
+	// Almacen intermedio para usuario a registrar.
+	private Usuario usuarioARegistrar = null;
 
 	/**
-	 * Devuelve un objeto Usuario desde la base de datos
 	 * 
 	 * @since 22-07-2011
 	 * @author Paul
@@ -51,24 +55,9 @@ public class Repositorio {
 	}
 
 	/**
-	 * Valida un nick y password
-	 * 
-	 * @param nick
-	 * @param pass
-	 * @return
-	 */
-	public boolean validarUsuario(String nick, String pass) {
-		// TODO Es solo para probar! No esta implementada la conexion a la BD
-		if (nick.equals("0") && pass.equals("0")) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Registra a un nuevo usuario en el sistema.
 	 * 
-	 * @since 25-07-2011
+	 * @since 08-10-2011
 	 * @author Paul
 	 * 
 	 * @param nombre
@@ -84,7 +73,15 @@ public class Repositorio {
 	public boolean registrarUsuario(String nombre, String apellido,
 			String nick, String dni, String mail, String telefono,
 			String password) {
-		// TODO falta implementar
+		Usuario usuario = new Usuario();
+		usuario.setNombre(nombre);
+		usuario.setApellido(apellido);
+		usuario.setNombreUsuario(nick);
+		usuario.setDni(dni);
+		usuario.setMail(mail);
+		usuario.setTelefono(telefono);
+		usuario.setContrasenia(password);
+		this.setUsuarioARegistrar(usuario);
 		return true;
 	}
 
@@ -122,130 +119,58 @@ public class Repositorio {
 	/**
 	 * Obtiene los reclamos guardados en el celular.
 	 * 
-	 * @since 25-09-2011
-	 * @author Paul
+	 * @since 04-10-2011
+	 * @author Hernan
 	 * @return Array de reclamos listo para mostrar.
 	 */
 	public Reclamo[] getReclamosGuardados() {
-		// TODO Falta implementar como levantar los reclamos gurdados!!!!!!!!
-		return new Reclamo[0];
+
+		// TODO Falta implementar como levantar los reclamos guardados!!!!!!!!
+		Reclamo[] arrayReclamosGuardados = new Reclamo[this.reclamosGuardados
+				.size()];
+		// Se hace asi por que falla el metodo de conversion de lista.
+		int i = 0;
+		for (Reclamo rec : this.reclamosGuardados) {
+			arrayReclamosGuardados[i++] = rec;
+		}
+		return arrayReclamosGuardados;
 	}
+
+	public void setReclamosGuardados(List<Reclamo> reclamos) {
+		this.reclamosGuardados = reclamos;
+	}
+
+	public void publicarReclamoDireccion(String tipo, String barrio,
+			String calle, String altura, String observacion) {
+
+		Imagen imagen = new Imagen(this.getImagen(), ImagenMovil.TIPO_JPG);
+		String fecha = this.getFechaConFormato();
+		Reclamo reclamo = new Reclamo(calle, altura, null, null, tipo, fecha,
+				fecha, this.getNick(), observacion, barrio, imagen);
+		this.setReclamoAEnviar(reclamo);
+	}
+
+	public boolean publicarReclamoGPS(String tipo, String barrio,
+			double latitud, double longitud, String observacion) {
+
+		Imagen imagen = new Imagen(this.getImagen(), ImagenMovil.TIPO_JPG);
+		String fecha = this.getFechaConFormato();
+		Reclamo reclamo = new Reclamo(null, null, latitud + "", longitud + "",
+				tipo, fecha, fecha, this.getNick(), observacion, barrio, imagen);
+		this.setReclamoAEnviar(reclamo);
+		return true;
+	}
+
+	/* **************** Getters y Setters ****************** */
 
 	private void setReclamoAEnviar(Reclamo reclamoAEnviar) {
 		this.reclamoAEnviar = reclamoAEnviar;
 	}
 
 	public Reclamo getReclamoAEnviar() {
-		// XXX Probado un Mock!!!!!!!!!!!!!!!!!!!!!!!
-
-		Reclamo rec1 = new Reclamo("Cabildo", "145", "latitud...",
-				"longitud...", EnumTipoReclamo.accesibilidad.getTipo(),
-				"ayer.......", "hoy........", "pepe", "Lalala",
-				EnumBarriosReclamo.Belgrano.getBarrio(), "Comuna...", null);
-		return rec1;
-		// XXX Probado un Mock!!!!!!!!!!!!!!!!!!!!!!!
+		return this.reclamoAEnviar;
 	}
 
-	public void publicarReclamoDireccion(String tipo, String barrio,
-			String calle, String altura, String observacion) {
-		// TODO falta revisar si contentType es jpeg!!!!!!!!
-		Imagen imagen = new Imagen(this.getImagen(), "jpeg", "prueba");
-
-		// TODO falta implementar obtencion de coordenada
-		String latitud = "";
-		String longitud = "";
-		// TODO falta implementar obtencion de comuna
-		String comuna = "";
-		// TODO falta implementar obtencion de fecha
-		String fecha = "";
-		String fechaModificacion = "";
-		Reclamo reclamo = new Reclamo(calle, altura, latitud, longitud, tipo,
-				fecha, fechaModificacion, this.getNick(), observacion, barrio,
-				comuna, imagen);
-		this.setReclamoAEnviar(reclamo);
-	}
-
-	// private void enviarReclamo(Reclamo reclamo) {
-	//
-	// Gson gson = new Gson();
-	// String json = gson.toJson(reclamo);
-	//
-	// HttpResponse responce;
-	// try {
-	// responce = this.doPost(this.getSrvUrl(), new JSONObject(json));
-	// String temp = EntityUtils.toString(responce.getEntity());
-	// } catch (ClientProtocolException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// } catch (JSONException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-
-	// if (temp.compareTo("SUCCESS")==0)
-	// {
-	// Toast.makeText(this, "Sending complete!", Toast.LENGTH_LONG).show();
-	// }
-	//
-	// }
-
-	// public HttpResponse doPost(String url, JSONObject c)
-	// throws ClientProtocolException, IOException {
-	// HttpClient httpclient = new DefaultHttpClient();
-	// HttpPost request = new HttpPost(url);
-	// HttpEntity entity;
-	// StringEntity s = new StringEntity(c.toString());
-	// s.setContentEncoding((Header) new BasicHeader(HTTP.CONTENT_TYPE,
-	// "application/json"));
-	// entity = s;
-	// request.setEntity(entity);
-	// HttpResponse response;
-	// response = httpclient.execute(request);
-	// return response;
-	// }
-
-	/**
-	 * Se conecta a Wilsond para obtener reclamos hechos por un usuario.
-	 * 
-	 * @since 25-09-2011
-	 * @author Paul
-	 * @param usuario
-	 *            Nick de usuario.
-	 * @return Lista de reclamos hecho por un usuario.
-	 */
-	// private List<Reclamo> obtenerReclamos(String usuario) {
-	//
-	// try {
-	// DefaultHttpClient httpClient = new DefaultHttpClient();
-	// HttpGet method = new HttpGet(this.getSrvUrl() + "/reclamos");
-	// HttpResponse httpResponse = httpClient.execute(method);
-	// InputStream is = httpResponse.getEntity().getContent();
-	// Gson gson = new Gson();
-	// Reader reader = new InputStreamReader(is);
-	// Type collectionType = new TypeToken<List<Reclamo>>() {
-	// }.getType();
-	// return gson.fromJson(reader, collectionType);
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// return null;
-	// }
-	// }
-
-	public boolean publicarReclamoGPS(String tipo, String barrio,
-			String latitud, String longitud, String observacion) {
-		// TODO falta implementar
-		return true;
-	}
-
-	/**
-	 * Almacen para la foto. De esta forma no hace falta un archivo.
-	 * 
-	 * @param imagen
-	 */
 	public void setImagen(byte[] imagen) {
 		this.imagenBytes = imagen;
 	}
@@ -281,5 +206,20 @@ public class Repositorio {
 		} else {
 			return this.pass;
 		}
+	}
+
+	public String getFechaConFormato() {
+		Date date = new java.util.Date();
+		SimpleDateFormat formatter = new java.text.SimpleDateFormat(
+				"dd/MM/yyyy");
+		return formatter.format(date);
+	}
+
+	public Usuario getUsuarioARegistrar() {
+		return usuarioARegistrar;
+	}
+
+	public void setUsuarioARegistrar(Usuario usuarioARegistrar) {
+		this.usuarioARegistrar = usuarioARegistrar;
 	}
 }

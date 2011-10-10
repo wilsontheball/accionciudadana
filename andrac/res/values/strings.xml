@@ -60,6 +60,7 @@
 	</string>
 	<string name="obteniendo_reclamos">Obteniendo reclamos...</string>
 	<string name="obteniendo_perfil">Obteniendo datos de perfil...</string>
+	<string name="procesando">Procesando...</string>
 	<string name="perfil_titulo">Perfil de Usuario</string>
 	<string name="error_conexion">Error de Conexión</string>
 	<string name="mensaje_error_conexion">No se pudo conectar al servidor.</string>
