@@ -10,6 +10,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.wilsond.configuracion.ConfiguracionWilsonD;
 import ar.com.thinksoft.ac.wilsond.log.LogManager;
 
@@ -83,8 +84,8 @@ private static MailWilsonD instance;
 		return texto;
 	}
 
-	public String armarTextoBienvenida() {
-		return "Le damos la bienvenida a Acción Ciudadana.\n"+
+	public String armarTextoBienvenida(IUsuario user) {
+		return user.getNombreUsuario()+ ":\n\n" + "Le damos la bienvenida a Acción Ciudadana.\n"+
 		"Ya puede iniciar reclamos y saber el estado de los mismos a través del tiempo.\n"+
 		"Puede acceder con su usuario desde la aplicación Android o desde nuestra web: www.accion-ciudadana.com.ar.\n"+
 		"No dude en contactarse con nosotros para cualquier consulta.\n\nAcción Ciudadana";

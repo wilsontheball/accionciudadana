@@ -61,7 +61,7 @@ private static UsuarioManager instance;
 		return usr;
 	}
 
-	private IUsuario getUsuarioFromDB(String nombreUsuario) throws Exception {
+	public IUsuario getUsuarioFromDB(String nombreUsuario) throws Exception {
 		
 		List<IUsuario> listaUsuarios = Repositorio.getInstancia().query(IUsuario.class);
 		
@@ -92,7 +92,7 @@ private static UsuarioManager instance;
 	public void guardarUsuario(IUsuario usuario){
 		Repositorio.getInstancia().store(usuario);
 		MailWilsonD.getInstance().enviarMail(usuario.getMail(), 
-				"Accion Ciudadana - Bienvenido", MailWilsonD.getInstance().armarTextoBienvenida());
+				"Accion Ciudadana - Bienvenido", MailWilsonD.getInstance().armarTextoBienvenida(usuario));
 	}
 	
 }

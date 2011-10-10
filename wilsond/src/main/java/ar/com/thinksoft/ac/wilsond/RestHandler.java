@@ -51,7 +51,7 @@ public class RestHandler extends AbstractHandler {
 			pass = (String) tokens.nextElement();
 		}
 		
-		if(UsuarioManager.getInstance().validarUsuario(nick,pass)){
+		if(UsuarioManager.getInstance().validarUsuario(nick,pass) || funcion.equalsIgnoreCase(FuncionRest.POSTUSUARIO)){
 			if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.GET)) {
 				try {
 					atenderGet(baseRequest, response);
@@ -93,7 +93,8 @@ public class RestHandler extends AbstractHandler {
 			InputStreamReader isReader = new InputStreamReader(instream);
 			Gson gson = new Gson();
 			ReclamoAndrac reclamoAndrac= gson.fromJson(isReader, ReclamoAndrac.class);
-			IReclamo reclamo = ReclamoManager.getInstance().toReclamoInt(reclamoAndrac);
+			IUsuario user = UsuarioManager.getInstance().getUsuarioFromDB(nick);
+			IReclamo reclamo = ReclamoManager.getInstance().toReclamoInt(reclamoAndrac,user);
 			ReclamoManager.getInstance().guardarReclamo(reclamo);
 			
 		} else if (funcion.equalsIgnoreCase(FuncionRest.POSTUSUARIO)) {

@@ -2,7 +2,10 @@ package ar.com.thinksoft.ac.wilsond.reclamo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.wilsond.Repositorio.Repositorio;
 import ar.com.thinksoft.ac.wilsond.mail.MailWilsonD;
@@ -108,25 +111,36 @@ public class ReclamoManager {
 	/*
 	 * Traductor de ReclamoAndroid a ReclamoWeb
 	 */
-	public IReclamo toReclamoInt(IReclamo reclamoAndroid) throws Exception {
-		try{
-		IReclamo reclamo = new Reclamo();
-		reclamo.setId();
-		reclamo.setCalleIncidente(reclamoAndroid.getCalleIncidente());
-		reclamo.setAlturaIncidente(reclamoAndroid.getAlturaIncidente());
-		reclamo.setBarrioIncidente(reclamoAndroid.getBarrioIncidente());
-		reclamo.setLatitudIncidente(reclamoAndroid.getLatitudIncidente());
-		reclamo.setLongitudIncidente(reclamoAndroid.getLongitudIncidente());
-		reclamo.setTipoIncidente(reclamoAndroid.getTipoIncidente());
-		reclamo.setFechaReclamo(reclamoAndroid.getFechaReclamo());
-		reclamo.setFechaUltimaModificacionReclamo(reclamoAndroid.getFechaUltimaModificacionReclamo());
-		reclamo.setCiudadanoGeneradorReclamo(reclamoAndroid.getCiudadanoGeneradorReclamo());
-		reclamo.setMailCiudadanoGeneradorReclamo(reclamoAndroid.getMailCiudadanoGeneradorReclamo());
-		reclamo.setObservaciones(reclamoAndroid.getObservaciones());
-		reclamo.cambiarEstado(reclamoAndroid.getEstadoDescripcion());
-		reclamo.setComunaIncidentePorBarrio(reclamoAndroid.getBarrioIncidente());
+	public IReclamo toReclamoInt(IReclamo reclamoAndroid, IUsuario usuario) throws Exception {
 		
-		return reclamo;
+		try{
+			
+			IReclamo reclamo = new Reclamo();
+			reclamo.setId();
+			
+			reclamo.setCalleIncidente(reclamoAndroid.getCalleIncidente());
+			reclamo.setAlturaIncidente(reclamoAndroid.getAlturaIncidente());
+			
+			reclamo.setLatitudIncidente(reclamoAndroid.getLatitudIncidente());
+			reclamo.setLongitudIncidente(reclamoAndroid.getLongitudIncidente());
+			
+			reclamo.setFechaReclamo(reclamoAndroid.getFechaReclamo());
+			reclamo.setFechaUltimaModificacionReclamo(reclamoAndroid.getFechaUltimaModificacionReclamo());
+			
+			reclamo.setCiudadanoGeneradorReclamo(usuario.getNombreUsuario());
+			reclamo.setMailCiudadanoGeneradorReclamo(usuario.getMail());
+			
+			reclamo.setObservaciones(reclamoAndroid.getObservaciones());
+			
+			reclamo.setTipoIncidente(reclamoAndroid.getTipoIncidente());
+			reclamo.cambiarEstado(EnumEstadosReclamo.activo.getEstado());
+			
+			reclamo.setBarrioIncidente(reclamoAndroid.getBarrioIncidente());
+			reclamo.setComunaIncidentePorBarrio(reclamoAndroid.getBarrioIncidente());
+			
+			reclamo.setImagen(reclamoAndroid.getImagen());
+			
+			return reclamo;
 		
 		}catch(Exception e){
 			throw new Exception("No se pudo crear reclamo" + e.getMessage());
