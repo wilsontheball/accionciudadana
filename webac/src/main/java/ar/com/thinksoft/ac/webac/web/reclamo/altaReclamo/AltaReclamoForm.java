@@ -28,13 +28,13 @@ import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 @SuppressWarnings("serial")
 public class AltaReclamoForm extends Form<Reclamo> {
 	
 	private AltaReclamoForm _self = this;
 	private ImageFactory img = null;
-	private static String KEY = "ABQIAAAASNhk0DNhWwkPk0Y12RIrThTwM0brOpm-All5BF6PoaKBxRWWERRi58__PuwPgysGGKPkLxYHu8hULg";
 	
 	public AltaReclamoForm(String id) {
 		super(id);
@@ -126,7 +126,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 						GLatLng coordenadas = null;
 						Double latitud,longitud;
 						String direccion = reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + ",Capital Federal";
-						Geocoder geocoder = new Geocoder(KEY);
+						Geocoder geocoder = new Geocoder(Configuracion.getInstance().getKeyGoogleMap());
 						try {
 							 coordenadas = geocoder.geocode(direccion);
 							 latitud = coordenadas.getLat();
