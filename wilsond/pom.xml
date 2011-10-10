@@ -76,6 +76,19 @@
 			<version>8.1-SNAPSHOT</version>
 		</dependency>
 		
+		<!-- WICKET DEPENDENCIES -->
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket</artifactId>
+			<version>1.4.17</version>
+		</dependency>
+		
+		<!-- GMAP2 DEPENDENCY -->
+		<dependency>
+			<groupId>org.wicketstuff</groupId>
+			<artifactId>gmap2</artifactId>
+			<version>1.4.17.2</version>
+		</dependency> 
 		
 	</dependencies>
 	

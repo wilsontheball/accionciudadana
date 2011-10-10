@@ -34,6 +34,8 @@ public class ConfiguracionWilsonD implements Serializable{
 	private String user = "accionciudadana.gcba@gmail.com";
 	private String password;
 	
+	private String googleKey;
+	
 	
 	public void guardarConfiguracion() throws Exception{
 		Element configElement = new Element("configuracion");
@@ -49,6 +51,8 @@ public class ConfiguracionWilsonD implements Serializable{
 		configElement.addContent(new Element("auth").addContent(this.getAuth().toString()));
 		configElement.addContent(new Element("user").addContent(this.getUser()));
 		configElement.addContent(new Element("password").addContent(this.getPassword()));
+		
+		configElement.addContent(new Element("googleKey").addContent(this.getGoogleKey()));
 		
 		XMLOutputter outputter = new XMLOutputter();
 		try {
@@ -92,6 +96,8 @@ public class ConfiguracionWilsonD implements Serializable{
 			this.setAuth(Boolean.valueOf(rootNode.getChildText("auth")));
 			this.setUser(rootNode.getChildText("user"));
 			this.setPassword(rootNode.getChildText("password"));
+			
+			this.setGoogleKey(rootNode.getChildText("googleKey"));
 			
 		  } catch (Exception e) {
 			  throw new Exception("Error al leer el archivo de configuracion. Detalle: " + e.getMessage());
@@ -162,6 +168,14 @@ public class ConfiguracionWilsonD implements Serializable{
 
 	public String getPassword() {
 		return password;
+	}
+
+	public void setGoogleKey(String googleKey) {
+		this.googleKey = googleKey;
+	}
+
+	public String getGoogleKey() {
+		return googleKey;
 	}
 
 }

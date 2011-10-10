@@ -251,4 +251,9 @@ public class Reclamo extends ReclamoMovil {
 
 	}
 
+	public void setEstadoDescripcion(String estado) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
