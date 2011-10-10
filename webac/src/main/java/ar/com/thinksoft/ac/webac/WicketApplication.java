@@ -29,6 +29,8 @@ public class WicketApplication extends AuthenticatedWebApplication {
 		super();
 	}
 
+	
+	
 	/**
 	 * @see org.apache.wicket.Application#getHomePage()
 	 */

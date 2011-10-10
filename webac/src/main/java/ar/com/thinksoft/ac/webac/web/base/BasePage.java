@@ -8,7 +8,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.IPageLink;
 
-import ar.com.thinksoft.ac.webac.web.Context;
+import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.configuracion.ConfiguracionPage;
 import ar.com.thinksoft.ac.webac.web.download.DownloadPage;
@@ -43,7 +43,7 @@ public abstract class BasePage extends WebPage {
 			add(logout);
 			add(login);
 
-			if (Context.getInstance().isUserSignedIn()) {
+			if (((AccionCiudadanaSession)getSession()).isSignedIn()) {
 				login.setVisible(false);
 				logout.setVisible(true);
 			} else {
@@ -56,7 +56,7 @@ public abstract class BasePage extends WebPage {
 
 	private Component userNameComponent() {
 		try {
-			String username = Context.getInstance().getUsuario().getNombreUsuario();
+			String username = ((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario();
 			return new Label("username", "Usuario: "+ username);
 		} catch (NullPointerException e) {
 
