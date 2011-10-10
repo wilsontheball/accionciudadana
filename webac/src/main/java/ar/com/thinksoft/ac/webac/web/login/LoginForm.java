@@ -148,7 +148,7 @@ public class LoginForm extends Form<Void> {
 
 		try {
 			Usuario usuario = login.login();
-			((AccionCiudadanaSession)getSession()).setUsuario(usuario);
+			((AccionCiudadanaSession)getSession()).login(usuario);
 			setResponsePage(HomePage.class);
 		} catch (UserNotFoundException e) {
 			if (!login.isUsuarioExistente())

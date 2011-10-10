@@ -36,5 +36,11 @@ public class AccionCiudadanaSession extends AuthenticatedWebSession {
 	public boolean authenticate(String username, String password) {
 		return this.usuario != null;
 	}
+	
+	public void login(Usuario usuario){
+		this.setUsuario(usuario);
+		this.signIn(true);
+		
+	}
 
 }
