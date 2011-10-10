@@ -17,8 +17,7 @@ public class AccionCiudadanaSession extends AuthenticatedWebSession {
 
 	@Override
 	public Roles getRoles() {
-		Roles roles = new Roles("ADMIN");
-		return roles;
+		return this.usuario.getRoles();
 	}
 
 	public Usuario getUsuario() {
@@ -29,8 +28,10 @@ public class AccionCiudadanaSession extends AuthenticatedWebSession {
 		this.usuario = usuario;
 	}
 
+	@Override
 	public boolean authenticate(String username, String password) {
-		return true;
+		return this.usuario != null;
 	}
+
 
 }

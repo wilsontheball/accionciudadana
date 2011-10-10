@@ -17,7 +17,7 @@ public class UsuarioFactory {
 
 	public Usuario construirOperador() {
 		Usuario usuario = this.crearUsuario();
-		usuario.addRole("OPERARIO");
+		usuario.addRole("OPERADOR");
 		return usuario;
 	}
 
