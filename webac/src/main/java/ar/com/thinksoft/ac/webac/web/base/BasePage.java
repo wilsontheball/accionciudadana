@@ -27,6 +27,8 @@ public abstract class BasePage extends WebPage {
 			setResponsePage(LoginPage.class);
 		} else {
 */
+		
+			
 			add(CSSPackageResource.getHeaderContribution(BasePage.class,"../css/BasePage.css"));
 			add(CSSPackageResource.getHeaderContribution(BasePage.class,"../css/jquery-ui.css"));
 			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/jquery.js"));

@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.webac.usuario;
 
-import org.apache.wicket.authroles.authorization.strategies.role.Roles;
+
+import org.apache.wicket.authorization.strategies.role.Roles;
 
 import ar.com.thinksoft.ac.intac.IUsuario;
 

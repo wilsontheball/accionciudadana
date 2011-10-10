@@ -1,7 +1,7 @@
 package ar.com.thinksoft.ac.webac;
 
-import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
-import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
 
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
@@ -34,12 +34,13 @@ public class WicketApplication extends AuthenticatedWebApplication {
 	/**
 	 * @see org.apache.wicket.Application#getHomePage()
 	 */
-	public Class<LoginPage> getHomePage() {
-		return LoginPage.class;
+	public Class<? extends WebPage> getHomePage() {
+		return HomePage.class;
 	}
 
 	@Override
 	protected void init() {
+		super.init();
 		getResourceSettings()
 				.setAddLastModifiedTimeToResourceReferenceUrl(true);
 		getDebugSettings().setAjaxDebugModeEnabled(false);
@@ -55,11 +56,10 @@ public class WicketApplication extends AuthenticatedWebApplication {
 		mountBookmarkablePage("Registro", RegistroPage.class);
 		mountBookmarkablePage("Usuarios", UsuarioPage.class);
 		mountBookmarkablePage("UsuarioNuevo", UsuarioNuevoPage.class);
-
 	}
 
 	@Override
-	protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass() {
+	protected Class<? extends AuthenticatedWebSession> getWebSessionClass() {
 		return AccionCiudadanaSession.class;
 	}
 
@@ -67,5 +67,6 @@ public class WicketApplication extends AuthenticatedWebApplication {
 	protected Class<? extends WebPage> getSignInPageClass() {
 		return LoginPage.class;
 	}
+	
 
 }
