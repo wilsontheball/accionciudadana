@@ -7,7 +7,7 @@ import org.apache.wicket.markup.html.JavascriptPackageResource;
 
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 
-@AuthorizeInstantiation({"USER","ADMIN","OPERADOR"})
+@AuthorizeInstantiation({"CIUDADANO","ADMIN","OPERADOR"})
 public class AltaReclamoPage extends BasePage{
 
 	public AltaReclamoPage(final PageParameters parameters) {
