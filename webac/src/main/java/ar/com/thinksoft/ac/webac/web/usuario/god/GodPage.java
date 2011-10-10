@@ -13,6 +13,7 @@ public class GodPage extends BasePage {
 
 	public GodPage() {
 
+		@SuppressWarnings("serial")
 		ObjectSet<Usuario> result = Repository.getInstance().query(
 				new Predicate<Usuario>() {
 

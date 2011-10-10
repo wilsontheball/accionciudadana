@@ -11,37 +11,30 @@
 				<div align="center"><h1>Usuarios</h1> </div>
 			
 				<form wicket:id="form">
-					<ul>
-						<li class="row">
-							<label class="cell left" >Nombre: </label>
-							<input class="cell" type="text" wicket:id="campoBusquedaNombre" />
-						</li>
+				
+				<div class="box">
+							<label class="cell left" >
+								<span>Nombre:</span> 
+								<input class="input-text" type="text" wicket:id="campoBusquedaNombre" />
+							</label>
 						
-						<li class="row">
-							<label class="cell">Apellido: </label>
-							<input class="cell" type="text" wicket:id="campoBusquedaApellido" />
-						</li>
-						
-						
-						<li class="row">
-							<label class="cell">Nombre de Usuario: </label>
-							<input class="cell" type="text" wicket:id="campoBusquedaNombreUsuario" />
-						</li>
-						
-						<li class="row">
-							<input type="submit" wicket:id="botonBuscar" value="Buscar"/>
-							<input type="submit" wicket:id="botonNuevo" value="Nuevo"/>
-						</li>
-					</ul>
-		
+							<label class="cell">
+								<span>Apellido:</span> 
+								<input class="input-text" type="text" wicket:id="campoBusquedaApellido" />
+							</label>
+							
+							<label class="cell">
+								<span>Nombre de Usuario:</span>
+								<input class="input-text" type="text" wicket:id="campoBusquedaNombreUsuario" />
+							</label>
+							
+							<input type="submit"  class="button" wicket:id="botonBuscar" value="Buscar"/>
+							<input type="submit" class="button"  wicket:id="botonNuevo" value="Nuevo"/>
+				</div>
 					<div wicket:id="grid" class="gridContainer"></div>
 					
-					<ul>
-						<li class="row ">
 							<input type="submit" wicket:id="eliminar" value="Eliminar"/>
 							<input type="submit" wicket:id="bloquear" value="Bloquear"/>
-						</li>
-					</ul>
 				</form>
 			</div>
 		</wicket:extend>
