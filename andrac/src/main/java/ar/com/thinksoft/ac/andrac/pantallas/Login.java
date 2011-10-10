@@ -100,7 +100,7 @@ public class Login extends Activity implements ReceptorRest {
 	/**
 	 * Crea la ventana de dialogo. (Se hace de esta forma en Android 2.2)
 	 * 
-	 * @since 10-08-2011
+	 * @since 10-10-2011
 	 * @author Paul
 	 */
 	@Override
@@ -137,12 +137,12 @@ public class Login extends Activity implements ReceptorRest {
 									dialog.cancel();
 									// Vuelve a la ventana anterior.
 									salirDePantalla(funcionAEjecutar,
-											RESULT_CANCELED);
+											RESULT_FIRST_USER);
 								}
 							}).create();
 			break;
 		default:
-			// Dialogo de comun de Error.
+			// Dialogo comun de Error.
 			dialogo = new AlertDialog.Builder(Login.this)
 					.setIcon(R.drawable.alert_dialog_icon)
 					.setTitle(tituloDialogo)
@@ -257,7 +257,7 @@ public class Login extends Activity implements ReceptorRest {
 						// Cierra el dialogo.
 						dialog.cancel();
 						// Vuelve a la ventana enterior.
-						salirDePantalla(funcionAEjecutar, RESULT_CANCELED);
+						salirDePantalla(funcionAEjecutar, RESULT_FIRST_USER);
 					}
 				});
 		this.procesando.setCancelable(false);

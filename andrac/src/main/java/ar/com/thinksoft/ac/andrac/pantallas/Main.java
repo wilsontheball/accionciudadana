@@ -29,15 +29,15 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
  */
 public class Main extends Activity {
 
-	private static final int DIALOGO_LOGIN = 0;
-	private static final int ERROR_CONEXION = 1;
+	private static final int ERROR_CONEXION = -1;
 	private final int INICIAR_RECLAMO = 0;
 	private final int LISTA_RECLAMOS = 1;
 	private final int RECLAMOS_GUARDADOS = 2;
 	private final int PERFIL_USUARIO = 3;
 	private final int REGISTRAR_USUARIO = 4;
 
-	private String[] ventanas = { "Iniciar Reclamo", "Lista Reclamos",
+	// Nombres de los items de la lista.
+	private String[] ventanas = { "Iniciar Reclamo", "Reclamos Enviados",
 			"Reclamos Guardados", "Perfil Usuario", "Registrar Usuario" };
 
 	/**
@@ -82,7 +82,7 @@ public class Main extends Activity {
 	/**
 	 * Captura la respuesta de la ventana Login.
 	 * 
-	 * @since 04-10-2011
+	 * @since 10-10-2011
 	 * @author Paul
 	 */
 	@Override
@@ -99,9 +99,13 @@ public class Main extends Activity {
 				this.mostrarVentanaReclamos();
 			}
 		} else if (resultCode == Activity.RESULT_CANCELED) {
-			Log.i(this.getClass().getName(),
+			Log.e(this.getClass().getName(),
 					"No pudo ejecutar: "
 							+ data.getStringExtra(ServicioRest.FUN));
+			this.mostrarDialogo(ERROR_CONEXION);
+		} else if (resultCode == Activity.RESULT_FIRST_USER) {
+			Log.d(this.getClass().getName(), "Usuario cancelo ejecucion: "
+					+ data.getStringExtra(ServicioRest.FUN));
 		} else {
 			Log.e(this.getClass().getName(),
 					"Resultado de ejecucion no esperado");
@@ -133,27 +137,14 @@ public class Main extends Activity {
 	/**
 	 * Crea ventanas de dialogo. (Se hace de esta forma en Android 2.2)
 	 * 
-	 * @since 23-08-2011
+	 * @since 10-10-2011
 	 * @author Paul
 	 */
-	// TODO Terminar creacion de dialogos!!!!!!!!!!!!!!!!!!
 	@Override
 	protected Dialog onCreateDialog(int tipo) {
 		Dialog unDialog = null;
 		switch (tipo) {
-		case DIALOGO_LOGIN:
-			unDialog = new AlertDialog.Builder(Main.this)
-			// .setIcon(R.drawable.icono)
-			// .setTitle(R.string.login_titulo)
-			// .setMessage(mensageAlerta)
-					.setPositiveButton(R.string.ok,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									finish();
-								}
-							}).create();
-			break;
+
 		case ERROR_CONEXION:
 			unDialog = new AlertDialog.Builder(Main.this)
 					.setIcon(R.drawable.alert_dialog_icon)
@@ -181,6 +172,16 @@ public class Main extends Activity {
 		Intent proceso = new Intent(this, Login.class);
 		proceso.putExtra(ServicioRest.FUN, funcion);
 		this.startActivityForResult(proceso, 0);
+	}
+
+	/**
+	 * Muestra una ventana de dialogo.
+	 * 
+	 * @since 10-10-2011
+	 * @author Paul
+	 */
+	private void mostrarDialogo(int idice) {
+		this.showDialog(idice);
 	}
 
 	/**
