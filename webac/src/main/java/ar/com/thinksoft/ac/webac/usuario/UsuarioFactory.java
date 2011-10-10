@@ -26,6 +26,19 @@ public class UsuarioFactory {
 		usuario.addRole("ADMIN");
 		return usuario;
 	}
+	
+	public Usuario construidGodMode(){
+		Usuario usuario = this.crearUsuario();
+		usuario.setNombre("god");
+		usuario.setApellido("god");
+		usuario.setContrasenia("god");
+		usuario.setNombreUsuario("god");
+		usuario.addRole("ADMIN");
+		usuario.addRole("CIUDADANO");
+		usuario.addRole("OPERADOR");
+		return usuario;
+		
+	}
 
 	// ********************** METODOS PRIVADOS *********************
 

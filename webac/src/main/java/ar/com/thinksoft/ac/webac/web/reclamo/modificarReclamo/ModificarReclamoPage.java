@@ -8,7 +8,7 @@ import org.apache.wicket.markup.html.JavascriptPackageResource;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
-@AuthorizeInstantiation({"USER","ADMIN","OPERADOR"})
+@AuthorizeInstantiation({"CIUDADANO","ADMIN","OPERADOR"})
 public class ModificarReclamoPage extends BasePage{
 
 public ModificarReclamoPage(final PageParameters parameters) {
