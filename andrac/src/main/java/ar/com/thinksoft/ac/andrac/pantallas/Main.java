@@ -16,13 +16,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import ar.com.thinksoft.ac.andrac.R;
+import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
+import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
 import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 
 /**
  * La clase se encarga de manejar la pantalla Home.
  * 
- * @since 01-10-2011
+ * @since 10-10-2011
  * @author Paul
  */
 public class Main extends Activity {
@@ -107,10 +109,10 @@ public class Main extends Activity {
 	}
 
 	/**
-	 * Detecta el evento del boton fisico que cancela la aplicacion. Muestra
-	 * mensaja de cierre y cierra la sesion abierta. Cierra la aplicacion.
+	 * Detecta el evento del boton fisico que cancela la aplicacion. Cierra la
+	 * aplicacion. Otros botones delega para arriba.
 	 * 
-	 * @since 28-08-2011
+	 * @since 10-10-2011
 	 * @author Paul
 	 * @param keyCode
 	 *            Codigo del boton presionado.
@@ -121,11 +123,11 @@ public class Main extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			Toast.makeText(this, R.string.cerrar_aplicacion, Toast.LENGTH_LONG)
-					.show();
-			this.finish();
+			this.salir();
+			return true;
+		} else {
+			return super.onKeyDown(keyCode, event);
 		}
-		return true;
 	}
 
 	/**
@@ -215,14 +217,41 @@ public class Main extends Activity {
 	/**
 	 * Cierra la ventana. Llamado por el boton Salir.
 	 * 
-	 * @since 28-08-2011
+	 * @since 10-10-2011
 	 * @author Paul
 	 * @param v
 	 */
 	public void salir(View v) {
+		this.salir();
+	}
+
+	/**
+	 * Cierra la ventana, borra usuario, muestra mensaje.
+	 * 
+	 * @since 10-10-2011
+	 * @author Paul
+	 * @param v
+	 */
+	private void salir() {
 		Toast.makeText(this, R.string.cerrar_aplicacion, Toast.LENGTH_LONG)
 				.show();
+
+		// Limpia nick y pass.
+		this.getRepo().setNick(null);
+		this.getRepo().setPass(null);
+
 		this.finish();
+	}
+
+	/**
+	 * Devuelve el repositorio.
+	 * 
+	 * @since 22-07-2011
+	 * @author Paul
+	 * @return aplicacion
+	 */
+	private Repositorio getRepo() {
+		return ((Aplicacion) this.getApplication()).getRepositorio();
 	}
 
 	/**

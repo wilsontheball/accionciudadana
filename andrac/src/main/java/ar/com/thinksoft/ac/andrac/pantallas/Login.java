@@ -26,7 +26,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * Pantalla transparente que maneja los servicios y pide autentificacion.
  * 
- * @since 07-10-2011
+ * @since 10-10-2011
  * @author Paul
  * 
  */
@@ -333,16 +333,36 @@ public class Login extends Activity implements ReceptorRest {
 	}
 
 	/**
+	 * Para servicio al cerrar la ventana.
+	 * 
+	 * @since 10-10-2011
+	 * @author Paul
+	 */
+	private void pararServicio() {
+		// Termina una conexion.
+		if (this.servicioRest != null) {
+			boolean resultado = this.stopService(this.servicioRest);
+			Log.d(this.getClass().getName(),
+					"Stop Service (por las buenas), con resultado (boolean): "
+							+ resultado);
+		} else {
+			Intent svc = new Intent(this, ServicioRest.class);
+			boolean resultado = stopService(svc);
+			Log.d(this.getClass().getName(),
+					"Stop Service (por la malas), con resultado (boolean): "
+							+ resultado);
+		}
+	}
+
+	/**
 	 * Cierra la ventana.
 	 * 
 	 * @param funcion
 	 * @param codigoResultado
 	 */
 	private void salirDePantalla(String funcion, int codigoResultado) {
-		// Termina una conexion. Cuando la hay, no hace nada.
-		if (this.servicioRest != null) {
-			this.stopService(this.servicioRest);
-		}
+		this.pararServicio();
+
 		// Carga la devolucion.
 		Intent resultado = new Intent();
 		resultado.putExtra(ServicioRest.FUN, funcion);
