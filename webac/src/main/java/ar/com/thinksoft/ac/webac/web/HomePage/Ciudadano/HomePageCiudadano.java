@@ -62,7 +62,7 @@ public class HomePageCiudadano extends BasePage{
 		map.setScrollWheelZoomEnabled(true);
 		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
 		for(IReclamo reclamo : listReclamos){
-			if(reclamo.getCiudadanoGeneradorReclamo().equals(Context.getInstance().getUsuario().getNombreUsuario()) && reclamo.isNotDown()){
+			if(reclamo.getCiudadanoGeneradorReclamo().equals(((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario()) && reclamo.isNotDown()){
 				double latitud = Double.valueOf(reclamo.getLatitudIncidente());
 				double longitud = Double.valueOf(reclamo.getLongitudIncidente());
 				map.addOverlay(new GMarker(new GLatLng(latitud,longitud)));
