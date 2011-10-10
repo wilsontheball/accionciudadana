@@ -13,9 +13,9 @@ import wicket.contrib.gmap.GMap2;
 import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.api.GMarker;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
 import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
-import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
@@ -78,7 +78,7 @@ public class HomePageCiudadano extends BasePage{
 		List<IReclamo> listCiudadano = new ArrayList<IReclamo>();
 		
 		for(IReclamo reclamo : listReclamos){
-			if(reclamo.getCiudadanoGeneradorReclamo().equals(Context.getInstance().getUsuario().getNombreUsuario()) && reclamo.isNotDown())
+			if(reclamo.getCiudadanoGeneradorReclamo().equals(((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario()) && reclamo.isNotDown())
 				listCiudadano.add(reclamo);
 		}
 		
@@ -195,7 +195,7 @@ public class HomePageCiudadano extends BasePage{
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerTodosReclamos();
 		List<IReclamo> listaDevolucion = new ArrayList<IReclamo>();
 		for(int i = lista.size()-1 ;i>=0;i--){
-			if(lista.get(i).getCiudadanoGeneradorReclamo().equals(Context.getInstance().getUsuario().getNombreUsuario()))
+			if(lista.get(i).getCiudadanoGeneradorReclamo().equals(((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario()))
 				listaDevolucion.add(lista.get(i));
 		}
 		return listaDevolucion;

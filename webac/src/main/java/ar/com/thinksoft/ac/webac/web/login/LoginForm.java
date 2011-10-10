@@ -112,10 +112,10 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 
+import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
 import ar.com.thinksoft.ac.webac.login.Login;
 import ar.com.thinksoft.ac.webac.login.exceptions.UserNotFoundException;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
-import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 
 public class LoginForm extends Form<Void> {
@@ -148,7 +148,7 @@ public class LoginForm extends Form<Void> {
 
 		try {
 			Usuario usuario = login.login();
-			Context.getInstance().setUsuario(usuario);
+			((AccionCiudadanaSession)getSession()).setUsuario(usuario);
 			setResponsePage(HomePage.class);
 		} catch (UserNotFoundException e) {
 			if (!login.isUsuarioExistente())

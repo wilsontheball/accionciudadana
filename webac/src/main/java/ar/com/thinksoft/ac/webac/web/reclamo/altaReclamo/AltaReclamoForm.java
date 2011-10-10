@@ -18,16 +18,15 @@ import org.apache.wicket.model.Model;
 
 import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.util.Geocoder;
-
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
-import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 
 @SuppressWarnings("serial")
@@ -113,8 +112,8 @@ public class AltaReclamoForm extends Form<Reclamo> {
 							reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
 							img.deleteImage();
 						}
-						reclamo.setCiudadanoGeneradorReclamo(Context.getInstance().getUsuario().getNombreUsuario());
-						reclamo.setMailCiudadanoGeneradorReclamo(Context.getInstance().getUsuario().getMail());
+						reclamo.setCiudadanoGeneradorReclamo(((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario());
+						reclamo.setMailCiudadanoGeneradorReclamo(((AccionCiudadanaSession)getSession()).getUsuario().getMail());
 						Date fecha = new Date();
 						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 						reclamo.setFechaReclamo(formato.format(fecha));
@@ -179,7 +178,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 
 			@Override
 			public String getObject() {
-				return Context.getInstance().getUsuario().getNombreUsuario();
+				return ((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario();
 			}
 
 			@Override

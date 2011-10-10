@@ -67,11 +67,6 @@ public class RegistroForm extends Form<Usuario> {
 		return model.bind(property);
 	}
 
-	private IModel<Long> createLongBind(CompoundPropertyModel<Usuario> model,
-			String property) {
-		return model.bind(property);
-	}
-
 	private IModel<String> createRePasswordModel() {
 		return new IModel<String>() {
 

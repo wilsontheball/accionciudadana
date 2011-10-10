@@ -21,20 +21,19 @@ import org.apache.wicket.model.Model;
 
 import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.util.Geocoder;
-
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorUUID;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
-import ar.com.thinksoft.ac.webac.web.Context;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
 @SuppressWarnings("serial")
@@ -213,7 +212,7 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 	 * TODO: Implementar con los permisos de modificacion de estado
 	 */
 	private boolean isPermitido() {
-		return Context.getInstance().getUsuario().getNombreUsuario().equals("administrator");
+		return ((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario().equals("administrator");
 	}
 	
 	private IModel<String> createBind(CompoundPropertyModel<Reclamo> model,String property){

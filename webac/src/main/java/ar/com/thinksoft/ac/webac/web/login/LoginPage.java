@@ -6,7 +6,7 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.IPageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
-import ar.com.thinksoft.ac.webac.web.Context;
+import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 import ar.com.thinksoft.ac.webac.web.registro.RegistroPage;
@@ -17,7 +17,7 @@ public class LoginPage extends BasePage {
 
 		add(CSSPackageResource.getHeaderContribution(LoginPage.class,
 				"../css/LoginPage.css"));
-		if (Context.getInstance().getUsuario() != null)
+		if (((AccionCiudadanaSession)getSession()).getUsuario() != null)
 			setResponsePage(HomePage.class);
 		else {
 			add(new FeedbackPanel("feedback"));

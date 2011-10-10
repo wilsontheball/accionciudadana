@@ -1,6 +1,5 @@
 package ar.com.thinksoft.ac.webac.usuario;
 
-
 /**
  * 
  * @author Wilson
@@ -11,42 +10,28 @@ package ar.com.thinksoft.ac.webac.usuario;
 public class UsuarioFactory {
 
 	public Usuario construirCiudadano() {
-		Usuario usuario = this.construirUsuarioComun();
+		Usuario usuario = this.crearUsuario();
+		usuario.addRole("CIUDADANO");
 		return usuario;
 	}
 
 	public Usuario construirOperador() {
-		Usuario usuario = this.construirAministrativo();
+		Usuario usuario = this.crearUsuario();
+		usuario.addRole("OPERADOR");
 		return usuario;
 	}
 
 	public Usuario construirAdministrador() {
-		Usuario usuario = this.construirAministrativo();
+		Usuario usuario = this.crearUsuario();
+		usuario.addRole("ADMIN");
 		return usuario;
 	}
 
 	// ********************** METODOS PRIVADOS *********************
 
-	/**
-	 * Construye un administrativo que es un usuario comun con los permisos
-	 * propios de un administrativo
-	 */
-	private Usuario construirAministrativo() {
-		Usuario usuario = this.construirUsuarioComun();
-		return usuario;
-	}
-
 	private Usuario crearUsuario() {
 		return new Usuario();
 	}
 
-	/**
-	 * Construye un usuario base con los permisos comunes
-	 */
-	private Usuario construirUsuarioComun() {
-
-		Usuario usuario = this.crearUsuario();
-		return usuario;
-	}
 	
 }
