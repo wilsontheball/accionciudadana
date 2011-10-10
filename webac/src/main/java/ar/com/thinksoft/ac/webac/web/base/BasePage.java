@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.webac.web.base;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.WebPage;
@@ -68,7 +69,11 @@ public abstract class BasePage extends WebPage {
 		add(new BookmarkablePageLink<IPageLink>("homeLink", HomePage.class));
 		add(new BookmarkablePageLink<IPageLink>("altaReclamoLink",AltaReclamoPage.class));
 		add(new BookmarkablePageLink<IPageLink>("busquedaReclamoLink",BusquedaReclamoPage.class));
-		add(new BookmarkablePageLink<IPageLink>("usuariosLink", UsuarioPage.class));
+		
+		BookmarkablePageLink<IPageLink> usuarioLink = new BookmarkablePageLink<IPageLink>("usuariosLink", UsuarioPage.class);
+		MetaDataRoleAuthorizationStrategy.authorize(usuarioLink, RENDER, "ADMIN");
+		add(usuarioLink);
+		
 		add(new BookmarkablePageLink<IPageLink>("downloadLink", DownloadPage.class));
 		add(new BookmarkablePageLink<IPageLink>("configLink",ConfiguracionPage.class));
 
