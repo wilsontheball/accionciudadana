@@ -44,7 +44,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * Maneja creacion de un reclamo.
  * 
- * @since 09-10-2011
+ * @since 10-10-2011
  * @author Hernan
  */
 public class IniciarReclamo extends Activity implements LocationListener {
@@ -119,7 +119,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	/**
 	 * Atiende resultados de ejecucion tanto de la Camara como de Login.
 	 * 
-	 * @since 07-10-2011
+	 * @since 10-10-2011
 	 * @author Paul
 	 */
 	@Override
@@ -151,7 +151,8 @@ public class IniciarReclamo extends Activity implements LocationListener {
 						"No se sabe quien devolvio RESULT_OK");
 			}
 
-		} else if (resultCode == Activity.RESULT_CANCELED) {
+		} else if (resultCode == Activity.RESULT_CANCELED
+				|| resultCode == Activity.RESULT_FIRST_USER) {
 			// Resultado devuelto el CANCELED.
 			if (FuncionRest.POSTRECLAMO.equals(data
 					.getStringExtra(ServicioRest.FUN))) {

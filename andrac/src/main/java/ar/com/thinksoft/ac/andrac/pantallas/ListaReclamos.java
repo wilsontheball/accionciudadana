@@ -22,15 +22,12 @@ import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 /**
  * La clase se encarga de manejar el listado de reclamos realizados por usuario.
  * 
- * @since 25-09-2011
+ * @since 10-10-2011
  * @author Paul
  */
 public class ListaReclamos extends Activity {
 	// Codigo de error
 	private final int ERROR = -1;
-
-	// Mensaje de error
-	private String mensajeError = "Error!";
 
 	// Almacena reclamo para mostrar su detalle
 	private Reclamo reclamo = null;
@@ -80,47 +77,9 @@ public class ListaReclamos extends Activity {
 	}
 
 	/**
-	 * Cierra la ventana. Llamado por el boton Cancelar.
-	 * 
-	 * @since 06-08-2011
-	 * @author Paul
-	 * @param v
-	 */
-	public void salir(View v) {
-		this.finish();
-	}
-
-	/**
-	 * Devuelve el Repositorio
-	 * 
-	 * @since 22-07-2011
-	 * @author Paul
-	 * @return repositorio
-	 */
-	private Repositorio getRepo() {
-		return ((Aplicacion) this.getApplication()).getRepositorio();
-	}
-
-	/**
-	 * Muestra una ventana de dialogo con el detalle de reclamo.
-	 * 
-	 * @since 23-08-2011
-	 * @author Paul
-	 */
-	public void mostrarDialogo(int posicion) {
-		Reclamo reclamo = reclamos[posicion];
-		if (reclamo != null) {
-			this.reclamo = reclamo;
-			this.showDialog(posicion);
-		} else {
-			this.showDialog(1);
-		}
-	}
-
-	/**
 	 * Crea la ventana de Dialogo. (Se hace de esta forma en Android 2.2)
 	 * 
-	 * @since 23-08-2011
+	 * @since 10-10-2011
 	 * @author Paul
 	 */
 	@Override
@@ -132,7 +91,7 @@ public class ListaReclamos extends Activity {
 			return new AlertDialog.Builder(ListaReclamos.this)
 					.setIcon(R.drawable.alert_dialog_icon)
 					.setTitle(R.string.advertencia)
-					.setMessage(this.mensajeError)
+					.setMessage(R.string.error_inesperado)
 					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -158,6 +117,52 @@ public class ListaReclamos extends Activity {
 		}
 	}
 
+	/**
+	 * Cierra la ventana. Llamado por el boton Cancelar.
+	 * 
+	 * @since 06-08-2011
+	 * @author Paul
+	 * @param v
+	 */
+	public void salir(View v) {
+		this.finish();
+	}
+
+	/**
+	 * Devuelve el Repositorio
+	 * 
+	 * @since 22-07-2011
+	 * @author Paul
+	 * @return repositorio
+	 */
+	private Repositorio getRepo() {
+		return ((Aplicacion) this.getApplication()).getRepositorio();
+	}
+
+	/**
+	 * Muestra una ventana de dialogo con el detalle de reclamo.
+	 * 
+	 * @since 10-10-2011
+	 * @author Paul
+	 */
+	private void mostrarDialogo(int posicion) {
+		Reclamo reclamo = reclamos[posicion];
+		if (reclamo != null) {
+			this.reclamo = reclamo;
+			this.showDialog(posicion);
+		} else {
+			this.showDialog(ERROR);
+		}
+	}
+
+	/**
+	 * Obtene ID del icono por nombre de archivo.
+	 * 
+	 * @since 23-08-2011
+	 * @author Paul
+	 * @param estadoOriginal
+	 * @return
+	 */
 	private int obtenerIcono(String estadoOriginal) {
 		try {
 			String estado = this.limpiarCadena(estadoOriginal);
@@ -170,6 +175,15 @@ public class ListaReclamos extends Activity {
 		}
 	}
 
+	/**
+	 * Convierte una cadena a formato de un nombre de archivo (solo minusculas
+	 * sin espacios).
+	 * 
+	 * @since 23-08-2011
+	 * @author Paul
+	 * @param s
+	 * @return
+	 */
 	private String limpiarCadena(String s) {
 		StringTokenizer st = new StringTokenizer(s.toLowerCase().trim(), " ",
 				false);
@@ -179,12 +193,21 @@ public class ListaReclamos extends Activity {
 		return t;
 	}
 
+	/**
+	 * Arma el resumen de detalle de un reclamo.
+	 * 
+	 * @since 10-10-2011
+	 * @author Paul
+	 * @param reclamo
+	 * @return
+	 */
 	private String armarResumen(Reclamo reclamo) {
 
 		String resumen = reclamo.getTipoIncidente() + "\n"
+				+ reclamo.getBarrioIncidente() + "\n"
 				+ reclamo.getCalleIncidente() + " "
 				+ reclamo.getAlturaIncidente() + "\n"
-				+ reclamo.getFechaReclamo();
+				+ reclamo.getFechaReclamo() + "\n" + reclamo.getObservaciones();
 		return resumen;
 
 	}

@@ -19,7 +19,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * La clase se encarga de manejar la pantalla de Registro.
  * 
- * @since 08-10-2011
+ * @since 10-10-2011
  * @author Paul
  */
 public class Registro extends Activity {
@@ -105,20 +105,27 @@ public class Registro extends Activity {
 	/**
 	 * Captura la respuesta de la ventana Login.
 	 * 
-	 * @since 08-10-2011
+	 * @since 10-10-2011
 	 * @author Paul
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == Activity.RESULT_OK) {
+			// Se envio el registro exitosamente.
 			Log.d(this.getClass().getName(),
 					"Se ejecuto: " + data.getStringExtra(ServicioRest.FUN));
 			this.mostrarDialogo(REGISTRO_EXITOSO);
 		} else if (resultCode == Activity.RESULT_CANCELED) {
+			// Fallo el envio de registro.
+			this.mostrarDialogo(REGISTRO_FALLO);
 			Log.e(this.getClass().getName(),
 					"Fallo al ejecutar: "
 							+ data.getStringExtra(ServicioRest.FUN));
+		} else if (resultCode == Activity.RESULT_FIRST_USER) {
+			// Usuario cancelo el registro.
+			Log.d(this.getClass().getName(), "Usuario cancelo ejecucion: "
+					+ data.getStringExtra(ServicioRest.FUN));
 		} else {
 			Log.e(this.getClass().getName(),
 					"Resultado de ejecucion no esperado");
