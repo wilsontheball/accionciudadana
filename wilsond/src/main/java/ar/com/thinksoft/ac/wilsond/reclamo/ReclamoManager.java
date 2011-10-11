@@ -3,11 +3,16 @@ package ar.com.thinksoft.ac.wilsond.reclamo;
 import java.util.ArrayList;
 import java.util.List;
 
+import wicket.contrib.gmap.api.GLatLng;
+
 import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
+import ar.com.thinksoft.ac.wilsond.GeocoderChild;
 import ar.com.thinksoft.ac.wilsond.Repositorio.Repositorio;
+import ar.com.thinksoft.ac.wilsond.configuracion.ConfiguracionWilsonD;
+import ar.com.thinksoft.ac.wilsond.log.LogManager;
 import ar.com.thinksoft.ac.wilsond.mail.MailWilsonD;
 
 public class ReclamoManager {
@@ -118,11 +123,44 @@ public class ReclamoManager {
 			IReclamo reclamo = new Reclamo();
 			reclamo.setId();
 			
-			reclamo.setCalleIncidente(reclamoAndroid.getCalleIncidente());
-			reclamo.setAlturaIncidente(reclamoAndroid.getAlturaIncidente());
+			GeocoderChild geocoder = new GeocoderChild(ConfiguracionWilsonD.getInstance().getGoogleKey());
 			
-			reclamo.setLatitudIncidente(reclamoAndroid.getLatitudIncidente());
-			reclamo.setLongitudIncidente(reclamoAndroid.getLongitudIncidente());
+			if(reclamoAndroid.getCalleIncidente()!=null & reclamoAndroid.getAlturaIncidente()!=null){
+				reclamo.setCalleIncidente(reclamoAndroid.getCalleIncidente());
+				reclamo.setAlturaIncidente(reclamoAndroid.getAlturaIncidente());
+				
+				//geoconding: calle a coordenadas
+				GLatLng coordenadas = null;
+				Double latitud,longitud;
+				String direccion = reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + ",Capital Federal";
+				try {
+					 coordenadas = geocoder.geocode(direccion);
+					 latitud = coordenadas.getLat();
+					 longitud = coordenadas.getLng();
+					 reclamo.setLatitudIncidente(latitud.toString());
+					 reclamo.setLongitudIncidente(longitud.toString());
+				} catch (Exception e) {
+					LogManager.getInstance(ReclamoManager.class).error("Problema al generar coordenadas. Detalle: " + e);
+					throw new Exception("No se pudo crear reclamo" + e.getMessage());
+				}
+			}
+			
+			if(reclamoAndroid.getLatitudIncidente()!=null && reclamoAndroid.getLongitudIncidente()!=null){
+				reclamo.setLatitudIncidente(reclamoAndroid.getLatitudIncidente());
+				reclamo.setLongitudIncidente(reclamoAndroid.getLongitudIncidente());
+			
+				//geoconding: coordenadas a calle
+				String coordenadas = reclamo.getLatitudIncidente() + "," + reclamo.getLongitudIncidente();
+				try{
+					String[] direccionFinal = geocoder.geocodeCoordenadas(coordenadas);
+					reclamo.setCalleIncidente(direccionFinal[0]);
+					reclamo.setAlturaIncidente(direccionFinal[1]);
+					
+				}catch(Exception e){
+					LogManager.getInstance(ReclamoManager.class).error("Problema al generar calle y altura. Detalle: " + e);
+					throw new Exception("No se pudo crear reclamo" + e.getMessage());
+				}
+			}
 			
 			reclamo.setFechaReclamo(reclamoAndroid.getFechaReclamo());
 			reclamo.setFechaUltimaModificacionReclamo(reclamoAndroid.getFechaUltimaModificacionReclamo());
@@ -133,7 +171,7 @@ public class ReclamoManager {
 			reclamo.setObservaciones(reclamoAndroid.getObservaciones());
 			
 			reclamo.setTipoIncidente(reclamoAndroid.getTipoIncidente());
-			reclamo.cambiarEstado(EnumEstadosReclamo.activo.getEstado());
+			reclamo.setEstadoDescripcion(EnumEstadosReclamo.activo.getEstado());
 			
 			reclamo.setBarrioIncidente(reclamoAndroid.getBarrioIncidente());
 			reclamo.setComunaIncidentePorBarrio(reclamoAndroid.getBarrioIncidente());
@@ -147,5 +185,7 @@ public class ReclamoManager {
 		}
 		
 	}
+	
+	
 
 }

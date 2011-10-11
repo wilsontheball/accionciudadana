@@ -38,7 +38,7 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Se encarga de correr en 2do plano todas las funciones de conexion a servidor.
  * 
- * @since 08-10-2011
+ * @since 10-10-2011
  * @author Paul
  */
 public class ServicioRest extends IntentService {
@@ -166,7 +166,7 @@ public class ServicioRest extends IntentService {
 	/**
 	 * Manda un reclamo al servidor Rest.
 	 * 
-	 * @since 08-10-2011
+	 * @since 10-10-2011
 	 * @author Paul
 	 * @param url
 	 *            URL del servidor.
@@ -178,7 +178,8 @@ public class ServicioRest extends IntentService {
 	private HttpResponse postReclamo(String url, String nick, String pass,
 			Reclamo reclamo) throws ClientProtocolException, IOException {
 
-		this.completarUbicacion(reclamo);
+		// XXX Completa datos faltantes
+		// this.completarUbicacion(reclamo);
 
 		StringEntity entidad = new StringEntity(new Gson().toJson(reclamo));
 		Header header = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");

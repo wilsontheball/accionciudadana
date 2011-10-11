@@ -109,6 +109,8 @@ public interface IReclamo extends Serializable{
 	public  void demorar() throws Exception;
 	
 	public  void terminar() throws Exception;
+
+	public void setEstadoDescripcion(String estado);
 	
 }
 
