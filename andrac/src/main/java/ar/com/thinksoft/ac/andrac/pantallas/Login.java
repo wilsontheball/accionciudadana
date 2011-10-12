@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 import ar.com.thinksoft.ac.andrac.R;
@@ -26,15 +29,19 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * Pantalla transparente que maneja los servicios y pide autentificacion.
  * 
- * @since 10-10-2011
+ * @since 12-10-2011
  * @author Paul
  * 
  */
 public class Login extends Activity implements ReceptorRest {
+
 	private static final int LOGIN = 0;
 	private static final int LOGIN_FAIL = 1;
 	private static final int SERVER_ERROR = 2;
 	private static final int CAMPOS_VACIOS = 3;
+
+	private static final String ANDRAC_NICK = "andrac_nick";
+	private static final String ANDRAC_PASS = "andrac_pass";
 
 	// Almacena titulo de la ventana de alerta
 	private String tituloDialogo = "";
@@ -45,6 +52,7 @@ public class Login extends Activity implements ReceptorRest {
 
 	private EditText campoNick;
 	private EditText campoPass;
+	private CheckBox checkPreferencias;
 
 	private Intent servicioRest;
 	private ReceptorResultados receptor;
@@ -100,7 +108,7 @@ public class Login extends Activity implements ReceptorRest {
 	/**
 	 * Crea la ventana de dialogo. (Se hace de esta forma en Android 2.2)
 	 * 
-	 * @since 10-10-2011
+	 * @since 12-10-2011
 	 * @author Paul
 	 */
 	@Override
@@ -115,6 +123,8 @@ public class Login extends Activity implements ReceptorRest {
 					(ViewGroup) findViewById(R.id.login_dialogo));
 			campoNick = (EditText) layout.findViewById(R.id.nick);
 			campoPass = (EditText) layout.findViewById(R.id.pass);
+			checkPreferencias = (CheckBox) layout
+					.findViewById(R.id.guardar_pass);
 			dialogo = new AlertDialog.Builder(Login.this)
 					.setCancelable(false)
 					.setIcon(R.drawable.lock)
@@ -125,6 +135,12 @@ public class Login extends Activity implements ReceptorRest {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
 									setDatosLogin(getNick(), getPass());
+									if (isGuardarPass()) {
+										guardarPreferencias(getNick(),
+												getPass());
+									} else {
+										guardarPreferencias(null, null);
+									}
 									ejecutarFuncion(funcionAEjecutar);
 									dialog.cancel();
 								}
@@ -133,6 +149,7 @@ public class Login extends Activity implements ReceptorRest {
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
+									setDatosLogin(null, null);
 									// Cierra dialogo.
 									dialog.cancel();
 									// Vuelve a la ventana anterior.
@@ -163,6 +180,23 @@ public class Login extends Activity implements ReceptorRest {
 	}
 
 	/**
+	 * Actualiza la ventana de dialogo antes de mostrarla.
+	 * 
+	 * @since 12-10-2011
+	 * @author Paul
+	 */
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		switch (id) {
+		case LOGIN:
+			mostrarNickPass();
+			break;
+		default:
+			break;
+		}
+	}
+
+	/**
 	 * Atiende los resultados de los servicios REST.
 	 * 
 	 * @since 28-09-2011
@@ -184,6 +218,9 @@ public class Login extends Activity implements ReceptorRest {
 			this.salirDePantalla(funcion, RESULT_OK);
 			break;
 		case ServicioRest.ERROR:
+			// Limpia nick y pass.
+			this.setDatosLogin(null, null);
+
 			// Servicio Fallo: Cierra dialogo procesando.
 			this.cerrarProcesando();
 			// Vuelve a la ventana anterior.
@@ -203,7 +240,6 @@ public class Login extends Activity implements ReceptorRest {
 		switch (codigo) {
 		case LOGIN:
 			this.tituloDialogo = getString(R.string.login_titulo);
-			this.mensageDialogo = getString(R.string.login_sub_titulo);
 			this.showDialog(codigo);
 			break;
 		case LOGIN_FAIL:
@@ -254,6 +290,8 @@ public class Login extends Activity implements ReceptorRest {
 		this.procesando.setButton(getString(R.string.cancelar),
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
+						// Limpia nick y pass.
+						setDatosLogin(null, null);
 						// Cierra el dialogo.
 						dialog.cancel();
 						// Vuelve a la ventana enterior.
@@ -322,7 +360,60 @@ public class Login extends Activity implements ReceptorRest {
 	}
 
 	/**
-	 * Alamcena los datos de Login para no tener que pedirlos en cada operacion.
+	 * Obtiene usuario y pass guardados en el registro del telefono.
+	 * 
+	 * @since 11-10-2011
+	 * @author Paul
+	 */
+	private void obtenerPreferencias() {
+		SharedPreferences preferencias = getPreferences(MODE_PRIVATE);
+		this.getRepo().setNick(preferencias.getString(ANDRAC_NICK, null));
+		this.getRepo().setPass(preferencias.getString(ANDRAC_PASS, null));
+
+		Log.d(this.getClass().getName(), "Obtener prefs: "
+				+ this.getRepo().getNick() + " " + this.getRepo().getPass());
+	}
+
+	/**
+	 * Guarda usuario y pass en el registro del telefo.
+	 * 
+	 * @since 11-10-2011
+	 * @author Paul
+	 */
+	private void guardarPreferencias(String nick, String pass) {
+		SharedPreferences preferencias = getPreferences(MODE_PRIVATE);
+		Editor editor = preferencias.edit();
+		editor.putString(ANDRAC_NICK, nick);
+		editor.putString(ANDRAC_PASS, pass);
+		editor.commit();
+
+		Log.d(this.getClass().getName(), "Guardar prefs: " + nick + " " + pass);
+	}
+
+	/**
+	 * Muestra usuario y pass en en dialog de Login.
+	 * 
+	 * @since 11-10-2011
+	 * @author Paul
+	 */
+	private void mostrarNickPass() {
+
+		// Obtiene los valores del registro.
+		this.obtenerPreferencias();
+
+		// Muestra los valores.
+		if (this.getRepo().getNick() != null
+				&& this.getRepo().getPass() != null) {
+			this.setNick(this.getRepo().getNick());
+			this.setPass(this.getRepo().getPass());
+			this.setGuardarPass(true);
+		} else {
+			this.setGuardarPass(false);
+		}
+	}
+
+	/**
+	 * Almacena los datos de Login para no tener que pedirlos en cada operacion.
 	 * 
 	 * @param usuario
 	 * @param password
@@ -370,7 +461,16 @@ public class Login extends Activity implements ReceptorRest {
 		this.finish();
 	}
 
-	// Getters y setters
+	/* *********** Getters y setters ************ */
+
+	private boolean isGuardarPass() {
+		return this.checkPreferencias.isChecked();
+	}
+
+	private void setGuardarPass(boolean valor) {
+		this.checkPreferencias.setChecked(valor);
+	}
+
 	private void setNick(String text) {
 		this.campoNick.setText(text);
 	}
