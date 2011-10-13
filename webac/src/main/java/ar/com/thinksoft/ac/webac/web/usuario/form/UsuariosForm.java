@@ -21,6 +21,7 @@ import ar.com.thinksoft.ac.webac.web.usuario.alta.UsuarioNuevoPage;
 
 import com.inmethod.grid.DataProviderAdapter;
 import com.inmethod.grid.IGridColumn;
+import com.inmethod.grid.SizeUnit;
 import com.inmethod.grid.column.PropertyColumn;
 import com.inmethod.grid.datagrid.DefaultDataGrid;
 
@@ -155,17 +156,40 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 	private List<IGridColumn> crearColumnas() {
 		List<IGridColumn> columnas = new ArrayList<IGridColumn>();
 
-		columnas.add(new PropertyColumn("apellido", new Model<String>(
-				"Apellido"), "apellido"));
-		columnas.add(new PropertyColumn("nombre", new Model<String>("Nombre"),
-				"nombre"));
-		columnas.add(new PropertyColumn("nombreUsuario", new Model<String>(
-				"Nombre de Usuario"), "nombreUsuario"));
-		columnas.add(new PropertyColumn("dni", new Model<String>("DNI"), "dni"));
-		columnas.add(new PropertyColumn("mail", new Model<String>("E-Mail"),
-				"mail"));
-		columnas.add(new PropertyColumn("telefono", new Model<String>(
-				"Telefono"), "telefono"));
+		columnas.add(new PropertyColumn("apellido", new Model<String>("Apellido"), "apellido").setInitialSize(200)
+																							  .setResizable(true)
+																							  .setWrapText(true)
+																							  .setReorderable(true)
+																							  .setSizeUnit(SizeUnit.PX));
+		
+		columnas.add(new PropertyColumn("nombre", new Model<String>("Nombre"),"nombre").setInitialSize(200)
+																					   .setResizable(true)
+																					   .setWrapText(true)
+																					   .setReorderable(true)
+																					   .setSizeUnit(SizeUnit.PX));
+		
+		columnas.add(new PropertyColumn("nombreUsuario", new Model<String>("Nombre de Usuario"), "nombreUsuario").setInitialSize(200)
+																												 .setResizable(true)
+																												 .setWrapText(true)
+																												 .setReorderable(true)
+																												 .setSizeUnit(SizeUnit.PX));
+		columnas.add(new PropertyColumn("dni", new Model<String>("DNI"), "dni").setInitialSize(80)
+																			   .setResizable(true)
+																			   .setWrapText(true)
+																			   .setReorderable(true)
+																			   .setSizeUnit(SizeUnit.PX));
+		
+		columnas.add(new PropertyColumn("mail", new Model<String>("E-Mail"),"mail").setInitialSize(250)
+																				   .setResizable(true)
+																				   .setWrapText(true)
+																				   .setReorderable(true)
+																				   .setSizeUnit(SizeUnit.PX));
+		
+		columnas.add(new PropertyColumn("telefono", new Model<String>("Telefono"), "telefono").setInitialSize(100)
+																							  .setResizable(true)
+																							  .setWrapText(true)
+																							  .setReorderable(true)
+																							  .setSizeUnit(SizeUnit.PX));
 
 		return columnas;
 	}

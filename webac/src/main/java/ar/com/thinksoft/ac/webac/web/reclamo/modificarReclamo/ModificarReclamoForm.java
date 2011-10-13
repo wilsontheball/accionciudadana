@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -27,7 +28,6 @@ import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorUUID;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
@@ -81,12 +81,14 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 		
 		DropDownChoice<String> dropDownListPrioridad = new DropDownChoice<String>("Prioridad", createBind(model,"Prioridad"),EnumPrioridadReclamo.getlistaPrioridadReclamo());
 		dropDownListPrioridad.setNullValid(true);
-		dropDownListPrioridad.setEnabled(this.isPermitido());
+		MetaDataRoleAuthorizationStrategy.authorize(dropDownListPrioridad, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(dropDownListPrioridad, RENDER,"OPERADOR");
 		add(dropDownListPrioridad);
 		
 		DropDownChoice<String> dropDownListEstado = new DropDownChoice<String>("EstadoDescripcion", createBind(model,"EstadoDescripcion"),EnumEstadosReclamo.getlistaEstadosReclamo());
 		dropDownListEstado.setNullValid(true);
-		dropDownListEstado.setEnabled(this.isPermitido());
+		MetaDataRoleAuthorizationStrategy.authorize(dropDownListEstado, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(dropDownListEstado, RENDER,"OPERADOR");
 		add(dropDownListEstado);
 		
 		TextArea<String> observaciones = new TextArea<String>("observaciones",createBind(model,"observaciones"));
@@ -206,13 +208,6 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 			}
 		});
 		
-	}
-	
-	/*
-	 * TODO: Implementar con los permisos de modificacion de estado
-	 */
-	private boolean isPermitido() {
-		return ((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario().equals("administrator");
 	}
 	
 	private IModel<String> createBind(CompoundPropertyModel<Reclamo> model,String property){

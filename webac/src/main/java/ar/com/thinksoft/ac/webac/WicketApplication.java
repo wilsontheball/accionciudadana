@@ -16,6 +16,7 @@ import ar.com.thinksoft.ac.webac.web.reclamo.modificarReclamo.ModificarReclamoPa
 import ar.com.thinksoft.ac.webac.web.registro.RegistroPage;
 import ar.com.thinksoft.ac.webac.web.usuario.alta.UsuarioNuevoPage;
 import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
+import ar.com.thinksoft.ac.webac.web.usuario.god.GodPage;
 
 /**
  * Application object for your web application. If you want to run this
@@ -58,6 +59,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
 		mountBookmarkablePage("Registro", RegistroPage.class);
 		mountBookmarkablePage("Usuarios", UsuarioPage.class);
 		mountBookmarkablePage("UsuarioNuevo", UsuarioNuevoPage.class);
+		mountBookmarkablePage("God", GodPage.class);
 	}
 
 	@Override

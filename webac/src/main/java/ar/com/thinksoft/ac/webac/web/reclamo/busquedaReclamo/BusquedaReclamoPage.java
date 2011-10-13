@@ -7,7 +7,7 @@ import org.apache.wicket.markup.html.JavascriptPackageResource;
 
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 
-@AuthorizeInstantiation({"USER","ADMIN","OPERADOR"})
+@AuthorizeInstantiation({"CIUDADANO","ADMIN","OPERADOR"})
 public class BusquedaReclamoPage extends BasePage{
 
 	public BusquedaReclamoPage(final PageParameters parameters) {

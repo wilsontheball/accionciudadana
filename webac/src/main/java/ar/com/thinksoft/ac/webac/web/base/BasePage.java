@@ -23,13 +23,6 @@ public abstract class BasePage extends WebPage {
 
 	public BasePage() {
 
-		/*if (!Context.getInstance().isUserSignedIn()) {
-			System.out.println(Context.getInstance().getUsuario());
-			setResponsePage(LoginPage.class);
-		} else {
-*/
-		
-			
 			add(CSSPackageResource.getHeaderContribution(BasePage.class,"../css/BasePage.css"));
 			add(CSSPackageResource.getHeaderContribution(BasePage.class,"../css/jquery-ui.css"));
 			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/jquery.js"));
@@ -51,7 +44,6 @@ public abstract class BasePage extends WebPage {
 				login.setVisible(true);
 				logout.setVisible(false);
 			}
-	//	}
 
 	}
 
