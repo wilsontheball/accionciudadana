@@ -19,7 +19,7 @@ function validarSiTieneNumeros(elem){
    for(i=0; i<elem.value.length; i++){
       if (numeros.indexOf(elem.value.charAt(i),0)!=-1){
     	  $('.error').val("El texto ingresado no es valido.");
-    	  $('#'+elem.id).css('background-color','#FF0000');
+    	  $('#'+elem.id).css('background-color','#F78181');
     	  validarCampos();
     	  return false;
       }
@@ -32,10 +32,9 @@ function validarSiTieneNumeros(elem){
 }
 
 function validarNumerosInput(elem){
-
 	if (!(/^([0-9])*$/.test(elem.value))){
 		$('.error').val("El valor ingresado no es valido.");
-  	  	$('#'+elem.id).css('background-color','#FF0000');
+  	  	$('#'+elem.id).css('background-color','#F78181');
 		validarCampos();
 		return false;
 	}
@@ -46,12 +45,16 @@ function validarNumerosInput(elem){
 }
 
 function validarEmail(elem) {
-	if (!(/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/.test(elem))){
+	var valor = elem.value;
+	var atpos=valor.indexOf("@");
+	var dotpos=valor.lastIndexOf(".");
+	if (atpos<1 || dotpos<atpos+2 || dotpos+2>=valor.length){
 		$('.error').val("El email ingresado no es valido.");
-		$('#'+elem.id).css('background-color','#FF0000');
+		$('#'+elem.id).css('background-color','#F78181');
 		validarCampos();
 		return false;
 	}
+	
 	$('.error').val("");
 	$('#'+elem.id).css('background-color','');
 	validarCampos();
@@ -61,7 +64,7 @@ function validarEmail(elem) {
 function funcionOnChangeCampoIsNull(elem){
 	if(validarSiEsNull(elem)){
 		$('.error').val("Hay campos obligatorios que se encuentran vacios.");
-		$('#'+elem.id).css('background-color','#FF0000');
+		$('#'+elem.id).css('background-color','#F78181');
 		validarCampos();
 		return false;
 	}
@@ -72,6 +75,37 @@ function funcionOnChangeCampoIsNull(elem){
 	
 }
 
+function compararConfirmacionMail(){
+	if($('.re-mail')[0].value != $('.mail')[0].value){
+		$('.error').val("Los mails no son iguales.");
+		$('.mail').css('background-color','#F78181');
+		$('.re-mail').css('background-color','#F78181');
+		validarCampos();
+		return false;
+	}
+	$('.error').val("");
+	$('.mail').css('background-color','');
+	$('.re-mail').css('background-color','');
+	validarCampos();
+	return funcionOnChangeCampoIsNull(elem) && validarEmail(elem);
+	
+}
+
+function compararConfirmacionPassword(){
+	if($('.re-password')[0].value != $('.password')[0].value){
+		$('.error').val("No son iguales.");
+		$('.password').css('background-color','#F78181');
+		$('.re-password').css('background-color','#F78181');
+		validarCampos();
+		return false;
+	}
+	$('.error').val("");
+	$('.password').css('background-color','');
+	$('.re-password').css('background-color','');
+	validarCampos();
+	return true;
+	
+}
 
 /*
  * FUNCIONES MAGICAS INTERNAS
@@ -82,10 +116,15 @@ function validarSiEsNull(elem){
 }
 
 
+function validarRepeticiones(){
+	compararConfirmacionMail()
+	compararConfirmacionPassword();
+}
+
 function validarCamposVacios(){
 	if(validarCampos()){
 		$('.error').val("Hay campos obligatorios que se encuentran vacios.");
-		$('#'+elem.id).css('background-color','#FF0000');
+		$('#'+elem.id).css('background-color','#F78181');
 	}
 	$('.error').val("");
 	$('#'+elem.id).css('background-color','');

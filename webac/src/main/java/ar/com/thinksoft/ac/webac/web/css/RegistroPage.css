@@ -1,41 +1,30 @@
+@CHARSET "UTF-8";
 
-
-.registro{
-	width: 100%;
-	padding-top: 50px;
-	text-align: center;
-
+form
+{
+   position: inherited;
+   padding:2px;
+   display: inline;
+   
 }
 
-fieldset {
-	border:none; /* Default fieldset borders vary cross browser, so make them the same */
-	width: 30%;
-	margin: auto;
+label
+{
+   padding:2px;
+   text-align:left;
+   vertical-align: middle;
 }
 
-
-fieldset div {
-	overflow:hidden; 
-	text-align: center;
-	vertical-align: middle;
-	padding-bottom: 5px;
-/* 	display:inline-block; Give layout in ie to contain float */
+.block{
+   margin:10px 2px; 
+   font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
+   font-size: 12px;
 }
 
-fieldset label {
-    float: left;
-    text-align: right;
-    width: 48%;
-    vertical-align: middle;
+td.texto{
+	text-align: right;	
 }
 
-fieldset input {
-	float:right;
-	text-align: left;
-	width: 48%;
-	height: 100%;
-	vertical-align: middle;
-	
+.input{
+	width:200px;	
 }
-
-

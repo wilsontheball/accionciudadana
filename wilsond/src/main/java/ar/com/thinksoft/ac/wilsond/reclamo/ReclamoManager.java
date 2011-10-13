@@ -6,8 +6,11 @@ import java.util.List;
 import wicket.contrib.gmap.api.GLatLng;
 
 import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
+import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
+import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.intac.IUsuario;
+import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.wilsond.GeocoderChild;
 import ar.com.thinksoft.ac.wilsond.Repositorio.Repositorio;
@@ -172,11 +175,14 @@ public class ReclamoManager {
 			
 			reclamo.setTipoIncidente(reclamoAndroid.getTipoIncidente());
 			reclamo.setEstadoDescripcion(EnumEstadosReclamo.activo.getEstado());
+			reclamo.setPrioridad(EnumPrioridadReclamo.noAsignada.getPrioridad());
 			
 			reclamo.setBarrioIncidente(reclamoAndroid.getBarrioIncidente());
 			reclamo.setComunaIncidentePorBarrio(reclamoAndroid.getBarrioIncidente());
 			
-			reclamo.setImagen(reclamoAndroid.getImagen());
+			IImagen imagenAndrac = reclamoAndroid.getImagen();
+			IImagen imagenWebac = new Imagen(imagenAndrac.getBytes(), imagenAndrac.getContentType(), reclamo.getId());
+			reclamo.setImagen(imagenWebac);
 			
 			return reclamo;
 		

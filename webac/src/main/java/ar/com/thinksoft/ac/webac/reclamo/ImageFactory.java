@@ -42,7 +42,7 @@ public class ImageFactory {
 
 	private void createImage(InputStream stream, String fileName, String contentType) throws Exception{
 		if("image/jpeg".equals(contentType) || "image/jpg".equals(contentType)||"image/png".equals(contentType)
-		||"image/bmp".equals(contentType)||"image/gif".equals(contentType)){
+		||"image/bmp".equals(contentType)||"image/gif".equals(contentType) || "jpg".equals(contentType)){
 			
 			image = new File(Configuracion.getInstance().getPathTempImages() + fileName);
 			if(!image.exists())
