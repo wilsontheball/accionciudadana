@@ -3,7 +3,6 @@
 	<string name="version">1.7</string>
 	<string name="app_name">Acción Ciudadana 1.7</string>
 	<string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
-	<string name="registro_sub_titulo">Proyecto Acción Ciudadana</string>
 	<string name="login_titulo">Autenticación</string>
 	<string name="nick_name">Usuario</string>
 	<string name="password">Contraseña</string>
@@ -24,6 +23,7 @@
 	<string name="telefono">Teléfono</string>
 	<string name="calle">Calle</string>
 	<string name="altura">Altura</string>
+	<string name="campos_opcionales">Datos opcionales:</string>
 	<string name="login_exito">Autentificación Exitosa!</string>
 	<string name="cerrar_aplicacion">Aplicación Finalizada.</string>
 	<string name="advertencia">Error</string>
