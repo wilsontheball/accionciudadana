@@ -19,7 +19,6 @@ import org.apache.wicket.validation.ValidationError;
 
 import ar.com.thinksoft.ac.webac.registro.RegistroManager;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
-import ar.com.thinksoft.ac.webac.usuario.UsuarioFactory;
 import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
 
 public class UsuarioNuevoForm extends Form<Usuario> {
@@ -29,6 +28,7 @@ public class UsuarioNuevoForm extends Form<Usuario> {
 	private String tipoUsuario;
 	private UsuarioNuevoForm self;
 
+	@SuppressWarnings({ "serial", "rawtypes" })
 	public UsuarioNuevoForm(String id) {
 		super(id);
 
@@ -110,7 +110,6 @@ public class UsuarioNuevoForm extends Form<Usuario> {
 
 			@Override
 			public void detach() {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -132,7 +131,6 @@ public class UsuarioNuevoForm extends Form<Usuario> {
 
 			@Override
 			public void detach() {
-				// TODO Auto-generated method stub
 
 			}
 

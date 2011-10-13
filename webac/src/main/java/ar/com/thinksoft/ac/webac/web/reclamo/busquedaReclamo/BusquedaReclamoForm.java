@@ -18,6 +18,8 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.authorization.strategies.role.Roles;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -70,10 +72,10 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	public BusquedaReclamoForm(String id) {
 		
 		super(id);
-		//TODO: modificar por tipo de usuario
-		if("administrator".equals(ciudadano.getNombreUsuario()))
+		AccionCiudadanaSession session = (AccionCiudadanaSession) getSession();
+		if (session.getRoles().hasAnyRole(this.createRolesNeededForAdmin()))
 			listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
-		else
+		else if (session.getRoles().hasAnyRole(this.createRolesNeededForUser())) 
 			listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorCiudadano().filtrar(ciudadano.getNombreUsuario())));
 		
 		CompoundPropertyModel<IReclamo> model = new CompoundPropertyModel<IReclamo>(new Reclamo());
@@ -115,9 +117,9 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				@Override
 				public void onSubmit() {
 					IReclamo reclamo = _self.getModelObject();
+					AccionCiudadanaSession session = (AccionCiudadanaSession) getSession();
 					
-					//TODO: modificar por tipo de usuario
-					if(!ciudadano.getNombreUsuario().equals("administrator"))
+					if (session.getRoles().hasAnyRole(_self.createRolesNeededForUser())) 
 						reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
 					
 					listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
@@ -220,7 +222,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	    dialogUnificar = new Dialog("dialogUnificar");
 	    add(dialogUnificar);
 	    
-	    add(new AjaxLink("unificarReclamo"){
+	    AjaxLink unificacion = new AjaxLink("unificarReclamo"){
 	    	@Override
 	    	public void onClick(AjaxRequestTarget target){
 	    		Collection<IModel> selected = grid.getSelectedItems();
@@ -234,7 +236,11 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 					dialogUnificarError.open(target);
 				}
 	    	}
-	    });
+	    };
+	    
+	    MetaDataRoleAuthorizationStrategy.authorize(unificacion, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(unificacion, RENDER,"OPERADOR");
+	    add(unificacion);
 	    
 	    dialogUnificar.add(new AjaxLink("unificar"){
 			@Override
@@ -287,12 +293,13 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
         
         ///////////// EXPORTAR ////////////////////////
         
-        add(new Button("exportar"){
+        Button exportacion = new Button("exportar"){
         	@Override
 			public void onSubmit() {
         		IReclamo reclamo = _self.getModelObject();
-        		//TODO cambiar por tipo de usuario
-        		if(!ciudadano.getNombreUsuario().equals("administrator"))
+        		AccionCiudadanaSession session = (AccionCiudadanaSession) getSession();
+        		
+        		if (session.getRoles().hasAnyRole(_self.createRolesNeededForUser())) 
         			reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
         		
         		ByteArrayResource bar = null;
@@ -306,7 +313,10 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
         		
         	}
 
-        });
+        };
+        MetaDataRoleAuthorizationStrategy.authorize(exportacion, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(exportacion, RENDER,"OPERADOR");
+        add(exportacion);
         
         ///////////// FIN ////////////////////////
 	}
@@ -444,6 +454,19 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 			listaReclamosSeleccionados.add(reclamo);
 		}
 		return listaReclamosSeleccionados;
+	}
+	
+	public Roles createRolesNeededForAdmin() {
+		Roles roles = new Roles();
+		roles.add("ADMIN");
+		roles.add("OPERADOR");
+		return roles;
+	}
+
+	public Roles createRolesNeededForUser() {
+		Roles roles = new Roles();
+		roles.add("CIUDADANO");
+		return roles;
 	}
 	
 }

@@ -11,6 +11,7 @@ import com.db4o.query.Predicate;
 
 public class GodPage extends BasePage {
 
+	@SuppressWarnings("serial")
 	public GodPage() {
 
 		@SuppressWarnings("serial")

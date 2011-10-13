@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-	<string name="version">1.5</string>
-	<string name="app_name">Acción Ciudadana 1.5</string>
+	<string name="version">1.7</string>
+	<string name="app_name">Acción Ciudadana 1.7</string>
 	<string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
 	<string name="registro_sub_titulo">Proyecto Acción Ciudadana</string>
 	<string name="login_titulo">Autenticación</string>
@@ -11,7 +11,7 @@
 	<string name="ok">Aceptar</string>
 	<string name="enviar">Enviar</string>
 	<string name="cancelar">Cancelar</string>
-	<string name="login_sugerencia">No está registrado?</string>
+	<string name="borrar">Borrar</string>
 	<string name="entrar">Entrar</string>
 	<string name="salir">Salir</string>
 	<string name="registro">Registro</string>
@@ -43,12 +43,15 @@
 	</string>
 	<string name="observaciones">Observaciones</string>
 	<string name="cargar_foto">Cargar Foto</string>
+	<string name="recordar_pass">Recordar la contraseña?</string>
 	<string name="latitud">Latitud</string>
 	<string name="longitud">Longitud</string>
 	<string name="reclamo_enviado">Su reclamo ha sido enviado.</string>
 	<string name="reclamo_no_enviado">En este momento no se pudo enviar su reclamo. El
 		mismo se guardará en la "Lista de Reclamos Guardados" para que lo
 		pueda enviar en otro momento.</string>
+	<string name="reclamo_no_reenviado">En este momento no se puede enviar su reclamo.
+		Verifique la conexión a internet e intentelo nuevamente.</string>
 	<string name="reclamo_no_guardado">No se ha podido guardar su reclamo. Asegurese de
 		tener permisos para guardar en la memoria.</string>
 	<string name="no_enviado">No enviado</string>
@@ -70,6 +73,8 @@
 	<string name="procesando">Procesando...</string>
 	<string name="perfil_titulo">Perfil de Usuario</string>
 	<string name="error_conexion">Error de Conexión</string>
+	<string name="error_inesperado">Esto es realmente embarazoso. No tenemos ni puta
+		idea que paso... Reinicia y manejalo.</string>
 	<string name="mensaje_error_conexion">No se pudo conectar al servidor.</string>
 	<string-array name="ubicacion_array">
 		<item>Ubicación por Coordenada GPS</item>

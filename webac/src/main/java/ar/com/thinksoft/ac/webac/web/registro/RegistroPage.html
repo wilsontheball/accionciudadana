@@ -1,82 +1,142 @@
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 	<head>
-		
-		<title>Login</title>
-		
-		<wicket:head>
-			<wicket:link>
-			<!-- ACA VA LO DE CSS -->
-			<link rel="stylesheet" type="text/css" href="../css/RegistroPage.css"/>
-			</wicket:link>
-		</wicket:head>
-		
-		
+		<title>Registro de Ciudadano</title>
 	</head>
 	<body>
 		<wicket:extend>
-
-		<div class="registro">
-		<span wicket:id="feedback" class="error"/>
-			<form wicket:id="registroForm">
-
-			<fieldset>
-			
-			
-			
-				<div >
-					<label class="item">Nombre de Usuario:</label>
-					<input type="text" id="username" wicket:id="username" class="itemRight"/>
+			<div class="registro">
+				<div align="center">
+					<h1>Registro de Ciudadano</h1>
 				</div>
-
-				<div>
-					<label class="item">Contraseña:</label>
-			 		<input type="password" wicket:id="password" class="itemRight"/>				
-				</div>
+				<form wicket:id="registroForm">
+				
+					<table align="center">
+						<tr>
+							<td class="block" >
+								<label style="color:red;">*</label><label>Estos campos son requeridos.</label>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="block" >
+								<label></label>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<table class="contenedorText">
+								
+									<tr>
+										<td class="texto">
+											<label style="color:red;">*</label><label>Nombre:</label>
+										</td>
+										<td class="block">
+									 		<input type="text" wicket:id="nombre" id="nombre" class="input nombre" onchange="funcionOnChangeCampoIsNull(this)/>
+										</td>
+									</tr>
+									
+									<tr>
+										<td class="texto">
+									 		<label style="color:red;">*</label><label>Apellido:</label>
+									 	</td>
+										<td class="block">
+									 		<input type="text" wicket:id="apellido" id="apellido" class="input apellido" onchange="funcionOnChangeCampoIsNull(this)/>
+									 	</td>
+									</tr>
+									
+									<tr>
+										<td class="texto">
+											<label style="color:red;">*</label><label>Nombre de Usuario:</label>
+										</td>
+										<td class="block">
+									 		<input type="text" wicket:id="username" id="username" class="input username" onchange="funcionOnChangeCampoIsNull(this)"/>
+										</td>
+									</tr>	
+									
+									<tr>
+										<td class="texto">
+											<label style="color:red;">*</label><label>Contrase&ntilde;a:</label>
+										</td>
+										<td class="block">
+									 		<input type="password" wicket:id="password" id="password" class="input password" onchange="funcionOnChangeCampoIsNull(this)"/>
+										</td>
+									</tr>	
+									
+									<tr>
+										<td class="texto">
+											<label style="color:red;">*</label><label>Repetir contrase&ntilde;a:</label>
+										</td>
+										<td class="block">
+									 		<input type="password" wicket:id="re-password" id="re-password" class="input re-password" onchange="compararConfirmacionPassword()"/>
+										</td>
+									</tr>
+										
+									<tr>
+										<td class="texto">
+											<label>DNI:</label>
+										</td>
+										<td class="block">
+									 		<input type="text" wicket:id="dni" id="dni" class="input dni"/>
+									 	</td>
+									</tr>
+									
+									<tr>
+										<td class="texto">
+											<label style="color:red;">*</label><label>E-Mail:</label>
+										</td>
+										<td class="block">
+									 		<input type="text" wicket:id="mail" id="mail" class="input mail" onchange="validarEmail(this)"/>
+									 	</td>
+									</tr>
+									
+									<tr>
+										<td class="texto">
+											<label style="color:red;">*</label><label>Repetir E-Mail:</label>
+										</td>
+										<td class="block">
+									 		<input type="text" wicket:id="re-mail" id="re-mail" class="input re-mail" onchange="compararConfirmacionMail()"/>
+									 	</td>
+									</tr>
+											
+									<tr>
+										<td class="texto">
+											<label style="vertical-align: top;">Tel&eacute;fono:</label>
+										</td>
+										<td class="block">
+											<input type="text" wicket:id="telefono" id="telefono" class="input telefono"/>
+									 	</td>
+									</tr>
+									
+								</table>
+							</td>
+						</tr>
+					</table>			
+	
+	
+					<table align="center">
+						<tr>
+							<td>
+								<div class="block">
+									<input type="text" class="error" border="none" size="50"/>
+								</div>
+							</td>
+						</tr>
+					</table>
 					
-				<div>				
-					<label class="item">Reescriba la Contraseña:</label>
-					<input type="password" wicket:id="re-password" class="itemRight"/>
-				</div>
-				
-				<div>
-					<label class="item">Apellido:</label>
-					<input type="text" wicket:id="apellido"  class="itemRight"/>
-				</div>
-				
-				<div>
-					<label class="item">Nombre:</label>
-					<input type="text" wicket:id="nombre" class="itemRight"/>
-				</div>
-				
-				<div>
-					<label class="item">DNI:</label>
-					<input type="text" wicket:id="dni" class="itemRight"/>
-				</div>
-				
-				<div>
-					<label class="item">E-Mail:</label>
-					<input type="text" wicket:id="mail" class="itemRight"/>
-				</div>
-				
-				<div> 
-					<label class="item">Telefono:</label>
-					<input type="text" wicket:id="telefono" class="itemRight"/>
-				</div>
-				
-					
-
-
-			 		
-			 		
-			 		
-			 		
-			 	</fieldset>	
-		 		
-		 		<div> <input type="submit" value="Registrarse"/> </div>
-		 		
-			</form>
-		</div>
-		
+	
+					<table align="center">
+						<tr>
+							<td>
+								<div>
+									<input type="submit" value="Registrar" onclick="validarRepeticiones()" class="block guardarRegistro"/>
+								</div>
+							</td>
+						</tr>
+					</table>
+	
+				</form>
+			</div>
 		</wicket:extend>
 	</body>
 </html>

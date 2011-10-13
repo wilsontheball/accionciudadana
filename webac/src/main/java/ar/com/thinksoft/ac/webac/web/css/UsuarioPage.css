@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 div.box label {
 	display: block;
 	margin-bottom: 10px;
@@ -22,4 +23,47 @@ div.box .button {
 	width: 100px;
 	
 	
+=======
+@CHARSET "UTF-8";
+
+form
+{
+   position: inherited;
+   padding:2px;
+   display: inline;
+   
+}
+
+label
+{
+   padding:2px;
+   text-align:right;
+   margin:10px 2px; 
+   display: block;
+   
+}
+
+.block{
+   margin:10px 2px; 
+   font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
+   font-size: 12px;
+   display: block;
+   text-align: left;
+   
+}
+
+.grid{
+	width: 76%; 
+	margin:5px 10px;	
+}
+
+<!-- Agregado en estilos propios de inmethod-grid -->
+
+td table.imxt-body {
+    text-align: left;
+}
+
+table.imxt-head tr.imxt-columns th * {
+    text-align: center;
+>>>>>>> mati/master
 }
