@@ -12,7 +12,7 @@ import ar.com.thinksoft.ac.webac.web.base.BasePage;
 /**
  * Homepage
  */
-@AuthorizeInstantiation({"ADMIN","OPERADOR","CIUDADANO"})
+@AuthorizeInstantiation("ALL")
 public class HomePage extends BasePage {
 
 	private static final long serialVersionUID = 1L;

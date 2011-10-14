@@ -8,56 +8,60 @@
 
 <wicket:extend>
 	<div>
+	<h1>Nuevo Usuario</h1>
 	<form wicket:id="form" >
 				
 		
-				<div >
-					<label class="item">Tipo de Usuario:</label>
-					<select wicket:id="tipoUsuario" id="tipoUsuario"> </select>
-				</div>
+				<div class="box">
 				
-				<div >
-					<label class="item">Nombre de Usuario:</label>
-					<input type="text" id="username" wicket:id="username" class="itemRight"/>
-				</div>
+					<label class="item">
+						<span>Tipo de Usuario: </span>
+						<select wicket:id="tipoUsuario" id="tipoUsuario"> </select>
+					</label>
+				
+					<label class="item">
+						<span>Nombre de Usuario:</span>
+						<input type="text" id="username" wicket:id="username" class="itemRight"/>
+					</label>
 
-				<div>
-					<label class="item">Contraseña:</label>
-			 		<input type="password" wicket:id="password" class="itemRight"/>				
-				</div>
+					<label class="item">
+						<span>Contraseña:</span>
+			 			<input type="password" wicket:id="password" class="itemRight"/>				
+					</label>
 					
-				<div>				
-					<label class="item">Reescriba la Contraseña:</label>
-					<input type="password" wicket:id="re-password" class="itemRight"/>
-				</div>
+					<label class="item">
+						<span>Reescriba la Contraseña:</span>
+						<input type="password" wicket:id="re-password" class="itemRight"/>
+					</label>
 				
-				<div>
-					<label class="item">Apellido:</label>
-					<input type="text" wicket:id="apellido"  class="itemRight"/>
-				</div>
+					<label class="item">
+						<span>Apellido:</span>
+						<input type="text" wicket:id="apellido"  class="itemRight"/>
+					</label>
 				
-				<div>
-					<label class="item">Nombre:</label>
-					<input type="text" wicket:id="nombre" class="itemRight"/>
-				</div>
+					<label class="item">
+						<span>Nombre:</span>
+						<input type="text" wicket:id="nombre" class="itemRight"/>
+					</label>
+
+					<label class="item">
+						<span>DNI:</span>
+						<input type="text" wicket:id="dni" class="itemRight"/>
+					</label>
 				
-				<div>
-					<label class="item">DNI:</label>
-					<input type="text" wicket:id="dni" class="itemRight"/>
-				</div>
+					<label class="item">
+						<span>E-Mail:</span>
+						<input type="text" wicket:id="mail" class="itemRight"/>
+					</label>
 				
-				<div>
-					<label class="item">E-Mail:</label>
-					<input type="text" wicket:id="mail" class="itemRight"/>
-				</div>
-				
-				<div> 
-					<label class="item">Telefono:</label>
-					<input type="text" wicket:id="telefono" class="itemRight"/>
-				</div>
+					<label class="item">
+						<span>Telefono:</span>
+						<input type="text" wicket:id="telefono" class="itemRight"/>
+					</label>
 				
 				<input type="submit" wicket:id = "guardar" value="Guardar">
-				<input type="submit" wicket:id = "cancelar" value="Cancelar">	
+				<input type="submit" wicket:id = "cancelar" value="Cancelar">
+				</div>	
 	
 	</form>
 	</div>

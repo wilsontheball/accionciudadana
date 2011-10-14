@@ -1,15 +1,17 @@
 package ar.com.thinksoft.ac.webac.web.usuario.alta;
 
-import ar.com.thinksoft.ac.webac.web.base.BasePage;
+import org.apache.wicket.markup.html.CSSPackageResource;
 
-public class UsuarioNuevoPage extends BasePage{
+import ar.com.thinksoft.ac.webac.web.base.BasePage;
+import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
+
+public class UsuarioNuevoPage extends BasePage {
 
 	public UsuarioNuevoPage() {
+		add(CSSPackageResource.getHeaderContribution(AltaReclamoPage.class,
+				"../../css/usuarioNuevo.css"));
+		this.add(new UsuarioNuevoForm("form"));
 
-	this.add(new UsuarioNuevoForm("form"));
-	
 	}
-	
-	
 
 }
