@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-	<string name="version">1.7</string>
-	<string name="app_name">Acción Ciudadana 1.7</string>
+	<string name="version">1.8</string>
+	<string name="app_name">Acción Ciudadana 1.8</string>
 	<string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
 	<string name="login_titulo">Autenticación</string>
 	<string name="nick_name">Usuario</string>
@@ -11,6 +11,7 @@
 	<string name="enviar">Enviar</string>
 	<string name="cancelar">Cancelar</string>
 	<string name="borrar">Borrar</string>
+	<string name="guardar">Guardar</string>
 	<string name="entrar">Entrar</string>
 	<string name="salir">Salir</string>
 	<string name="registro">Registro</string>
@@ -76,6 +77,9 @@
 	<string name="error_inesperado">Esto es realmente embarazoso. No tenemos ni puta
 		idea que paso... Reinicia y manejalo.</string>
 	<string name="mensaje_error_conexion">No se pudo conectar al servidor.</string>
+	<string name="config_svr">Configuración</string>
+	<string name="svr_url">URL del servidor:</string>
+	<string name="svr_puerto">Puerto del servidor:</string>
 	<string-array name="ubicacion_array">
 		<item>Ubicación por Coordenada GPS</item>
 		<item>Ubicación por Calle y Altura</item>

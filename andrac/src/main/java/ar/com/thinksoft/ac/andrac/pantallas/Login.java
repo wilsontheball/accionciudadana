@@ -29,11 +29,13 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * Pantalla transparente que maneja los servicios y pide autentificacion.
  * 
- * @since 12-10-2011
+ * @since 14-10-2011
  * @author Paul
  * 
  */
 public class Login extends Activity implements ReceptorRest {
+
+	private final String HTTP = "http://";
 
 	private static final int LOGIN = 0;
 	private static final int LOGIN_FAIL = 1;
@@ -75,13 +77,15 @@ public class Login extends Activity implements ReceptorRest {
 	/**
 	 * Revisa si tiene que pedir autenticacion.
 	 * 
-	 * @since 08-10-2011
+	 * @since 14-10-2011
 	 * @author Paul
 	 */
 	@Override
 	protected void onStart() {
 		super.onStart();
-		// TODO implementar Login.
+
+		this.obtenerURL();
+
 		// Login no se muestra cuando ya esta autenticado o cuando la funcion es
 		// POST Usuario.
 		if ((FuncionRest.POSTUSUARIO.equals(this.funcionAEjecutar))
@@ -372,6 +376,30 @@ public class Login extends Activity implements ReceptorRest {
 
 		Log.d(this.getClass().getName(), "Obtener prefs: "
 				+ this.getRepo().getNick() + " " + this.getRepo().getPass());
+	}
+
+	/**
+	 * Obtiene url y puerto guardados en el registro del telefono.
+	 * 
+	 * @since 14-10-2011
+	 * @author Paul
+	 */
+	private void obtenerURL() {
+		SharedPreferences preferencias = getPreferences(MODE_PRIVATE);
+		String url = preferencias.getString(Configuracion.ANDRAC_URL, null);
+		String puerto = preferencias.getString(Configuracion.ANDRAC_PUERTO,
+				null);
+		if (url == null || puerto == null) {
+			url = getString(R.string.url_estandar);
+			puerto = getString(R.string.puerto_estandar);
+
+			Log.d(this.getClass().getName(), "No hay prefs: " + url + " "
+					+ puerto);
+		} else {
+			Log.d(this.getClass().getName(), "Obtiene prefs: " + url + " "
+					+ puerto);
+		}
+		this.getRepo().setUrlServer(HTTP + url + ":" + puerto);
 	}
 
 	/**

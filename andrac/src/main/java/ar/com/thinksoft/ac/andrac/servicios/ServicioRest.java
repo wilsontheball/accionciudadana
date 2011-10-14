@@ -25,7 +25,6 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
-import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
@@ -38,7 +37,7 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Se encarga de correr en 2do plano todas las funciones de conexion a servidor.
  * 
- * @since 10-10-2011
+ * @since 14-10-2011
  * @author Paul
  */
 public class ServicioRest extends IntentService {
@@ -56,7 +55,7 @@ public class ServicioRest extends IntentService {
 	/**
 	 * Atiende la creacion de un servicio.
 	 * 
-	 * @since 08-10-2011
+	 * @since 14-10-2011
 	 * @author Paul
 	 */
 	@Override
@@ -71,21 +70,21 @@ public class ServicioRest extends IntentService {
 			receptor.send(RUN, bundle);
 			if (FuncionRest.GETRECLAMOS.equals(funcion)) {
 				// Funcion GET Reclamos.
-				this.getReclamos(getString(R.string.url_wilsond), this
-						.getRepo().getNick(), this.getRepo().getPass());
+				this.getReclamos(this.getRepo().getUrlServer(), this.getRepo()
+						.getNick(), this.getRepo().getPass());
 			} else if (FuncionRest.GETPERFIL.equals(funcion)) {
 				// Funcion GET Perfil.
-				this.getPerfil(getString(R.string.url_wilsond), this.getRepo()
+				this.getPerfil(this.getRepo().getUrlServer(), this.getRepo()
 						.getNick(), this.getRepo().getPass());
 			} else if (FuncionRest.POSTRECLAMO.equals(funcion)) {
 				// Funcion POST Reclamo.
-				this.postReclamo(getString(R.string.url_wilsond), this
-						.getRepo().getNick(), this.getRepo().getPass(), this
-						.getRepo().getReclamoAEnviar());
+				this.postReclamo(this.getRepo().getUrlServer(), this.getRepo()
+						.getNick(), this.getRepo().getPass(), this.getRepo()
+						.getReclamoAEnviar());
 			} else if (FuncionRest.POSTUSUARIO.equals(funcion)) {
 				// Funcion POST Usuario.
-				this.postUsuario(getString(R.string.url_wilsond), this
-						.getRepo().getUsuarioARegistrar());
+				this.postUsuario(this.getRepo().getUrlServer(), this.getRepo()
+						.getUsuarioARegistrar());
 			} else {
 				// Funcion desconocida!
 				bundle.putString(FUN, funcion);
