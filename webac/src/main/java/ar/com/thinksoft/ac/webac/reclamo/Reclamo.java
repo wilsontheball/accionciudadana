@@ -279,7 +279,7 @@ public class Reclamo implements IReclamo{
 	
 	public void setPrioridad(String prioridad) throws Exception{
 		this.prioridad = prioridad;
-		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Cambio de prioridad del reclamo", MailManager.getInstance().armarTextoCambioPrioridad(this.prioridad, this));
+		
 	}
 
 	public void setComunaIncidentePorBarrio(String barrio){

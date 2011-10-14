@@ -29,6 +29,7 @@ import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
+import ar.com.thinksoft.ac.webac.mail.MailManager;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorUUID;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
@@ -142,6 +143,7 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 						if(prioridad != "" && prioridad != null && !reclamoO.getPrioridad().equals(prioridad)){
 							try {
 								reclamoModificado.setPrioridad(prioridad);
+								MailManager.getInstance().enviarMail(reclamoO.getMailCiudadanoGeneradorReclamo(), "Accion Ciudadana - Cambio de prioridad del reclamo", MailManager.getInstance().armarTextoCambioPrioridad(prioridad, reclamoO));
 							} catch (Exception e) {
 								LogFwk.getInstance(ModificarReclamoForm.class).error("Problema al enviar mail por cambio de prioridad. Detalle: " + e.getMessage());
 							}

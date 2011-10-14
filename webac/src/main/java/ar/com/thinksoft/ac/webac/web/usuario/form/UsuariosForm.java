@@ -3,6 +3,8 @@ package ar.com.thinksoft.ac.webac.web.usuario.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -24,18 +26,20 @@ import com.inmethod.grid.IGridColumn;
 import com.inmethod.grid.SizeUnit;
 import com.inmethod.grid.column.PropertyColumn;
 import com.inmethod.grid.datagrid.DefaultDataGrid;
+import com.visural.wicket.component.dialog.Dialog;
 
 public class UsuariosForm extends Form<UsuarioFilterObject> {
 
 	private DefaultDataGrid grid;
 	private UsuariosForm _self = this;
+	private Dialog dialogEliminar = null;
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5848749487206180482L;
 
-	@SuppressWarnings("serial")
+	@SuppressWarnings({ "serial", "rawtypes" })
 	public UsuariosForm(String id) {
 
 		super(id);
@@ -85,33 +89,37 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 				grid.setDefaultModelObject(toDataProvider(data));
 			}
 		});
-
-		this.add(new Button("eliminar") {
-
+		
+		dialogEliminar = new Dialog("dialogEliminar");
+	    add(dialogEliminar);
+	    
+	    add(new AjaxLink("eliminar") {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+			    dialogEliminar.open(target);
+            }
+        });
+	    
+	    dialogEliminar.add(new AjaxLink("eliminarUsuario"){
 			@Override
-			public void onSubmit() {
-
-				Usuario usuario = (Usuario) grid.getSelectedItems()
-						.iterator().next().getObject();
+			public void onClick(AjaxRequestTarget target){
+				Usuario usuario = (Usuario) grid.getSelectedItems().iterator().next().getObject();
 				Repository.getInstance().delete(usuario);
-				_self.setResponsePage(UsuarioPage.class);
+				dialogEliminar.close(target);
+				setResponsePage(UsuarioPage.class);
+				setRedirect(true);
 			}
-
 		});
-
-		this.add(new Button("bloquear") {
-
-			@Override
-			public void onSubmit() {
-
-				Usuario usuario = (Usuario) grid.getSelectedItems()
-						.iterator().next().getObject();
-				_self.setResponsePage(UsuarioPage.class);
-			}
-
-		});
-
-	
+	    
+	    dialogEliminar.add(new AjaxLink("volver"){
+	    	@Override
+	    	public void onClick(AjaxRequestTarget target){
+	    		dialogEliminar.close(target);
+	    	}
+	    });
+	    
+	    // FIN ELIMINAR
+		
 	}
 
 	/*
@@ -136,6 +144,7 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 		this.grid = grid;
 	}
 
+	@SuppressWarnings("serial")
 	private Button createNewButton(String id) {
 
 		Button button = new Button(id) {

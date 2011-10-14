@@ -30,7 +30,7 @@ public class Usuario implements IUsuario {
 	public void addRole(String role) {
 		this.permisos.add(role);
 	}
-
+	
 	// ************************* GETTERS & SETTERS ***********************
 
 	public Roles getRoles() {
