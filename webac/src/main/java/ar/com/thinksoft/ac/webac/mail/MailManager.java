@@ -18,35 +18,44 @@ import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 public class MailManager {
 	
 	private static MailManager instance;
+	private Session session;
 	
-	public static MailManager getInstance(){
+	public static MailManager getInstance() throws MailException{
 		if(instance == null){
 			instance = new MailManager();
 		}
 		return instance;
 	}
 	
-	public void enviarMail(String mailDestino, String asuntoMail, String cuerpoMail) throws MailException{
+	public MailManager() throws MailException{
 		try {
-			Configuracion.getInstance().cargarConfiguracion();
+		Configuracion.getInstance().cargarConfiguracion();
 		
-			// Setup mail server
-			Properties props = new Properties();
-			// Nombre del host de correo, es smtp.gmail.com
-			props.setProperty("mail.smtp.host", Configuracion.getInstance().getSmtp());
-			// TLS si está disponible
-			props.setProperty("mail.smtp.starttls.enable", Configuracion.getInstance().getTLS().toString());
-			// Puerto de gmail para envio de correos
-			props.setProperty("mail.smtp.port",Configuracion.getInstance().getPuerto());
-			// Si requiere o no usuario y password para conectarse.
-			props.setProperty("mail.smtp.auth", Configuracion.getInstance().getAuth().toString());
-			// Nombre del usuario
-			props.setProperty("mail.smtp.user", "Accion Ciudadana");
-			
-			
-			// Get session
-			Session session = Session.getDefaultInstance(props);
-			// Define message
+		// Setup mail server
+		Properties props = new Properties();
+		// Nombre del host de correo, es smtp.gmail.com
+		props.setProperty("mail.smtp.host", Configuracion.getInstance().getSmtp());
+		// TLS si está disponible
+		props.setProperty("mail.smtp.starttls.enable", Configuracion.getInstance().getTLS().toString());
+		// Puerto de gmail para envio de correos
+		props.setProperty("mail.smtp.port",Configuracion.getInstance().getPuerto());
+		// Si requiere o no usuario y password para conectarse.
+		props.setProperty("mail.smtp.auth", Configuracion.getInstance().getAuth().toString());
+		// Nombre del usuario
+		props.setProperty("mail.smtp.user", "Accion Ciudadana");
+		
+		// Get session
+		session = Session.getDefaultInstance(props);
+		
+		} catch (ConfiguracionException e1) {
+			LogFwk.getInstance(MailManager.class).error("Error en la configuracion del mail. Detalle: " + e1.getMessage());
+			throw new MailException("Error en la configuracion del mail. Detalle: " + e1.getMessage());
+		}
+	}
+	
+	public void enviarMail(String mailDestino, String asuntoMail, String cuerpoMail) throws MailException{
+
+		// Define message
 			MimeMessage message = new MimeMessage(session);
 			try {
 				message.setFrom(new InternetAddress(Configuracion.getInstance().getDesdeMail()));
@@ -63,11 +72,6 @@ public class MailManager {
 				LogFwk.getInstance(MailManager.class).error("Error al enviar mail. Detalle: " + e.getMessage());
 				throw new MailException("Error durante el envio de mail. Detalle: " + e.getMessage());
 			}
-			
-		} catch (ConfiguracionException e1) {
-			LogFwk.getInstance(MailManager.class).error("Error en la configuracion del mail. Detalle: " + e1.getMessage());
-			throw new MailException("Error en la configuracion del mail. Detalle: " + e1.getMessage());
-		}
 		
 	}
 	

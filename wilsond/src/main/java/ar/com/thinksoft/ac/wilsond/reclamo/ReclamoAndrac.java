@@ -221,4 +221,16 @@ public class ReclamoAndrac extends ReclamoMovil {
 		
 	}
 
+	@Override
+	public String getReclamoPadreId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setReclamoPadreId(String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

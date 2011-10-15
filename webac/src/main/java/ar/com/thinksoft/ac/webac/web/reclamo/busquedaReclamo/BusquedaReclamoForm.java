@@ -143,6 +143,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				        }
 				        PageParameters params =new PageParameters();
 				        params.add("reclamoId", reclamo.getId());
+				        params.add("esPadre", Boolean.FALSE.toString());
 			            
 				        setResponsePage(DetalleReclamoPage.class, params);
 				        setRedirect(true);

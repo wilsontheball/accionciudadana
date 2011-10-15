@@ -1,10 +1,13 @@
 package ar.com.thinksoft.ac.webac.reclamo;
 
+import java.io.Serializable;
+
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 
 import ar.com.thinksoft.ac.intac.IImagen;
 
-public class Imagen implements IImagen{
+@SuppressWarnings("serial")
+public class Imagen implements IImagen,Serializable{
 
 	private byte[] bytes;
 	private String contentType;

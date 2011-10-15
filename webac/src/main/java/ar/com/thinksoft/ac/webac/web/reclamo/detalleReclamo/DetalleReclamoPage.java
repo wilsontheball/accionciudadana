@@ -15,7 +15,7 @@ public class DetalleReclamoPage extends BasePage{
 		add(CSSPackageResource.getHeaderContribution(DetalleReclamoPage.class,"../../css/DetalleReclamo.css"));
 		add(JavascriptPackageResource.getHeaderContribution(DetalleReclamoPage.class,"../../js/detalleReclamo.js"));
 		try {
-			add(new DetalleReclamoForm("detalleReclamoForm", parameters.getString("reclamoId")));
+			add(new DetalleReclamoForm("detalleReclamoForm", parameters.getString("reclamoId"),parameters.getString("esPadre")));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -25,9 +25,11 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 	private ImageFactory img = null;
 	private IReclamo reclamo;
 	
-	public DetalleReclamoForm(String id, String idReclamo) throws Exception {
+	public DetalleReclamoForm(String id, String idReclamo, String esPadre) throws Exception {
 		super(id);
 		setMultiPart(true);
+		
+		Boolean isPadre = Boolean.valueOf(esPadre);
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorUUID().filtrar(idReclamo));
 		
 		if(lista.size()!= 1){
@@ -51,7 +53,13 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 		add(new Label("fechaUltimaModificacionReclamo",this.createBind(model,"fechaUltimaModificacionReclamo")));
 		add(new Label("BarrioIncidente",this.createBind(model,"BarrioIncidente")));
 		add(new Label("ComunaIncidente",this.createBind(model,"ComunaIncidente")));
-		add(new Label("ciudadanoReclamo",this.createBind(model,"ciudadanoReclamo")));
+		
+		Label ciudadano = new Label("ciudadanoReclamo",this.createBind(model,"ciudadanoReclamo"));
+		if(isPadre.booleanValue()){
+			ciudadano.setVisible(false);
+		}
+		add(ciudadano);
+		
 		add(new Label("prioridad",this.createBind(model,"prioridad")));
 		add(new Label("estadoDescripcion",this.createBind(model,"EstadoDescripcion")));
 		add(new Label("tipoIncidente", this.createBind(model,"tipoIncidente")));
@@ -97,6 +105,26 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 							
 		modificar.setVisible(reclamo.isNotDown());
 		add(modificar);
+		
+		Button detallePadre = new Button("detallePadre") {
+			@Override
+			public void onSubmit() {
+				try{
+					img.deleteImage();
+				}catch(Exception e){
+					LogFwk.getInstance(DetalleReclamoPage.class).error("No existe archivo para borrar.");
+				}
+				
+				PageParameters params =new PageParameters();
+		        params.add("reclamoId", reclamo.getReclamoPadreId());
+		        params.add("esPadre", Boolean.TRUE.toString());
+	            
+		        setResponsePage(DetalleReclamoPage.class, params);
+		        setRedirect(true);
+			}
+		};
+		detallePadre.setVisible(!isPadre.booleanValue() && reclamo.getReclamoPadreId() != null && reclamo.getReclamoPadreId() != "");
+		add(detallePadre);
 		
 	}
 	

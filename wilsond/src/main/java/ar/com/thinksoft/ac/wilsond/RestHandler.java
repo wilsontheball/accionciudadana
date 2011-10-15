@@ -18,6 +18,7 @@ import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 import ar.com.thinksoft.ac.intac.utils.classes.UsuarioMovil;
 import ar.com.thinksoft.ac.wilsond.log.LogManager;
+import ar.com.thinksoft.ac.wilsond.mail.MailWilsonD;
 import ar.com.thinksoft.ac.wilsond.reclamo.ReclamoAndrac;
 import ar.com.thinksoft.ac.wilsond.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.wilsond.usuario.UsuarioAndrac;
@@ -88,6 +89,8 @@ public class RestHandler extends AbstractHandler {
 	 */
 	private void atenderPost(HttpServletRequest baseRequest) throws Exception {
 
+		Request req = (baseRequest instanceof Request ? (Request) baseRequest: HttpConnection.getCurrentConnection().getRequest());
+		
 		if (funcion.equalsIgnoreCase(FuncionRest.POSTRECLAMO)) {
 			InputStream instream = baseRequest.getInputStream();
 			InputStreamReader isReader = new InputStreamReader(instream);
@@ -96,6 +99,9 @@ public class RestHandler extends AbstractHandler {
 			IUsuario user = UsuarioManager.getInstance().getUsuarioFromDB(nick);
 			IReclamo reclamo = ReclamoManager.getInstance().toReclamoInt(reclamoAndrac,user);
 			ReclamoManager.getInstance().guardarReclamo(reclamo);
+			req.setHandled(true);
+			MailWilsonD.getInstance().enviarMail(reclamo.getMailCiudadanoGeneradorReclamo(), 
+					"Accion Ciudadana - Activacion de reclamo", MailWilsonD.getInstance().armarTextoCambioEstados(reclamo.getEstadoDescripcion(), reclamo));
 			
 		} else if (funcion.equalsIgnoreCase(FuncionRest.POSTUSUARIO)) {
 			InputStream instream = baseRequest.getInputStream();
@@ -103,6 +109,9 @@ public class RestHandler extends AbstractHandler {
 			Gson gson = new Gson();
 			IUsuario usuario = UsuarioManager.getInstance().toUsuarioInt(gson.fromJson(isReader, UsuarioAndrac.class));
 			UsuarioManager.getInstance().guardarUsuario(usuario);
+			req.setHandled(true);
+			MailWilsonD.getInstance().enviarMail(usuario.getMail(), 
+					"Accion Ciudadana - Bienvenido", MailWilsonD.getInstance().armarTextoBienvenida(usuario));
 			
 		} else {
 			throw new Exception("Función desconocida.");

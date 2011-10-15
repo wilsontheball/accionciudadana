@@ -2,6 +2,7 @@ package ar.com.thinksoft.ac.webac;
 
 import junit.framework.TestCase;
 import org.apache.wicket.util.tester.WicketTester;
+import org.junit.Ignore;
 
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 
@@ -18,6 +19,7 @@ public class TestHomePage extends TestCase
 		tester = new WicketTester(new WicketApplication());
 	}
 
+	@Ignore
 	public void testRenderMyPage()
 	{
 		//start and render the test page

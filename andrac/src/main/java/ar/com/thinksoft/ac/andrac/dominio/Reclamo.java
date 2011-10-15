@@ -37,6 +37,14 @@ public class Reclamo extends ReclamoMovil {
 		this.setComunaIncidentePorBarrio(barrio);
 		this.setImagen(imagen);
 	}
+	
+	public void setReclamoPadreId(String id){
+		
+	}
+	
+	public String getReclamoPadreId(){
+		return "";
+	}
 
 	// Para evitar CAST
 	public void setImagen(Imagen imagen) {
