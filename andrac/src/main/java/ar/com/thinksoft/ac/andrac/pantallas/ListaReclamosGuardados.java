@@ -20,6 +20,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.adapter.ReclamoGuardadoAdapter;
+import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
+import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
@@ -29,8 +31,8 @@ import com.google.gson.Gson;
 /**
  * La clase se encarga de manejar el listado de reclamos guardados por usuario.
  * 
- * @since 10-10-2011
- * @author Hernan
+ * @since 14-10-2011
+ * @author Paul
  */
 public class ListaReclamosGuardados extends Activity {
 
@@ -78,7 +80,7 @@ public class ListaReclamosGuardados extends Activity {
 	/**
 	 * Crea la ventana de Dialogo. (Se hace de esta forma en Android 2.2)
 	 * 
-	 * @since 10-10-2011
+	 * @since 14-10-2011
 	 * @author Paul
 	 */
 	@Override
@@ -101,7 +103,7 @@ public class ListaReclamosGuardados extends Activity {
 			return new AlertDialog.Builder(ListaReclamosGuardados.this)
 					.setIcon(R.drawable.alert_dialog_icon)
 					.setTitle(R.string.no_enviado)
-					.setMessage(this.armarResumen(this.reclamoGuardado))
+					.setMessage(this.armarResumen(this.getReclamoGuardado()))
 					.setNegativeButton(R.string.cancelar,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -113,13 +115,14 @@ public class ListaReclamosGuardados extends Activity {
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									borrarReclamoLista(posicionReclamo);
+									borrarReclamoLista(getPosicionReclamo());
 								}
 							})
 					.setPositiveButton(R.string.enviar,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
+									setReclamoAEnviar(getPosicionReclamo());
 									ejecutarFuncion(FuncionRest.POSTRECLAMO);
 								}
 							}).create();
@@ -129,7 +132,7 @@ public class ListaReclamosGuardados extends Activity {
 	/**
 	 * Captura la respuesta de la ventana Login.
 	 * 
-	 * @since 10-10-2011
+	 * @since 14-10-2011
 	 * @author Paul
 	 */
 	@Override
@@ -137,7 +140,7 @@ public class ListaReclamosGuardados extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == Activity.RESULT_OK) {
 			// Se envio exitosamente el reclamo.
-			this.borrarReclamoLista(this.posicionReclamo);
+			this.borrarReclamoLista(this.getPosicionReclamo());
 			Log.d(this.getClass().getName(),
 					"Se ejecuto: " + data.getStringExtra(ServicioRest.FUN));
 			Toast.makeText(this, R.string.reclamo_enviado, Toast.LENGTH_LONG)
@@ -161,15 +164,15 @@ public class ListaReclamosGuardados extends Activity {
 	/**
 	 * Muestra una ventana de dialogo con el detalle de reclamo.
 	 * 
-	 * @since 10-10-2011
+	 * @since 14-10-2011
 	 * @author Paul
 	 */
 	private void mostrarDialogo(int indice) {
 		if (indice >= 0) {
 			Reclamo reclamo = reclamosGuardados[indice];
 			if (reclamo != null) {
-				this.reclamoGuardado = reclamo;
-				this.posicionReclamo = indice;
+				this.setReclamoGuardado(reclamo);
+				this.setPosicionReclamo(indice);
 				this.showDialog(indice);
 			}
 		} else {
@@ -263,6 +266,18 @@ public class ListaReclamosGuardados extends Activity {
 	}
 
 	/**
+	 * Guarda el reclamo a enviar en el repositorio.
+	 * 
+	 * @since 14-10-2011
+	 * @author Paul
+	 * @param indice
+	 *            Posicion del reclamo.
+	 */
+	private void setReclamoAEnviar(int indice) {
+		this.getRepo().setReclamoAEnviar(this.reclamosGuardados[indice]);
+	}
+
+	/**
 	 * Cierra la ventana. Llamado por el boton Atras.
 	 * 
 	 * @since 01-10-2011
@@ -272,4 +287,34 @@ public class ListaReclamosGuardados extends Activity {
 	public void salir(View v) {
 		this.finish();
 	}
+
+	/**
+	 * Devuelve el repositorio.
+	 * 
+	 * @since 22-07-2011
+	 * @author Paul
+	 * @return aplicacion
+	 */
+	private Repositorio getRepo() {
+		return ((Aplicacion) this.getApplication()).getRepositorio();
+	}
+
+	/* ******** Getters y Setters ******* */
+
+	private int getPosicionReclamo() {
+		return posicionReclamo;
+	}
+
+	private void setPosicionReclamo(int posicionReclamo) {
+		this.posicionReclamo = posicionReclamo;
+	}
+
+	private Reclamo getReclamoGuardado() {
+		return reclamoGuardado;
+	}
+
+	private void setReclamoGuardado(Reclamo reclamoGuardado) {
+		this.reclamoGuardado = reclamoGuardado;
+	}
+
 }

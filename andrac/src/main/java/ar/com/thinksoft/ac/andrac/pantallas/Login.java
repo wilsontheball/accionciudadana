@@ -385,20 +385,20 @@ public class Login extends Activity implements ReceptorRest {
 	 * @author Paul
 	 */
 	private void obtenerURL() {
-		SharedPreferences preferencias = getPreferences(MODE_PRIVATE);
+		SharedPreferences preferencias = getSharedPreferences(
+				Configuracion.class.getName(), MODE_WORLD_READABLE);
 		String url = preferencias.getString(Configuracion.ANDRAC_URL, null);
 		String puerto = preferencias.getString(Configuracion.ANDRAC_PUERTO,
 				null);
-		if (url == null || puerto == null) {
+		if (url == null || url.length() == 0) {
 			url = getString(R.string.url_estandar);
-			puerto = getString(R.string.puerto_estandar);
-
-			Log.d(this.getClass().getName(), "No hay prefs: " + url + " "
-					+ puerto);
-		} else {
-			Log.d(this.getClass().getName(), "Obtiene prefs: " + url + " "
-					+ puerto);
 		}
+		if (puerto == null || puerto.length() == 0) {
+			puerto = getString(R.string.puerto_estandar);
+		}
+		Log.d(this.getClass().getName(), "Config url: " + url);
+		Log.d(this.getClass().getName(), "Config puerto: " + puerto);
+
 		this.getRepo().setUrlServer(HTTP + url + ":" + puerto);
 	}
 

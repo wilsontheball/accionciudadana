@@ -166,7 +166,7 @@ public class Repositorio {
 
 	/* **************** Getters y Setters ****************** */
 
-	private void setReclamoAEnviar(Reclamo reclamoAEnviar) {
+	public void setReclamoAEnviar(Reclamo reclamoAEnviar) {
 		this.reclamoAEnviar = reclamoAEnviar;
 	}
 

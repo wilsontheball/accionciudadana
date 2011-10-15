@@ -39,8 +39,9 @@
 	</string>
 	<string name="pass_no_coincide">Contraseña ingresada no coincide con su repetición!
 	</string>
-	<string name="confirmar_registro">Se mandó un e-mail a su casilla de correo. Tiene
-		que abrirlo para continuar con el proceso de registración. Gracias.
+	<string name="confirmar_registro">Su registro ha sido exitoso. Se mandó un e-mail a
+		su
+		casilla de correo.
 	</string>
 	<string name="observaciones">Observaciones</string>
 	<string name="cargar_foto">Cargar Foto</string>
@@ -80,6 +81,7 @@
 	<string name="config_svr">Configuración</string>
 	<string name="svr_url">URL del servidor:</string>
 	<string name="svr_puerto">Puerto del servidor:</string>
+	<string name="config_guardada">Configuración guardada.</string>
 	<string-array name="ubicacion_array">
 		<item>Ubicación por Coordenada GPS</item>
 		<item>Ubicación por Calle y Altura</item>

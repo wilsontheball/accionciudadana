@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 import ar.com.thinksoft.ac.andrac.R;
 
 /**
@@ -42,7 +43,10 @@ public class Configuracion extends Activity {
 	 * @param v
 	 */
 	public void guardar(View v) {
+
 		this.guardarPreferencias(this.getUrl(), this.getPort());
+		Toast.makeText(this, R.string.config_guardada, Toast.LENGTH_SHORT)
+				.show();
 		this.finish();
 	}
 
@@ -64,7 +68,8 @@ public class Configuracion extends Activity {
 	 * @author Paul
 	 */
 	private void obtenerPreferencias() {
-		SharedPreferences preferencias = getPreferences(MODE_PRIVATE);
+		SharedPreferences preferencias = getSharedPreferences(this.getClass()
+				.getName(), MODE_WORLD_READABLE);
 		url = preferencias.getString(ANDRAC_URL, null);
 		puerto = preferencias.getString(ANDRAC_PUERTO, null);
 
@@ -83,7 +88,8 @@ public class Configuracion extends Activity {
 	 * @author Paul
 	 */
 	private void guardarPreferencias(String url, String puerto) {
-		SharedPreferences preferencias = getPreferences(MODE_PRIVATE);
+		SharedPreferences preferencias = getSharedPreferences(this.getClass()
+				.getName(), MODE_WORLD_READABLE);
 		Editor editor = preferencias.edit();
 		editor.putString(ANDRAC_URL, url);
 		editor.putString(ANDRAC_PUERTO, puerto);
