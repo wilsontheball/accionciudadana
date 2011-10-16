@@ -18,7 +18,6 @@ import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
 public class UsuarioNuevoForm extends Form<Usuario> {
 
 	private static final long serialVersionUID = 4530512782651195546L;
-	private String repassword;
 	private String tipoUsuario;
 	private UsuarioNuevoForm self;
 
