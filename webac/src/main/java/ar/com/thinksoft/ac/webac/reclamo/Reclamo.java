@@ -1,5 +1,6 @@
 package ar.com.thinksoft.ac.webac.reclamo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +17,14 @@ import ar.com.thinksoft.ac.webac.mail.MailManager;
  * @author Matias
  *
  */
-public class Reclamo implements IReclamo{
+public class Reclamo implements IReclamo,Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String id;
+	private String idPadre;
 	private String calleReclamo;
 	private String alturaReclamo;
 	private String latitudReclamo;
@@ -210,7 +212,10 @@ public class Reclamo implements IReclamo{
 		return this.reclamosAsociados;
 	}
 	
-		
+	public String getReclamoPadreId() {
+		return this.idPadre;
+	}
+	
 	//SET ATRIBUTOS
 	
 	public void setId() {
@@ -280,6 +285,10 @@ public class Reclamo implements IReclamo{
 	public void setPrioridad(String prioridad) throws Exception{
 		this.prioridad = prioridad;
 		
+	}	
+	
+	public void setReclamoPadreId(String id) {
+		this.idPadre = id;
 	}
 
 	public void setComunaIncidentePorBarrio(String barrio){
@@ -346,6 +355,7 @@ public class Reclamo implements IReclamo{
 		if(this.isIgual(reclamo) && this.isNotDown() && reclamo.isNotDown()){
 			reclamo.setAsociadoReclamo();
 			this.getReclamosAsociados().add(reclamo);
+			reclamo.setReclamoPadreId(this.getId());
 			definirPrioridadUnificado(reclamo);
 			ReclamoManager.getInstance().guardarReclamo(this);
 			ReclamoManager.getInstance().guardarReclamo(reclamo);
@@ -388,5 +398,5 @@ public class Reclamo implements IReclamo{
 				this.setPrioridad(EnumPrioridadReclamo.media.getPrioridad());
 		}
 	}
-	
+
 }

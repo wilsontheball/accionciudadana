@@ -16,8 +16,10 @@ import ar.com.thinksoft.ac.wilsond.log.LogManager;
 
 public class MailWilsonD {
 	
-private static MailWilsonD instance;
+	private static MailWilsonD instance;
+	private Session session;
 	
+
 	public static MailWilsonD getInstance(){
 		if(instance == null){
 			instance = new MailWilsonD();
@@ -25,8 +27,7 @@ private static MailWilsonD instance;
 		return instance;
 	}
 	
-	public void enviarMail(String mailDestino, String asuntoMail, String cuerpoMail){
-		
+	public MailWilsonD(){
 		try {
 			ConfiguracionWilsonD.getInstance().cargarConfiguracion();
 		} catch (Exception e1) {
@@ -47,8 +48,12 @@ private static MailWilsonD instance;
 		props.setProperty("mail.smtp.user", "Accion Ciudadana");
 		
 		// Get session
-		Session session = Session.getDefaultInstance(props);
+		session = Session.getDefaultInstance(props);
+		
+	}
 	
+	public void enviarMail(String mailDestino, String asuntoMail, String cuerpoMail){
+		
 		// Define message
 		MimeMessage message = new MimeMessage(session);
 		try {

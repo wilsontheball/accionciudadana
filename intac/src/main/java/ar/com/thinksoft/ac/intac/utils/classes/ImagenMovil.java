@@ -10,6 +10,7 @@ import ar.com.thinksoft.ac.intac.IImagen;
  * @since 07-10-2011
  * @author Paul
  */
+@SuppressWarnings("serial")
 public abstract class ImagenMovil implements IImagen {
 
 	public static final String TIPO_JPG = "jpg";

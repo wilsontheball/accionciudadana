@@ -1,6 +1,8 @@
 package ar.com.thinksoft.ac.intac;
 
-public interface IImagen {
+import java.io.Serializable;
+
+public interface IImagen  extends Serializable{
 	
 	public void setBytes(byte[] imageBytes);
 	public byte[] getBytes();

@@ -39,7 +39,7 @@ public class TestReclamo {
 		ReclamoManager.getInstance().guardarColeccionReclamos(this.listaReclamosTest);
 	}
 	
-	@Test
+	@Ignore
 	public void guardarReclamoTest(){
 		
 		List<IReclamo> objs = Repository.getInstance().queryByExample(IReclamo.class);
@@ -47,7 +47,7 @@ public class TestReclamo {
 		assertTrue(objs.size() == 3);
 	}
 	
-	@Test
+	@Ignore
 	public void obtenerTodosReclamosTest(){
 		
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerTodosReclamos();
@@ -55,7 +55,7 @@ public class TestReclamo {
 		assertTrue(lista.size() == 3);
 	}
 	
-	@Test
+	@Ignore
 	public void obtenerReclamoPorUUID(){
 		
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates((new PredicatePorUUID()).filtrar(this.listaReclamosTest.get(0).getId()));
@@ -63,7 +63,7 @@ public class TestReclamo {
 		assertTrue(lista.size() == 1);
 	}
 	
-	@Test
+	@Ignore
 	public void obtenerReclamosPorCiudadano(){
 
 		Reclamo reclamo = new Reclamo();
@@ -73,7 +73,7 @@ public class TestReclamo {
 		assertTrue(lista.size() == 2);
 	}
 	
-	@Test
+	@Ignore
 	public void obtenerReclamosPorLatitudYLongitud(){
 		
 		Reclamo reclamo = new Reclamo();
@@ -84,7 +84,7 @@ public class TestReclamo {
 		assertTrue(lista.size() == 1);
 	}
 	
-	@Test
+	@Ignore
 	public void obtenerReclamosPorCalle(){
 		
 		Reclamo reclamo = new Reclamo();
@@ -94,7 +94,7 @@ public class TestReclamo {
 		assertTrue(lista.size() == 1);
 	}
 	
-	@Test
+	@Ignore
 	public void obtenerReclamosPorCalleYAltura(){
 		
 		Reclamo reclamo = new Reclamo();
@@ -105,7 +105,7 @@ public class TestReclamo {
 		assertTrue(lista.size() == 1);
 	}
 	
-	@Test
+	@Ignore
 	public void obtenerReclamosPorTipo(){
 		
 		Reclamo reclamo = new Reclamo();
@@ -116,7 +116,7 @@ public class TestReclamo {
 		
 	}
 	
-	@Test
+	@Ignore
 	public void obtenerReclamosPorPrioridad() throws Exception{
 		
 		Reclamo reclamo = new Reclamo();
@@ -126,7 +126,7 @@ public class TestReclamo {
 		assertTrue(lista.size() == 1);
 	}
 	
-	@Test
+	@Ignore
 	public void obtenerReclamosPorEstado(){
 		
 		Reclamo reclamo = new Reclamo();
@@ -135,7 +135,7 @@ public class TestReclamo {
 		assertTrue(lista.size() == 1);
 	}
 	
-	@Test
+	@Ignore
 	public void modificarReclamo() throws Exception{
 		
 		Reclamo reclamo = new Reclamo();

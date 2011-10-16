@@ -16,7 +16,6 @@ import ar.com.thinksoft.ac.wilsond.GeocoderChild;
 import ar.com.thinksoft.ac.wilsond.Repositorio.Repositorio;
 import ar.com.thinksoft.ac.wilsond.configuracion.ConfiguracionWilsonD;
 import ar.com.thinksoft.ac.wilsond.log.LogManager;
-import ar.com.thinksoft.ac.wilsond.mail.MailWilsonD;
 
 public class ReclamoManager {
 
@@ -81,8 +80,7 @@ public class ReclamoManager {
 	 */
 	public void guardarReclamo(IReclamo reclamo) {
 		Repositorio.getInstancia().store(reclamo);
-		MailWilsonD.getInstance().enviarMail(reclamo.getMailCiudadanoGeneradorReclamo(), 
-				"Accion Ciudadana - Activacion de reclamo", MailWilsonD.getInstance().armarTextoCambioEstados(reclamo.getEstadoDescripcion(), reclamo));
+		
 	}
 
 	/*
