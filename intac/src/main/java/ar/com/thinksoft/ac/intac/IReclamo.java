@@ -98,7 +98,7 @@ public interface IReclamo extends Serializable{
 	
 	public  boolean isIgual(IReclamo reclamo);
 	
-	public  void unificar(IReclamo reclamo) throws Exception;
+	public  void unificar(IReclamo reclamo);
 	
 	public  void cancelarReclamo() throws Exception;
 

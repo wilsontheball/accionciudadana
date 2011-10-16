@@ -29,7 +29,7 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 		super(id);
 		setMultiPart(true);
 		
-		Boolean isPadre = Boolean.valueOf(esPadre);
+		Boolean hasPadre = Boolean.valueOf(esPadre);
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorUUID().filtrar(idReclamo));
 		
 		if(lista.size()!= 1){
@@ -55,9 +55,7 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 		add(new Label("ComunaIncidente",this.createBind(model,"ComunaIncidente")));
 		
 		Label ciudadano = new Label("ciudadanoReclamo",this.createBind(model,"ciudadanoReclamo"));
-		if(isPadre.booleanValue()){
-			ciudadano.setVisible(false);
-		}
+		ciudadano.setVisible(!hasPadre.booleanValue());
 		add(ciudadano);
 		
 		add(new Label("prioridad",this.createBind(model,"prioridad")));
@@ -117,13 +115,13 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 				
 				PageParameters params =new PageParameters();
 		        params.add("reclamoId", reclamo.getReclamoPadreId());
-		        params.add("esPadre", Boolean.TRUE.toString());
+		        params.add("hasPadre", Boolean.TRUE.toString());
 	            
 		        setResponsePage(DetalleReclamoPage.class, params);
 		        setRedirect(true);
 			}
 		};
-		detallePadre.setVisible(!isPadre.booleanValue() && reclamo.getReclamoPadreId() != null && reclamo.getReclamoPadreId() != "");
+		detallePadre.setVisible(reclamo.getReclamoPadreId() != null && reclamo.getReclamoPadreId() != "");
 		add(detallePadre);
 		
 	}

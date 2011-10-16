@@ -251,14 +251,11 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				IReclamo reclamo = listaReclamosSeleccionados.get(0);
 				IReclamo reclamo2 = listaReclamosSeleccionados.get(1);
 				
-				try{
-					if((reclamo.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) <= 0))
-						reclamo.unificar(reclamo2);
-					else
-						reclamo2.unificar(reclamo);
-				} catch (Exception e) {
-					LogFwk.getInstance(BusquedaReclamoForm.class).error("No se pudo hacer la unificacion de reclamos. Detalle: " + e.getMessage());
-				}
+				if((reclamo.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) <= 0))
+					reclamo.unificar(reclamo2);
+				else
+					reclamo2.unificar(reclamo);
+				
 				
 				dialogUnificar.close(target);
 				setResponsePage(BusquedaReclamoPage.class);

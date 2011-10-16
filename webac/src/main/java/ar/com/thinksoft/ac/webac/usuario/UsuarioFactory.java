@@ -36,6 +36,7 @@ public class UsuarioFactory {
 		usuario.setApellido("god");
 		usuario.setContrasenia("god");
 		usuario.setNombreUsuario("god");
+		usuario.setMail("accionciudadana.gcba@gmail.com");
 		usuario.addRole("ADMIN");
 		usuario.addRole("CIUDADANO");
 		usuario.addRole("OPERADOR");

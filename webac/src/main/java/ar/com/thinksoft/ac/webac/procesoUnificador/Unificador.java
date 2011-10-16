@@ -84,15 +84,10 @@ public class Unificador {
 
 		private void compararReclamoConTodos(IReclamo reclamo) {
 			for(IReclamo reclamoBase: listaReclamos){
-				try {
 					if((reclamo.getFechaReclamo().compareTo(reclamoBase.getFechaReclamo()) <= 0))
 						reclamo.unificar(reclamoBase);
 					else
 						reclamoBase.unificar(reclamo);
-					
-				} catch (Exception e) {
-					LogFwk.getInstance(Unificador.class).error("No se pudo hacer el proceso unificaodr de reclamos. Detalle: " + e.getMessage());
-				}
 			}
 		}
     }
