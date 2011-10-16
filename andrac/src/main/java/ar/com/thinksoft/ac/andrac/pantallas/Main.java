@@ -24,7 +24,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * La clase se encarga de manejar la pantalla Home.
  * 
- * @since 10-10-2011
+ * @since 14-10-2011
  * @author Paul
  */
 public class Main extends Activity {
@@ -114,9 +114,10 @@ public class Main extends Activity {
 
 	/**
 	 * Detecta el evento del boton fisico que cancela la aplicacion. Cierra la
-	 * aplicacion. Otros botones delega para arriba.
+	 * aplicacion. Otros botones delega para arriba. Detecta el boton Menu para
+	 * mostrar Configuracion.
 	 * 
-	 * @since 10-10-2011
+	 * @since 14-10-2011
 	 * @author Paul
 	 * @param keyCode
 	 *            Codigo del boton presionado.
@@ -128,6 +129,9 @@ public class Main extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			this.salir();
+			return true;
+		} else if (keyCode == KeyEvent.KEYCODE_MENU) {
+			this.mostrarVentanaConfiguracion();
 			return true;
 		} else {
 			return super.onKeyDown(keyCode, event);
@@ -303,6 +307,16 @@ public class Main extends Activity {
 	 */
 	private void mostrarVentanaRegistro() {
 		this.startActivity(new Intent(this, Registro.class));
+	}
+
+	/**
+	 * Muestra la ventana de configuracion.
+	 * 
+	 * @since 14-10-2011
+	 * @author Paul
+	 */
+	private void mostrarVentanaConfiguracion() {
+		this.startActivity(new Intent(this, Configuracion.class));
 	}
 
 }

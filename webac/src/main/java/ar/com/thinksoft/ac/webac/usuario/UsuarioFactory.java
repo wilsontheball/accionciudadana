@@ -12,18 +12,21 @@ public class UsuarioFactory {
 	public Usuario construirCiudadano() {
 		Usuario usuario = this.crearUsuario();
 		usuario.addRole("CIUDADANO");
+		usuario.addRole("ALL");
 		return usuario;
 	}
 
 	public Usuario construirOperador() {
 		Usuario usuario = this.crearUsuario();
 		usuario.addRole("OPERADOR");
+		usuario.addRole("ALL");
 		return usuario;
 	}
 
 	public Usuario construirAdministrador() {
 		Usuario usuario = this.crearUsuario();
 		usuario.addRole("ADMIN");
+		usuario.addRole("ALL");
 		return usuario;
 	}
 	
@@ -36,6 +39,7 @@ public class UsuarioFactory {
 		usuario.addRole("ADMIN");
 		usuario.addRole("CIUDADANO");
 		usuario.addRole("OPERADOR");
+		usuario.addRole("ALL");
 		return usuario;
 		
 	}

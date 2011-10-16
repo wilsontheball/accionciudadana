@@ -12,10 +12,13 @@ import ar.com.thinksoft.ac.intac.utils.classes.ImagenMovil;
 /**
  * Buzon intermedio para intercambiar datos entre los procesos.
  * 
- * @since 08-10-2011
+ * @since 14-10-2011
  * @author Paul
  */
 public class Repositorio {
+
+	// Almacena temporalmente url de servidor en una sesion.
+	private String urlServer = null;
 
 	// Almacenan temporalmente Usuario y Pass en una sesion.
 	private String nick = null;
@@ -163,7 +166,7 @@ public class Repositorio {
 
 	/* **************** Getters y Setters ****************** */
 
-	private void setReclamoAEnviar(Reclamo reclamoAEnviar) {
+	public void setReclamoAEnviar(Reclamo reclamoAEnviar) {
 		this.reclamoAEnviar = reclamoAEnviar;
 	}
 
@@ -227,5 +230,13 @@ public class Repositorio {
 
 	public void setUsuarioARegistrar(Usuario usuarioARegistrar) {
 		this.usuarioARegistrar = usuarioARegistrar;
+	}
+
+	public String getUrlServer() {
+		return this.urlServer;
+	}
+
+	public void setUrlServer(String url) {
+		this.urlServer = url;
 	}
 }

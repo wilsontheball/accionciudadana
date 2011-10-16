@@ -5,7 +5,7 @@ import org.apache.wicket.markup.html.JavascriptPackageResource;
 
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 
-public class UsuarioNuevoPage extends BasePage{
+public class UsuarioNuevoPage extends BasePage {
 
 	public UsuarioNuevoPage() {
 		add(CSSPackageResource.getHeaderContribution(UsuarioNuevoPage.class,"../../css/RegistroPage.css"));
