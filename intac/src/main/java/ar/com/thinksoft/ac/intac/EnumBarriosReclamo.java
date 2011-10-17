@@ -1,4 +1,4 @@
-﻿package ar.com.thinksoft.ac.intac;
+package ar.com.thinksoft.ac.intac;
 
 import java.util.ArrayList;
 import java.util.HashMap;

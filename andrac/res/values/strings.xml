@@ -28,7 +28,7 @@
 	<string name="login_exito">Autentificación Exitosa!</string>
 	<string name="cerrar_aplicacion">Aplicación Finalizada.</string>
 	<string name="advertencia">Error</string>
-	<string name="nick_pass_fail">Usuario y/o contraseña no validos.</string>
+	<string name="nick_pass_fail">Usuario y/o contraseña incorrecto.</string>
 	<string name="atencion">Atención!</string>
 	<string name="campo_vacio">Todos los campos deben ser completados!</string>
 	<string name="campo_calle_vacio">El campo calle debe ser completado!</string>
@@ -74,10 +74,12 @@
 	<string name="obteniendo_perfil">Obteniendo datos de perfil...</string>
 	<string name="procesando">Procesando...</string>
 	<string name="perfil_titulo">Perfil de Usuario</string>
-	<string name="error_conexion">Error de Conexión</string>
+	<string name="error_conexion_servidor">Servidor no está funcionando. Intente conectarse
+		mas tarde. Disculpe las molestias.</string>
 	<string name="error_inesperado">Esto es realmente embarazoso. No tenemos ni puta
 		idea que paso... Reinicia y manejalo.</string>
-	<string name="mensaje_error_conexion">No se pudo conectar al servidor.</string>
+	<string name="mensaje_error_conexion">No se pudo conectar al servidor. Revise su conexión
+		de Internet.</string>
 	<string name="config_svr">Configuración</string>
 	<string name="svr_url">URL del servidor:</string>
 	<string name="svr_puerto">Puerto del servidor:</string>
