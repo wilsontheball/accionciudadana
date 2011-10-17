@@ -8,6 +8,7 @@ import org.jdom.*;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
+import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 
 public class Configuracion implements Serializable{
@@ -34,6 +35,8 @@ public class Configuracion implements Serializable{
 	private String user;
 	private String password;
 	
+	private String ipBD;
+	private String portBD;
 	
 	private String pathTempImages = "src/main/webapp/tempImages/";
 	private String pathExportDesign = "src/main/webapp/export/";
@@ -41,7 +44,7 @@ public class Configuracion implements Serializable{
 	private String pathDownloadApp = "src/main/webapp/download/accionCiudadana.apk";
 	private String keyGoogleMap = "ABQIAAAASNhk0DNhWwkPk0Y12RIrThTwM0brOpm-All5BF6PoaKBxRWWERRi58__PuwPgysGGKPkLxYHu8hULg";
 	
-	public void guardarConfiguracion(){
+	public void guardarConfiguracion() throws ConfiguracionException{
 		Element configElement = new Element("configuracion");
 		Document configDocument = new Document(configElement);
 		
@@ -56,6 +59,9 @@ public class Configuracion implements Serializable{
 		configElement.addContent(new Element("auth").addContent(this.getAuth().toString()));
 		configElement.addContent(new Element("user").addContent(this.getUser()));
 		configElement.addContent(new Element("password").addContent(this.getPassword()));
+		
+		configElement.addContent(new Element("ipBD").addContent(this.getIpBD()));
+		configElement.addContent(new Element("portBD").addContent(this.getPortBD()));
 		
 		configElement.addContent(new Element("pathTempImages").addContent(this.getPathTempImages()));
 		configElement.addContent(new Element("pathExportDesign").addContent(this.getPathExportDesign()));
@@ -76,14 +82,14 @@ public class Configuracion implements Serializable{
             writer.close();
             
 		} catch (java.io.IOException e) {
-			LogFwk.getInstance(Configuracion.class).error("Error al escribir el archivo de configuracion. Creacion abortada");
-			System.out.println("falla el guardado");
+			LogFwk.getInstance(Configuracion.class).error("Error al escribir el archivo de configuracion. Detalle: " + e.getMessage());
+			throw new ConfiguracionException("Error al escribir el archivo de configuracion. Detalle: " + e.getMessage());
 		}
 		
 		instance = null;
 	}
 	
-	public void cargarConfiguracion(){
+	public void cargarConfiguracion() throws ConfiguracionException{
 		
 		try {
 			SAXBuilder builder = new SAXBuilder();
@@ -102,15 +108,18 @@ public class Configuracion implements Serializable{
 			this.setUser(rootNode.getChildText("user"));
 			this.setPassword(rootNode.getChildText("password"));
 			
+			this.setIpBD(rootNode.getChildText("ipBD"));
+			this.setPortBD(rootNode.getChildText("portBD"));
+			
 			this.setPathTempImages(rootNode.getChildText("pathTempImages"));
 			this.setPathExportDesign(rootNode.getChildText("pathExportDesign"));
 			this.setPathConfig(rootNode.getChildText("pathConfig"));
 			this.setPathDownloadApp(rootNode.getChildText("pathDownloadApp"));
 			this.setKeyGoogleMap(rootNode.getChildText("keyGoogleMap"));
 			
-		  } catch (Exception io) {
-			  LogFwk.getInstance(Configuracion.class).error("No se encontro ningun archivo de configuracion. Se creara uno automaticamente");
-			  System.out.println("falla la carga");
+		  } catch (Exception e) {
+			  LogFwk.getInstance(Configuracion.class).error("Error al leer el archivo de configuracion. Detalle: " + e.getMessage());
+			  throw new ConfiguracionException("Error al leer el archivo de configuracion. Detalle: " + e.getMessage());
 		  }
 	}
 	
@@ -217,6 +226,22 @@ public class Configuracion implements Serializable{
 
 	public String getPassword() {
 		return password;
+	}
+
+	public void setIpBD(String ipBD) {
+		this.ipBD = ipBD;
+	}
+
+	public String getIpBD() {
+		return ipBD;
+	}
+
+	public void setPortBD(String portBD) {
+		this.portBD = portBD;
+	}
+
+	public String getPortBD() {
+		return portBD;
 	}
 
 }

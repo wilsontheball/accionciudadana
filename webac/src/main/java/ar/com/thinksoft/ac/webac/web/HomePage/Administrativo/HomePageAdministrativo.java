@@ -5,9 +5,24 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.Model;
+
+import wicket.contrib.gmap.GMap2;
+import wicket.contrib.gmap.api.GIcon;
+import wicket.contrib.gmap.api.GLatLng;
+import wicket.contrib.gmap.api.GMarker;
+import wicket.contrib.gmap.api.GMarkerOptions;
+import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.adminMap.Comuna;
+import ar.com.thinksoft.ac.webac.adminMap.ComunaManager;
+import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
+import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
+import ar.com.thinksoft.ac.webac.web.base.BasePage;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 import com.inmethod.grid.DataProviderAdapter;
 import com.inmethod.grid.SizeUnit;
@@ -15,35 +30,20 @@ import com.inmethod.grid.column.PropertyColumn;
 import com.inmethod.grid.datagrid.DataGrid;
 import com.inmethod.grid.datagrid.DefaultDataGrid;
 
-import wicket.contrib.gmap.GMap2;
-import wicket.contrib.gmap.api.GIcon;
-import wicket.contrib.gmap.api.GLatLng;
-import wicket.contrib.gmap.api.GMarker;
-import wicket.contrib.gmap.api.GMarkerOptions;
-
-import ar.com.thinksoft.ac.intac.IPermiso;
-import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.webac.adminMap.Comuna;
-import ar.com.thinksoft.ac.webac.adminMap.ComunaManager;
-import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
-import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
-import ar.com.thinksoft.ac.webac.web.base.BasePage;
-import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
-
+@AuthorizeInstantiation({"ADMIN","OPERADOR"})
 public class HomePageAdministrativo extends BasePage{
 	
 	private static String KEY = "";
 	private DataGrid gridActivos;
 	private DataGrid gridUltimosModificados;
 	
-	@Override
-	public IPermiso getPermisoNecesario() {
-		return new HomePageAdministrativoPermiso();
-	}
-	
 	public HomePageAdministrativo(final PageParameters parameters){
 		
-		Configuracion.getInstance().cargarConfiguracion();
+		try {
+			Configuracion.getInstance().cargarConfiguracion();
+		} catch (ConfiguracionException e) {
+			// TODO dialogo error
+		}
 		KEY = Configuracion.getInstance().getKeyGoogleMap();
 		
 		add(CSSPackageResource.getHeaderContribution(HomePage.class,"../css/Home.css"));
@@ -77,37 +77,37 @@ public class HomePageAdministrativo extends BasePage{
 		GIcon iconoComuna1 = new GIcon("/images/comuna1.jpg");
 		iconoComuna1.setShadow(null);
 		iconoComuna1.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.603541,-58.360405), new GMarkerOptions("comuna1", iconoComuna1)));
+		map.addOverlay(new GMarker(new GLatLng(-34.601846,-58.364525), new GMarkerOptions("comuna1", iconoComuna1)));
 		
 		GIcon iconoComuna2 = new GIcon("/images/comuna2.jpg");
 		iconoComuna2.setShadow(null);
 		iconoComuna2.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.587856,-58.396797), new GMarkerOptions("comuna2", iconoComuna2)));
+		map.addOverlay(new GMarker(new GLatLng(-34.594781,-58.401947), new GMarkerOptions("comuna2", iconoComuna2)));
 		
 		GIcon iconoComuna3 = new GIcon("/images/comuna3.jpg");
 		iconoComuna3.setShadow(null);
 		iconoComuna3.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.60891,-58.401947), new GMarkerOptions("comuna3", iconoComuna3)));
+		map.addOverlay(new GMarker(new GLatLng(-34.623038,-58.403664), new GMarkerOptions("comuna3", iconoComuna3)));
 		
 		GIcon iconoComuna4 = new GIcon("/images/comuna4.jpg");
 		iconoComuna4.setShadow(null);
 		iconoComuna4.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.643377,-58.392334), new GMarkerOptions("comuna4", iconoComuna4)));
+		map.addOverlay(new GMarker(new GLatLng(-34.645919,-58.387527), new GMarkerOptions("comuna4", iconoComuna4)));
 		
 		GIcon iconoComuna5 = new GIcon("/images/comuna5.jpg");
 		iconoComuna5.setShadow(null);
 		iconoComuna5.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.617952,-58.420143), new GMarkerOptions("comuna5", iconoComuna5)));
+		map.addOverlay(new GMarker(new GLatLng(-34.614562,-58.423576), new GMarkerOptions("comuna5", iconoComuna5)));
 		
 		GIcon iconoComuna6 = new GIcon("/images/comuna6.jpg");
 		iconoComuna6.setShadow(null);
 		iconoComuna6.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.615127,-58.444176), new GMarkerOptions("comuna6", iconoComuna6)));
+		map.addOverlay(new GMarker(new GLatLng(-34.617952,-58.436623), new GMarkerOptions("comuna6", iconoComuna6)));
 		
 		GIcon iconoComuna7 = new GIcon("/images/comuna7.jpg");
 		iconoComuna7.setShadow(null);
 		iconoComuna7.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.63801,-58.451385), new GMarkerOptions("comuna7", iconoComuna7)));
+		map.addOverlay(new GMarker(new GLatLng(-34.64253,-58.449326), new GMarkerOptions("comuna7", iconoComuna7)));
 		
 		GIcon iconoComuna8 = new GIcon("/images/comuna8.jpg");
 		iconoComuna8.setShadow(null);
@@ -117,37 +117,37 @@ public class HomePageAdministrativo extends BasePage{
 		GIcon iconoComuna9 = new GIcon("/images/comuna9.jpg");
 		iconoComuna9.setShadow(null);
 		iconoComuna9.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.654392,-58.507347), new GMarkerOptions("comuna9", iconoComuna9)));
+		map.addOverlay(new GMarker(new GLatLng(-34.657498,-58.511124), new GMarkerOptions("comuna9", iconoComuna9)));
 		
 		GIcon iconoComuna10 = new GIcon("/images/comuna10.jpg");
 		iconoComuna10.setShadow(null);
 		iconoComuna10.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.627558,-58.502541), new GMarkerOptions("comuna10", iconoComuna10)));
+		map.addOverlay(new GMarker(new GLatLng(-34.63349,-58.500481), new GMarkerOptions("comuna10", iconoComuna10)));
 		
 		GIcon iconoComuna11 = new GIcon("/images/comuna11.jpg");
 		iconoComuna11.setShadow(null);
 		iconoComuna11.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.602694,-58.505287), new GMarkerOptions("comuna11", iconoComuna11)));
+		map.addOverlay(new GMarker(new GLatLng(-34.605802,-58.507004), new GMarkerOptions("comuna11", iconoComuna11)));
 		
 		GIcon iconoComuna12 = new GIcon("/images/comuna12.jpg");
 		iconoComuna12.setShadow(null);
 		iconoComuna12.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.565948,-58.491898), new GMarkerOptions("comuna12", iconoComuna12)));
+		map.addOverlay(new GMarker(new GLatLng(-34.570754,-58.494987), new GMarkerOptions("comuna12", iconoComuna12)));
 		
 		GIcon iconoComuna13 = new GIcon("/images/comuna13.jpg");
 		iconoComuna13.setShadow(null);
 		iconoComuna13.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.555487,-58.450699), new GMarkerOptions("comuna13", iconoComuna13)));
+		map.addOverlay(new GMarker(new GLatLng(-34.554922,-58.443832), new GMarkerOptions("comuna13", iconoComuna13)));
 		
 		GIcon iconoComuna14 = new GIcon("/images/comuna14.jpg");
 		iconoComuna14.setShadow(null);
 		iconoComuna14.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.572733,-58.418427), new GMarkerOptions("comuna14", iconoComuna14)));
+		map.addOverlay(new GMarker(new GLatLng(-34.578952,-58.426323), new GMarkerOptions("comuna14", iconoComuna14)));
 		
 		GIcon iconoComuna15 = new GIcon("/images/comuna15.jpg");
 		iconoComuna15.setShadow(null);
 		iconoComuna15.setShadowSize(null);
-		map.addOverlay(new GMarker(new GLatLng(-34.588139,-58.468552), new GMarkerOptions("comuna15", iconoComuna15)));
+		map.addOverlay(new GMarker(new GLatLng(-34.590824,-58.459969), new GMarkerOptions("comuna15", iconoComuna15)));
 		
 	}
 
@@ -278,4 +278,5 @@ public class HomePageAdministrativo extends BasePage{
 		return listaDevolucion;
 	
 	}
+
 }

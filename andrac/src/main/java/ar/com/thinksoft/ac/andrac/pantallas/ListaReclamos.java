@@ -15,28 +15,25 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.adapter.ReclamoAdapter;
-import ar.com.thinksoft.ac.andrac.adapter.ReclamoItem;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
+import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 
 /**
  * La clase se encarga de manejar el listado de reclamos realizados por usuario.
  * 
- * @since 25-09-2011
+ * @since 10-10-2011
  * @author Paul
  */
 public class ListaReclamos extends Activity {
 	// Codigo de error
 	private final int ERROR = -1;
 
-	// Mensaje de error
-	private String mensajeError = "Error!";
-
 	// Almacena reclamo para mostrar su detalle
-	private ReclamoItem reclamo = null;
+	private Reclamo reclamo = null;
 
 	// Almacena reclamos para pasarlos al listener
-	private ReclamoItem[] reclamos;
+	private Reclamo[] reclamos;
 
 	/**
 	 * Se encarga de la creacion de la ventana. Le asigna Layout. Obtiene los
@@ -52,7 +49,7 @@ public class ListaReclamos extends Activity {
 		setContentView(R.layout.lista_reclamos);
 
 		// Obtiene los reclamos de usuario.
-		this.reclamos = (ReclamoItem[]) this.getRepo().getReclamosUsuario();
+		this.reclamos = (Reclamo[]) this.getRepo().getReclamosUsuario();
 
 		// Carga el listado con los reclamos.
 		ListView listado = (ListView) findViewById(R.id.list);
@@ -63,7 +60,6 @@ public class ListaReclamos extends Activity {
 				mostrarDialogo(posicion);
 			}
 		});
-
 	}
 
 	/**
@@ -78,6 +74,47 @@ public class ListaReclamos extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
+	}
+
+	/**
+	 * Crea la ventana de Dialogo. (Se hace de esta forma en Android 2.2)
+	 * 
+	 * @since 10-10-2011
+	 * @author Paul
+	 */
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		// TODO Definir la vista fachera del dialogo
+
+		switch (id) {
+		case ERROR:
+			return new AlertDialog.Builder(ListaReclamos.this)
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(R.string.advertencia)
+					.setMessage(R.string.error_inesperado)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// Cierra la pantalla
+									finish();
+								}
+							}).create();
+		default:
+			return new AlertDialog.Builder(ListaReclamos.this)
+					.setIcon(
+							this.obtenerIcono(this.reclamo
+									.getEstadoDescripcion()))
+					.setTitle(this.reclamo.getEstadoDescripcion())
+					.setMessage(this.armarResumen(this.reclamo))
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									/* User clicked OK so do some stuff */
+								}
+							}).create();
+		}
 	}
 
 	/**
@@ -105,58 +142,27 @@ public class ListaReclamos extends Activity {
 	/**
 	 * Muestra una ventana de dialogo con el detalle de reclamo.
 	 * 
-	 * @since 23-08-2011
+	 * @since 10-10-2011
 	 * @author Paul
 	 */
-	public void mostrarDialogo(int posicion) {
-		ReclamoItem reclamo = reclamos[posicion];
+	private void mostrarDialogo(int posicion) {
+		Reclamo reclamo = reclamos[posicion];
 		if (reclamo != null) {
 			this.reclamo = reclamo;
 			this.showDialog(posicion);
 		} else {
-			this.showDialog(1);
+			this.showDialog(ERROR);
 		}
 	}
 
 	/**
-	 * Crea la ventana de Dialogo. (Se hace de esta forma en Android 2.2)
+	 * Obtene ID del icono por nombre de archivo.
 	 * 
 	 * @since 23-08-2011
 	 * @author Paul
+	 * @param estadoOriginal
+	 * @return
 	 */
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		// TODO Definir la vista fachera del dialogo
-
-		switch (id) {
-		case ERROR:
-			return new AlertDialog.Builder(ListaReclamos.this)
-					.setIcon(R.drawable.alert_dialog_icon)
-					.setTitle(R.string.advertencia)
-					.setMessage(this.mensajeError)
-					.setPositiveButton(R.string.ok,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									// Cierra la pantalla
-									finish();
-								}
-							}).create();
-		default:
-			return new AlertDialog.Builder(ListaReclamos.this)
-					.setIcon(this.obtenerIcono(this.reclamo.getEstado()))
-					.setTitle(this.reclamo.getEstado())
-					.setMessage(this.reclamo.getResumen())
-					.setPositiveButton(R.string.ok,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									/* User clicked OK so do some stuff */
-								}
-							}).create();
-		}
-	}
-
 	private int obtenerIcono(String estadoOriginal) {
 		try {
 			String estado = this.limpiarCadena(estadoOriginal);
@@ -169,6 +175,15 @@ public class ListaReclamos extends Activity {
 		}
 	}
 
+	/**
+	 * Convierte una cadena a formato de un nombre de archivo (solo minusculas
+	 * sin espacios).
+	 * 
+	 * @since 23-08-2011
+	 * @author Paul
+	 * @param s
+	 * @return
+	 */
 	private String limpiarCadena(String s) {
 		StringTokenizer st = new StringTokenizer(s.toLowerCase().trim(), " ",
 				false);
@@ -176,5 +191,24 @@ public class ListaReclamos extends Activity {
 		while (st.hasMoreElements())
 			t += st.nextElement();
 		return t;
+	}
+
+	/**
+	 * Arma el resumen de detalle de un reclamo.
+	 * 
+	 * @since 10-10-2011
+	 * @author Paul
+	 * @param reclamo
+	 * @return
+	 */
+	private String armarResumen(Reclamo reclamo) {
+
+		String resumen = reclamo.getTipoIncidente() + "\n"
+				+ reclamo.getBarrioIncidente() + "\n"
+				+ reclamo.getCalleIncidente() + " "
+				+ reclamo.getAlturaIncidente() + "\n"
+				+ reclamo.getFechaReclamo() + "\n" + reclamo.getObservaciones();
+		return resumen;
+
 	}
 }

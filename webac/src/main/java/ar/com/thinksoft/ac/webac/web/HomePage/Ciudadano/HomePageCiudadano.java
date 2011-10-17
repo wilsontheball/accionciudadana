@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.Model;
@@ -12,6 +13,13 @@ import org.apache.wicket.model.Model;
 import wicket.contrib.gmap.GMap2;
 import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.api.GMarker;
+import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
+import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
+import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
+import ar.com.thinksoft.ac.webac.web.base.BasePage;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 import com.inmethod.grid.DataProviderAdapter;
 import com.inmethod.grid.SizeUnit;
@@ -19,29 +27,20 @@ import com.inmethod.grid.column.PropertyColumn;
 import com.inmethod.grid.datagrid.DataGrid;
 import com.inmethod.grid.datagrid.DefaultDataGrid;
 
-import ar.com.thinksoft.ac.intac.IPermiso;
-import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
-import ar.com.thinksoft.ac.webac.web.Context;
-import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
-import ar.com.thinksoft.ac.webac.web.HomePage.Administrativo.HomePageAdministrativoPermiso;
-import ar.com.thinksoft.ac.webac.web.base.BasePage;
-import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
-
+@AuthorizeInstantiation("CIUDADANO")
 public class HomePageCiudadano extends BasePage{
 	
 	private static String KEY = "";
 	private DataGrid gridActivosCiudadano;
 	private DataGrid gridUltimosModificadosCiudadano;
 	
-	@Override
-	public IPermiso getPermisoNecesario() {
-		return new HomePageAdministrativoPermiso();
-	}
-	
 	public HomePageCiudadano(final PageParameters parameters){
 		
-		Configuracion.getInstance().cargarConfiguracion();
+		try {
+			Configuracion.getInstance().cargarConfiguracion();
+		} catch (ConfiguracionException e) {
+			//TODO dialogo error
+		}
 		KEY = Configuracion.getInstance().getKeyGoogleMap();
 		
 		add(CSSPackageResource.getHeaderContribution(HomePage.class,"../css/Home.css"));
@@ -65,7 +64,7 @@ public class HomePageCiudadano extends BasePage{
 		map.setScrollWheelZoomEnabled(true);
 		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
 		for(IReclamo reclamo : listReclamos){
-			if(reclamo.isNotDown()){
+			if(reclamo.getCiudadanoGeneradorReclamo().equals(((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario()) && reclamo.isNotDown()){
 				double latitud = Double.valueOf(reclamo.getLatitudIncidente());
 				double longitud = Double.valueOf(reclamo.getLongitudIncidente());
 				map.addOverlay(new GMarker(new GLatLng(latitud,longitud)));
@@ -81,7 +80,7 @@ public class HomePageCiudadano extends BasePage{
 		List<IReclamo> listCiudadano = new ArrayList<IReclamo>();
 		
 		for(IReclamo reclamo : listReclamos){
-			if(reclamo.getCiudadanoGeneradorReclamo().equals(Context.getInstance().getUsuario().getNombreUsuario()) && reclamo.isNotDown())
+			if(reclamo.getCiudadanoGeneradorReclamo().equals(((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario()) && reclamo.isNotDown())
 				listCiudadano.add(reclamo);
 		}
 		
@@ -198,7 +197,7 @@ public class HomePageCiudadano extends BasePage{
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerTodosReclamos();
 		List<IReclamo> listaDevolucion = new ArrayList<IReclamo>();
 		for(int i = lista.size()-1 ;i>=0;i--){
-			if(lista.get(i).getCiudadanoGeneradorReclamo().equals(Context.getInstance().getUsuario().getNombreUsuario()))
+			if(lista.get(i).getCiudadanoGeneradorReclamo().equals(((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario()))
 				listaDevolucion.add(lista.get(i));
 		}
 		return listaDevolucion;

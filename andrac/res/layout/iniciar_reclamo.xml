@@ -14,13 +14,15 @@
 			android:layout_height="wrap_content" android:gravity="center"
 			android:paddingBottom="2dip" android:textColor="@color/color_texto"
 			android:textAppearance="@android:style/TextAppearance.Small"
-			android:text="@string/registro_sub_titulo" />
+			android:text="@string/login_sub_titulo" />
 		<LinearLayout android:orientation="vertical"
 			android:layout_width="match_parent" android:gravity="center_horizontal"
 			android:layout_marginLeft="20dip" android:layout_marginRight="20dip"
 			android:isScrollContainer="true" android:layout_height="match_parent"
 			android:weightSum="1" android:layout_weight="0.58">
 			<Spinner android:layout_height="wrap_content" android:id="@+id/tipo_incidente"
+				android:layout_width="match_parent" />
+			<Spinner android:layout_height="wrap_content" android:id="@+id/tipo_barrio"
 				android:layout_width="match_parent" />
 			<Spinner android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:id="@+id/ubicacion" />

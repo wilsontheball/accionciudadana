@@ -2,6 +2,8 @@ package ar.com.thinksoft.ac.andrac.dominio;
 
 import java.util.List;
 
+import android.util.Log;
+import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.intac.utils.classes.ReclamoMovil;
@@ -9,16 +11,19 @@ import ar.com.thinksoft.ac.intac.utils.classes.ReclamoMovil;
 /**
  * Representa un reclamo de usuario.
  * 
- * @since 24-09-2011
+ * @since 07-10-2011
  * @author Paul
  */
 public class Reclamo extends ReclamoMovil {
 	private static final long serialVersionUID = 1L;
 
+	// XXX Se sobreescribe atributo del padre. Habria que hacerlo bien.
+	protected Imagen fotoIncidente;
+
 	public Reclamo(String calle, String altura, String latitud,
 			String longitud, String tipo, String fecha,
 			String fechaModificacion, String ciudadano, String observaciones,
-			String barrio, String comuna, IImagen imagen) {
+			String barrio, Imagen imagen) {
 		this.setCalleIncidente(calle);
 		this.setAlturaIncidente(altura);
 		this.setLatitudIncidente(latitud);
@@ -29,8 +34,24 @@ public class Reclamo extends ReclamoMovil {
 		this.setCiudadanoGeneradorReclamo(ciudadano);
 		this.setObservaciones(observaciones);
 		this.setBarrioIncidente(barrio);
+		this.setComunaIncidentePorBarrio(barrio);
 		this.setImagen(imagen);
 	}
+	
+	public void setReclamoPadreId(String id){
+		
+	}
+	
+	public String getReclamoPadreId(){
+		return "";
+	}
+
+	// Para evitar CAST
+	public void setImagen(Imagen imagen) {
+		this.fotoIncidente = imagen;
+	}
+
+	// Metodos de la interfaz IReclamo
 
 	public String getId() {
 		// TODO Auto-generated method stub
@@ -83,8 +104,7 @@ public class Reclamo extends ReclamoMovil {
 	}
 
 	public IImagen getImagen() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.fotoIncidente;
 	}
 
 	public String getEstadoDescripcion() {
@@ -147,8 +167,13 @@ public class Reclamo extends ReclamoMovil {
 	}
 
 	public void setComunaIncidentePorBarrio(String barrio) {
-		// TODO Auto-generated method stub
-
+		try {
+			this.setComunaIncidente(EnumBarriosReclamo
+					.getComunaDeBarrio(barrio));
+		} catch (Exception e) {
+			Log.e(this.getClass().getName(), e.toString());
+			this.setComunaIncidente("");
+		}
 	}
 
 	public void setComunaIncidente(String comuna) {
@@ -157,8 +182,7 @@ public class Reclamo extends ReclamoMovil {
 	}
 
 	public void setImagen(IImagen imagen) {
-		// TODO Auto-generated method stub
-
+		this.fotoIncidente = (Imagen) imagen;
 	}
 
 	public void setPrioridad(String prioridad) {
@@ -231,6 +255,11 @@ public class Reclamo extends ReclamoMovil {
 	}
 
 	public void setMailCiudadanoGeneradorReclamo(String mail) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setEstadoDescripcion(String estado) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -12,6 +12,8 @@ public interface IReclamo extends Serializable{
 
 	// Obtencion de atributos que deben tener los reclamos.
 	
+	public String getReclamoPadreId();
+	
 	public String getId();
 	
 	public String getCalleIncidente();
@@ -32,83 +34,87 @@ public interface IReclamo extends Serializable{
 	
 	public String getMailCiudadanoGeneradorReclamo();
 	
-	public String getObservaciones();
+	public  String getObservaciones();
 	
-	public String getBarrioIncidente();
+	public  String getBarrioIncidente();
 	
-	public String getComunaIncidente();
+	public  String getComunaIncidente();
 	
-	public IImagen getImagen();
+	public  IImagen getImagen();
 	
-	public String getEstadoDescripcion();
+	public  String getEstadoDescripcion();
 	
-	public String getPrioridad();
+	public  String getPrioridad();
 	
-	public List<IReclamo> getReclamosAsociados();
+	public  List<IReclamo> getReclamosAsociados();
 	
 	// Fin obtencion de atributos
 	
 	// Setear atributos
 	
-	public void setId();
+	public void setReclamoPadreId(String id);
 	
-	public void setCalleIncidente(String calle);
+	public  void setId();
 	
-	public void setAlturaIncidente(String altura);
+	public  void setCalleIncidente(String calle);
 	
-	public void setLatitudIncidente(String latitud);
+	public  void setAlturaIncidente(String altura);
 	
-	public void setLongitudIncidente(String longitud);
+	public  void setLatitudIncidente(String latitud);
 	
-	public void setTipoIncidente(String tipo);
+	public  void setLongitudIncidente(String longitud);
 	
-	public void setFechaReclamo(String fechaYHora);
+	public  void setTipoIncidente(String tipo);
 	
-	public void setFechaUltimaModificacionReclamo(String fecha);
+	public  void setFechaReclamo(String fechaYHora);
 	
-	public void setCiudadanoGeneradorReclamo(String ciudadano);
+	public  void setFechaUltimaModificacionReclamo(String fecha);
 	
-	public void setMailCiudadanoGeneradorReclamo(String mail);
+	public  void setCiudadanoGeneradorReclamo(String ciudadano);
 	
-	public void setObservaciones(String observaciones);
+	public  void setMailCiudadanoGeneradorReclamo(String mail);
 	
-	public void setBarrioIncidente(String barrio);
+	public  void setObservaciones(String observaciones);
 	
-	public void setComunaIncidentePorBarrio(String barrio);
+	public  void setBarrioIncidente(String barrio);
 	
-	public void setComunaIncidente(String comuna);
+	public  void setComunaIncidentePorBarrio(String barrio);
 	
-	public void setImagen(IImagen imagen);
+	public  void setComunaIncidente(String comuna);
 	
-	public void setPrioridad(String prioridad);
+	public  void setImagen(IImagen imagen);
+	
+	public  void setPrioridad(String prioridad) throws Exception;
 
-	public void clone(IReclamo reclamoOriginal);
+	public  void clone(IReclamo reclamoOriginal);
 
-	public void cambiarEstado(String estadoDescripcion);
+	public  void cambiarEstado(String estadoDescripcion) throws Exception;
 
 	// Fin seteo atributos
 	
 	//Metodos que no hace falta implementar en Android.
 	 
-	public boolean isNotDown();
+	public  boolean isNotDown();
 	
-	public boolean isIgual(IReclamo reclamo);
+	public  boolean isIgual(IReclamo reclamo);
 	
-	public void unificar(IReclamo reclamo);
+	public  void unificar(IReclamo reclamo);
 	
-	public void cancelarReclamo();
+	public  void cancelarReclamo() throws Exception;
 
-	public void setAsociadoReclamo();
+	public  void setAsociadoReclamo() throws Exception;
 	
-	public void suspender();
+	public  void suspender() throws Exception;
 
-	public void activar();
+	public  void activar() throws Exception;
 	
-	public void enProgreso();
+	public  void enProgreso() throws Exception;
 	
-	public void demorar();
+	public  void demorar() throws Exception;
 	
-	public void terminar();
+	public  void terminar() throws Exception;
+
+	public void setEstadoDescripcion(String estado);
 	
 }
 

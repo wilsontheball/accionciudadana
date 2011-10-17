@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -21,7 +22,6 @@ import org.apache.wicket.model.Model;
 
 import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.util.Geocoder;
-
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
@@ -29,13 +29,12 @@ import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
+import ar.com.thinksoft.ac.webac.mail.MailManager;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorUUID;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
-import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
-import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoForm;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
 @SuppressWarnings("serial")
@@ -51,9 +50,10 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 		setMultiPart(true);
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorUUID().filtrar(idReclamo));
 		
-		if(lista.size()!= 1)
+		if(lista.size()!= 1){
+			//TODO: dialogo error
 			throw new Exception("error en la base de datos, por favor, comuniquese con el equipo de soporte tecnico");
-		
+		}
 		reclamoOriginal = lista.get(0);
 		
 		IReclamo reclamo = new Reclamo();
@@ -82,12 +82,14 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 		
 		DropDownChoice<String> dropDownListPrioridad = new DropDownChoice<String>("Prioridad", createBind(model,"Prioridad"),EnumPrioridadReclamo.getlistaPrioridadReclamo());
 		dropDownListPrioridad.setNullValid(true);
-		dropDownListPrioridad.setEnabled(this.isPermitido());
+		MetaDataRoleAuthorizationStrategy.authorize(dropDownListPrioridad, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(dropDownListPrioridad, RENDER,"OPERADOR");
 		add(dropDownListPrioridad);
 		
 		DropDownChoice<String> dropDownListEstado = new DropDownChoice<String>("EstadoDescripcion", createBind(model,"EstadoDescripcion"),EnumEstadosReclamo.getlistaEstadosReclamo());
 		dropDownListEstado.setNullValid(true);
-		dropDownListEstado.setEnabled(this.isPermitido());
+		MetaDataRoleAuthorizationStrategy.authorize(dropDownListEstado, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(dropDownListEstado, RENDER,"OPERADOR");
 		add(dropDownListEstado);
 		
 		TextArea<String> observaciones = new TextArea<String>("observaciones",createBind(model,"observaciones"));
@@ -101,6 +103,8 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 				try {
 					img = new ImageFactory(file);
 				} catch (Exception e) {
+					LogFwk.getInstance(ModificarReclamoForm.class).error("Problemas al crear la imagen. Detalle: " + e.getMessage());
+					//TODO: dialogo error
 				}
 		    }
 			@Override
@@ -116,7 +120,6 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 			img = new ImageFactory(imagen);
 			add(new Label("rutaImagen",imagen.getFileName()));
 		}catch(Exception e){
-			LogFwk.getInstance(DetalleReclamoForm.class).error("no existe imagen para este reclamo");
 			add(new Label("rutaImagen",""));
 		}
 		
@@ -124,6 +127,7 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 				@Override
 				public void onSubmit() {
 					Reclamo reclamoModificado = _self.getModelObject();
+					IReclamo reclamoO = reclamoOriginal;
 					if(!isReclamoNoValido(reclamoModificado)){
 						if(img != null){
 							reclamoModificado.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
@@ -134,12 +138,19 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 						reclamoModificado.setFechaUltimaModificacionReclamo(formato.format(fecha));
 						
-						//Cambio el estado de acuerdo al estado elegido
-						String estado = reclamoModificado.getEstadoDescripcion();
-						reclamoModificado.cambiarEstado(estado);
+						//Cambio la prioridad de acuerdo a la prioridad elegida
+						String prioridad = reclamoModificado.getPrioridad();
+						if(prioridad != "" && prioridad != null && !reclamoO.getPrioridad().equals(prioridad)){
+							try {
+								reclamoModificado.setPrioridad(prioridad);
+								MailManager.getInstance().enviarMail(reclamoO.getMailCiudadanoGeneradorReclamo(), "Accion Ciudadana - Cambio de prioridad del reclamo", MailManager.getInstance().armarTextoCambioPrioridad(prioridad, reclamoO));
+							} catch (Exception e) {
+								LogFwk.getInstance(ModificarReclamoForm.class).error("Problema al enviar mail por cambio de prioridad. Detalle: " + e.getMessage());
+							}
+						}
 						
 						if (reclamoOriginal.getAlturaIncidente() != reclamoModificado.getAlturaIncidente() || 
-							reclamoOriginal.getCalleIncidente() != reclamoModificado.getCalleIncidente()){
+							!reclamoOriginal.getCalleIncidente().equals(reclamoModificado.getCalleIncidente())){
 							
 							/*
 							 * CONVERSION CALLE A COORDENADAS GPS
@@ -155,10 +166,24 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 								 reclamoModificado.setLatitudIncidente(latitud.toString());
 								 reclamoModificado.setLongitudIncidente(longitud.toString());
 							} catch (Exception e) {
-								LogFwk.getInstance(AltaReclamoPage.class).error("Problema al generar coordenadas. Stack: " + e);
+								LogFwk.getInstance(ModificarReclamoForm.class).error("Problema al generar coordenadas. Stack: " + e);
 							}
 							// FIN CONVERSION CALLE A COORDENADAS GPS
 							
+						}
+
+						//Cambio el estado de acuerdo al estado elegido
+						String estado = reclamoModificado.getEstadoDescripcion();
+						if(!estado.equals(reclamoO.getEstadoDescripcion())){
+							if(estado != "" && estado != null){
+								try {
+									reclamoModificado.cambiarEstado(estado);
+								} catch (Exception e) {
+									LogFwk.getInstance(ModificarReclamoForm.class).error("Problema al enviar mail por cambio de estado. Detalle: " + e.getMessage());
+								}
+							}
+						}else{
+							ReclamoManager.getInstance().guardarReclamo(reclamoModificado);
 						}
 						//Elimino el reclamoOriginal, guardando el reclamoNuevo
 						ReclamoManager.getInstance().eliminarReclamo(reclamoOriginal);
@@ -185,13 +210,6 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 			}
 		});
 		
-	}
-	
-	/*
-	 * TODO: Implementar con los permisos de modificacion de estado
-	 */
-	private boolean isPermitido() {
-		return true;
 	}
 	
 	private IModel<String> createBind(CompoundPropertyModel<Reclamo> model,String property){

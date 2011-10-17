@@ -1,45 +1,43 @@
 package ar.com.thinksoft.ac.andrac.dominio;
 
-import ar.com.thinksoft.ac.intac.IImagen;
+import ar.com.thinksoft.ac.intac.utils.classes.ImagenMovil;
 
-public class Imagen implements IImagen{
-	
-	public Imagen (byte[] bytes, String contentType, String fileName){
-		
+/**
+ * Representa una imagen sacada con la camara.
+ * 
+ * @since 07-10-2011
+ * @author Paul
+ */
+public class Imagen extends ImagenMovil {
+
+	public Imagen(byte[] bytes, String contentType) {
+
 		this.setBytes(bytes);
 		this.setContentType(contentType);
-		this.setFileName(fileName);
 	}
 
-	public void setBytes(byte[] imageBytes) {
-		// TODO Auto-generated method stub
-		
+	public void setBytes(byte[] imagenBytes) {
+		this.imagenBytes = imagenBytes;
 	}
 
 	public byte[] getBytes() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.imagenBytes;
 	}
 
 	public void setContentType(String content) {
-		// TODO Auto-generated method stub
-		
+		this.contentType = content;
 	}
 
 	public String getContentType() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.contentType;
 	}
 
 	public void setFileName(String name) {
-		// TODO Auto-generated method stub
-		
+		// No hace nada.
 	}
 
 	public String getFileName() {
-		// TODO Auto-generated method stub
-		return null;
+		// No hace nada.
+		return "";
 	}
-	
-
 }

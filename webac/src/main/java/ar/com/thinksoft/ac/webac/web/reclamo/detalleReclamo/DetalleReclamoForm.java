@@ -25,14 +25,17 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 	private ImageFactory img = null;
 	private IReclamo reclamo;
 	
-	public DetalleReclamoForm(String id, String idReclamo) throws Exception {
+	public DetalleReclamoForm(String id, String idReclamo, String esPadre) throws Exception {
 		super(id);
 		setMultiPart(true);
+		
+		Boolean hasPadre = Boolean.valueOf(esPadre);
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorUUID().filtrar(idReclamo));
 		
-		if(lista.size()!= 1)
+		if(lista.size()!= 1){
+			//TODO: dialogo error
 			throw new Exception("error en la base de datos, por favor, comuniquese con el equipo de soporte tecnico");
-		
+		}
 		reclamo = lista.get(0);
 		CompoundPropertyModel<Reclamo> model = new CompoundPropertyModel<Reclamo>(reclamo);
 		setModel(model);
@@ -50,7 +53,11 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 		add(new Label("fechaUltimaModificacionReclamo",this.createBind(model,"fechaUltimaModificacionReclamo")));
 		add(new Label("BarrioIncidente",this.createBind(model,"BarrioIncidente")));
 		add(new Label("ComunaIncidente",this.createBind(model,"ComunaIncidente")));
-		add(new Label("ciudadanoReclamo",this.createBind(model,"ciudadanoReclamo")));
+		
+		Label ciudadano = new Label("ciudadanoReclamo",this.createBind(model,"ciudadanoReclamo"));
+		ciudadano.setVisible(!hasPadre.booleanValue());
+		add(ciudadano);
+		
 		add(new Label("prioridad",this.createBind(model,"prioridad")));
 		add(new Label("estadoDescripcion",this.createBind(model,"EstadoDescripcion")));
 		add(new Label("tipoIncidente", this.createBind(model,"tipoIncidente")));
@@ -62,7 +69,6 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 			img = new ImageFactory(imagen);
 			add(new Label("rutaImagen",imagen.getFileName()));
 		}catch(Exception e){
-			LogFwk.getInstance(DetalleReclamoForm.class).error("no existe imagen para este reclamo");
 			add(new Label("rutaImagen",""));
 		}
 		
@@ -97,6 +103,26 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 							
 		modificar.setVisible(reclamo.isNotDown());
 		add(modificar);
+		
+		Button detallePadre = new Button("detallePadre") {
+			@Override
+			public void onSubmit() {
+				try{
+					img.deleteImage();
+				}catch(Exception e){
+					LogFwk.getInstance(DetalleReclamoPage.class).error("No existe archivo para borrar.");
+				}
+				
+				PageParameters params =new PageParameters();
+		        params.add("reclamoId", reclamo.getReclamoPadreId());
+		        params.add("hasPadre", Boolean.TRUE.toString());
+	            
+		        setResponsePage(DetalleReclamoPage.class, params);
+		        setRedirect(true);
+			}
+		};
+		detallePadre.setVisible(reclamo.getReclamoPadreId() != null && reclamo.getReclamoPadreId() != "");
+		add(detallePadre);
 		
 	}
 	
