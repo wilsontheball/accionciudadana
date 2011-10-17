@@ -10,9 +10,9 @@
   <name>intac</name>
   <url>http://maven.apache.org</url>
 
-  <properties>
+  <!--properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  </properties-->
   
   <build>
 	  <plugins>
@@ -25,6 +25,14 @@
 					<target>1.6</target>
 					<optimize>true</optimize>
 					<debug>true</debug>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<outputEncoding>ISO-8859-1</outputEncoding>
 				</configuration>
 			</plugin>
 	   </plugins>

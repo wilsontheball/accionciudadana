@@ -9,7 +9,10 @@ import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.webac.exceptions.MailException;
+import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.mail.MailManager;
+import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoForm;
 
 /**
  * Implementacion de IReclamo en intac
@@ -23,6 +26,7 @@ public class Reclamo implements IReclamo,Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String id;
+	private String idPadre;
 	private String calleReclamo;
 	private String alturaReclamo;
 	private String latitudReclamo;
@@ -57,71 +61,87 @@ public class Reclamo implements IReclamo,Serializable{
 		this.setObservaciones(observaciones);
 		this.setBarrioIncidente(barrioIncidente);
 		this.setImagen(imagen);
-		this.setPrioridad(prioridad);
+		try {
+			this.setPrioridad(prioridad);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
 	/**
 	 * Setea el estado de Cancelado al Reclamo
 	 * @author Matias
+	 * @throws MailException 
 	 */
-	public void cancelarReclamo(){
+	public void cancelarReclamo() throws Exception{
 		this.estadoDescripcion = EnumEstadosReclamo.cancelado.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Cancelacion de reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 	
 	/**
 	 * Setea el estado de Baja al Reclamo
 	 * @author Matias
+	 * @throws MailException 
 	 */
-	public void setAsociadoReclamo(){
+	public void setAsociadoReclamo() throws Exception{
 		this.estadoDescripcion = EnumEstadosReclamo.asociado.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Asociacion de reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 	
 	/**
 	 * Setea el estado de Suspendido al Reclamo
 	 * @author Matias
+	 * @throws MailException 
 	 */
-	public void suspender(){
+	public void suspender() throws Exception{
 		this.estadoDescripcion = EnumEstadosReclamo.suspendido.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Suspension de reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 	
 	/**
 	 * Setea el estado de Activo al Reclamo
 	 * @author Matias
+	 * @throws MailException 
 	 */
-	public void activar(){
+	public void activar() throws Exception{
 		this.estadoDescripcion = EnumEstadosReclamo.activo.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Activacion de reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 	
 	/**
 	 * Setea el estado de En Progreso al Reclamo
 	 * @author Matias 
+	 * @throws MailException 
 	 */
-	public void enProgreso(){
+	public void enProgreso() throws Exception{
 		this.estadoDescripcion = EnumEstadosReclamo.enProgreso.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Solucion en progreso del reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 	
 	/**
 	 * Setea el estado de Demorado al Reclamo
 	 * @author Matias 
 	 */
-	public void demorar(){
+	public void demorar() throws Exception{
 		this.estadoDescripcion = EnumEstadosReclamo.demorado.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Demora del reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 	
 	/**
 	 * Setea el estado de Terminado al Reclamo
 	 * @author Matias 
 	 */
-	public void terminar(){
+	public void terminar() throws Exception{
 		this.estadoDescripcion = EnumEstadosReclamo.terminado.getEstado();
 		ReclamoManager.getInstance().guardarReclamo(this);
+		MailManager.getInstance().enviarMail(this.mailCiudadanoReclamo, "Accion Ciudadana - Finalizacion de reclamo", MailManager.getInstance().armarTextoCambioEstados(this.estadoDescripcion,this));
 	}
 
 	// get ATRIBUTOS
@@ -194,7 +214,10 @@ public class Reclamo implements IReclamo,Serializable{
 		return this.reclamosAsociados;
 	}
 	
-		
+	public String getReclamoPadreId() {
+		return this.idPadre;
+	}
+	
 	//SET ATRIBUTOS
 	
 	public void setId() {
@@ -261,8 +284,13 @@ public class Reclamo implements IReclamo,Serializable{
 		this.estadoDescripcion = estadoDesc;
 	}
 	
-	public void setPrioridad(String prioridad){
+	public void setPrioridad(String prioridad) throws Exception{
 		this.prioridad = prioridad;
+		
+	}	
+	
+	public void setReclamoPadreId(String id) {
+		this.idPadre = id;
 	}
 
 	public void setComunaIncidentePorBarrio(String barrio){
@@ -277,7 +305,7 @@ public class Reclamo implements IReclamo,Serializable{
 		this.comunaIncidente = comuna;
 	}
 	
-	public void cambiarEstado(String estado){
+	public void cambiarEstado(String estado) throws Exception{
 		if(estado.equals(EnumEstadosReclamo.activo.getEstado()))
 			this.activar();
 		
@@ -327,11 +355,16 @@ public class Reclamo implements IReclamo,Serializable{
 	
 	public void unificar(IReclamo reclamo){
 		if(this.isIgual(reclamo) && this.isNotDown() && reclamo.isNotDown()){
-			reclamo.setAsociadoReclamo();
-			this.getReclamosAsociados().add(reclamo);
-			definirPrioridadUnificado(reclamo);
-			ReclamoManager.getInstance().guardarReclamo(this);
-			ReclamoManager.getInstance().guardarReclamo(reclamo);
+			try{
+				reclamo.setAsociadoReclamo();
+				this.getReclamosAsociados().add(reclamo);
+				reclamo.setReclamoPadreId(this.getId());
+				definirPrioridadUnificado(reclamo);
+				ReclamoManager.getInstance().guardarReclamo(this);
+				ReclamoManager.getInstance().guardarReclamo(reclamo);
+			} catch (Exception e) {
+				LogFwk.getInstance(BusquedaReclamoForm.class).error("No se pudo hacer la unificacion de reclamos. Detalle: " + e.getMessage());
+			}
 		}
 	}
 	
@@ -359,7 +392,7 @@ public class Reclamo implements IReclamo,Serializable{
 			return altura2 - altura1 <= 100;
 	}
 	
-	private void definirPrioridadUnificado(IReclamo reclamo){
+	private void definirPrioridadUnificado(IReclamo reclamo) throws Exception{
 		if(this.getPrioridad()!=reclamo.getPrioridad() && (!reclamo.getPrioridad().equals(EnumPrioridadReclamo.noAsignada.getPrioridad()))){
 			if(this.getPrioridad().equals(EnumPrioridadReclamo.noAsignada.getPrioridad()))
 				this.setPrioridad(reclamo.getPrioridad());
@@ -371,5 +404,14 @@ public class Reclamo implements IReclamo,Serializable{
 				this.setPrioridad(EnumPrioridadReclamo.media.getPrioridad());
 		}
 	}
-	
+
+	/**
+	 * Esto es solo para wilsonD, cuando hago un reclamo filtro para obtener el estado del Padre.
+	 * @param reclamoPadreId
+	 */
+	public void setId(String reclamoPadreId) {
+		this.id = reclamoPadreId;
+		
+	}
+
 }

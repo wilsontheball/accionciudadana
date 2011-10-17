@@ -19,17 +19,20 @@ html,body {
 }
 
 .gridAdmin{
-	margin: 15px;
-	width: 626px;
+	margin: 2%;
+	width: 97%;
 	height: 175px;
 }
 
 .right{
 	float:right;
+	width: 50%;
 }
 
 .left{
 	float:left;	
+	height: 100%;
+    width: 50%;
 }
 
 h1{

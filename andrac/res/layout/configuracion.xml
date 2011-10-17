@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="match_parent"
+	android:layout_height="match_parent" android:gravity="center"
+	android:scrollbarAlwaysDrawVerticalTrack="true">
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="match_parent" android:layout_height="match_parent"
+		android:gravity="center_horizontal" android:isScrollContainer="true">
+		<LinearLayout android:orientation="vertical"
+			android:layout_width="match_parent" android:layout_height="match_parent"
+			android:gravity="center_horizontal" android:isScrollContainer="true"
+			android:layout_marginLeft="10dip" android:layout_marginRight="10dip">
+			<TextView android:layout_width="wrap_content"
+				android:textColor="@color/color_texto" android:textAppearance="@android:style/TextAppearance.Large"
+				android:layout_height="wrap_content" android:paddingBottom="2dip"
+				android:text="@string/config_svr" android:gravity="center" />
+			<TextView android:layout_width="wrap_content"
+				android:textColor="@color/color_texto" android:textAppearance="@android:style/TextAppearance.Small"
+				android:layout_height="wrap_content" android:paddingBottom="2dip"
+				android:text="@string/login_sub_titulo" android:gravity="center" />
+			<TextView android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:textColor="@color/color_texto"
+				android:paddingBottom="2dip" android:text="@string/svr_url"
+				android:gravity="left" />
+			<EditText android:id="@+id/url" android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:inputType="textWebEditText"
+				android:textAppearance="@android:style/TextAppearance.Large"
+				android:hint="@string/url_estandar" />
+			<TextView android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:textColor="@color/color_texto"
+				android:paddingBottom="2dip" android:text="@string/svr_puerto"
+				android:gravity="left" />
+			<EditText android:id="@+id/puerto" android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:inputType="number"
+				android:textAppearance="@android:style/TextAppearance.Large"
+				android:hint="@string/puerto_estandar" />
+			<LinearLayout android:orientation="horizontal"
+				android:layout_width="match_parent" android:layout_height="wrap_content">
+				<Button android:id="@+id/boton_registrar"
+					android:layout_height="wrap_content" android:layout_width="match_parent"
+					android:enabled="true" android:text="@string/guardar"
+					android:onClick="guardar" android:layout_margin="5dip"
+					android:layout_weight="1" />
+				<Button android:id="@+id/boton_salir" android:layout_height="wrap_content"
+					android:layout_width="match_parent" android:enabled="true"
+					android:text="@string/cancelar" android:onClick="cancelar"
+					android:layout_margin="5dip" android:layout_weight="1" />
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>

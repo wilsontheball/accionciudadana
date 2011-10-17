@@ -23,9 +23,9 @@
 							<label style="font-style:italic;">(se debe reiniciar el servidor)</label>
 						</td>
 						<td class="block">
-							<input type="text" wicket:id="horaUnificador" id="horaUnificador" class="horaUnificador" size="2" maxlength="2"/> - 
-							<input type="text" wicket:id="minutoUnificador" id="minutoUnificador" class="minutoUnificador" size="2" maxlength="2"/> - 
-							<input type="text" wicket:id="manianaOTardeUnificador" id="manianaOTardeUnificador" class="manianaOTardeUnificador" size="2" maxlength="2"/>
+							<input type="text" wicket:id="horaUnificador" id="horaUnificador" class="horaUnificador" size="2" maxlength="2" onchange="validarNumerosInput(this)"/> - 
+							<input type="text" wicket:id="minutoUnificador" id="minutoUnificador" class="minutoUnificador" size="2" maxlength="2" onchange="validarNumerosInput(this)"/> - 
+							<input type="text" wicket:id="manianaOTardeUnificador" id="manianaOTardeUnificador" class="manianaOTardeUnificador" size="2" maxlength="2" onchange="funcionOnChangeCampoIsNull(this)"/>
 						</td>
 					</tr>
 					<tr>
@@ -38,7 +38,7 @@
 					 		<label>Smtp:</label>
 					 	</td>
 						<td class="block">
-					 		<input type="text" wicket:id="smtp" id="smtp" style="width:200px;"/>
+					 		<input type="text" wicket:id="smtp" id="smtp" class="smtp" onchange="funcionOnChangeCampoIsNull(this)" style="width:200px;"/>
 					 	</td>
 					</tr>
 					<tr>
@@ -46,7 +46,7 @@
 					 		<label>Puerto:</label>
 					 	</td>
 						<td class="block">
-					 		<input type="text" wicket:id="puerto" id="puerto" style="width:200px;"/>
+					 		<input type="text" wicket:id="puerto" id="puerto" class="puerto" onchange="validarNumerosInput(this)" style="width:200px;"/>
 					 	</td>
 					</tr>
 					<tr>
@@ -54,7 +54,7 @@
 					 		<label>Desde:</label>
 					 	</td>
 						<td class="block">
-					 		<input type="text" wicket:id="desdeMail" id="desdeMail" style="width:200px;"/>
+					 		<input type="text" wicket:id="desdeMail" id="desdeMail" class="desdeMail" onchange="validarEmail(this)" style="width:200px;"/>
 					 	</td>
 					</tr>
 					<tr>
@@ -78,7 +78,7 @@
 					 		<label>Usuario:</label>
 					 	</td>
 						<td class="block">
-					 		<input type="text" wicket:id="user" id="user" class="credenciales" style="width:200px;"/>
+					 		<input type="text" wicket:id="user" id="user" class="user credenciales" onchange="funcionOnChangeCampoIsNull(this)" style="width:200px;"/>
 					 	</td>
 					</tr>
 					<tr>
@@ -86,7 +86,28 @@
 					 		<label>Password:</label>
 					 	</td>
 						<td class="block">
-					 		<input type="password" wicket:id="password" id="password" class="credenciales" style="width:200px;"/>
+					 		<input type="password" wicket:id="password" id="password" class="password credenciales" onchange="funcionOnChangeCampoIsNull(this)" style="width:200px;"/>
+					 	</td>
+					</tr>
+					<tr>
+						<td>
+							<h2 align="right">Base de datos:</h2>
+						</td>
+					</tr>
+					<tr>
+						<td class="texto">
+					 		<label>IP:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="text" wicket:id="ipBD" id="ipBD" class="ipBD" onchange="funcionOnChangeCampoIsNull(this)"/>
+					 	</td>
+					</tr>
+					<tr>
+						<td class="texto">
+					 		<label>Puerto:</label>
+					 	</td>
+						<td class="block">
+					 		<input type="text" wicket:id="portBD" id="portBD" class="portBD" onchange="funcionOnChangeCampoIsNull(this)"/>
 					 	</td>
 					</tr>
 					<tr>
@@ -99,32 +120,23 @@
 					 		<label>Ruta de imagenes temporales:</label>
 					 	</td>
 						<td class="block">
-					 		<input type="text" wicket:id="pathTempImages" id="pathTempImages" class="inputText"/>
+					 		<input type="text" wicket:id="pathTempImages" id="pathTempImages" class="inputText pathTempImages" onchange="funcionOnChangeCampoIsNull(this)"/>
 					 	</td>
-					 	<td>
-						 	<div class="help" wicket:id="help1"></div>
-						</td>
 					</tr>
 					<tr>
 						<td class="texto">
 					 		<label>Ruta del archivo estilo exportaci&oacute;n:</label>
 					 	</td>
 						<td class="block">
-					 		<input type="text" wicket:id="pathExportDesign" id="pathExportDesign" class="inputText"/>
+					 		<input type="text" wicket:id="pathExportDesign" id="pathExportDesign" class="inputText pathExportDesign" onchange="funcionOnChangeCampoIsNull(this)"/>
 					 	</td>
-					 	<td>
-						 	<div class="help" wicket:id="help2"></div>
-						</td>
 					</tr>
 						<tr>
 							<td class="texto">
 						 		<label>Ruta del archivo de configuraci&oacute;n:</label>
 						 	</td>
 							<td class="block">
-						 		<input type="text" wicket:id="pathConfig" id="pathConfig" class="inputText"/>
-						 	</td>
-						 	<td>
-						 		<div class="help" wicket:id="help3"></div>
+						 		<input type="text" wicket:id="pathConfig" id="pathConfig" class="inputText pathConfig" onchange="funcionOnChangeCampoIsNull(this)"/>
 						 	</td>
 						</tr>
 						
@@ -133,10 +145,7 @@
 						 		<label>Ruta de la aplicaci&oacute;n Android:</label>
 						 	</td>
 							<td class="block">
-						 		<input type="text" wicket:id="pathDownloadApp" id="pathDownloadApp" class="inputText"/>
-						 	</td>
-						 	<td>
-						 		<div class="help" wicket:id="help4"></div>
+						 		<input type="text" wicket:id="pathDownloadApp" id="pathDownloadApp" class="inputText pathDownloadApp" onchange="funcionOnChangeCampoIsNull(this)"/>
 						 	</td>
 						</tr>
 						<tr>
@@ -149,20 +158,26 @@
 						 		<label>Clave:</label>
 						 	</td>
 							<td class="block">
-						 		<textarea wicket:id="keyGoogleMap" id="keyGoogleMap" rows="2" cols="45" style="resize:none;"></textarea>
-						 	</td>
-						 	<td>
-						 		<div class="help" wicket:id="helpGoogle"></div>
+						 		<textarea wicket:id="keyGoogleMap" id="keyGoogleMap" class="pathDownloadApp" rows="2" cols="45" style="resize:none;" onchange="funcionOnChangeCampoIsNull(this)"></textarea>
 						 	</td>
 						</tr>
 				</table>
 				
+				<table align="center">
+					<tr>
+						<td>
+							<div class="block">
+								<label class="error"></label>
+							</div>
+						</td>
+					</tr>
+				</table>
 
 				<table align="center">
 					<tr>
 						<td>
 							<div>
-								<input type="submit" wicket:id="guardarConfig" value="Guardar" class="block" style="float: left; margin:20px;"/>
+								<input type="submit" wicket:id="guardarConfig" value="Guardar" class="block guardarConfig" style="float: left; margin:20px;"/>
 								<input type="submit" wicket:id="cancelar" value="Cancelar" class="block" style="float: right; margin:20px;"/>
 							</div>
 						</td>

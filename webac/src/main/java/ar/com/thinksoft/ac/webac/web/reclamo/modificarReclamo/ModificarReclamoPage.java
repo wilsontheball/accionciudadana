@@ -1,20 +1,16 @@
 package ar.com.thinksoft.ac.webac.web.reclamo.modificarReclamo;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
 
-import ar.com.thinksoft.ac.intac.IPermiso;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
+@AuthorizeInstantiation({"CIUDADANO","ADMIN","OPERADOR"})
 public class ModificarReclamoPage extends BasePage{
 
-	@Override
-	public IPermiso getPermisoNecesario() {
-		return new ModificarReclamoPermiso();
-	}
-	
 public ModificarReclamoPage(final PageParameters parameters) {
 		
 		add(CSSPackageResource.getHeaderContribution(DetalleReclamoPage.class,"../../css/ModificarReclamo.css"));

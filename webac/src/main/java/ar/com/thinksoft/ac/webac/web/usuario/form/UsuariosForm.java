@@ -3,6 +3,8 @@ package ar.com.thinksoft.ac.webac.web.usuario.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -11,31 +13,33 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.intac.utils.collections.Comparator;
 import ar.com.thinksoft.ac.intac.utils.collections.HArrayList;
 import ar.com.thinksoft.ac.intac.utils.string.StringUtils;
 import ar.com.thinksoft.ac.webac.predicates.registro.PredicateTodosLosUsuarios;
 import ar.com.thinksoft.ac.webac.repository.Repository;
-import ar.com.thinksoft.ac.webac.usuario.UsuarioFactory;
+import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.webac.web.usuario.alta.UsuarioNuevoPage;
 
 import com.inmethod.grid.DataProviderAdapter;
 import com.inmethod.grid.IGridColumn;
+import com.inmethod.grid.SizeUnit;
 import com.inmethod.grid.column.PropertyColumn;
 import com.inmethod.grid.datagrid.DefaultDataGrid;
+import com.visural.wicket.component.dialog.Dialog;
 
 public class UsuariosForm extends Form<UsuarioFilterObject> {
 
 	private DefaultDataGrid grid;
 	private UsuariosForm _self = this;
+	private Dialog dialogEliminar = null;
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5848749487206180482L;
 
-	@SuppressWarnings("serial")
+	@SuppressWarnings({ "serial", "rawtypes" })
 	public UsuariosForm(String id) {
 
 		super(id);
@@ -61,12 +65,12 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 
 				final UsuarioFilterObject filterObject = _self.getModelObject();
 
-				HArrayList<IUsuario> list = HArrayList
+				HArrayList<Usuario> list = HArrayList
 						.toHArrayList(getTodosLosUsuarios());
 
-				List<IUsuario> data = list.filter(new Comparator<IUsuario>() {
+				List<Usuario> data = list.filter(new Comparator<Usuario>() {
 					@Override
-					public boolean apply(IUsuario elem) {
+					public boolean apply(Usuario elem) {
 
 						if (filterObject.isNull()) {
 							return true;
@@ -85,34 +89,37 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 				grid.setDefaultModelObject(toDataProvider(data));
 			}
 		});
-
-		this.add(new Button("eliminar") {
-
+		
+		dialogEliminar = new Dialog("dialogEliminar");
+	    add(dialogEliminar);
+	    
+	    add(new AjaxLink("eliminar") {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+			    dialogEliminar.open(target);
+            }
+        });
+	    
+	    dialogEliminar.add(new AjaxLink("eliminarUsuario"){
 			@Override
-			public void onSubmit() {
-
-				IUsuario usuario = (IUsuario) grid.getSelectedItems()
-						.iterator().next().getObject();
+			public void onClick(AjaxRequestTarget target){
+				Usuario usuario = (Usuario) grid.getSelectedItems().iterator().next().getObject();
 				Repository.getInstance().delete(usuario);
-				_self.setResponsePage(UsuarioPage.class);
+				dialogEliminar.close(target);
+				setResponsePage(UsuarioPage.class);
+				setRedirect(true);
 			}
-
 		});
-
-		this.add(new Button("bloquear") {
-
-			@Override
-			public void onSubmit() {
-
-				IUsuario usuario = (IUsuario) grid.getSelectedItems()
-						.iterator().next().getObject();
-				new UsuarioFactory().bloquear(usuario);
-				_self.setResponsePage(UsuarioPage.class);
-			}
-
-		});
-
-	
+	    
+	    dialogEliminar.add(new AjaxLink("volver"){
+	    	@Override
+	    	public void onClick(AjaxRequestTarget target){
+	    		dialogEliminar.close(target);
+	    	}
+	    });
+	    
+	    // FIN ELIMINAR
+		
 	}
 
 	/*
@@ -121,7 +128,7 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 
 	private void createTablaUsuarios(String gridName) {
 
-		ListDataProvider<IUsuario> dataProvider = new ListDataProvider<IUsuario>(
+		ListDataProvider<Usuario> dataProvider = new ListDataProvider<Usuario>(
 				this.getTodosLosUsuarios());
 		List<IGridColumn> columnas = this.crearColumnas();
 
@@ -137,6 +144,7 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 		this.grid = grid;
 	}
 
+	@SuppressWarnings("serial")
 	private Button createNewButton(String id) {
 
 		Button button = new Button(id) {
@@ -150,24 +158,47 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 		return button;
 	}
 
-	private List<IUsuario> getTodosLosUsuarios() {
+	private List<Usuario> getTodosLosUsuarios() {
 		return Repository.getInstance().query(new PredicateTodosLosUsuarios());
 	}
 
 	private List<IGridColumn> crearColumnas() {
 		List<IGridColumn> columnas = new ArrayList<IGridColumn>();
 
-		columnas.add(new PropertyColumn("apellido", new Model<String>(
-				"Apellido"), "apellido"));
-		columnas.add(new PropertyColumn("nombre", new Model<String>("Nombre"),
-				"nombre"));
-		columnas.add(new PropertyColumn("nombreUsuario", new Model<String>(
-				"Nombre de Usuario"), "nombreUsuario"));
-		columnas.add(new PropertyColumn("dni", new Model<String>("DNI"), "dni"));
-		columnas.add(new PropertyColumn("mail", new Model<String>("E-Mail"),
-				"mail"));
-		columnas.add(new PropertyColumn("telefono", new Model<String>(
-				"Telefono"), "telefono"));
+		columnas.add(new PropertyColumn("apellido", new Model<String>("Apellido"), "apellido").setInitialSize(200)
+																							  .setResizable(true)
+																							  .setWrapText(true)
+																							  .setReorderable(true)
+																							  .setSizeUnit(SizeUnit.PX));
+		
+		columnas.add(new PropertyColumn("nombre", new Model<String>("Nombre"),"nombre").setInitialSize(200)
+																					   .setResizable(true)
+																					   .setWrapText(true)
+																					   .setReorderable(true)
+																					   .setSizeUnit(SizeUnit.PX));
+		
+		columnas.add(new PropertyColumn("nombreUsuario", new Model<String>("Nombre de Usuario"), "nombreUsuario").setInitialSize(200)
+																												 .setResizable(true)
+																												 .setWrapText(true)
+																												 .setReorderable(true)
+																												 .setSizeUnit(SizeUnit.PX));
+		columnas.add(new PropertyColumn("dni", new Model<String>("DNI"), "dni").setInitialSize(80)
+																			   .setResizable(true)
+																			   .setWrapText(true)
+																			   .setReorderable(true)
+																			   .setSizeUnit(SizeUnit.PX));
+		
+		columnas.add(new PropertyColumn("mail", new Model<String>("E-Mail"),"mail").setInitialSize(250)
+																				   .setResizable(true)
+																				   .setWrapText(true)
+																				   .setReorderable(true)
+																				   .setSizeUnit(SizeUnit.PX));
+		
+		columnas.add(new PropertyColumn("telefono", new Model<String>("Telefono"), "telefono").setInitialSize(100)
+																							  .setResizable(true)
+																							  .setWrapText(true)
+																							  .setReorderable(true)
+																							  .setSizeUnit(SizeUnit.PX));
 
 		return columnas;
 	}
@@ -181,8 +212,8 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 		return model.bind(property);
 	}
 
-	private DataProviderAdapter toDataProvider(List<IUsuario> list) {
-		ListDataProvider<IUsuario> listDataProvider = new ListDataProvider<IUsuario>(
+	private DataProviderAdapter toDataProvider(List<Usuario> list) {
+		ListDataProvider<Usuario> listDataProvider = new ListDataProvider<Usuario>(
 				list);
 		return new DataProviderAdapter(listDataProvider);
 	}

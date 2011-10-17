@@ -31,6 +31,8 @@ public class LogFwk{
 	public static Category getInstance(Class<?> class1) {
 		if(LogFwk.log == null){
 			LogFwk.log = Logger.getLogger(class1); 
+			URL url = Loader.getResource("log4j.properties"); 
+			PropertyConfigurator.configure(url);
 		}
 		return LogFwk.log;
 	}

@@ -2,7 +2,8 @@ package ar.com.thinksoft.ac.webac.repository;
 
 import java.util.Comparator;
 
-import ar.com.thinksoft.ac.webac.logging.LogFwk;
+import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -27,8 +28,15 @@ public class Repository implements ObjectContainer{
 	private static ObjectContainer objectContainer;
 	
 	public Repository(){
-		objectContainer = Db4oClientServer.openClient("localhost", 5555, "wilson", "wilson");
-		LogFwk.getInstance(this.getClass()).info("Inicio de BD");
+		try {
+			Configuracion.getInstance().cargarConfiguracion();
+			String ip = Configuracion.getInstance().getIpBD();
+			int port = Integer.valueOf(Configuracion.getInstance().getPortBD());
+			objectContainer = Db4oClientServer.openClient(ip, port, "webac", "webac");
+		} catch (ConfiguracionException e) {
+			objectContainer = Db4oClientServer.openClient("192.168.0.103", 5555, "webac", "webac");
+		}
+		
 	}
 	
 	public static Repository getInstance(){

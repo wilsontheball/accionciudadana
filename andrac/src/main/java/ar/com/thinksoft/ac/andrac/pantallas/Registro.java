@@ -4,17 +4,22 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
+import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
+import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
+import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 
 /**
  * La clase se encarga de manejar la pantalla de Registro.
  * 
- * @since 07-09-2011
+ * @since 13-10-2011
  * @author Paul
  */
 public class Registro extends Activity {
@@ -57,9 +62,80 @@ public class Registro extends Activity {
 	}
 
 	/**
-	 * Registra al usuario y muestra confirmacion. Responde al boton Aceptar.
+	 * Crea la ventana de Alerta. (Se hace de esta forma en Android 2.2)
 	 * 
-	 * @since 23-08-2011
+	 * @since 08-10-2011
+	 * @author Paul
+	 */
+	@Override
+	protected Dialog onCreateDialog(int tipo) {
+		Dialog unDialog = null;
+		switch (tipo) {
+		case REGISTRO_EXITOSO:
+			unDialog = new AlertDialog.Builder(Registro.this)
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(tituloAlerta)
+					.setMessage(mensageAlerta)
+					.setCancelable(false)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									finish();
+								}
+							}).create();
+			break;
+		default:
+			unDialog = new AlertDialog.Builder(Registro.this)
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(tituloAlerta)
+					.setMessage(mensageAlerta)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									/* Solo cierra el dialogo */
+								}
+							}).create();
+			break;
+		}
+		return unDialog;
+	}
+
+	/**
+	 * Captura la respuesta de la ventana Login.
+	 * 
+	 * @since 10-10-2011
+	 * @author Paul
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == Activity.RESULT_OK) {
+			// Se envio el registro exitosamente.
+			Log.d(this.getClass().getName(),
+					"Se ejecuto: " + data.getStringExtra(ServicioRest.FUN));
+			this.mostrarDialogo(REGISTRO_EXITOSO);
+		} else if (resultCode == Activity.RESULT_CANCELED) {
+			// Fallo el envio de registro.
+			this.mostrarDialogo(REGISTRO_FALLO);
+			Log.e(this.getClass().getName(),
+					"Fallo al ejecutar: "
+							+ data.getStringExtra(ServicioRest.FUN));
+		} else if (resultCode == Activity.RESULT_FIRST_USER) {
+			// Usuario cancelo el registro.
+			Log.d(this.getClass().getName(), "Usuario cancelo ejecucion: "
+					+ data.getStringExtra(ServicioRest.FUN));
+		} else {
+			Log.e(this.getClass().getName(),
+					"Resultado de ejecucion no esperado");
+		}
+	}
+
+	/**
+	 * Registra al usuario. Responde al boton Aceptar.
+	 * 
+	 * @since 08-10-2011
 	 * @author Paul
 	 * @param v
 	 */
@@ -76,17 +152,17 @@ public class Registro extends Activity {
 						this.mostrarDialogo(PASS_NO_COINCIDE);
 						this.limpiarPass();
 					} else {
-						((Aplicacion) this.getApplication()).getRepositorio()
-								.registrarUsuario(getNombre(), getApellido(),
-										getUsuario(), getDNI(), getMail(),
-										getTelefono(), getPass());
-						this.mostrarDialogo(REGISTRO_EXITOSO);
+						this.getRepo().registrarUsuario(getNombre(),
+								getApellido(), getUsuario(), getDNI(),
+								getMail(), getTelefono(), getPass());
+						this.ejecutarFuncion(FuncionRest.POSTUSUARIO);
 					}
 				}
 			}
 		} catch (Exception e) {
 			this.mostrarDialogo(REGISTRO_FALLO);
 		}
+
 	}
 
 	/**
@@ -138,58 +214,29 @@ public class Registro extends Activity {
 	}
 
 	/**
-	 * Crea la ventana de Alerta. (Se hace de esta forma en Android 2.2)
+	 * Muestra la ventana de Login esperando resultado de ejecucion.
 	 * 
-	 * @since 23-08-2011
+	 * @since 19-07-2011
 	 * @author Paul
 	 */
-	@Override
-	protected Dialog onCreateDialog(int tipo) {
-		Dialog unDialog = null;
-		switch (tipo) {
-		case REGISTRO_EXITOSO:
-			unDialog = new AlertDialog.Builder(Registro.this)
-					.setIcon(R.drawable.alert_dialog_icon)
-					.setTitle(tituloAlerta)
-					.setMessage(mensageAlerta)
-					.setPositiveButton(R.string.ok,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									finish();
-								}
-							}).create();
-			break;
-		default:
-			unDialog = new AlertDialog.Builder(Registro.this)
-					.setIcon(R.drawable.alert_dialog_icon)
-					.setTitle(tituloAlerta)
-					.setMessage(mensageAlerta)
-					.setPositiveButton(R.string.ok,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									/* Solo cierra el dialogo */
-								}
-							}).create();
-			break;
-		}
-		return unDialog;
+	private void ejecutarFuncion(String funcion) {
+		Intent proceso = new Intent(this, Login.class);
+		proceso.putExtra(ServicioRest.FUN, funcion);
+		this.startActivityForResult(proceso, 0);
 	}
 
 	/**
 	 * Bussca si hay campos sin completar en la pantalla.
 	 * 
-	 * @since 19-07-2011
+	 * @since 13-10-2011
 	 * @author Paul
 	 * @return <Code>true</Code> si falta completar alguno, <Code>false</Code>
 	 *         si todos estan completos.
 	 */
 	private boolean camposIncompletos() {
 		return getNombre().length() == 0 || getApellido().length() == 0
-				|| getUsuario().length() == 0 || getDNI().length() == 0
-				|| getMail().length() == 0 || getMailConfirm().length() == 0
-				|| getTelefono().length() == 0 || getPass().length() == 0
+				|| getUsuario().length() == 0 || getMail().length() == 0
+				|| getMailConfirm().length() == 0 || getPass().length() == 0
 				|| getPassConfirm().length() == 0;
 	}
 
@@ -213,6 +260,17 @@ public class Registro extends Activity {
 	private void limpiarPass() {
 		((EditText) findViewById(R.id.pass)).setText("");
 		((EditText) findViewById(R.id.pass_confirm)).setText("");
+	}
+
+	/**
+	 * Devuelve el repositorio.
+	 * 
+	 * @since 22-07-2011
+	 * @author Paul
+	 * @return aplicacion
+	 */
+	private Repositorio getRepo() {
+		return ((Aplicacion) this.getApplication()).getRepositorio();
 	}
 
 	/* Metodos que obtienen el contenido de los campos de la pantalla */

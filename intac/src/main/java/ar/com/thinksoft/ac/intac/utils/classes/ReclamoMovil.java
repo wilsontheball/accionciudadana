@@ -1,6 +1,5 @@
 package ar.com.thinksoft.ac.intac.utils.classes;
 
-import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 
 /**
@@ -23,8 +22,6 @@ public abstract class ReclamoMovil implements IReclamo {
 	protected String estadoReclamo;
 	protected String fechaCreacion;
 	protected String fechaModificacion;
-	protected int id; // Es para DB nomas...
-	protected IImagen fotoIncidente;
 	protected String latitudIncidente;
 	protected String longitudIncidente;
 	protected String observaciones;

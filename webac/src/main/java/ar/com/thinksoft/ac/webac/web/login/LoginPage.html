@@ -16,26 +16,49 @@
 			<div >
 			    <div>
 			        <div class="login">
-			        	<span wicket:id = "feedback" class="error"></span>
 			        	<form wicket:id="loginForm" >
-			            	<p>
-			                	<label for="username" id="usernamelabel">Username:</label>
-			                    <input type="text" wicket:id="nickname" id="nickname" class="username" />
-			                </p>
-			                
-			                <p>
-			                	<label for="password" id="passwordlabel">Password:</label>
-			                    <input type="password" wicket:id="password" id="password" class="password" />
-			                </p>
-			                
-			                <p> <input type="submit" value="Login"/> </p>
-			                
+				        	<table align="center">
+					        	<tr>
+					            	<td class="texto">
+					                	<label for="username" id="usernamelabel" >Nombre de usuario:</label>
+					                 </td>
+					                 <td class="block">
+					                    <input type="text" wicket:id="nickname" id="nickname" class="username" />
+					                 </td>
+					            </tr>
+					            <tr>   
+					                <td class="texto">
+					                	<label for="password" id="passwordlabel" class="texto">Contrase&ntilde;a:</label>
+					                </td>
+					                <td class="block">
+					                    <input type="password" wicket:id="password" id="password" class="password" />
+					                </td>
+					            </tr>  
+				            </table>
+				            <table align="center">
+				            	<tr>
+									<td>
+										<div class="block">
+											<input type="submit" value="Login"/>
+										</div>
+									</td>
+				            	</tr>
+				            </table>
+				            
+				            <table align="center">
+				            	<tr>
+									<td>
+										<div class="block">
+											<label>Todavia no posee una cuenta?</label>
+				            				<a wicket:id="registerLink" href="#">Registrarse</a>
+										</div>
+										<div class="block">
+											<span wicket:id = "feedback" class="error"></span>
+										</div>
+									</td>
+				            	</tr>
+				            </table>
 			            </form>
-			            
-			            <p>
-				            <label>Todavia no posee una cuenta?</label>
-				            <a wicket:id="registerLink" href="#">Registrarse</a>
-			            </p>
 			            
 			        </div><!--right-->
 			    </div><!--loginbox-->

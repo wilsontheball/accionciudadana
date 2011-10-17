@@ -7,6 +7,16 @@
 	
 }
 
+.block{
+   margin:10px 2px; 
+   font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
+   font-size: 12px;
+}
+
+.texto{
+	text-align: right;	
+}
+
 
 
 

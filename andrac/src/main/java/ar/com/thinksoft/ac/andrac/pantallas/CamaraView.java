@@ -9,6 +9,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -33,10 +34,12 @@ import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
  * Pantalla de la camara de fotos. Saca foto si se hace un clic sobre la
  * pantalla o se presiona el boton de la camara.
  * 
- * @since 07-09-2010
+ * @since 14-10-2010
  * @author Paul
  */
 public class CamaraView extends Activity implements SurfaceHolder.Callback {
+	public static final String FUN = "funcion";
+	public static final String SACAR_FOTO = "foto";
 	static final int FOTO_MODE = 0;
 	private static final String TAG = "CamaraView";
 	private Camera camara;
@@ -62,12 +65,17 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 				// Pasa la imagen al repo
 				guardarImagenEnRepo(imageData);
 
-				// setResult(Activity.RESULT_OK, mIntent);
-				setResult(Activity.RESULT_OK);
-				System.out.println("setResult OK");
+				// Carga la devolucion.
+				Intent resultado = new Intent();
+				resultado.putExtra(FUN, SACAR_FOTO);
+				setResult(Activity.RESULT_OK, resultado);
+				Log.d(this.getClass().getName(), "Se saco una foto.");
 			} else {
-				setResult(Activity.RESULT_CANCELED);
-				System.out.println("setResult CANCELED");
+				// Carga la devolucion.
+				Intent resultado = new Intent();
+				resultado.putExtra(FUN, SACAR_FOTO);
+				setResult(Activity.RESULT_CANCELED, resultado);
+				Log.d(this.getClass().getName(), "Se cancelo sacar foto.");
 			}
 			finish();
 		}
@@ -133,7 +141,10 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 			param.setPictureSize(dimension.width, dimension.height);
 			camara.setParameters(param);
 		} else {
-			this.setResult(Activity.RESULT_CANCELED);
+			Intent resultado = new Intent();
+			resultado.putExtra(FUN, SACAR_FOTO);
+			setResult(Activity.RESULT_CANCELED, resultado);
+			Log.d(this.getClass().getName(), "Se cancelo sacar foto.");
 			finish();
 		}
 	}
@@ -195,7 +206,7 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	/**
 	 * Saca foto cuando se pulsa el BOTON DE CAMARA.
 	 * 
-	 * @since 09-09-2011
+	 * @since 14-10-2011
 	 * @author Paul
 	 * @param keyCode
 	 *            Codigo del boton presionado.
@@ -205,9 +216,10 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_CAMERA
-				|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
 			this.camara.takePicture(null, null, this.pictureCallback);
+		} else if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+			// XXX No hace nada.
 		} else {
 			super.onKeyDown(keyCode, event);
 		}
@@ -273,6 +285,10 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	 * @param v
 	 */
 	public void cancelar(View v) {
+		Intent resultado = new Intent();
+		resultado.putExtra(FUN, SACAR_FOTO);
+		setResult(Activity.RESULT_CANCELED, resultado);
+		Log.d(this.getClass().getName(), "Se cancelo sacar foto.");
 		this.finish();
 	}
 }

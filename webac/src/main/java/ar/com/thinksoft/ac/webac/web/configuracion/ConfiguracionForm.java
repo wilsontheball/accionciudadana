@@ -1,6 +1,7 @@
 package ar.com.thinksoft.ac.webac.web.configuracion;
 
-import org.apache.wicket.markup.html.WebComponent;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
@@ -10,20 +11,24 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
-import com.visural.wicket.behavior.beautytips.BeautyTipBehavior;
-import com.visural.wicket.behavior.beautytips.TipPosition;
 
+import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 
 @SuppressWarnings("serial")
 public class ConfiguracionForm extends Form<Configuracion> {
 	private ConfiguracionForm _self = this;
 	
+	@SuppressWarnings("rawtypes")
 	public ConfiguracionForm(String id) {
 		super(id);
 		setMultiPart(false);
 		
-		Configuracion.getInstance().cargarConfiguracion();
+		try {
+			Configuracion.getInstance().cargarConfiguracion();
+		} catch (ConfiguracionException e) {
+			// TODO dialogo error
+		}
 		CompoundPropertyModel<Configuracion> model = new CompoundPropertyModel<Configuracion>(Configuracion.getInstance());
 		setModel(model);
 		
@@ -43,46 +48,21 @@ public class ConfiguracionForm extends Form<Configuracion> {
 		add(new PasswordTextField("password",this.createBind(model,"password")));
 		//FIN MAIL
 		
+		//BASE DE DATOS
+		add(new TextField<String>("ipBD",this.createBind(model,"ipBD")));
+		add(new TextField<String>("portBD",this.createBind(model,"portBD")));
+		//FIN BASE DE DATOS
+		
 		//CONFIGURACION DE RUTAS
 		add(new TextField<String>("pathTempImages",this.createBind(model,"pathTempImages")));
 		add(new TextField<String>("pathExportDesign",this.createBind(model,"pathExportDesign")));
 		add(new TextField<String>("pathConfig",this.createBind(model,"pathConfig")));
 		add(new TextField<String>("pathDownloadApp",this.createBind(model,"pathDownloadApp")));
-		
-		WebComponent help1 = new WebComponent("help1");
-		BeautyTipBehavior tooltip1 = new BeautyTipBehavior("Ingrese una ruta v&aacute;lida y el nombre del archivo correcto");
-		tooltip1.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true).setShrinkToFit(true);
-		help1.add(tooltip1);
-		add(help1);
-		
-		WebComponent help2 = new WebComponent("help2");
-		BeautyTipBehavior tooltip2 = new BeautyTipBehavior("Ingrese una ruta v&aacute;lida y el nombre del archivo correcto");
-		tooltip2.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true).setShrinkToFit(true);
-		help2.add(tooltip2);
-		add(help2);
-		
-		WebComponent help3 = new WebComponent("help3");
-		BeautyTipBehavior tooltip3 = new BeautyTipBehavior("Ingrese una ruta v&aacute;lida y el nombre del archivo correcto");
-		tooltip3.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true).setShrinkToFit(true);
-		help3.add(tooltip3);
-		add(help3);
-		
-		WebComponent help4 = new WebComponent("help4");
-		BeautyTipBehavior tooltip4 = new BeautyTipBehavior("Ingrese una ruta v&aacute;lida y el nombre del archivo correcto");
-		tooltip4.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true).setShrinkToFit(true);
-		help4.add(tooltip4);
-		add(help4);
 		// FIN RUTAS
 		
 		
 		//GOOGLE MAPS
 		add(new TextArea<String>("keyGoogleMap",this.createBind(model, "keyGoogleMap")));
-		
-		WebComponent helpGoogle = new WebComponent("helpGoogle");
-		BeautyTipBehavior tooltipGoogle = new BeautyTipBehavior("Ingrese una clave v&aacute;lida para el dominio");
-		tooltipGoogle.setPositionPreference(TipPosition.right).setBackgroundColor("white").setDropShadow(true);
-		helpGoogle.add(tooltipGoogle);
-		add(helpGoogle);
 		//FIN GOOGLE MAPS
 		
 		
@@ -90,15 +70,19 @@ public class ConfiguracionForm extends Form<Configuracion> {
 				@Override
 				public void onSubmit() {
 					Configuracion config = _self.getModelObject();
-					config.guardarConfiguracion();
+					try {
+						config.guardarConfiguracion();
+					} catch (ConfiguracionException e) {
+						// TODO dialogo error
+					}
 					setResponsePage(LoginPage.class);
 					}
 		        }
 	    );
 		
-		add(new Button("cancelar") {
+		add(new AjaxLink("cancelar") {
 			@Override
-			public void onSubmit() {
+			public void onClick(AjaxRequestTarget target) {
 				setResponsePage(LoginPage.class);
 			}
 		});

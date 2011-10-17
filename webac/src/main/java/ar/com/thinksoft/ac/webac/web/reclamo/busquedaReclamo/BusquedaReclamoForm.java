@@ -18,6 +18,8 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.authorization.strategies.role.Roles;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -35,12 +37,13 @@ import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
-import ar.com.thinksoft.ac.intac.IUsuario;
+import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
+import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorCiudadano;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
-import ar.com.thinksoft.ac.webac.web.Context;
+import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 import ar.com.thinksoft.ac.webac.web.export.ObjectDataSource;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
@@ -63,16 +66,16 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	private Dialog dialogUnificar = null;
 	private Dialog dialogUnificarError = null;
 	private ListDataProvider<IReclamo> listDataProvider;
-	private IUsuario ciudadano = Context.getInstance().getUsuario();
+	private Usuario ciudadano = ((AccionCiudadanaSession)getSession()).getUsuario();
 	
 	@SuppressWarnings("rawtypes")
 	public BusquedaReclamoForm(String id) {
 		
 		super(id);
-		//TODO
-		if("administrator".equals(ciudadano.getNombreUsuario()))
+		AccionCiudadanaSession session = (AccionCiudadanaSession) getSession();
+		if (session.getRoles().hasAnyRole(this.createRolesNeededForAdmin()))
 			listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerTodosReclamos());
-		else
+		else if (session.getRoles().hasAnyRole(this.createRolesNeededForUser())) 
 			listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorCiudadano().filtrar(ciudadano.getNombreUsuario())));
 		
 		CompoundPropertyModel<IReclamo> model = new CompoundPropertyModel<IReclamo>(new Reclamo());
@@ -114,9 +117,9 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				@Override
 				public void onSubmit() {
 					IReclamo reclamo = _self.getModelObject();
+					AccionCiudadanaSession session = (AccionCiudadanaSession) getSession();
 					
-					//TODO
-					if(!ciudadano.getNombreUsuario().equals("administrator"))
+					if (session.getRoles().hasAnyRole(_self.createRolesNeededForUser())) 
 						reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
 					
 					listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
@@ -140,6 +143,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				        }
 				        PageParameters params =new PageParameters();
 				        params.add("reclamoId", reclamo.getId());
+				        params.add("esPadre", Boolean.FALSE.toString());
 			            
 				        setResponsePage(DetalleReclamoPage.class, params);
 				        setRedirect(true);
@@ -169,7 +173,13 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		        for (IModel model : selected) {
 		           reclamo = (Reclamo) model.getObject();
 		        }
-		        reclamo.cancelarReclamo();
+		        
+		        try{
+		        	reclamo.cancelarReclamo();
+				} catch (Exception e1) {
+					LogFwk.getInstance(BusquedaReclamoForm.class).error("No se pudo enviar mail al cancelar reclamo. Detalle: " + e1.getMessage());
+				}
+				
 				dialogCancelar.close(target);
 				setResponsePage(BusquedaReclamoPage.class);
 		        setRedirect(true);
@@ -213,7 +223,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	    dialogUnificar = new Dialog("dialogUnificar");
 	    add(dialogUnificar);
 	    
-	    add(new AjaxLink("unificarReclamo"){
+	    AjaxLink unificacion = new AjaxLink("unificarReclamo"){
 	    	@Override
 	    	public void onClick(AjaxRequestTarget target){
 	    		Collection<IModel> selected = grid.getSelectedItems();
@@ -227,7 +237,11 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 					dialogUnificarError.open(target);
 				}
 	    	}
-	    });
+	    };
+	    
+	    MetaDataRoleAuthorizationStrategy.authorize(unificacion, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(unificacion, RENDER,"OPERADOR");
+	    add(unificacion);
 	    
 	    dialogUnificar.add(new AjaxLink("unificar"){
 			@Override
@@ -236,10 +250,13 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				List<IReclamo> listaReclamosSeleccionados = obtenerReclamosSeleccionados(selected);
 				IReclamo reclamo = listaReclamosSeleccionados.get(0);
 				IReclamo reclamo2 = listaReclamosSeleccionados.get(1);
+				
 				if((reclamo.getFechaReclamo().compareTo(reclamo.getFechaReclamo()) <= 0))
 					reclamo.unificar(reclamo2);
 				else
 					reclamo2.unificar(reclamo);
+				
+				
 				dialogUnificar.close(target);
 				setResponsePage(BusquedaReclamoPage.class);
 		        setRedirect(true);
@@ -271,27 +288,33 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	    	}
 	    });
         
+        
         ///////////// EXPORTAR ////////////////////////
-        add(new Button("exportar"){
+        
+        Button exportacion = new Button("exportar"){
         	@Override
 			public void onSubmit() {
         		IReclamo reclamo = _self.getModelObject();
-        		//TODO
-        		if(!ciudadano.getNombreUsuario().equals("administrator"))
+        		AccionCiudadanaSession session = (AccionCiudadanaSession) getSession();
+        		
+        		if (session.getRoles().hasAnyRole(_self.createRolesNeededForUser())) 
         			reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
         		
         		ByteArrayResource bar = null;
 				try {
 					bar = new ByteArrayResource("application/pdf", exportTable(reclamo));
-
 				} catch (Exception e) {
-					e.printStackTrace();
+					LogFwk.getInstance(BusquedaReclamoForm.class).error("Error en la exportacion. Detalle: " + e.getMessage());
 				}
         		IResourceStream stream = bar.getResourceStream();
         		RequestCycle.get().setRequestTarget(new ResourceStreamRequestTarget(stream, "accionCiudadana.pdf"));
         		
         	}
-        });
+
+        };
+        MetaDataRoleAuthorizationStrategy.authorize(exportacion, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(exportacion, RENDER,"OPERADOR");
+        add(exportacion);
         
         ///////////// FIN ////////////////////////
 	}
@@ -306,7 +329,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void armarGrilla() {
-
+		
 		List cols = (List) Arrays.asList(
 			new PropertyColumn("idCol",new Model<String>("Id"),"Id").setInitialSize(0)
 																	.setResizable(false)
@@ -406,6 +429,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		    arrayBytes = JasperExportManager.exportReportToPdf(jasperPrint);
 	      
 	    } catch (JRException e) {
+	    	LogFwk.getInstance(BusquedaReclamoForm.class).error("Imposible exportar a pdf. Detalle: "+e.getMessage());
 	    	throw new Exception("Imposible exportar a pdf. Consulte con nuestro soporte tecnico");
 	    }
 		return arrayBytes;
@@ -428,6 +452,19 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 			listaReclamosSeleccionados.add(reclamo);
 		}
 		return listaReclamosSeleccionados;
+	}
+	
+	public Roles createRolesNeededForAdmin() {
+		Roles roles = new Roles();
+		roles.add("ADMIN");
+		roles.add("OPERADOR");
+		return roles;
+	}
+
+	public Roles createRolesNeededForUser() {
+		Roles roles = new Roles();
+		roles.add("CIUDADANO");
+		return roles;
 	}
 	
 }
