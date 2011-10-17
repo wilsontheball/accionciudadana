@@ -18,7 +18,8 @@ public class DownloadPage extends BasePage{
 		} catch (ConfiguracionException e) {
 			// TODO dialogo error
 		}
-		File apk = new File(Configuracion.getInstance().getPathDownloadApp());
+		
+		File apk = new File(Configuracion.getInstance().getPathDownloadApp() + "accionCiudadana.apk");
 		FileResourceStream stream = new FileResourceStream(apk);
 		RequestCycle.get().setRequestTarget(new ResourceStreamRequestTarget(stream, "accionCiudadana.apk"));
 	}

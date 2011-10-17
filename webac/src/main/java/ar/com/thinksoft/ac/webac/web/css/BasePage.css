@@ -8,7 +8,7 @@ html,body {
 	width:100%;
 	overflow: auto;
 	font-family: "Calibri", "Tahoma", Arial, Helvetica, sans-serif;
-	font-size: 12px;
+	font-size: 15px;
 	background-color: #f5f5f5;
 	
 }
@@ -56,7 +56,7 @@ html,body {
 	font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans",
 		"Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica,
 		sans-serif;
-	font-size: 14px;
+	font-size: 15px;
 
 }
 
@@ -126,7 +126,7 @@ html,body {
 .menu li ul a {
 	display: block;
 	height: 35px;
-	font-size: 12px;
+	font-size: 15px;
 	font-style: normal;
 	margin: 0px;
 	padding: 0px 10px 0px 15px;

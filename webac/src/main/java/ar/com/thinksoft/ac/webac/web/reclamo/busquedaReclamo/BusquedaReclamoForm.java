@@ -119,7 +119,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 					IReclamo reclamo = _self.getModelObject();
 					AccionCiudadanaSession session = (AccionCiudadanaSession) getSession();
 					
-					if (session.getRoles().hasAnyRole(_self.createRolesNeededForUser())) 
+					if (!session.getRoles().hasAnyRole(_self.createRolesNeededForAdmin())) 
 						reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
 					
 					listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
@@ -297,7 +297,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
         		IReclamo reclamo = _self.getModelObject();
         		AccionCiudadanaSession session = (AccionCiudadanaSession) getSession();
         		
-        		if (session.getRoles().hasAnyRole(_self.createRolesNeededForUser())) 
+        		if (!session.getRoles().hasAnyRole(_self.createRolesNeededForAdmin())) 
         			reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
         		
         		ByteArrayResource bar = null;
@@ -466,5 +466,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		roles.add("CIUDADANO");
 		return roles;
 	}
+	
+	
 	
 }
