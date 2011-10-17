@@ -40,6 +40,7 @@ public class RegistroForm extends Form<Usuario> {
 		Usuario usuario = getModelObject();
 		new RegistroManager().registrar(usuario);
 		setResponsePage(LoginPage.class);
+		setRedirect(true);
 
 	}
 

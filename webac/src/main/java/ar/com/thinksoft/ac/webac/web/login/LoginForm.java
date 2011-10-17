@@ -49,9 +49,9 @@ public class LoginForm extends Form<Void> {
 
 		try {
 			Usuario usuario = login.login();
-			//TODO: adri, verifica esto!
 			if(usuario.getRoles().size()==0){
 				usuario.addRole("CIUDADANO");
+				usuario.addRole("ALL");
 				Repository.getInstance().store(usuario);
 			}
 			((AccionCiudadanaSession)getSession()).login(usuario);

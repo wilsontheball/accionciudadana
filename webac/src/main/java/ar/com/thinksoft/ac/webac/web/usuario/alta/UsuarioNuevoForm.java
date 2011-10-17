@@ -98,6 +98,20 @@ public class UsuarioNuevoForm extends Form<Usuario> {
 	}
 
 	protected void convertUsuario(String tipoUsuario, Usuario usuario) {
+		if("Ciudadano".equals(tipoUsuario)){
+			usuario.addRole("CIUDADANO");
+			usuario.addRole("ALL");
+		}
+		
+		if("Operario".equals(tipoUsuario)){
+			usuario.addRole("OPERADOR");
+			usuario.addRole("ALL");
+		}
+		
+		if("Administrador".equals(tipoUsuario)){
+			usuario.addRole("ADMIN");
+			usuario.addRole("ALL");
+		}
 	}
 
 }
