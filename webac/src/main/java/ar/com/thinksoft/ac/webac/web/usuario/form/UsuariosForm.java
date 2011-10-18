@@ -13,15 +13,20 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
+import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.intac.utils.collections.Comparator;
 import ar.com.thinksoft.ac.intac.utils.collections.HArrayList;
 import ar.com.thinksoft.ac.intac.utils.string.StringUtils;
+import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
 import ar.com.thinksoft.ac.webac.exceptions.MailException;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.mail.MailManager;
+import ar.com.thinksoft.ac.webac.predicates.PredicatePorCiudadano;
 import ar.com.thinksoft.ac.webac.predicates.registro.PredicateTodosLosUsuarios;
+import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.repository.Repository;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 import ar.com.thinksoft.ac.webac.web.usuario.alta.UsuarioNuevoPage;
 
 import com.inmethod.grid.DataProviderAdapter;
@@ -107,6 +112,8 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 			@Override
 			public void onClick(AjaxRequestTarget target){
 				Usuario usuario = (Usuario) grid.getSelectedItems().iterator().next().getObject();
+				_self.eliminarUsuarioDeReclamos(usuario);
+				
 				Repository.getInstance().delete(usuario);
 				try {
 					MailManager.getInstance().enviarMail(usuario.getMail(), "Accion Ciudadana - Eliminacion de usuario", MailManager.getInstance().armarTextoEliminacion(usuario));
@@ -133,6 +140,22 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 	/*
 	 * COMPONENTS
 	 */
+
+	protected void eliminarUsuarioDeReclamos(Usuario usuario) {
+		String mail;
+		try {
+			Configuracion.getInstance().cargarConfiguracion();
+			mail = Configuracion.getInstance().getDesdeMail();
+		} catch (ConfiguracionException e) {
+			mail = "accionciudadana.gcba@gmail.com";
+		}
+		List<IReclamo> reclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorCiudadano().filtrar(usuario.getNombreUsuario()));
+		for(IReclamo reclamo : reclamos){
+			reclamo.setCiudadanoGeneradorReclamo("Usuario eliminado");
+			reclamo.setMailCiudadanoGeneradorReclamo(mail);
+		}
+		
+	}
 
 	private void createTablaUsuarios(String gridName) {
 

@@ -1,7 +1,5 @@
 package ar.com.thinksoft.ac.webac.web.usuario.perfil;
 
-import java.util.List;
-
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -15,6 +13,7 @@ import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.predicates.registro.PredicateUsuarioExistente;
 import ar.com.thinksoft.ac.webac.repository.Repository;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
+import ar.com.thinksoft.ac.webac.web.usuario.modificarPerfil.ModificarPerfilPage;
 
 @SuppressWarnings("serial")
 public class PerfilForm extends Form<Usuario> {
@@ -30,6 +29,7 @@ public class PerfilForm extends Form<Usuario> {
 			throw new Exception("error en la base de datos, por favor, comuniquese con el equipo de soporte tecnico");
 	
 		usuario = usuarios.get(0);
+		
 		CompoundPropertyModel<Usuario> model = new CompoundPropertyModel<Usuario>(usuario);
 		setModel(model);
 
@@ -48,7 +48,7 @@ public class PerfilForm extends Form<Usuario> {
 				PageParameters params =new PageParameters();
 		        params.add("nicknameUsuario", usuario.getNombreUsuario());
 	            
-		        //setResponsePage(ModificarReclamoPage.class, params);
+		        setResponsePage(ModificarPerfilPage.class, params);
 		        setRedirect(true);
 			}
 		});
