@@ -109,7 +109,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 						}
 						
 						if(img != null){
-							reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),img.getFileName()));
+							reclamo.setImagen(new Imagen(img.getFileBytes(),img.getContentType(),reclamo.getId()));
 							img.deleteImage();
 						}
 						reclamo.setCiudadanoGeneradorReclamo(((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario());

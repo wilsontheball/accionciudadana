@@ -10,9 +10,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import ar.com.thinksoft.ac.intac.IReclamo;
+import ar.com.thinksoft.ac.intac.IUsuario;
 import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
 import ar.com.thinksoft.ac.webac.exceptions.MailException;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
+import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
 public class MailManager {
@@ -105,6 +107,18 @@ public class MailManager {
 		texto = texto + "se encuentra actualmente con prioridad: " + prioridad + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAcción Ciudadana";
 	
 		return texto;
+	}
+	
+	public String armarTextoBienvenida(IUsuario user) {
+		return user.getNombreUsuario()+ ":\n\n" + "Le damos la bienvenida a Acción Ciudadana.\n"+
+		"Ya puede iniciar reclamos y saber el estado de los mismos a través del tiempo.\n"+
+		"Puede acceder con su usuario desde la aplicación Android o desde nuestra web: www.accion-ciudadana.com.ar.\n"+
+		"No dude en contactarse con nosotros para cualquier consulta.\n\nAcción Ciudadana";
+	}
+
+	public String armarTextoEliminacion(Usuario usuario) {
+		return usuario.getNombreUsuario()+ ":\n\n" + "Su cuenta ha sido eliminada de Acción Ciudadana.\n"+
+		"No dude en contactarse con nosotros para cualquier consulta.\n\nAcción Ciudadana";
 	}
 
 }

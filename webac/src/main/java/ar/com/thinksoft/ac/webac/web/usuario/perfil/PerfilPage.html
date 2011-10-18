@@ -1,0 +1,96 @@
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+
+<head>
+<title>Perfil</title>
+</head>
+
+<body>
+	<wicket:extend>
+		<div class="detallePerfil">
+			<div align="center">
+				<h1>Detalle de Reclamo</h1>
+			</div>
+			<form wicket:id="perfilForm">
+			
+				<table align="center">
+					<tr>
+						<td>
+						
+							<table class="contenedorText">
+								<tr>
+									<td>
+										<label>Nombre:</label>
+									</td>
+									<td class="detalleBlock">
+								 		<label wicket:id="nombre" id="nombre"></label>  
+									</td>
+								</tr>	
+								
+								<tr>
+									<td>
+										<label>Apellido: </label>
+									</td>
+									<td class="detalleBlock">
+								 		<label wicket:id="apellido" id="apellido"></label> 
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Nombre de Usuario:</label>
+								 	</td>
+									<td class="detalleBlock">
+								 		<label wicket:id="username" id="username"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>DNI:</label>
+								 	</td>
+									<td class="detalleBlock">
+								 		<label wicket:id="dni" id="dni"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>E-mail:</label>
+								 	</td>
+									<td class="detalleBlock">
+								 		<label wicket:id="mail" id="mail"></label>
+								 	</td>
+								</tr>
+								
+								<tr>
+									<td>
+								 		<label>Tel&eacute;fono:</label>
+								 	</td>
+									<td class="detalleBlock">
+								 		<label wicket:id="telefono" id="telefono"></label>
+								 	</td>
+								</tr>
+								
+							</table>
+			
+						</td>
+			
+					</tr>
+				</table>			
+				
+				<table align="center">
+					<tr>
+						<td>
+							<div>
+								<input type="submit" wicket:id="modificarUsuario" value="Modificar reclamo" class="block" style="margin:15px;"/>
+							</div>
+						</td>
+					</tr>
+				</table>
+
+			</form>
+		</div>
+	</wicket:extend>
+</body>
+</html>

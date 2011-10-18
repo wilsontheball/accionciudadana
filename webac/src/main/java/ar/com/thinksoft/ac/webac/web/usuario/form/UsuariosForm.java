@@ -16,6 +16,9 @@ import org.apache.wicket.model.Model;
 import ar.com.thinksoft.ac.intac.utils.collections.Comparator;
 import ar.com.thinksoft.ac.intac.utils.collections.HArrayList;
 import ar.com.thinksoft.ac.intac.utils.string.StringUtils;
+import ar.com.thinksoft.ac.webac.exceptions.MailException;
+import ar.com.thinksoft.ac.webac.logging.LogFwk;
+import ar.com.thinksoft.ac.webac.mail.MailManager;
 import ar.com.thinksoft.ac.webac.predicates.registro.PredicateTodosLosUsuarios;
 import ar.com.thinksoft.ac.webac.repository.Repository;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
@@ -105,6 +108,11 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 			public void onClick(AjaxRequestTarget target){
 				Usuario usuario = (Usuario) grid.getSelectedItems().iterator().next().getObject();
 				Repository.getInstance().delete(usuario);
+				try {
+					MailManager.getInstance().enviarMail(usuario.getMail(), "Accion Ciudadana - Eliminacion de usuario", MailManager.getInstance().armarTextoEliminacion(usuario));
+				} catch (MailException e) {
+					LogFwk.getInstance(UsuarioPage.class).error("No se pudo enviar el mail de eliminación. Detalle: " + e.getMessage());
+				}
 				dialogEliminar.close(target);
 				setResponsePage(UsuarioPage.class);
 				setRedirect(true);

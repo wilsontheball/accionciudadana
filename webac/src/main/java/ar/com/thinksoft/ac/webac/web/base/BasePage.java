@@ -11,6 +11,7 @@ import org.apache.wicket.markup.html.link.IPageLink;
 
 import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
+import ar.com.thinksoft.ac.webac.web.ayuda.AyudaPage;
 import ar.com.thinksoft.ac.webac.web.configuracion.ConfiguracionPage;
 import ar.com.thinksoft.ac.webac.web.download.DownloadPage;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
@@ -18,6 +19,7 @@ import ar.com.thinksoft.ac.webac.web.logout.LogoutPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoPage;
 import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
+import ar.com.thinksoft.ac.webac.web.usuario.perfil.PerfilPage;
 
 public abstract class BasePage extends WebPage {
 
@@ -59,12 +61,25 @@ public abstract class BasePage extends WebPage {
 
 	private void appendLinks() {
 		add(new BookmarkablePageLink<IPageLink>("homeLink", HomePage.class));
+		
+		BookmarkablePageLink<IPageLink> perfilLink = new BookmarkablePageLink<IPageLink>("perfilLink", PerfilPage.class);
+		MetaDataRoleAuthorizationStrategy.authorize(perfilLink, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(perfilLink, RENDER,"OPERADOR");
+		MetaDataRoleAuthorizationStrategy.authorize(perfilLink, RENDER,"CIUDADANO");
+		add(perfilLink);
+		
+		BookmarkablePageLink<IPageLink> reclamos = new BookmarkablePageLink<IPageLink>("reclamos",this.getClass());
+		MetaDataRoleAuthorizationStrategy.authorize(reclamos, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(reclamos, RENDER,"OPERADOR");
+		MetaDataRoleAuthorizationStrategy.authorize(reclamos, RENDER,"CIUDADANO");
+		add(reclamos);
+		
 		add(new BookmarkablePageLink<IPageLink>("altaReclamoLink",AltaReclamoPage.class));
+		
 		add(new BookmarkablePageLink<IPageLink>("busquedaReclamoLink",BusquedaReclamoPage.class));
 		
 		BookmarkablePageLink<IPageLink> usuarioLink = new BookmarkablePageLink<IPageLink>("usuariosLink", UsuarioPage.class);
 		MetaDataRoleAuthorizationStrategy.authorize(usuarioLink, RENDER, "ADMIN");
-		MetaDataRoleAuthorizationStrategy.authorize(usuarioLink, RENDER,"OPERADOR");
 		add(usuarioLink);
 		
 		add(new BookmarkablePageLink<IPageLink>("downloadLink", DownloadPage.class));
@@ -73,6 +88,12 @@ public abstract class BasePage extends WebPage {
 		MetaDataRoleAuthorizationStrategy.authorize(configLink, RENDER, "ADMIN");
 		MetaDataRoleAuthorizationStrategy.authorize(configLink, RENDER,"OPERADOR");
 		add(configLink);
+		
+		BookmarkablePageLink<IPageLink> ayudaLink = new BookmarkablePageLink<IPageLink>("ayudaLink", AyudaPage.class);
+		MetaDataRoleAuthorizationStrategy.authorize(ayudaLink, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(ayudaLink, RENDER,"OPERADOR");
+		MetaDataRoleAuthorizationStrategy.authorize(ayudaLink, RENDER,"CIUDADANO");
+		add(ayudaLink);
 
 	}
 
