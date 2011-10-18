@@ -25,30 +25,3 @@ label
 td{
 	text-align: right;	
 }
-
-.observaciones{
-	width: 200px;
-
-}
-
-.contenedorImagen{
-	width: 30em;	
-}
-
-.imagen{
-	width: 30em; 
-	height: 20em;	
-	float: left;
-    margin: 20px;
-    width: auto;
-}
-
-
-.contenedorText{
-	width: 30em; 
-	height: 25em;	
-}
-
-.contenedorMapa{
-	width: 0em;
-}

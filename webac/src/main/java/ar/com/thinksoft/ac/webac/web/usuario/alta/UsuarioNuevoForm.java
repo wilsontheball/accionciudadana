@@ -11,8 +11,12 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
+import ar.com.thinksoft.ac.webac.exceptions.MailException;
+import ar.com.thinksoft.ac.webac.logging.LogFwk;
+import ar.com.thinksoft.ac.webac.mail.MailManager;
 import ar.com.thinksoft.ac.webac.registro.RegistroManager;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
+import ar.com.thinksoft.ac.webac.web.registro.RegistroPage;
 import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
 
 public class UsuarioNuevoForm extends Form<Usuario> {
@@ -52,6 +56,11 @@ public class UsuarioNuevoForm extends Form<Usuario> {
 				Usuario usuario = self.getModelObject();
 				self.convertUsuario(self.tipoUsuario, usuario);
 				new RegistroManager().registrar(usuario);
+				try {
+					MailManager.getInstance().enviarMail(usuario.getMail(), "Accion Ciudadana - Bienvenido", MailManager.getInstance().armarTextoBienvenida(usuario));
+				} catch (MailException e) {
+					LogFwk.getInstance(RegistroPage.class).error("No se pudo enviar el mail de bienvenida. Detalle: " + e.getMessage());
+				}
 				setResponsePage(UsuarioPage.class);
 				setRedirect(true);
 			}
