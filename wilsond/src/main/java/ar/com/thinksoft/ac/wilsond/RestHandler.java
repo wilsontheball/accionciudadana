@@ -250,7 +250,6 @@ public class RestHandler extends AbstractHandler {
 		Request req = (baseRequest instanceof Request ? (Request) baseRequest
 				: HttpConnection.getCurrentConnection().getRequest());
 
-		response.reset();
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		try {
