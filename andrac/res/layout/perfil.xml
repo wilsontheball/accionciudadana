@@ -17,7 +17,7 @@
 			<TextView android:layout_width="wrap_content"
 				android:textColor="@color/color_texto" android:textAppearance="@android:style/TextAppearance.Small"
 				android:layout_height="wrap_content" android:paddingBottom="2dip"
-				android:text="@string/registro_sub_titulo" android:gravity="center" />
+				android:text="@string/login_sub_titulo" android:gravity="center" />
 			<EditText android:id="@+id/nombre" android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:inputType="textPersonName"
 				android:textAppearance="@android:style/TextAppearance.Large"

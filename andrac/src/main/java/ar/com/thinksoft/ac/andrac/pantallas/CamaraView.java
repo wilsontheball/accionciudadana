@@ -34,7 +34,7 @@ import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
  * Pantalla de la camara de fotos. Saca foto si se hace un clic sobre la
  * pantalla o se presiona el boton de la camara.
  * 
- * @since 07-10-2010
+ * @since 14-10-2010
  * @author Paul
  */
 public class CamaraView extends Activity implements SurfaceHolder.Callback {
@@ -206,7 +206,7 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	/**
 	 * Saca foto cuando se pulsa el BOTON DE CAMARA.
 	 * 
-	 * @since 09-09-2011
+	 * @since 14-10-2011
 	 * @author Paul
 	 * @param keyCode
 	 *            Codigo del boton presionado.
@@ -216,9 +216,10 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_CAMERA
-				|| keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
 			this.camara.takePicture(null, null, this.pictureCallback);
+		} else if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+			// XXX No hace nada.
 		} else {
 			super.onKeyDown(keyCode, event);
 		}

@@ -14,7 +14,7 @@
 			android:layout_height="wrap_content" android:gravity="center"
 			android:paddingBottom="2dip" android:textColor="@color/color_texto"
 			android:textAppearance="@android:style/TextAppearance.Small"
-			android:text="@string/registro_sub_titulo" />
+			android:text="@string/login_sub_titulo" />
 		<LinearLayout android:orientation="vertical"
 			android:layout_width="match_parent" android:gravity="center_horizontal"
 			android:layout_marginLeft="20dip" android:layout_marginRight="20dip"

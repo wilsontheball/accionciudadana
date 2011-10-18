@@ -10,7 +10,9 @@ import ar.com.thinksoft.ac.intac.EnumPrioridadReclamo;
 import ar.com.thinksoft.ac.intac.IImagen;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.exceptions.MailException;
+import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.mail.MailManager;
+import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoForm;
 
 /**
  * Implementacion de IReclamo en intac
@@ -351,14 +353,18 @@ public class Reclamo implements IReclamo,Serializable{
 	
 	// METODOS PARA UNIFICACION
 	
-	public void unificar(IReclamo reclamo) throws Exception{
+	public void unificar(IReclamo reclamo){
 		if(this.isIgual(reclamo) && this.isNotDown() && reclamo.isNotDown()){
-			reclamo.setAsociadoReclamo();
-			this.getReclamosAsociados().add(reclamo);
-			reclamo.setReclamoPadreId(this.getId());
-			definirPrioridadUnificado(reclamo);
-			ReclamoManager.getInstance().guardarReclamo(this);
-			ReclamoManager.getInstance().guardarReclamo(reclamo);
+			try{
+				reclamo.setAsociadoReclamo();
+				this.getReclamosAsociados().add(reclamo);
+				reclamo.setReclamoPadreId(this.getId());
+				definirPrioridadUnificado(reclamo);
+				ReclamoManager.getInstance().guardarReclamo(this);
+				ReclamoManager.getInstance().guardarReclamo(reclamo);
+			} catch (Exception e) {
+				LogFwk.getInstance(BusquedaReclamoForm.class).error("No se pudo hacer la unificacion de reclamos. Detalle: " + e.getMessage());
+			}
 		}
 	}
 	
@@ -397,6 +403,15 @@ public class Reclamo implements IReclamo,Serializable{
 			if(this.getPrioridad().equals(EnumPrioridadReclamo.baja.getPrioridad()) && reclamo.getPrioridad().equals(EnumPrioridadReclamo.media.getPrioridad()))
 				this.setPrioridad(EnumPrioridadReclamo.media.getPrioridad());
 		}
+	}
+
+	/**
+	 * Esto es solo para wilsonD, cuando hago un reclamo filtro para obtener el estado del Padre.
+	 * @param reclamoPadreId
+	 */
+	public void setId(String reclamoPadreId) {
+		this.id = reclamoPadreId;
+		
 	}
 
 }

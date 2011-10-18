@@ -19,7 +19,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * La clase se encarga de manejar la pantalla de Registro.
  * 
- * @since 10-10-2011
+ * @since 13-10-2011
  * @author Paul
  */
 public class Registro extends Activity {
@@ -228,16 +228,15 @@ public class Registro extends Activity {
 	/**
 	 * Bussca si hay campos sin completar en la pantalla.
 	 * 
-	 * @since 19-07-2011
+	 * @since 13-10-2011
 	 * @author Paul
 	 * @return <Code>true</Code> si falta completar alguno, <Code>false</Code>
 	 *         si todos estan completos.
 	 */
 	private boolean camposIncompletos() {
 		return getNombre().length() == 0 || getApellido().length() == 0
-				|| getUsuario().length() == 0 || getDNI().length() == 0
-				|| getMail().length() == 0 || getMailConfirm().length() == 0
-				|| getTelefono().length() == 0 || getPass().length() == 0
+				|| getUsuario().length() == 0 || getMail().length() == 0
+				|| getMailConfirm().length() == 0 || getPass().length() == 0
 				|| getPassConfirm().length() == 0;
 	}
 
