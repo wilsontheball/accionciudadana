@@ -191,6 +191,7 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 						PageParameters params = new PageParameters();
 						params.add("reclamoId", reclamoModificado.getId());
 						setResponsePage(DetalleReclamoPage.class, params);
+						setRedirect(true);
 					}
 		        }
 			}
@@ -207,6 +208,7 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 				PageParameters params = new PageParameters();
 				params.add("reclamoId", reclamoOriginal.getId());
 				setResponsePage(DetalleReclamoPage.class, params);
+				setRedirect(true);
 			}
 		});
 		
