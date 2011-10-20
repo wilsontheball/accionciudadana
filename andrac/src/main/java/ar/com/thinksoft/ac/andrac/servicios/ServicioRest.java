@@ -163,6 +163,8 @@ public class ServicioRest extends IntentService {
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETPERFIL + "/"
 				+ nick + "/" + pass);
 		this.setRespuestaHttp(httpClient.execute(method));
+		Log.i(this.getClass().getName(), "HTTP Respuesta: "
+				+ this.getRespuestaHttp().getStatusLine().toString());
 		if (this.getRespuestaHttp().getStatusLine().getStatusCode() != 200) {
 			throw new ClientProtocolException();
 		}

@@ -24,7 +24,10 @@
 	<string name="telefono">Teléfono</string>
 	<string name="calle">Calle</string>
 	<string name="altura">Altura</string>
+	<string name="campos_restringidos">Usuario y contraseña se guardarán sin espacios, en
+		minúsculas.</string>
 	<string name="campos_opcionales">Datos opcionales:</string>
+	<string name="campos_obligatorios">Datos obligatorios:</string>
 	<string name="login_exito">Autentificación Exitosa!</string>
 	<string name="cerrar_aplicacion">Aplicación Finalizada.</string>
 	<string name="advertencia">Error</string>
