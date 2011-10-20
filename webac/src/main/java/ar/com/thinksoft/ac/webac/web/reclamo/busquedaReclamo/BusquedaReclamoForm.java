@@ -335,8 +335,8 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 																	.setResizable(false)
 																	.setSizeUnit(SizeUnit.PX),
 																	
-            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(200)
-            																						 .setResizable(false)
+            new PropertyColumn("calleCol",new Model<String>("Calle del Incidente"), "calleIncidente").setInitialSize(150)
+            																						 .setResizable(true)
             																						 .setWrapText(true)
             																						 .setSizeUnit(SizeUnit.PX),
             																						 
@@ -358,12 +358,12 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																			  .setResizable(true)
             																			  .setSizeUnit(SizeUnit.PX),
             																				
-            new PropertyColumn("fechaCol",new Model<String>("Fecha de alta"), "FechaReclamo").setInitialSize(80)
+            new PropertyColumn("fechaCol",new Model<String>("Fecha de alta"), "FechaReclamo").setInitialSize(100)
             																				.setReorderable(true)
             																				.setResizable(true)
             																		 		.setSizeUnit(SizeUnit.PX),
             																						
-            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(130)
+            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(150)
             																		.setReorderable(true)
             																		.setResizable(true)
             																		.setSizeUnit(SizeUnit.PX),
@@ -373,12 +373,12 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																				.setResizable(true)
             																				.setSizeUnit(SizeUnit.PX),
 
-            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(80)
+            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(100)
             																				 .setReorderable(true)
             																				 .setResizable(true)
             																				 .setSizeUnit(SizeUnit.PX),
             																						  
-            new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(150)
+            new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(100)
           																							.setWrapText(true)
           																							.setReorderable(true)
             																						.setResizable(true)
