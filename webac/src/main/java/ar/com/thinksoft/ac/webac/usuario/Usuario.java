@@ -15,6 +15,7 @@ public class Usuario implements IUsuario {
 	private String apellido;
 	private String mail;
 	private String dni;
+	private String tipo;
 
 	public Usuario() {
 		this.permisos = new Roles();
@@ -25,10 +26,24 @@ public class Usuario implements IUsuario {
 		this.setNombre("");
 		this.setNombreUsuario("");
 		this.setTelefono("");
+		this.setTipo("");
 	}
 
 	public void addRole(String role) {
 		this.permisos.add(role);
+		
+		if("ADMIN".equals(role)){
+			this.setTipo(EnumTiposUsuario.Administrador.getTipoUsuario());
+		}else{
+			if("OPERADOR".equals(role)){
+				this.setTipo(EnumTiposUsuario.Operador.getTipoUsuario());
+			}else{
+				if("CIUDADANO".equals(role)){
+					this.setTipo(EnumTiposUsuario.Ciudadano.getTipoUsuario());
+				}
+			}
+		}
+		
 	}
 	
 	// ************************* GETTERS & SETTERS ***********************
@@ -111,6 +126,14 @@ public class Usuario implements IUsuario {
 	@Override
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+	
+	public String getTipo(){
+		return this.tipo;
+	}
+	
+	public void setTipo(String tipo){
+		this.tipo = tipo;
 	}
 
 
