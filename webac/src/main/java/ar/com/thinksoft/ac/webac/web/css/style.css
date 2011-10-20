@@ -20,11 +20,11 @@ body { margin: 0; padding: 0; background: #032e40; font-family: Arial, Helvetica
 
 .loginform .username, .loginform .password { -moz-box-shadow: inset 1px 1px 2px #666; -webkit-box-shadow: inset 1px 1px 2px #666; box-shadow: inset 1px 1px 2px #666; }
 .loginform .username, .loginform .password { width: 250px; padding: 8px;  -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; border: 1px solid #94bbca; }
-.loginform .remember { color: #ccc; font-size: 11px; }
+.loginform .remember { color: #ccc; font-size: 15px; }
 .loginform .remember .checkbox { margin: 0; vertical-align: middle; }
 .loginform .submitbutton { float: right; margin-right: 55px; }
 
-.loginform .notify { background: #365e6e; padding: 5px 0; text-align: center; font-family: Georgia, "Times New Roman", Times, serif; font-size: 11px; color: #fedfb3; }
+.loginform .notify { background: #365e6e; padding: 5px 0; text-align: center; font-family: Georgia, "Times New Roman", Times, serif; font-size: 15px; color: #fedfb3; }
 .loginform .notify { font-style: italic; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; margin-right: 55px; }
 
 .loginform .notify { display: none; }

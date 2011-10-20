@@ -7,7 +7,7 @@ import org.apache.wicket.markup.html.JavascriptPackageResource;
 
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
 
-@AuthorizeInstantiation({"ADMIN","OPERADOR"})
+@AuthorizeInstantiation("ADMIN")
 public class ConfiguracionPage extends BasePage{
 
 	public ConfiguracionPage(final PageParameters parameters) {

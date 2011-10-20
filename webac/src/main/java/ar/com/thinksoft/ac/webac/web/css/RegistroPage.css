@@ -18,7 +18,7 @@ label
 .block{
    margin:10px 2px; 
    font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
-   font-size: 12px;
+   font-size: 15px;
 }
 
 td.texto{
@@ -27,4 +27,22 @@ td.texto{
 
 .input{
 	width:200px;	
+}
+
+.dialogo{
+	background-color: white;
+	font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	border: 5px solid;
+	border-color:#2580A8;
+	display: block;
+	text-align: center;
+	padding: 30px;	
+	border-radius: 10px;
+}
+
+.dialogo.atencion{
+	border-color:#ff0000;
+	background-color: white;
+	color: #FF0000;
 }
