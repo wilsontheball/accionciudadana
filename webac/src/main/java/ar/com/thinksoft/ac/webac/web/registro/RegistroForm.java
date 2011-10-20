@@ -1,18 +1,15 @@
 package ar.com.thinksoft.ac.webac.web.registro;
 
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-
 import com.db4o.ObjectSet;
-import com.visural.wicket.component.dialog.Dialog;
-
 import ar.com.thinksoft.ac.webac.exceptions.MailException;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.mail.MailManager;
@@ -27,9 +24,7 @@ import ar.com.thinksoft.ac.webac.web.login.LoginPage;
 public class RegistroForm extends Form<Usuario> {
 
 	private RegistroForm _self = this;
-	private Dialog dialogUsuarioExistente = null;
-	
-	@SuppressWarnings("rawtypes")
+
 	public RegistroForm(String id) {
 		super(id);
 
@@ -45,26 +40,16 @@ public class RegistroForm extends Form<Usuario> {
 		add(new TextField<String>("mail", createStringBind(model, "mail")));
 		add(new TextField<String>("re-mail", new Model<String>()));
 		add(new TextField<String>("telefono", createStringBind(model, "telefono")));
+		add(new Label("errorLabel",""));
 		
-		
-		dialogUsuarioExistente = new Dialog("dialogUsuarioExistente");
-	    add(dialogUsuarioExistente);
-	    
-	    dialogUsuarioExistente.add(new AjaxLink("volver"){
-	    	@Override
-	    	public void onClick(AjaxRequestTarget target){
-	    		dialogUsuarioExistente.close(target);
-	    	}
-	    });
-	    
-	    add(new AjaxLink("guardarRegistro"){
+	    add(new Button("guardarRegistro"){
 			@Override
-			public void onClick(AjaxRequestTarget target) {
+			public void onSubmit() {
 				
 				Usuario usuario = _self.getModelObject();
 				ObjectSet<Usuario> usuarios = Repository.getInstance().query(new PredicateUsuarioExistente().exist(usuario.getNombreUsuario()));
 				
-				if(usuarios.size()==0 && _self.usuarioIsValido(usuario)){
+				if(usuarios.size()==0 && !_self.usuarioIsValido(usuario)){
 					new RegistroManager().registrar(usuario);
 					try {
 						MailManager.getInstance().enviarMail(usuario.getMail(), "Accion Ciudadana - Bienvenido", MailManager.getInstance().armarTextoBienvenida(usuario));
@@ -74,7 +59,9 @@ public class RegistroForm extends Form<Usuario> {
 					setResponsePage(LoginPage.class);
 					setRedirect(true);
 				}else{
-					dialogUsuarioExistente.open(target);
+					_self.addOrReplace(new Label("errorLabel",
+							"El nombre de usuario ya se encuentra en nuestra Base de Datos. Por favor, ingrese otro." +
+				                    			"Si el problema persiste, no dude en consultar al soporte técnico."));
 				}
 			}
 	    });
