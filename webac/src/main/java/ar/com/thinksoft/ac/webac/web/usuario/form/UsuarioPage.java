@@ -7,7 +7,7 @@ import ar.com.thinksoft.ac.webac.web.base.BasePage;
 import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoPage;
 
 
-@AuthorizeInstantiation({"ADMIN","OPERADOR"})
+@AuthorizeInstantiation("ADMIN")
 public class UsuarioPage extends BasePage {
 
 	public UsuarioPage(final PageParameters parameters) {
