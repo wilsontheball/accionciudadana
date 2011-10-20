@@ -5,7 +5,7 @@ import java.util.List;
 
 public enum TipoUsuario {
 
-	Ciudadano,Administrador,Operario;
+	Ciudadano,Administrador,Operador;
 	
 	
 	

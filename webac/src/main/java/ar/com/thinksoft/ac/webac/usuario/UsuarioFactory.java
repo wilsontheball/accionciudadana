@@ -38,8 +38,6 @@ public class UsuarioFactory {
 		usuario.setNombreUsuario("god");
 		usuario.setMail("accionciudadana.gcba@gmail.com");
 		usuario.addRole("ADMIN");
-		//usuario.addRole("CIUDADANO");
-		//usuario.addRole("OPERADOR");
 		usuario.addRole("ALL");
 		return usuario;
 		

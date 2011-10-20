@@ -6,6 +6,15 @@ public class UsuarioFilterObject{
 	private String nombre;
 	private String apellido;
 	private String nombreUsuario;
+	private String tipo;
+	
+	public String getTipo(){
+		return this.tipo;
+	}
+	
+	public void setTipo(String tipo){
+		this.tipo = tipo;
+	}
 	
 	public String getNombre() {
 		return this.nombre;
@@ -32,7 +41,7 @@ public class UsuarioFilterObject{
 	}
 
 	public boolean isNull() {
-		return this.getApellido() == null && this.getNombre() == null && this.getNombreUsuario() == null;
+		return this.getApellido() == null && this.getNombre() == null && this.getNombreUsuario() == null && this.getTipo() == null;
 	}
 	
 

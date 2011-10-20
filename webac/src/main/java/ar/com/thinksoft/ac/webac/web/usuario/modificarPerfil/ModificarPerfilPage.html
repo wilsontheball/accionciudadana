@@ -1,14 +1,14 @@
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 	<head>
-		<title>Registro de Ciudadano</title>
+		<title>Modificaci&oacute;n de Perfil del Usuario</title>
 	</head>
 	<body>
 		<wicket:extend>
-			<div class="registro">
+			<div class="modificacionPerfil">
 				<div align="center">
-					<h1>Registro de Ciudadano</h1>
+					<h1>Modificaci&oacute;n de Perfil del Usuario</h1>
 				</div>
-				<form wicket:id="registroForm">
+				<form wicket:id="modificarPerfilForm">
 				
 					<table align="center">
 						<tr>
@@ -44,15 +44,6 @@
 									 		<input type="text" wicket:id="apellido" id="apellido" class="input apellido" onchange="funcionOnChangeCampoIsNull(this)"/>
 									 	</td>
 									</tr>
-									
-									<tr>
-										<td class="texto">
-											<label style="color:red;">*</label><label>Nombre de Usuario:</label>
-										</td>
-										<td class="block">
-									 		<input type="text" wicket:id="username" id="username" class="input username" onchange="funcionOnChangeCampoIsNull(this)"/>
-										</td>
-									</tr>	
 									
 									<tr>
 										<td class="texto">
@@ -129,15 +120,8 @@
 						<tr>
 							<td>
 								<div>
-									<input type="submit" wicket:id="guardarRegistro" value="Registrar" onclick="validarRepeticiones()" class="block guardarRegistro"/>
-									<div wicket:id="dialogUsuarioExistente">
-				                			<div class="dialogo atencion">
-				                				<p>El nombre de usuario ya se encuentra en nuestra Base de Datos.
-				                    			 Por favor, ingrese otro.<br>
-				                    			Si el problema persiste, no dude en consultar al soporte técnico.</p>
-				                    			<input type="button" wicket:id="volver" value="Volver"/>
-				                			</div>
-            						</div>	
+									<input type="submit" wicket:id="actualizarUsuario" value="Modificar" onclick="validarRepeticiones()" class="block guardarRegistro"/>
+									<input type="submit" wicket:id="cancelar" value="Volver"/>
 								</div>
 							</td>
 						</tr>
