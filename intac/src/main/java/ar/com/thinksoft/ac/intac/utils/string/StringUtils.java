@@ -14,7 +14,7 @@ public class StringUtils {
 		try {
 			return alpha.toLowerCase().contains(beta.toLowerCase());
 		} catch (NullPointerException e) {
-			return false;
+			return true;
 		}
 
 	}

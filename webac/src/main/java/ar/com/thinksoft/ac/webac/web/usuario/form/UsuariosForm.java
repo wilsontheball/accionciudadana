@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
@@ -25,6 +26,7 @@ import ar.com.thinksoft.ac.webac.predicates.PredicatePorCiudadano;
 import ar.com.thinksoft.ac.webac.predicates.registro.PredicateTodosLosUsuarios;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.repository.Repository;
+import ar.com.thinksoft.ac.webac.usuario.EnumTiposUsuario;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 import ar.com.thinksoft.ac.webac.web.usuario.alta.UsuarioNuevoPage;
@@ -55,18 +57,18 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 				new UsuarioFilterObject());
 		this.setModel(model);
 
-		this.add(new TextField<String>("campoBusquedaNombre", this.createBind(
-				model, "nombre")));
-		this.add(new TextField<String>("campoBusquedaApellido", this
-				.createBind(model, "apellido")));
-		this.add(new TextField<String>("campoBusquedaNombreUsuario", this
-				.createBind(model, "nombreUsuario")));
+		add(new TextField<String>("campoBusquedaNombre", this.createBind(model, "nombre")));
+		add(new TextField<String>("campoBusquedaApellido", this.createBind(model, "apellido")));
+		add(new TextField<String>("campoBusquedaNombreUsuario", this.createBind(model, "nombreUsuario")));
+		DropDownChoice<String> dropDownListTipo = new DropDownChoice<String>("campoBusquedaTipo", this.createBind(model,"tipo"),EnumTiposUsuario.getlistaTiposUsuarios());
+		dropDownListTipo.setNullValid(true);
+		add(dropDownListTipo);
+		
+		add(this.createNewButton("botonNuevo"));
+		createTablaUsuarios("grid");
+		add(this.grid);
 
-		this.add(this.createNewButton("botonNuevo"));
-		this.createTablaUsuarios("grid");
-		this.add(this.grid);
-
-		this.add(new Button("botonBuscar") {
+		add(new Button("botonBuscar") {
 
 			@Override
 			public void onSubmit() {
@@ -83,14 +85,10 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 						if (filterObject.isNull()) {
 							return true;
 						} else
-							return StringUtils.contains(elem.getApellido(),
-									filterObject.getApellido())
-									|| StringUtils.contains(elem.getNombre(),
-											filterObject.getNombre())
-									|| StringUtils.contains(
-											elem.getNombreUsuario(),
-											filterObject.getNombreUsuario());
-
+							return StringUtils.contains(elem.getApellido(), filterObject.getApellido())
+								&& StringUtils.contains(elem.getNombre(), filterObject.getNombre())
+								&& StringUtils.contains(elem.getNombreUsuario(), filterObject.getNombreUsuario()) 
+								&& StringUtils.contains(elem.getTipo(), filterObject.getTipo());
 					}
 				});
 
@@ -195,6 +193,12 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 
 	private List<IGridColumn> crearColumnas() {
 		List<IGridColumn> columnas = new ArrayList<IGridColumn>();
+		
+		columnas.add(new PropertyColumn("tipo", new Model<String>("Tipo"), "tipo").setInitialSize(150)
+																				  .setResizable(true)
+																				  .setWrapText(true)
+																				  .setReorderable(true)
+																				  .setSizeUnit(SizeUnit.PX));
 
 		columnas.add(new PropertyColumn("apellido", new Model<String>("Apellido"), "apellido").setInitialSize(200)
 																							  .setResizable(true)

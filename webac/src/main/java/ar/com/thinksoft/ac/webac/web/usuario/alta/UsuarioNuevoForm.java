@@ -2,7 +2,6 @@ package ar.com.thinksoft.ac.webac.web.usuario.alta;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
@@ -11,10 +10,15 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
+import com.db4o.ObjectSet;
+import com.visural.wicket.component.dialog.Dialog;
+
 import ar.com.thinksoft.ac.webac.exceptions.MailException;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.mail.MailManager;
+import ar.com.thinksoft.ac.webac.predicates.registro.PredicateUsuarioExistente;
 import ar.com.thinksoft.ac.webac.registro.RegistroManager;
+import ar.com.thinksoft.ac.webac.repository.Repository;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
 import ar.com.thinksoft.ac.webac.web.registro.RegistroPage;
 import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
@@ -23,13 +27,12 @@ public class UsuarioNuevoForm extends Form<Usuario> {
 
 	private static final long serialVersionUID = 4530512782651195546L;
 	private String tipoUsuario;
-	private UsuarioNuevoForm self;
-
+	private UsuarioNuevoForm _self = this;
+	private Dialog dialogUsuarioExistente = null;
+	
 	@SuppressWarnings({ "serial", "rawtypes" })
 	public UsuarioNuevoForm(String id) {
 		super(id);
-
-		this.self = this;
 
 		CompoundPropertyModel<Usuario> model = new CompoundPropertyModel<Usuario>(new Usuario());
 		this.setModel(model);
@@ -48,21 +51,36 @@ public class UsuarioNuevoForm extends Form<Usuario> {
 		add(new TextField<String>("mail", createStringBind(model, "mail")));
 		add(new TextField<String>("re-mail", new Model<String>()));
 		add(new TextField<String>("telefono", createStringBind(model, "telefono")));
-
-		add(new Button("guardar") {
-
+		
+		dialogUsuarioExistente = new Dialog("dialogUsuarioExistente");
+	    add(dialogUsuarioExistente);
+	    
+	    dialogUsuarioExistente.add(new AjaxLink("volver"){
+	    	@Override
+	    	public void onClick(AjaxRequestTarget target){
+	    		dialogUsuarioExistente.close(target);
+	    	}
+	    });
+	    
+		add(new AjaxLink("guardarRegistro"){
 			@Override
-			public void onSubmit() {
-				Usuario usuario = self.getModelObject();
-				self.convertUsuario(self.tipoUsuario, usuario);
-				new RegistroManager().registrar(usuario);
-				try {
-					MailManager.getInstance().enviarMail(usuario.getMail(), "Accion Ciudadana - Bienvenido", MailManager.getInstance().armarTextoBienvenida(usuario));
-				} catch (MailException e) {
-					LogFwk.getInstance(RegistroPage.class).error("No se pudo enviar el mail de bienvenida. Detalle: " + e.getMessage());
+			public void onClick(AjaxRequestTarget target) {
+				Usuario usuario = _self.getModelObject();
+				ObjectSet<Usuario> usuarios = Repository.getInstance().query(new PredicateUsuarioExistente().exist(usuario.getNombreUsuario()));
+				
+				
+				if(usuarios.size()==0){
+					new RegistroManager().registrar(usuario);
+					try {
+						MailManager.getInstance().enviarMail(usuario.getMail(), "Accion Ciudadana - Bienvenido", MailManager.getInstance().armarTextoBienvenida(usuario));
+					} catch (MailException e) {
+						LogFwk.getInstance(RegistroPage.class).error("No se pudo enviar el mail de bienvenida. Detalle: " + e.getMessage());
+					}
+					setResponsePage(UsuarioPage.class);
+					setRedirect(true);
+				}else{
+					dialogUsuarioExistente.open(target);
 				}
-				setResponsePage(UsuarioPage.class);
-				setRedirect(true);
 			}
 		});
 

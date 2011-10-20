@@ -137,7 +137,15 @@
 					<tr>
 						<td>
 							<div>
-								<input type="submit" wicket:id = "guardar" value="Guardar" class="block guardarRegistro" onclick="validarRepeticiones()"  style="float: left; margin:20px;"/>
+								<input type="submit" wicket:id="guardarRegistro" value="Guardar" class="block guardarRegistro" onclick="validarRepeticiones()"  style="float: left; margin:20px;"/>
+								<div wicket:id="dialogUsuarioExistente">
+				                			<div class="dialogo atencion">
+				                				<p>El nombre de usuario ya se encuentra en nuestra Base de Datos.
+				                    			 Por favor, ingrese otro.<br>
+				                    			Si el problema persiste, no dude en consultar al soporte técnico.</p>
+				                    			<input type="button" wicket:id="volver" value="Volver"/>
+				                			</div>
+            					</div>
 								<input type="submit" wicket:id = "cancelar" value="Cancelar" style="float: right; margin:20px;"/>
 							</div>
 						</td>
