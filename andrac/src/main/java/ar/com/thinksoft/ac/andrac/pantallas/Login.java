@@ -1,5 +1,7 @@
 package ar.com.thinksoft.ac.andrac.pantallas;
 
+import java.net.HttpURLConnection;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -27,9 +29,10 @@ import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 
 /**
- * Pantalla transparente que maneja los servicios y pide autentificacion.
+ * Pantalla transparente que maneja los servicios de conexion. Pide
+ * autentificacion y muestra los mensajes de error.
  * 
- * @since 14-10-2011
+ * @since 16-10-2011
  * @author Paul
  * 
  */
@@ -38,9 +41,7 @@ public class Login extends Activity implements ReceptorRest {
 	private final String HTTP = "http://";
 
 	private static final int LOGIN = 0;
-	private static final int LOGIN_FAIL = 1;
-	private static final int SERVER_ERROR = 2;
-	private static final int CAMPOS_VACIOS = 3;
+	private static final int CAMPOS_VACIOS = -10;
 
 	private static final String ANDRAC_NICK = "andrac_nick";
 	private static final String ANDRAC_PASS = "andrac_pass";
@@ -132,7 +133,7 @@ public class Login extends Activity implements ReceptorRest {
 			dialogo = new AlertDialog.Builder(Login.this)
 					.setCancelable(false)
 					.setIcon(R.drawable.lock)
-					.setTitle(tituloDialogo)
+					.setTitle(getTituloDialogo())
 					.setView(layout)
 					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
@@ -166,8 +167,8 @@ public class Login extends Activity implements ReceptorRest {
 			// Dialogo comun de Error.
 			dialogo = new AlertDialog.Builder(Login.this)
 					.setIcon(R.drawable.alert_dialog_icon)
-					.setTitle(tituloDialogo)
-					.setMessage(mensageDialogo)
+					.setTitle(getTituloDialogo())
+					.setMessage(getMensageDialogo())
 					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -227,8 +228,13 @@ public class Login extends Activity implements ReceptorRest {
 
 			// Servicio Fallo: Cierra dialogo procesando.
 			this.cerrarProcesando();
+
+			// Muestra un dialogo de error
+			int codigoHttp = funcionData.getInt(ServicioRest.HTTP_COD);
+			this.mostrarDialogo(codigoHttp);
+
 			// Vuelve a la ventana anterior.
-			this.salirDePantalla(funcion, RESULT_CANCELED);
+			// XXX this.salirDePantalla(funcion, RESULT_CANCELED, mensaje);
 			break;
 		}
 	}
@@ -236,32 +242,35 @@ public class Login extends Activity implements ReceptorRest {
 	/**
 	 * Muestra una ventana de dialogo segun la necesidad.
 	 * 
-	 * @since 23-08-2011
+	 * @since 16-10-2011
 	 * @author Paul
 	 */
 	private void mostrarDialogo(int codigo) {
 		// Asi, por que no se puede pasar los atributos directamente al Dialogo.
 		switch (codigo) {
 		case LOGIN:
-			this.tituloDialogo = getString(R.string.login_titulo);
-			this.showDialog(codigo);
-			break;
-		case LOGIN_FAIL:
-			this.tituloDialogo = getString(R.string.advertencia);
-			this.mensageDialogo = getString(R.string.nick_pass_fail);
-			this.showDialog(codigo);
-			break;
-		case SERVER_ERROR:
-			this.tituloDialogo = getString(R.string.advertencia);
-			this.mensageDialogo = getString(R.string.server_inaccesible);
+			this.setTituloDialogo(getString(R.string.login_titulo));
 			this.showDialog(codigo);
 			break;
 		case CAMPOS_VACIOS:
-			this.tituloDialogo = getString(R.string.atencion);
-			this.mensageDialogo = getString(R.string.campo_vacio);
+			this.setTituloDialogo(getString(R.string.atencion));
+			this.setMensageDialogo(getString(R.string.campo_vacio));
+			this.showDialog(codigo);
+			break;
+		case HttpURLConnection.HTTP_INTERNAL_ERROR:
+			this.setTituloDialogo(getString(R.string.advertencia));
+			this.setMensageDialogo(getString(R.string.error_conexion_servidor));
+			this.showDialog(codigo);
+			break;
+		case HttpURLConnection.HTTP_FORBIDDEN:
+			this.setTituloDialogo(getString(R.string.advertencia));
+			this.setMensageDialogo(getString(R.string.nick_pass_fail));
 			this.showDialog(codigo);
 			break;
 		default:
+			this.setTituloDialogo(getString(R.string.advertencia));
+			this.setMensageDialogo(getString(R.string.mensaje_error_conexion));
+			this.showDialog(codigo);
 			break;
 		}
 	}
@@ -513,5 +522,21 @@ public class Login extends Activity implements ReceptorRest {
 
 	private String getPass() {
 		return this.campoPass.getText().toString();
+	}
+
+	private String getTituloDialogo() {
+		return tituloDialogo;
+	}
+
+	private void setTituloDialogo(String tituloDialogo) {
+		this.tituloDialogo = tituloDialogo;
+	}
+
+	private String getMensageDialogo() {
+		return mensageDialogo;
+	}
+
+	private void setMensageDialogo(String mensageDialogo) {
+		this.mensageDialogo = mensageDialogo;
 	}
 }
