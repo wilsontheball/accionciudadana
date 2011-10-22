@@ -86,7 +86,6 @@ public abstract class BasePage extends WebPage {
 		
 		BookmarkablePageLink<IPageLink> configLink = new BookmarkablePageLink<IPageLink>("configLink",ConfiguracionPage.class);
 		MetaDataRoleAuthorizationStrategy.authorize(configLink, RENDER, "ADMIN");
-		MetaDataRoleAuthorizationStrategy.authorize(configLink, RENDER,"OPERADOR");
 		add(configLink);
 		
 		BookmarkablePageLink<IPageLink> ayudaLink = new BookmarkablePageLink<IPageLink>("ayudaLink", AyudaPage.class);

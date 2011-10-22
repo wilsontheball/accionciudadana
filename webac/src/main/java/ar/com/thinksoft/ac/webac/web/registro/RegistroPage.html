@@ -118,7 +118,7 @@
 						<tr>
 							<td>
 								<div class="block">
-									<label class="error"></label>
+									<label class="error" wicket:id="errorLabel"></label>
 								</div>
 							</td>
 						</tr>
@@ -130,14 +130,6 @@
 							<td>
 								<div>
 									<input type="submit" wicket:id="guardarRegistro" value="Registrar" onclick="validarRepeticiones()" class="block guardarRegistro"/>
-									<div wicket:id="dialogUsuarioExistente">
-				                			<div class="dialogo atencion">
-				                				<p>El nombre de usuario ya se encuentra en nuestra Base de Datos.
-				                    			 Por favor, ingrese otro.<br>
-				                    			Si el problema persiste, no dude en consultar al soporte técnico.</p>
-				                    			<input type="button" wicket:id="volver" value="Volver"/>
-				                			</div>
-            						</div>	
 								</div>
 							</td>
 						</tr>
