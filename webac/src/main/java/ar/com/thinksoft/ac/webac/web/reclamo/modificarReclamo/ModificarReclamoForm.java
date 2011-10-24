@@ -80,13 +80,23 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 		dropDownListBarrios.setNullValid(true);
 		add(dropDownListBarrios);
 		
+		Label prioridadLabel = new Label("prioridadLabel","Prioridad: ");
+		MetaDataRoleAuthorizationStrategy.authorize(prioridadLabel, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(prioridadLabel, RENDER,"OPERADOR");
+		add(prioridadLabel);
+		
 		DropDownChoice<String> dropDownListPrioridad = new DropDownChoice<String>("Prioridad", createBind(model,"Prioridad"),EnumPrioridadReclamo.getlistaPrioridadReclamo());
 		dropDownListPrioridad.setNullValid(true);
 		MetaDataRoleAuthorizationStrategy.authorize(dropDownListPrioridad, RENDER, "ADMIN");
 		MetaDataRoleAuthorizationStrategy.authorize(dropDownListPrioridad, RENDER,"OPERADOR");
 		add(dropDownListPrioridad);
 		
-		DropDownChoice<String> dropDownListEstado = new DropDownChoice<String>("EstadoDescripcion", createBind(model,"EstadoDescripcion"),EnumEstadosReclamo.getlistaEstadosReclamo());
+		Label estadoLabel = new Label("estadoLabel","Estado: ");
+		MetaDataRoleAuthorizationStrategy.authorize(estadoLabel, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(estadoLabel, RENDER,"OPERADOR");
+		add(estadoLabel);
+		
+		DropDownChoice<String> dropDownListEstado = new DropDownChoice<String>("EstadoDescripcion", createBind(model,"EstadoDescripcion"),EnumEstadosReclamo.getlistaEstadosReclamoSinAsociado());
 		dropDownListEstado.setNullValid(true);
 		MetaDataRoleAuthorizationStrategy.authorize(dropDownListEstado, RENDER, "ADMIN");
 		MetaDataRoleAuthorizationStrategy.authorize(dropDownListEstado, RENDER,"OPERADOR");
