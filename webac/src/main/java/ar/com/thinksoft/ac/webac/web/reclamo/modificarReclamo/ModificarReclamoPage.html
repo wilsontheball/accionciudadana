@@ -31,8 +31,8 @@
 										<label style="color:red;">*</label><label>Calle - Altura:</label>
 									</td>
 									<td class="block">
-								 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" onchange="funcionOnChangeCampoIsNull(this)"/> - 
-								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" size="5" onchange="validarNumerosInput(this)"/>
+								 		<input type="text" wicket:id="calleIncidente" id="calleIncidente" class="calleIncidente" onchange="funcionOnChangeCampoIsNull(this)"/> - 
+								 		<input type="text" wicket:id="alturaIncidente" id="alturaIncidente" class="alturaIncidente" size="5" onchange="validarNumerosInput(this)"/>
 									</td>
 								</tr>	
 								<tr>
@@ -64,19 +64,19 @@
 								
 								<tr>
 									<td class="texto">
-										<label style="color:red;">*</label><label>Prioridad:</label>
+										<label wicket:id="prioridadLabel"></label>
 									</td>
 									<td class="block">
-								 		<select wicket:id="Prioridad" id="prioridad" class="prioridad" onchange="funcionOnChangeCampoIsNull(this)"> </select>
+								 		<select wicket:id="Prioridad" id="prioridad" class="prioridad"> </select>
 								 	</td>
 								</tr>
 								
 								<tr>
 									<td class="texto">
-										<label style="color:red;">*</label><label>Estado:</label>
+										<label wicket:id="estadoLabel"></label>
 									</td>
 									<td class="block">
-								 		<select wicket:id="EstadoDescripcion" id="EstadoDescripcion" class="estadoDescripcion" onchange="funcionOnChangeCampoIsNull(this)"> </select>
+								 		<select wicket:id="EstadoDescripcion" id="EstadoDescripcion" class="estadoDescripcion"> </select>
 								 	</td>
 								</tr>
 										

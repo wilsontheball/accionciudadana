@@ -72,6 +72,8 @@ public class RestHandler extends AbstractHandler {
 						LogManager.getInstance(RestHandler.class).error(
 								"No se pudo realizar el GET. Detalle: "
 										+ e.toString());
+						System.out.println("No se pudo realizar el GET. Detalle: "
+								+ e.toString());
 					}
 				} else {
 					if (baseRequest.getMethod().equalsIgnoreCase(
@@ -87,6 +89,8 @@ public class RestHandler extends AbstractHandler {
 							LogManager.getInstance(RestHandler.class).error(
 									"No se pudo realizar el POST. Detalle: "
 											+ e.toString());
+							System.out.println("No se pudo realizar el POST. Detalle: "
+									+ e.toString());
 						}
 					} else {
 						this.responderError(
@@ -96,6 +100,7 @@ public class RestHandler extends AbstractHandler {
 						LogManager
 								.getInstance(RestHandler.class)
 								.error("Funcion desconocida. No es un GET ni un POST. Contacte al Soporte Tecnico.");
+						System.out.println("Funcion desconocida. No es un GET ni un POST. Contacte al Soporte Tecnico.");
 					}
 				}
 			} else {
@@ -103,7 +108,8 @@ public class RestHandler extends AbstractHandler {
 						"El usuario y/o password son incorrectos.",
 						baseRequest, response);
 				LogManager.getInstance(RestHandler.class).error(
-						"El usuario y/o ppassword son incorrectos.");
+						"El usuario y/o password son incorrectos.");
+				System.out.println("El usuario y/o password son incorrectos.");
 			}
 		} catch (Exception e) {
 			this.responderError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -111,6 +117,8 @@ public class RestHandler extends AbstractHandler {
 					response);
 			LogManager.getInstance(RestHandler.class).error(
 					"Error interno del servidor: " + e.toString());
+			System.out.println("Error interno del servidor: " + e.toString());
+			
 		}
 	}
 

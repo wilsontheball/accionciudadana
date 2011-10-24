@@ -203,10 +203,6 @@ public class HomePageAdministrativo extends BasePage{
 		
 		gridActivos = new DefaultDataGrid("grid", new DataProviderAdapter(listDataProvider), cols);
 		gridActivos.setRowsPerPage(7);
-        gridActivos.setClickRowToSelect(true);
-        gridActivos.setAllowSelectMultiple(true);
-        gridActivos.setClickRowToDeselect(true);
-        gridActivos.setCleanSelectionOnPageChange(false);
         
 	}
 	
@@ -258,10 +254,6 @@ public class HomePageAdministrativo extends BasePage{
 		
 		gridUltimosModificados = new DefaultDataGrid("gridUltimosModificados", new DataProviderAdapter(listDataProvider), cols);
 		gridUltimosModificados.setRowsPerPage(7);
-		gridUltimosModificados.setClickRowToSelect(true);
-		gridUltimosModificados.setAllowSelectMultiple(true);
-		gridUltimosModificados.setClickRowToDeselect(true);
-		gridUltimosModificados.setCleanSelectionOnPageChange(false);
         
 	}
 

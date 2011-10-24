@@ -20,6 +20,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -86,7 +87,15 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		
 		add(new TextField<String>("alturaIncidente",this.createBind(model,"alturaIncidente")));
 		
-		add(new TextField<String>("CiudadanoGeneradorReclamo",this.createBind(model,"CiudadanoGeneradorReclamo")));
+		Label usuario = new Label("CiudadanoGeneradorReclamoLabel","Usuario");
+		MetaDataRoleAuthorizationStrategy.authorize(usuario, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(usuario, RENDER,"OPERADOR");
+		add(usuario);
+
+		TextField<String> ciudadanoGenerador = new TextField<String>("CiudadanoGeneradorReclamo",this.createBind(model,"CiudadanoGeneradorReclamo"));
+		MetaDataRoleAuthorizationStrategy.authorize(ciudadanoGenerador, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(ciudadanoGenerador, RENDER, "OPERADOR");
+		add(ciudadanoGenerador);
 		
 		add(new TextField<String>("FechaReclamo",this.createBind(model,"FechaReclamo")));
 		
