@@ -12,6 +12,11 @@ html,body {
 	
 }
 
+.container{
+	height: 100%;	
+	margin-top: 40px;
+}
+
 .map{
 	width: 700px;
 	height: 500px;

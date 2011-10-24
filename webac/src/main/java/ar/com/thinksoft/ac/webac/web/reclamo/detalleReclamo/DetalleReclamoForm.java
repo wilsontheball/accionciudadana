@@ -54,6 +54,10 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 		add(new Label("BarrioIncidente",this.createBind(model,"BarrioIncidente")));
 		add(new Label("ComunaIncidente",this.createBind(model,"ComunaIncidente")));
 		
+		Label ciudadanoLabel = new Label("ciudadanoLabel","Ciudadano: ");
+		ciudadanoLabel.setVisible(!hasPadre.booleanValue());
+		add(ciudadanoLabel);
+		
 		Label ciudadano = new Label("ciudadanoReclamo",this.createBind(model,"ciudadanoReclamo"));
 		ciudadano.setVisible(!hasPadre.booleanValue());
 		add(ciudadano);
@@ -101,7 +105,7 @@ public class DetalleReclamoForm  extends Form<Reclamo>{
 								}
 							};
 							
-		modificar.setVisible(reclamo.isNotDown());
+		modificar.setVisible(reclamo.isNotDown() && (!hasPadre.booleanValue()));
 		add(modificar);
 		
 		Button detallePadre = new Button("detallePadre") {
