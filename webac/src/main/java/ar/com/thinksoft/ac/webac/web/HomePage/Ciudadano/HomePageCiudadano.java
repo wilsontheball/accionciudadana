@@ -127,10 +127,6 @@ public class HomePageCiudadano extends BasePage{
 		
 		gridActivosCiudadano = new DefaultDataGrid("gridCiudadano", new DataProviderAdapter(listDataProvider), cols);
 		gridActivosCiudadano.setRowsPerPage(7);
-        gridActivosCiudadano.setClickRowToSelect(true);
-        gridActivosCiudadano.setAllowSelectMultiple(true);
-        gridActivosCiudadano.setClickRowToDeselect(true);
-        gridActivosCiudadano.setCleanSelectionOnPageChange(false);
         
 	}
 	
@@ -182,10 +178,6 @@ public class HomePageCiudadano extends BasePage{
 		
 		gridUltimosModificadosCiudadano = new DefaultDataGrid("gridUltimosModificadosCiudadano", new DataProviderAdapter(listDataProvider), cols);
 		gridUltimosModificadosCiudadano.setRowsPerPage(7);
-		gridUltimosModificadosCiudadano.setClickRowToSelect(true);
-		gridUltimosModificadosCiudadano.setAllowSelectMultiple(true);
-		gridUltimosModificadosCiudadano.setClickRowToDeselect(true);
-		gridUltimosModificadosCiudadano.setCleanSelectionOnPageChange(false);
         
 	}
 
