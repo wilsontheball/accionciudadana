@@ -63,6 +63,7 @@ public class RestHandler extends DefaultHandler {
 			}
 			if (tokens.hasMoreElements()) {
 				nick = (String) tokens.nextElement();
+				nick = nick.toLowerCase().replace(" ", "");
 			}
 			if (tokens.hasMoreElements()) {
 				pass = (String) tokens.nextElement();
