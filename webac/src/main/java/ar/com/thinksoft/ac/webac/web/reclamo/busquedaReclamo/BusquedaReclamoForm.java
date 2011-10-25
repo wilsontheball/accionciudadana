@@ -124,41 +124,16 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		add(new Button("busqueda"){
 				@Override
 				public void onSubmit() {
-					IReclamo reclamo = _self.getModelObject();
-					String calle = null;
-					if(reclamo.getCalleIncidente()!=null)
-						calle = reclamo.getCalleIncidente();
-					
-					String altura = null;
-					if(reclamo.getAlturaIncidente()!=null)
-						altura = reclamo.getAlturaIncidente();
-					
-					String usuario = null;
-					//asignar null a calle y altura
-					
+					IReclamo reclamoFiltro = _self.getModelObject();
+
 					AccionCiudadanaSession session = (AccionCiudadanaSession) getSession();
 					
 					if (!session.getRoles().hasAnyRole(_self.createRolesNeededForAdmin())) 
-						reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
-					else
-						usuario = reclamo.getCiudadanoGeneradorReclamo();
+						reclamoFiltro.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
 					
-					List<IReclamo> listaReclamosFiltrados = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
-					List<IReclamo> listaFinal = new ArrayList<IReclamo>();
+					List<IReclamo> listaReclamosFiltrados = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamoFiltro);
 					
-					
-					for(IReclamo r : listaReclamosFiltrados){
-						listaFinal.add(r);
-						
-						/*if(calle!=null && r.getCalleIncidente().contains(calle.toLowerCase())){
-							listaFinal.add(r);
-						}
-						if(altura!=null && !r.getCalleIncidente().contains(altura)){
-							
-						}*/
-					}
-					
-					listDataProvider = new ListDataProvider<IReclamo>(listaFinal);
+					listDataProvider = new ListDataProvider<IReclamo>(listaReclamosFiltrados);
 					grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				}
 			});
