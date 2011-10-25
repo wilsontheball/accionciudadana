@@ -23,6 +23,7 @@ import android.widget.Toast;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
+import ar.com.thinksoft.ac.andrac.listener.TextCorrector;
 import ar.com.thinksoft.ac.andrac.servicios.ReceptorRest;
 import ar.com.thinksoft.ac.andrac.servicios.ReceptorResultados;
 import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
@@ -32,7 +33,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
  * Pantalla transparente que maneja los servicios de conexion. Pide
  * autentificacion y muestra los mensajes de error.
  * 
- * @since 16-10-2011
+ * @since 25-10-2011
  * @author Paul
  * 
  */
@@ -113,7 +114,7 @@ public class Login extends Activity implements ReceptorRest {
 	/**
 	 * Crea la ventana de dialogo. (Se hace de esta forma en Android 2.2)
 	 * 
-	 * @since 12-10-2011
+	 * @since 25-10-2011
 	 * @author Paul
 	 */
 	@Override
@@ -127,7 +128,9 @@ public class Login extends Activity implements ReceptorRest {
 			View layout = inflater.inflate(R.layout.login_dialogo,
 					(ViewGroup) findViewById(R.id.login_dialogo));
 			campoNick = (EditText) layout.findViewById(R.id.nick);
+			campoNick.addTextChangedListener(new TextCorrector(campoNick));
 			campoPass = (EditText) layout.findViewById(R.id.pass);
+			campoPass.addTextChangedListener(new TextCorrector(campoPass));
 			checkPreferencias = (CheckBox) layout
 					.findViewById(R.id.guardar_pass);
 			dialogo = new AlertDialog.Builder(Login.this)

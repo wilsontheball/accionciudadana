@@ -9,7 +9,7 @@ import ar.com.thinksoft.ac.andrac.pantallas.Registro;
 /**
  * Limita el texto a minusculas y numeros en el EditText.
  * 
- * @since 24-10-2011
+ * @since 25-10-2011
  * @author Paul
  */
 public class TextCorrector implements TextWatcher {
@@ -17,6 +17,7 @@ public class TextCorrector implements TextWatcher {
 	private EditText campoACorregir;
 	private String cadenaValida;
 	private int posicionCursor;
+	private boolean habilitado = true;
 
 	public TextCorrector(EditText campoACorregir) {
 		this.setCampoACorregir(campoACorregir);
@@ -36,16 +37,34 @@ public class TextCorrector implements TextWatcher {
 	public void onTextChanged(CharSequence secuencia, int posicion, int arg2,
 			int arg3) {
 
-		if (secuencia.toString().matches("[a-z0-9]*")) {
-			this.setCadenaValida(secuencia + "");
-			this.setPosicionCursor(this.getCampoACorregir().getSelectionStart());
-			Log.i(Registro.class.getName(), "Es minuscula o digito: "
-					+ secuencia + "cursor: " + posicion);
+		if (isHabilitado()) {
+			String cadenaNueva = secuencia.toString();
+
+			if (cadenaNueva.matches("[a-z0-9]*")) {
+				Log.d(Registro.class.getName(), "Es minuscula o digito: "
+						+ cadenaNueva);
+
+				// Guarda la cadena correcta.
+				this.setCadenaValida(cadenaNueva);
+			} else {
+				Log.d(Registro.class.getName(), "NO es minuscula o digito: "
+						+ cadenaNueva);
+
+				// Deshabilita la correccion por el setText().
+				this.setHabilitado(false);
+
+				// Vuelve una posicion atras.
+				this.setPosicionCursor(this.getCampoACorregir()
+						.getSelectionStart() - 1);
+
+				// Sobreescribe la cadena.
+				this.getCampoACorregir().setText(this.getCadenaValida());
+
+				// Ubica el cursor.
+				this.getCampoACorregir().setSelection(this.getPosicionCursor());
+			}
 		} else {
-			this.getCampoACorregir().setText(this.getCadenaValida());
-			this.getCampoACorregir().setSelection(this.getPosicionCursor());
-			Log.e(Registro.class.getName(), "No es minuscula o digito: "
-					+ secuencia);
+			this.setHabilitado(true);
 		}
 	}
 
@@ -68,11 +87,22 @@ public class TextCorrector implements TextWatcher {
 	}
 
 	private int getPosicionCursor() {
+		if (this.posicionCursor < 0) {
+			this.setPosicionCursor(0);
+		}
 		return this.posicionCursor;
 	}
 
 	private void setPosicionCursor(int posicionCursor) {
 		this.posicionCursor = posicionCursor;
+	}
+
+	private void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
+	}
+
+	private boolean isHabilitado() {
+		return this.habilitado;
 	}
 
 }
