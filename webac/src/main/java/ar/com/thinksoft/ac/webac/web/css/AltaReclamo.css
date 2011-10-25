@@ -38,7 +38,7 @@ td.texto{
 
 .imagen{
 	width: 30em; 
-	height: 25em;	
+	height: 20em;	
 	/*float: right;*/
 }
 
@@ -48,5 +48,5 @@ td.texto{
 
 .contenedorText{
 	width: 30em; 
-	height: 25em;	
+	height: 20em;	
 }

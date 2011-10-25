@@ -9,11 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.bouncycastle.ocsp.Req;
 import org.mortbay.jetty.HttpConnection;
 import org.mortbay.jetty.HttpMethods;
 import org.mortbay.jetty.Request;
-import org.mortbay.jetty.handler.AbstractHandler;
 import org.mortbay.jetty.handler.DefaultHandler;
 
 import com.google.gson.Gson;
@@ -50,6 +48,7 @@ public class RestHandler extends DefaultHandler {
 	 * @since 16-10-2011
 	 * @author Paul
 	 */
+	@SuppressWarnings("static-access")
 	public void handle(String target, HttpServletRequest baseRequest,
 			HttpServletResponse response, int dispatch) throws IOException,
 			ServletException {

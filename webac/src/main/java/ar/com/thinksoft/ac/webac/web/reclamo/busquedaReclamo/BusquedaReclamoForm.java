@@ -41,7 +41,6 @@ import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorCiudadano;
-import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
@@ -126,12 +125,40 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 				@Override
 				public void onSubmit() {
 					IReclamo reclamo = _self.getModelObject();
+					String calle = null;
+					if(reclamo.getCalleIncidente()!=null)
+						calle = reclamo.getCalleIncidente();
+					
+					String altura = null;
+					if(reclamo.getAlturaIncidente()!=null)
+						altura = reclamo.getAlturaIncidente();
+					
+					String usuario = null;
+					//asignar null a calle y altura
+					
 					AccionCiudadanaSession session = (AccionCiudadanaSession) getSession();
 					
 					if (!session.getRoles().hasAnyRole(_self.createRolesNeededForAdmin())) 
 						reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
+					else
+						usuario = reclamo.getCiudadanoGeneradorReclamo();
 					
-					listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
+					List<IReclamo> listaReclamosFiltrados = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
+					List<IReclamo> listaFinal = new ArrayList<IReclamo>();
+					
+					
+					for(IReclamo r : listaReclamosFiltrados){
+						listaFinal.add(r);
+						
+						/*if(calle!=null && r.getCalleIncidente().contains(calle.toLowerCase())){
+							listaFinal.add(r);
+						}
+						if(altura!=null && !r.getCalleIncidente().contains(altura)){
+							
+						}*/
+					}
+					
+					listDataProvider = new ListDataProvider<IReclamo>(listaFinal);
 					grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				}
 			});
@@ -417,7 +444,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 			reclamos = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
 		} else{
 	  	//obtain a list of objects for the report
-	     reclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().filtrarNot(EnumEstadosReclamo.asociado.getEstado()));
+	     reclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
 		}
 		
 	    // pass parameters to the report
