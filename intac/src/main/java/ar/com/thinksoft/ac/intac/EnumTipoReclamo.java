@@ -6,7 +6,6 @@ import java.util.List;
 public enum EnumTipoReclamo {
 	
 		bache("Bache"),
-		caidaObjetos("Caida de Objetos"),
 		abl("ABL"),
 		roturaElementosPublicos("Rotura Elem. Publicos"),
 		elementosViales("Elementos Viales"),
@@ -25,7 +24,6 @@ public enum EnumTipoReclamo {
 	    	listaTiposReclamo.clear();
 	    	listaTiposReclamo.add(EnumTipoReclamo.abl.getTipo());
 	    	listaTiposReclamo.add(EnumTipoReclamo.bache.getTipo());
-	    	listaTiposReclamo.add(EnumTipoReclamo.caidaObjetos.getTipo());
 	    	listaTiposReclamo.add(EnumTipoReclamo.roturaElementosPublicos.getTipo());
 	    	listaTiposReclamo.add(EnumTipoReclamo.elementosViales.getTipo());
 	    	listaTiposReclamo.add(EnumTipoReclamo.inundaciones.getTipo());

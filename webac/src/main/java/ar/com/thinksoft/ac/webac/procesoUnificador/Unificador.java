@@ -74,9 +74,9 @@ public class Unificador {
 
 		private boolean reclamoMayorAnio(IReclamo reclamo) throws ParseException {
 			long millisecs_per_day = 24 * 60 * 60 * 1000;
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-			Date dateReclamo;
-			dateReclamo = (Date)formatter.parse(reclamo.getFechaReclamo());
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			Date dateReclamo = new Date();
+			dateReclamo = formatter.parse(reclamo.getFechaReclamo());
 			Date hoy = new Date();
 			long diferencia = ( hoy.getTime() - dateReclamo.getTime() )/millisecs_per_day;
 			return diferencia >= 365;

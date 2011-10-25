@@ -96,7 +96,7 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 		MetaDataRoleAuthorizationStrategy.authorize(estadoLabel, RENDER,"OPERADOR");
 		add(estadoLabel);
 		
-		DropDownChoice<String> dropDownListEstado = new DropDownChoice<String>("EstadoDescripcion", createBind(model,"EstadoDescripcion"),EnumEstadosReclamo.getlistaEstadosReclamo());
+		DropDownChoice<String> dropDownListEstado = new DropDownChoice<String>("EstadoDescripcion", createBind(model,"EstadoDescripcion"),EnumEstadosReclamo.getlistaEstadosReclamoSinAsociado());
 		dropDownListEstado.setNullValid(true);
 		MetaDataRoleAuthorizationStrategy.authorize(dropDownListEstado, RENDER, "ADMIN");
 		MetaDataRoleAuthorizationStrategy.authorize(dropDownListEstado, RENDER,"OPERADOR");

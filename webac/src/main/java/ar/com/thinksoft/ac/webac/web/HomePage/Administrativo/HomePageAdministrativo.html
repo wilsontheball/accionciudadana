@@ -4,15 +4,16 @@
 	</head>
 	<body>
 		<wicket:extend>
-			<div class="right">
-				<h1>Reclamos actuales</h1>
-				<div wicket:id="grid" class="gridAdmin"></div>
-				<h1>&Uacute;ltimos reclamos modificados</h1>
-				<div wicket:id="gridUltimosModificados" class="gridAdmin"></div>
-			</div>
-			<div class="left">
-				<div wicket:id="mapa" class="map"></div>
-				<!-- label wicket:id="hola"></label-->
+			<div class="container">
+				<div class="left">
+					<h1>Reclamos actuales</h1>
+					<div wicket:id="grid" class="gridAdmin"></div>
+					<h1>&Uacute;ltimos reclamos modificados</h1>
+					<div wicket:id="gridUltimosModificados" class="gridAdmin"></div>
+				</div>
+				<div class="right">
+					<div wicket:id="mapa" class="map"></div>
+				</div>
 			</div>
 		</wicket:extend>
 	</body>

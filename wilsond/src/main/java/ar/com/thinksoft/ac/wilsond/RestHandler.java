@@ -8,10 +8,12 @@ import java.util.StringTokenizer;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.mortbay.jetty.HttpConnection;
 import org.mortbay.jetty.HttpMethods;
 import org.mortbay.jetty.Request;
-import org.mortbay.jetty.handler.AbstractHandler;
+import org.mortbay.jetty.handler.DefaultHandler;
+
 import com.google.gson.Gson;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.intac.IUsuario;
@@ -30,11 +32,15 @@ import ar.com.thinksoft.ac.wilsond.usuario.UsuarioManager;
  * @since 16-10-2011
  * @author Paul
  */
-public class RestHandler extends AbstractHandler {
+public class RestHandler extends DefaultHandler {
 
 	String funcion = "";
 	String nick = "";
 	String pass = "";
+	
+	public RestHandler() {
+		this.setServeIcon(false);
+	}
 
 	/**
 	 * Atiende una conexion y respondo el pedido o devuelve mensaje de error.
@@ -42,11 +48,14 @@ public class RestHandler extends AbstractHandler {
 	 * @since 16-10-2011
 	 * @author Paul
 	 */
+	@SuppressWarnings("static-access")
 	public void handle(String target, HttpServletRequest baseRequest,
 			HttpServletResponse response, int dispatch) throws IOException,
 			ServletException {
-
+		
 		try {
+			
+			
 			StringTokenizer tokens = new StringTokenizer(
 					baseRequest.getRequestURI(), "/");
 			if (tokens.hasMoreElements()) {
@@ -59,12 +68,29 @@ public class RestHandler extends AbstractHandler {
 				pass = (String) tokens.nextElement();
 			}
 
+			
+			if(this.funcion.equals("favicon.ico")){
+
+				response.setContentType("text/html");
+				response.setCharacterEncoding("UTF-8");
+				Request request = this.getRequest(baseRequest);
+				response.setStatus(response.SC_OK);
+				request.setHandled(true);
+				return;
+			
+			}
+			
+			
 			if (UsuarioManager.getInstance().validarUsuario(nick, pass)
 					|| funcion.equalsIgnoreCase(FuncionRest.POSTUSUARIO)) {
 				if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.GET)) {
 					try {
 						atenderGet(baseRequest, response);
 					} catch (Exception e) {
+						
+						
+						if(funcion.equals("favicon.ico")) 
+						
 						this.responderError(
 								HttpServletResponse.SC_BAD_REQUEST,
 								"No se pudo realizar el GET. Detalle: "
@@ -81,6 +107,7 @@ public class RestHandler extends AbstractHandler {
 						try {
 							atenderPost(baseRequest);
 						} catch (Exception e) {
+							
 							this.responderError(
 									HttpServletResponse.SC_BAD_REQUEST,
 									"No se pudo realizar el POST. Detalle: "
@@ -130,8 +157,7 @@ public class RestHandler extends AbstractHandler {
 	 */
 	private void atenderPost(HttpServletRequest baseRequest) throws Exception {
 
-		Request req = (baseRequest instanceof Request ? (Request) baseRequest
-				: HttpConnection.getCurrentConnection().getRequest());
+		Request req = getRequest(baseRequest);
 
 		if (funcion.equalsIgnoreCase(FuncionRest.POSTRECLAMO)) {
 			InputStream instream = baseRequest.getInputStream();
@@ -177,8 +203,7 @@ public class RestHandler extends AbstractHandler {
 	private void atenderGet(HttpServletRequest baseRequest,
 			HttpServletResponse response) throws Exception {
 
-		Request req = (baseRequest instanceof Request ? (Request) baseRequest
-				: HttpConnection.getCurrentConnection().getRequest());
+		Request req = getRequest(baseRequest);
 
 		if (funcion.equalsIgnoreCase(FuncionRest.GETRECLAMOS)) {
 			atenderReclamos(response, req);
@@ -255,8 +280,7 @@ public class RestHandler extends AbstractHandler {
 	 */
 	private void responderError(int codigoError, String mensajeError,
 			HttpServletRequest baseRequest, HttpServletResponse response) {
-		Request req = (baseRequest instanceof Request ? (Request) baseRequest
-				: HttpConnection.getCurrentConnection().getRequest());
+		Request req = getRequest(baseRequest);
 
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
@@ -267,5 +291,11 @@ public class RestHandler extends AbstractHandler {
 					"Fallo tratando responder ERROR.");
 		}
 		req.setHandled(true);
+	}
+
+	private Request getRequest(HttpServletRequest baseRequest) {
+		Request req = (baseRequest instanceof Request ? (Request) baseRequest
+				: HttpConnection.getCurrentConnection().getRequest());
+		return req;
 	}
 }

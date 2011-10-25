@@ -41,7 +41,6 @@ import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorCiudadano;
-import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
@@ -125,13 +124,16 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		add(new Button("busqueda"){
 				@Override
 				public void onSubmit() {
-					IReclamo reclamo = _self.getModelObject();
+					IReclamo reclamoFiltro = _self.getModelObject();
+
 					AccionCiudadanaSession session = (AccionCiudadanaSession) getSession();
 					
 					if (!session.getRoles().hasAnyRole(_self.createRolesNeededForAdmin())) 
-						reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
+						reclamoFiltro.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
 					
-					listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
+					List<IReclamo> listaReclamosFiltrados = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamoFiltro);
+					
+					listDataProvider = new ListDataProvider<IReclamo>(listaReclamosFiltrados);
 					grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				}
 			});
@@ -417,7 +419,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 			reclamos = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
 		} else{
 	  	//obtain a list of objects for the report
-	     reclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().filtrarNot(EnumEstadosReclamo.asociado.getEstado()));
+	     reclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
 		}
 		
 	    // pass parameters to the report
