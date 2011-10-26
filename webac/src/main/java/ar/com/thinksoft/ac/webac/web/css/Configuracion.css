@@ -1,5 +1,6 @@
 @CHARSET "UTF-8";
 
+
 form
 {
    position: inherited;
@@ -9,9 +10,16 @@ form
 
 label
 {
-   padding:2px;
-   text-align:left;
-   vertical-align: middle;
+    padding:2px;
+    text-align:left;
+    vertical-align: middle;
+    font-family: "Trebuchet MS",Geneva,Arial,Helvetica,sans-serif;
+	font-size: 15px;
+}
+
+input{
+	font-family: "Trebuchet MS",Geneva,Arial,Helvetica,sans-serif;
+	font-size: 15px;	
 }
 
 .block{

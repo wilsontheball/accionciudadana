@@ -167,7 +167,7 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 							 */
 							GLatLng coordenadas = null;
 							Double latitud,longitud;
-							String direccion = reclamoModificado.getCalleIncidente() + " " + reclamoModificado.getAlturaIncidente() + ",Capital Federal";
+							String direccion = reclamoModificado.getCalleIncidente() + " " + reclamoModificado.getAlturaIncidente() + ",Capital Federal, Buenos Aires,Argentina";
 							Geocoder geocoder = new Geocoder(KEY);
 							try {
 								 coordenadas = geocoder.geocode(direccion);

@@ -6,11 +6,21 @@ html,body {
 	border: 0;
 	height: 100%;
 	width:100%;
+	display: inline-table;
 	overflow: auto;
-	font-family: "Calibri", "Tahoma", Arial, Helvetica, sans-serif;
-	font-size: 15px;
 	background-color: #f5f5f5;
 	
+}
+
+.accionCiudadanaTitle{
+	font-family: "Century Gothic",serif;
+    font-size: 30px;	
+}
+
+h1{
+	font-family: "Verdana", sans-serif;	
+	font-size: 30px;
+	font-weight: bold;
 }
 
 .usuario{
@@ -35,6 +45,17 @@ html,body {
 	padding-right: 10px;
 	font-size: 15px;
 	color: #ffffff;
+	font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans",
+		"Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica,
+		sans-serif;
+	font-size: 16px;
+}
+
+.usuario{
+	font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans",
+		"Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica,
+		sans-serif;
+	font-size: 16px;	
 }
 
 
@@ -56,7 +77,7 @@ html,body {
 	font: 67.5% "Lucida Sans Unicode", "Bitstream Vera Sans",
 		"Trebuchet Unicode MS", "Lucida Grande", Verdana, Helvetica,
 		sans-serif;
-	font-size: 15px;
+	font-size: 16px;
 
 }
 
@@ -126,7 +147,7 @@ html,body {
 .menu li ul a {
 	display: block;
 	height: 35px;
-	font-size: 15px;
+	font-size: 16px;
 	font-style: normal;
 	margin: 0px;
 	padding: 0px 10px 0px 15px;
