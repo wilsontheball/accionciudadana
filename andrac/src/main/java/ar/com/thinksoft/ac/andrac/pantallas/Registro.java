@@ -13,13 +13,14 @@ import android.widget.EditText;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
+import ar.com.thinksoft.ac.andrac.listener.TextCorrector;
 import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 
 /**
  * La clase se encarga de manejar la pantalla de Registro.
  * 
- * @since 13-10-2011
+ * @since 24-10-2011
  * @author Paul
  */
 public class Registro extends Activity {
@@ -38,13 +39,22 @@ public class Registro extends Activity {
 	/**
 	 * Se encarga de la creacion de la ventana.
 	 * 
-	 * @since 19-07-2011
+	 * @since 24-10-2011
 	 * @author Paul
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.registro);
+
+		// Se restringen algunos campos a minusculas y numeros.
+		EditText campoNick = (EditText) findViewById(R.id.nick);
+		campoNick.addTextChangedListener(new TextCorrector(campoNick));
+		EditText campoPass = (EditText) findViewById(R.id.pass);
+		campoPass.addTextChangedListener(new TextCorrector(campoPass));
+		EditText campoPassConfirm = (EditText) findViewById(R.id.pass_confirm);
+		campoPassConfirm.addTextChangedListener(new TextCorrector(
+				campoPassConfirm));
 	}
 
 	/**
