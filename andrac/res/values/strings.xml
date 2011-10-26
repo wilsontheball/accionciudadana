@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-	<string name="version">1.9</string>
-	<string name="app_name">Acción Ciudadana 1.9</string>
+	<string name="version">1.10</string>
+	<string name="app_name">Acción Ciudadana 1.10</string>
 	<string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
 	<string name="login_titulo">Autenticación</string>
 	<string name="nick_name">Usuario</string>

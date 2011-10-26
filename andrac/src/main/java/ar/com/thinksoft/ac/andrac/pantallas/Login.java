@@ -250,32 +250,39 @@ public class Login extends Activity implements ReceptorRest {
 	 */
 	private void mostrarDialogo(int codigo) {
 		// Asi, por que no se puede pasar los atributos directamente al Dialogo.
-		switch (codigo) {
-		case LOGIN:
-			this.setTituloDialogo(getString(R.string.login_titulo));
-			this.showDialog(codigo);
-			break;
-		case CAMPOS_VACIOS:
-			this.setTituloDialogo(getString(R.string.atencion));
-			this.setMensageDialogo(getString(R.string.campo_vacio));
-			this.showDialog(codigo);
-			break;
-		case HttpURLConnection.HTTP_INTERNAL_ERROR:
-			this.setTituloDialogo(getString(R.string.advertencia));
-			this.setMensageDialogo(getString(R.string.error_conexion_servidor));
-			this.showDialog(codigo);
-			break;
-		case HttpURLConnection.HTTP_FORBIDDEN:
-			this.setTituloDialogo(getString(R.string.advertencia));
-			this.setMensageDialogo(getString(R.string.nick_pass_fail));
-			this.showDialog(codigo);
-			break;
-		default:
-			this.setTituloDialogo(getString(R.string.advertencia));
-			this.setMensageDialogo(getString(R.string.mensaje_error_conexion));
-			this.showDialog(codigo);
-			break;
+
+		try {
+			switch (codigo) {
+			case LOGIN:
+				this.setTituloDialogo(getString(R.string.login_titulo));
+				this.showDialog(codigo);
+				break;
+			case CAMPOS_VACIOS:
+				this.setTituloDialogo(getString(R.string.atencion));
+				this.setMensageDialogo(getString(R.string.campo_vacio));
+				this.showDialog(codigo);
+				break;
+			case HttpURLConnection.HTTP_INTERNAL_ERROR:
+				this.setTituloDialogo(getString(R.string.advertencia));
+				this.setMensageDialogo(getString(R.string.error_conexion_servidor));
+				this.showDialog(codigo);
+				break;
+			case HttpURLConnection.HTTP_FORBIDDEN:
+				this.setTituloDialogo(getString(R.string.advertencia));
+				this.setMensageDialogo(getString(R.string.nick_pass_fail));
+				this.showDialog(codigo);
+				break;
+			default:
+				this.setTituloDialogo(getString(R.string.advertencia));
+				this.setMensageDialogo(getString(R.string.mensaje_error_conexion));
+				this.showDialog(codigo);
+				break;
+			}
+		} catch (Exception e) {
+			Log.e(this.getClass().getName(), "SALUDOS DEL MAS ALLA: " + e);
+			// No hago nada, muere aqui.
 		}
+
 	}
 
 	/**

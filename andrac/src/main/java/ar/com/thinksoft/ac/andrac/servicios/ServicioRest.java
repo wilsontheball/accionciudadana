@@ -119,6 +119,12 @@ public class ServicioRest extends IntentService {
 		}
 	}
 
+	@Override
+	public void onDestroy() {
+		Log.i(this.getClass().getName(), "Llamaron a onDestroy()...");
+		super.onDestroy();
+	}
+
 	/**
 	 * Obtiene los reclamos del servidor Rest.
 	 * 
