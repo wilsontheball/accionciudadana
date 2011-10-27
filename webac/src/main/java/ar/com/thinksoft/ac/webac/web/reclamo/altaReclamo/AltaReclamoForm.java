@@ -29,6 +29,7 @@ import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
+import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoPage;
 
 @SuppressWarnings("serial")
 public class AltaReclamoForm extends Form<Reclamo> {
@@ -145,7 +146,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 							LogFwk.getInstance(AltaReclamoForm.class).error("No se pudo enviar mail al crear el reclamo. Detalle: " + e1.getMessage());
 						}
 						
-						setResponsePage(HomePage.class);
+						setResponsePage(BusquedaReclamoPage.class);
 					}
 		        }
 			}
@@ -159,7 +160,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 				}catch(Exception e){
 					LogFwk.getInstance(AltaReclamoForm.class).error("No existe archivo para borrar.");
 				}
-				setResponsePage(HomePage.class);
+				setResponsePage(BusquedaReclamoPage.class);
 			}
 		});
 		
