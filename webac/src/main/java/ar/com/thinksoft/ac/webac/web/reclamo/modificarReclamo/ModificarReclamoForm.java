@@ -35,6 +35,7 @@ import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
+import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
 
 @SuppressWarnings("serial")
@@ -43,7 +44,6 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 	private IReclamo reclamoOriginal = new Reclamo();
 	private ModificarReclamoForm _self = this;
 	private ImageFactory img = null;
-	private static String KEY = "ABQIAAAASNhk0DNhWwkPk0Y12RIrThTwM0brOpm-All5BF6PoaKBxRWWERRi58__PuwPgysGGKPkLxYHu8hULg";
 	
 	public ModificarReclamoForm(String id, String idReclamo) throws Exception {
 		super(id);
@@ -51,7 +51,6 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 		List<IReclamo> lista = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorUUID().filtrar(idReclamo));
 		
 		if(lista.size()!= 1){
-			//TODO: dialogo error
 			throw new Exception("error en la base de datos, por favor, comuniquese con el equipo de soporte tecnico");
 		}
 		reclamoOriginal = lista.get(0);
@@ -114,7 +113,6 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 					img = new ImageFactory(file);
 				} catch (Exception e) {
 					LogFwk.getInstance(ModificarReclamoForm.class).error("Problemas al crear la imagen. Detalle: " + e.getMessage());
-					//TODO: dialogo error
 				}
 		    }
 			@Override
@@ -167,8 +165,8 @@ public class ModificarReclamoForm  extends Form<Reclamo>{
 							 */
 							GLatLng coordenadas = null;
 							Double latitud,longitud;
-							String direccion = reclamoModificado.getCalleIncidente() + " " + reclamoModificado.getAlturaIncidente() + ",Capital Federal, Buenos Aires,Argentina";
-							Geocoder geocoder = new Geocoder(KEY);
+							String direccion = reclamoModificado.getCalleIncidente() + " " + reclamoModificado.getAlturaIncidente() + ",Capital Federal, Argentina";
+							Geocoder geocoder = new Geocoder(Configuracion.getInstance().getKeyGoogleMap());
 							try {
 								 coordenadas = geocoder.geocode(direccion);
 								 latitud = coordenadas.getLat();

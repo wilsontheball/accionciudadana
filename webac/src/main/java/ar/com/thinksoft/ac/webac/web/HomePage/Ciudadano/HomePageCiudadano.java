@@ -90,9 +90,11 @@ public class HomePageCiudadano extends BasePage{
 	}
 
 	private void marcarReclamoEnMapa(GMap2 map, IReclamo reclamo) {
-		double latitud = Double.valueOf(reclamo.getLatitudIncidente());
-		double longitud = Double.valueOf(reclamo.getLongitudIncidente());
-		map.addOverlay(new GMarker(new GLatLng(latitud,longitud)));
+		if(reclamo.getLatitudIncidente()!=null && reclamo.getLongitudIncidente()!=null){
+			double latitud = Double.valueOf(reclamo.getLatitudIncidente());
+			double longitud = Double.valueOf(reclamo.getLongitudIncidente());
+			map.addOverlay(new GMarker(new GLatLng(latitud,longitud)));
+		}
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

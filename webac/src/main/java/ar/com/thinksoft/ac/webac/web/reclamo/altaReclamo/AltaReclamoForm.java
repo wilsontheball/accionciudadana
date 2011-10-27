@@ -125,7 +125,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 						 */
 						GLatLng coordenadas = null;
 						Double latitud,longitud;
-						String direccion = reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + ",Capital Federal, Buenos Aires,Argentina";
+						String direccion = reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + ",Capital Federal, Argentina";
 						Geocoder geocoder = new Geocoder(Configuracion.getInstance().getKeyGoogleMap());
 						try {
 							 coordenadas = geocoder.geocode(direccion);
