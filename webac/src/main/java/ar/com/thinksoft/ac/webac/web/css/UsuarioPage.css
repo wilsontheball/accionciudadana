@@ -53,6 +53,12 @@ input{
 	border-radius: 10px;
 }
 
+.dialogo.atencion{
+	border-color:#ff0000;
+	background-color: white;
+	color: #FF0000;
+}
+
 <!-- Agregado en estilos propios de inmethod-grid -->
 
 td table.imxt-body {
