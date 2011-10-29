@@ -351,7 +351,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																						 .setWrapText(true)
             																						 .setSizeUnit(SizeUnit.PX),
             																						 
-            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(50)
+            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(60)
             																			  .setWrapText(true)
             																			  .setReorderable(true)
             																			  .setResizable(true)
@@ -363,7 +363,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																			  .setResizable(true)
             																			  .setSizeUnit(SizeUnit.PX), 																			  
             
-            new PropertyColumn("comunaCol",new Model<String>("Comuna"), "comunaIncidente").setInitialSize(80)
+            new PropertyColumn("comunaCol",new Model<String>("Comuna"), "comunaIncidente").setInitialSize(100)
             																			  .setWrapText(true)
             																			  .setReorderable(true)
             																			  .setResizable(true)
@@ -374,12 +374,12 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																				.setResizable(true)
             																		 		.setSizeUnit(SizeUnit.PX),
             																						
-            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(150)
+            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(160)
             																		.setReorderable(true)
             																		.setResizable(true)
             																		.setSizeUnit(SizeUnit.PX),
             																					 
-            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(80)
+            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(100)
             																				.setReorderable(true)
             																				.setResizable(true)
             																				.setSizeUnit(SizeUnit.PX),
@@ -389,7 +389,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																				 .setResizable(true)
             																				 .setSizeUnit(SizeUnit.PX),
             																						  
-            new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(100)
+            new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(150)
           																							.setWrapText(true)
           																							.setReorderable(true)
             																						.setResizable(true)

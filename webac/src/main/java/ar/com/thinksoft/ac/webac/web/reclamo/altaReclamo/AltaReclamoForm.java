@@ -27,7 +27,6 @@ import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
-import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoPage;
 
@@ -80,7 +79,6 @@ public class AltaReclamoForm extends Form<Reclamo> {
 						img = new ImageFactory(file);
 					} catch (Exception e) {
 						LogFwk.getInstance(AltaReclamoForm.class).error("Problemas al crear la imagen. Detalle: " + e.getMessage());
-						//TODO: dialogo error
 					}
 		    }
 			@Override
@@ -136,7 +134,6 @@ public class AltaReclamoForm extends Form<Reclamo> {
 							 reclamo.setLongitudIncidente(longitud.toString());
 						} catch (Exception e) {
 							LogFwk.getInstance(AltaReclamoPage.class).error("Problema al generar coordenadas. Detalle: " + e);
-							//TODO: dialogo error
 						}
 						
 						// FIN CONVERSION CALLE A COORDENADAS GPS

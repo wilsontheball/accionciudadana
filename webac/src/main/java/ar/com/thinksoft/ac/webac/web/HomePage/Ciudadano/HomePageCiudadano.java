@@ -128,7 +128,7 @@ public class HomePageCiudadano extends BasePage{
             																						 .setWrapText(true)
             																						 .setSizeUnit(SizeUnit.PX),
             																						 
-            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(50)
+            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(60)
             																			  .setWrapText(true)
             																			  .setReorderable(true)
             																			  .setResizable(true)
@@ -140,22 +140,22 @@ public class HomePageCiudadano extends BasePage{
             																			  .setResizable(true)
             																			  .setSizeUnit(SizeUnit.PX),
             																				
-            new PropertyColumn("fechaCol",new Model<String>("Fecha de alta"), "FechaReclamo").setInitialSize(80)
+            new PropertyColumn("fechaCol",new Model<String>("Fecha de alta"), "FechaReclamo").setInitialSize(100)
             																				.setReorderable(true)
             																				.setResizable(true)
             																		 		.setSizeUnit(SizeUnit.PX),
             																						
-            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(130)
+            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(140)
             																		.setReorderable(true)
             																		.setResizable(true)
             																		.setSizeUnit(SizeUnit.PX),
             																					 
-            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(80)
+            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(110)
             																				 .setReorderable(true)
             																				 .setResizable(true)
             																				 .setSizeUnit(SizeUnit.PX),
             																				 
-            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(80)
+            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(110)
                  																				.setReorderable(true)
                  																				.setResizable(true)
                  																				.setSizeUnit(SizeUnit.PX)
@@ -178,7 +178,7 @@ public class HomePageCiudadano extends BasePage{
             																						 .setWrapText(true)
             																						 .setSizeUnit(SizeUnit.PX),
             																						 
-            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(50)
+            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(60)
             																			  .setWrapText(true)
             																			  .setReorderable(true)
             																			  .setResizable(true)
@@ -191,22 +191,22 @@ public class HomePageCiudadano extends BasePage{
             																			  .setSizeUnit(SizeUnit.PX),
             																				
             new PropertyColumn("fechaCol",new Model<String>("Fecha de modificacion"), "FechaUltimaModificacionReclamo")
-            																				.setInitialSize(80)
+            																				.setInitialSize(140)
             																				.setReorderable(true)
             																				.setResizable(true)
             																		 		.setSizeUnit(SizeUnit.PX),
             																						
-            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(130)
+            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(140)
             																		.setReorderable(true)
             																		.setResizable(true)
             																		.setSizeUnit(SizeUnit.PX),
             																					 
-            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(80)
+            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(90)
             																				 .setReorderable(true)
             																				 .setResizable(true)
             																				 .setSizeUnit(SizeUnit.PX),
            
-            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(80)
+            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(90)
              																				.setReorderable(true)
              																				.setResizable(true)
              																				.setSizeUnit(SizeUnit.PX)

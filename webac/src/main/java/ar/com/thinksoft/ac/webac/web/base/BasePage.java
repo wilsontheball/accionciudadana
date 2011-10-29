@@ -82,16 +82,15 @@ public abstract class BasePage extends WebPage {
 		MetaDataRoleAuthorizationStrategy.authorize(usuarioLink, RENDER, "ADMIN");
 		add(usuarioLink);
 		
-		add(new BookmarkablePageLink<IPageLink>("downloadLink", DownloadPage.class));
+		add(new BookmarkablePageLink<IPageLink>("downloadLink", this.getClass()));
+		add(new BookmarkablePageLink<IPageLink>("manualAndroidLink",DownloadPage.class).setParameter("type", "manualAndroid"));
+		add(new BookmarkablePageLink<IPageLink>("descargarAppLink",DownloadPage.class).setParameter("type", "appAndroid"));
 		
 		BookmarkablePageLink<IPageLink> configLink = new BookmarkablePageLink<IPageLink>("configLink",ConfiguracionPage.class);
 		MetaDataRoleAuthorizationStrategy.authorize(configLink, RENDER, "ADMIN");
 		add(configLink);
 		
 		BookmarkablePageLink<IPageLink> ayudaLink = new BookmarkablePageLink<IPageLink>("ayudaLink", AyudaPage.class);
-		MetaDataRoleAuthorizationStrategy.authorize(ayudaLink, RENDER, "ADMIN");
-		MetaDataRoleAuthorizationStrategy.authorize(ayudaLink, RENDER,"OPERADOR");
-		MetaDataRoleAuthorizationStrategy.authorize(ayudaLink, RENDER,"CIUDADANO");
 		add(ayudaLink);
 
 	}

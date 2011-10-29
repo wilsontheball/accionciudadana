@@ -19,7 +19,7 @@ function validarSiTieneNumeros(elem){
    for(i=0; i<elem.value.length; i++){
       if (numeros.indexOf(elem.value.charAt(i),0)!=-1){
     	  $('.error')[0].textContent = "El texto ingresado no es valido.";
-    	  $('#'+elem.id).css('background-color','#FF0000');
+    	  $('#'+elem.id).css('background-color','#FE6565');
     	  validarCampos();
     	  return false;
       }
@@ -35,7 +35,7 @@ function validarNumerosInput(elem){
 
 	if (!(/^([0-9])*$/.test(elem.value))){
 		$('.error')[0].textContent = "El valor ingresado no es valido.";
-  	  	$('#'+elem.id).css('background-color','#FF0000');
+  	  	$('#'+elem.id).css('background-color','#FE6565');
 		validarCampos();
 		return false;
 	}
@@ -51,7 +51,7 @@ function validarEmail(elem) {
 	var dotpos=x.lastIndexOf(".");
 	if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length){
 		$('.error')[0].textContent = "El email ingresado no es valido.";
-		$('#'+elem.id).css('background-color','#FF0000');
+		$('#'+elem.id).css('background-color','#FE6565');
 		validarCampos();
 		return false;
 	}
@@ -64,7 +64,7 @@ function validarEmail(elem) {
 function funcionOnChangeCampoIsNull(elem){
 	if(validarSiEsNull(elem)){
 		$('.error')[0].textContent = "Hay campos obligatorios que se encuentran vacios.";
-		$('#'+elem.id).css('background-color','#FF0000');
+		$('#'+elem.id).css('background-color','#FE6565');
 		validarCampos();
 		return false;
 	}
@@ -87,8 +87,8 @@ function validarSiEsNull(elem){
 function compararConfirmacionPassword(){
 	if($('.re-password')[0].value != $('.password')[0].value){
 		$('.error')[0].textContent = "Los campos no concuerdan.";
-		$('.re-password').css('background-color','#FF0000');
-		$('.password').css('background-color','#FF0000');
+		$('.re-password').css('background-color','#FE6565');
+		$('.password').css('background-color','#FE6565');
 		validarCampos();
 		return false;
 	}
@@ -102,8 +102,8 @@ function compararConfirmacionPassword(){
 function compararConfirmacionMail(){
 	if($('.re-mail')[0].value != $('.mail')[0].value){
 		$('.error')[0].textContent = "Los campos no concuerdan.";
-		$('.re-mail').css('background-color','#FF0000');
-		$('.mail').css('background-color','#FF0000');
+		$('.re-mail').css('background-color','#FE6565');
+		$('.mail').css('background-color','#FE6565');
 		validarCampos();
 		return false;
 	}
@@ -117,7 +117,7 @@ function compararConfirmacionMail(){
 function validarCamposVacios(){
 	if(validarCampos()){
 		$('.error')[0].textContent = "Hay campos obligatorios que se encuentran vacios.";
-		$('#'+elem.id).css('background-color','#FF0000');
+		$('#'+elem.id).css('background-color','#FE6565');
 	}
 	$('.error')[0].textContent = "";
 	$('#'+elem.id).css('background-color','');
