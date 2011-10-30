@@ -2,6 +2,7 @@ package ar.com.thinksoft.ac.webac.web.usuario.modificarPerfil;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
@@ -56,9 +57,9 @@ public class ModificarPerfilForm extends Form<Usuario>{
 			}
 		});
 		
-		add(new AjaxLink("actualizarUsuario") {
+		add(new Button("actualizarUsuario") {
 			@Override
-			public void onClick(AjaxRequestTarget target) {
+			public void onSubmit() {
 				Usuario usuarioModificado = _self.getModelObject();
 				for(String rol : usuarioOriginal.getRoles()){
 					usuarioModificado.addRole(rol);

@@ -14,26 +14,14 @@
 				android:textColor="@color/color_texto" android:textAppearance="@android:style/TextAppearance.Large"
 				android:layout_height="wrap_content" android:paddingBottom="2dip"
 				android:text="@string/registro_titulo" android:gravity="center" />
-			<EditText android:id="@+id/nombre" android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:inputType="textCapWords"
-				android:textAppearance="@android:style/TextAppearance.Large"
-				android:hint="@string/nombre" />
-			<EditText android:id="@+id/apellido" android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:inputType="textCapWords"
-				android:textAppearance="@android:style/TextAppearance.Large"
-				android:hint="@string/apellido" />
+			<TextView android:layout_width="wrap_content"
+				android:textColor="@color/color_texto" android:textAppearance="@android:style/TextAppearance.Medium"
+				android:layout_height="wrap_content" android:paddingBottom="2dip"
+				android:gravity="center" android:text="@string/campos_restringidos" />
 			<EditText android:id="@+id/nick" android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:inputType="text"
 				android:textAppearance="@android:style/TextAppearance.Large"
 				android:hint="@string/nick_name" />
-			<EditText android:id="@+id/mail" android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:inputType="textEmailAddress"
-				android:textAppearance="@android:style/TextAppearance.Large"
-				android:hint="@string/mail" />
-			<EditText android:id="@+id/mail_confirm"
-				android:layout_width="match_parent" android:layout_height="wrap_content"
-				android:inputType="textEmailAddress" android:textAppearance="@android:style/TextAppearance.Large"
-				android:hint="@string/mail_confirm" />
 			<EditText android:id="@+id/pass" android:layout_width="match_parent"
 				android:layout_height="wrap_content" android:inputType="textPassword"
 				android:textAppearance="@android:style/TextAppearance.Large"
@@ -43,7 +31,27 @@
 				android:inputType="textPassword" android:textAppearance="@android:style/TextAppearance.Large"
 				android:hint="@string/password_confirm" />
 			<TextView android:layout_width="wrap_content"
-				android:textColor="@color/color_texto" android:textAppearance="@android:style/TextAppearance.Small"
+				android:textColor="@color/color_texto" android:textAppearance="@android:style/TextAppearance.Medium"
+				android:layout_height="wrap_content" android:paddingBottom="2dip"
+				android:text="@string/campos_obligatorios" />
+			<EditText android:id="@+id/nombre" android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:inputType="textCapWords"
+				android:textAppearance="@android:style/TextAppearance.Large"
+				android:hint="@string/nombre" />
+			<EditText android:id="@+id/apellido" android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:inputType="textCapWords"
+				android:textAppearance="@android:style/TextAppearance.Large"
+				android:hint="@string/apellido" />
+			<EditText android:id="@+id/mail" android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:inputType="textEmailAddress"
+				android:textAppearance="@android:style/TextAppearance.Large"
+				android:hint="@string/mail" />
+			<EditText android:id="@+id/mail_confirm"
+				android:layout_width="match_parent" android:layout_height="wrap_content"
+				android:inputType="textEmailAddress" android:textAppearance="@android:style/TextAppearance.Large"
+				android:hint="@string/mail_confirm" />
+			<TextView android:layout_width="wrap_content"
+				android:textColor="@color/color_texto" android:textAppearance="@android:style/TextAppearance.Medium"
 				android:layout_height="wrap_content" android:paddingBottom="2dip"
 				android:text="@string/campos_opcionales" />
 			<EditText android:id="@+id/dni" android:layout_width="match_parent"

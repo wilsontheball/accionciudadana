@@ -3,7 +3,7 @@ var usuarioInvalido = true;
 
 $(document).ready(function() {
 	validarCampos();
-	
+	bloquearPantalla();
 	$('.username').change(function(){
 		$('.username')[0].value = $('.username')[0].value.toLowerCase();
 		if($('.username')[0].value.indexOf(" ")!= -1){

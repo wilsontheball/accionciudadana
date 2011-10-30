@@ -27,8 +27,8 @@ import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.reclamo.ImageFactory;
 import ar.com.thinksoft.ac.webac.reclamo.Imagen;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
-import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
+import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoPage;
 
 @SuppressWarnings("serial")
 public class AltaReclamoForm extends Form<Reclamo> {
@@ -79,7 +79,6 @@ public class AltaReclamoForm extends Form<Reclamo> {
 						img = new ImageFactory(file);
 					} catch (Exception e) {
 						LogFwk.getInstance(AltaReclamoForm.class).error("Problemas al crear la imagen. Detalle: " + e.getMessage());
-						//TODO: dialogo error
 					}
 		    }
 			@Override
@@ -125,7 +124,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 						 */
 						GLatLng coordenadas = null;
 						Double latitud,longitud;
-						String direccion = reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + ",Capital Federal";
+						String direccion = reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + ",Capital Federal, Argentina";
 						Geocoder geocoder = new Geocoder(Configuracion.getInstance().getKeyGoogleMap());
 						try {
 							 coordenadas = geocoder.geocode(direccion);
@@ -135,7 +134,6 @@ public class AltaReclamoForm extends Form<Reclamo> {
 							 reclamo.setLongitudIncidente(longitud.toString());
 						} catch (Exception e) {
 							LogFwk.getInstance(AltaReclamoPage.class).error("Problema al generar coordenadas. Detalle: " + e);
-							//TODO: dialogo error
 						}
 						
 						// FIN CONVERSION CALLE A COORDENADAS GPS
@@ -145,7 +143,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 							LogFwk.getInstance(AltaReclamoForm.class).error("No se pudo enviar mail al crear el reclamo. Detalle: " + e1.getMessage());
 						}
 						
-						setResponsePage(HomePage.class);
+						setResponsePage(BusquedaReclamoPage.class);
 					}
 		        }
 			}
@@ -159,7 +157,7 @@ public class AltaReclamoForm extends Form<Reclamo> {
 				}catch(Exception e){
 					LogFwk.getInstance(AltaReclamoForm.class).error("No existe archivo para borrar.");
 				}
-				setResponsePage(HomePage.class);
+				setResponsePage(BusquedaReclamoPage.class);
 			}
 		});
 		

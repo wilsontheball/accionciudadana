@@ -2,6 +2,7 @@ package ar.com.thinksoft.ac.webac.reclamo;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.util.file.File;
@@ -11,7 +12,8 @@ import ar.com.thinksoft.ac.webac.exceptions.FormatoImagenException;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.web.configuracion.Configuracion;
 
-public class ImageFactory {
+@SuppressWarnings("serial")
+public class ImageFactory implements Serializable{
 	
 	private File image;
 	private File directorio;

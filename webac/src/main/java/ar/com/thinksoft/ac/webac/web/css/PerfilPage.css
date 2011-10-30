@@ -10,8 +10,15 @@ form
 
 label
 {
-   padding:2px;
-   text-align:left;
+  	padding:2px;
+   	text-align:left;
+   	font-family: "Trebuchet MS",Geneva,Arial,Helvetica,sans-serif;
+	font-size: 15px;
+}
+
+input{
+	font-family: "Trebuchet MS",Geneva,Arial,Helvetica,sans-serif;
+	font-size: 15px;	
 }
 
 .detalleBlock{

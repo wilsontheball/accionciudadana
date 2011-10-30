@@ -10,11 +10,18 @@ form
 
 label
 {
-   padding:2px;
-   text-align:right;
-   margin:10px 2px; 
-   display: block;
+    padding:2px;
+    text-align:right;
+    margin:10px 2px; 
+    display: block;
+	font-family: "Trebuchet MS",Geneva,Arial,Helvetica,sans-serif;
+	font-size: 15px;
    
+}
+
+input{
+	font-family: "Trebuchet MS",Geneva,Arial,Helvetica,sans-serif;
+	font-size: 15px;	
 }
 
 .block{
@@ -44,6 +51,12 @@ label
 	text-align: center;
 	padding: 30px;	
 	border-radius: 10px;
+}
+
+.dialogo.atencion{
+	border-color:#ff0000;
+	background-color: white;
+	color: #FF0000;
 }
 
 <!-- Agregado en estilos propios de inmethod-grid -->

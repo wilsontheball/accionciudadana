@@ -1,7 +1,6 @@
 var buttonDisabled = true;
 
 $(document).ready(function() {
-	
 	setTimeout(function(){
 		var ruta = $('.rutaImagen')[0].textContent;
 		$('.imagen').attr('src',"/tempImages/" + ruta);
@@ -24,16 +23,14 @@ $(document).ready(function() {
 	});
 	
 	validarCampos();
-	
+	bloquearPantalla();
 });
 
 function validarCampos(){
 	
-	buttonDisabled =  validarSiEsNull($('#calleIncidente')[0]) || validarSiEsNull($('#alturaIncidente')[0]) || 
-			validarSiEsNull($('#ciudadanoIncidente')[0]) || validarSiEsNull($('#tipoIncidente')[0]) || 
-			validarSiEsNull($('#barrioIncidente')[0]) || validarSiEsNull($('.prioridad')[0]) || 
-			validarSiEsNull($('.estadoDescripcion')[0]) ;
-			//|| $('.imagen')== null || $('.imagen')== undefined;
+	buttonDisabled =  validarSiEsNull($('.calleIncidente')[0]) || validarSiEsNull($('.alturaIncidente')[0]) || 
+			validarSiEsNull($('#ciudadanoIncidente')[0]) || validarSiEsNull($('#barrioIncidente')[0]) ||
+			validarSiEsNull($('.tipoIncidente')[0]);
 	
 	$('.guardarReclamo').attr('disabled',buttonDisabled);
 	
