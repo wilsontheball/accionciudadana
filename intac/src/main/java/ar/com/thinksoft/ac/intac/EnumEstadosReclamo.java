@@ -32,6 +32,18 @@ public enum EnumEstadosReclamo {
     	
     	return listaEstadoReclamo;
     }
+    
+    public static List<String> getlistaEstadosReclamoSinAsociado(){
+    	listaEstadoReclamo.clear();
+    	listaEstadoReclamo.add(EnumEstadosReclamo.activo.getEstado());
+    	listaEstadoReclamo.add(EnumEstadosReclamo.cancelado.getEstado());
+    	listaEstadoReclamo.add(EnumEstadosReclamo.demorado.getEstado());
+    	listaEstadoReclamo.add(EnumEstadosReclamo.enProgreso.getEstado());
+    	listaEstadoReclamo.add(EnumEstadosReclamo.suspendido.getEstado());
+    	listaEstadoReclamo.add(EnumEstadosReclamo.terminado.getEstado());
+    	
+    	return listaEstadoReclamo;
+    }
 
     public String getEstado() {
     	return estado;

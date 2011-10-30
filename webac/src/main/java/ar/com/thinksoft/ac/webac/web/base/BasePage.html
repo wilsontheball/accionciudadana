@@ -16,7 +16,7 @@
 								<div class="accionCiudadana"></div>
 							</td>
 							<td align="right" width="100%" style="color: #ffffff">
-								<h1>Acci&oacute;n Ciudadana</h1>
+								<h1 class="accionCiudadanaTitle">Acci&oacute;n Ciudadana</h1>
 							</td>
 						</tr>
 					</table>
@@ -31,7 +31,7 @@
 			<!-- ACA EMPIEZA EL MENU -->
 			<div class="menu">
 				<ul>
-					<li><a wicket:id="homeLink" href="#" >Home</a></li>
+					<li><a wicket:id="homeLink" href="#" >Inicio</a></li>
 
 					<li><a href="#" wicket:id="perfilLink" id="perfil">Perfil</a></li>
 					<li><a href="#" wicket:id="usuariosLink" id="current">Usuarios</a></li>
@@ -43,7 +43,14 @@
 		                <li><a wicket:id="busquedaReclamoLink" href="#">Listado de Reclamos</a></li>
 		                </ul>
 		          	</li>
-		          	<li><a href="#" wicket:id="downloadLink">Aplicaci&oacute;n Android</a></li>
+		          	
+		          	<li><a href="#" wicket:id="downloadLink">Aplicaci&oacute;n Android</a>
+		          		<ul>
+		                <li><a wicket:id="manualAndroidLink" href="#">Manual</a></li>
+		                <li><a wicket:id="descargarAppLink" href="#">Descargar</a></li>
+		                </ul>
+		            </li>
+		                
 		          	<li><a href="#" wicket:id="configLink">Configuraci&oacute;n</a></li>
 		          	<li><a href="#" wicket:id="ayudaLink">Ayuda</a></li>
 		          	

@@ -7,8 +7,11 @@ import org.apache.wicket.markup.html.WebPage;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.HomePage.Administrativo.HomePageAdministrativo;
 import ar.com.thinksoft.ac.webac.web.HomePage.Ciudadano.HomePageCiudadano;
+import ar.com.thinksoft.ac.webac.web.ayuda.AyudaPage;
 import ar.com.thinksoft.ac.webac.web.configuracion.ConfiguracionPage;
+import ar.com.thinksoft.ac.webac.web.download.DownloadPage;
 import ar.com.thinksoft.ac.webac.web.login.LoginPage;
+import ar.com.thinksoft.ac.webac.web.logout.LogoutPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.altaReclamo.AltaReclamoPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.busquedaReclamo.BusquedaReclamoPage;
 import ar.com.thinksoft.ac.webac.web.reclamo.detalleReclamo.DetalleReclamoPage;
@@ -17,6 +20,8 @@ import ar.com.thinksoft.ac.webac.web.registro.RegistroPage;
 import ar.com.thinksoft.ac.webac.web.usuario.alta.UsuarioNuevoPage;
 import ar.com.thinksoft.ac.webac.web.usuario.form.UsuarioPage;
 import ar.com.thinksoft.ac.webac.web.usuario.god.GodPage;
+import ar.com.thinksoft.ac.webac.web.usuario.modificarPerfil.ModificarPerfilPage;
+import ar.com.thinksoft.ac.webac.web.usuario.perfil.PerfilPage;
 
 /**
  * Application object for your web application. If you want to run this
@@ -48,6 +53,8 @@ public class WicketApplication extends AuthenticatedWebApplication {
 				.setAddLastModifiedTimeToResourceReferenceUrl(true);
 		getDebugSettings().setAjaxDebugModeEnabled(false);
 		mountBookmarkablePage("Login", LoginPage.class);
+		mountBookmarkablePage("Logout", LogoutPage.class);
+		mountBookmarkablePage("Ayuda", AyudaPage.class);
 		mountBookmarkablePage("Home", HomePage.class);
 		mountBookmarkablePage("HomeCiudadano", HomePageCiudadano.class);
 		mountBookmarkablePage("HomeAdministrativo", HomePageAdministrativo.class);
@@ -56,10 +63,14 @@ public class WicketApplication extends AuthenticatedWebApplication {
 		mountBookmarkablePage("DetalleReclamo", DetalleReclamoPage.class);
 		mountBookmarkablePage("ModificarReclamo", ModificarReclamoPage.class);
 		mountBookmarkablePage("Configuracion", ConfiguracionPage.class);
+		mountBookmarkablePage("Download", DownloadPage.class);
 		mountBookmarkablePage("Registro", RegistroPage.class);
 		mountBookmarkablePage("Usuarios", UsuarioPage.class);
 		mountBookmarkablePage("UsuarioNuevo", UsuarioNuevoPage.class);
 		mountBookmarkablePage("God", GodPage.class);
+		mountBookmarkablePage("Perfil", PerfilPage.class);
+		mountBookmarkablePage("ModificarPerfil", ModificarPerfilPage.class);
+		
 	}
 
 	@Override

@@ -1,9 +1,6 @@
 package ar.com.thinksoft.ac.andrac.pantallas;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -29,7 +26,6 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
  */
 public class Main extends Activity {
 
-	private static final int ERROR_CONEXION = -1;
 	private final int INICIAR_RECLAMO = 0;
 	private final int LISTA_RECLAMOS = 1;
 	private final int RECLAMOS_GUARDADOS = 2;
@@ -102,7 +98,6 @@ public class Main extends Activity {
 			Log.e(this.getClass().getName(),
 					"No pudo ejecutar: "
 							+ data.getStringExtra(ServicioRest.FUN));
-			this.mostrarDialogo(ERROR_CONEXION);
 		} else if (resultCode == Activity.RESULT_FIRST_USER) {
 			Log.d(this.getClass().getName(), "Usuario cancelo ejecucion: "
 					+ data.getStringExtra(ServicioRest.FUN));
@@ -139,34 +134,6 @@ public class Main extends Activity {
 	}
 
 	/**
-	 * Crea ventanas de dialogo. (Se hace de esta forma en Android 2.2)
-	 * 
-	 * @since 10-10-2011
-	 * @author Paul
-	 */
-	@Override
-	protected Dialog onCreateDialog(int tipo) {
-		Dialog unDialog = null;
-		switch (tipo) {
-
-		case ERROR_CONEXION:
-			unDialog = new AlertDialog.Builder(Main.this)
-					.setIcon(R.drawable.alert_dialog_icon)
-					.setTitle(R.string.error_conexion)
-					.setMessage(R.string.mensaje_error_conexion)
-					.setPositiveButton(R.string.ok,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									/* Solo cierra el dialogo */
-								}
-							}).create();
-			break;
-		}
-		return unDialog;
-	}
-
-	/**
 	 * Muestra la ventana de Login esperando resultado de ejecucion.
 	 * 
 	 * @since 19-07-2011
@@ -176,16 +143,6 @@ public class Main extends Activity {
 		Intent proceso = new Intent(this, Login.class);
 		proceso.putExtra(ServicioRest.FUN, funcion);
 		this.startActivityForResult(proceso, 0);
-	}
-
-	/**
-	 * Muestra una ventana de dialogo.
-	 * 
-	 * @since 10-10-2011
-	 * @author Paul
-	 */
-	private void mostrarDialogo(int idice) {
-		this.showDialog(idice);
 	}
 
 	/**
@@ -318,5 +275,4 @@ public class Main extends Activity {
 	private void mostrarVentanaConfiguracion() {
 		this.startActivity(new Intent(this, Configuracion.class));
 	}
-
 }

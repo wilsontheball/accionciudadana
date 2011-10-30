@@ -8,10 +8,12 @@ import java.util.StringTokenizer;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.mortbay.jetty.HttpConnection;
 import org.mortbay.jetty.HttpMethods;
 import org.mortbay.jetty.Request;
-import org.mortbay.jetty.handler.AbstractHandler;
+import org.mortbay.jetty.handler.DefaultHandler;
+
 import com.google.gson.Gson;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.intac.IUsuario;
@@ -25,102 +27,184 @@ import ar.com.thinksoft.ac.wilsond.usuario.UsuarioAndrac;
 import ar.com.thinksoft.ac.wilsond.usuario.UsuarioManager;
 
 /**
- * Maneja los pedidos de distintos webservicies.
+ * Maneja las conexiones al servidor mediante webservice.
  * 
- * @since 08-10-2011
+ * @since 16-10-2011
  * @author Paul
  */
-public class RestHandler extends AbstractHandler {
+public class RestHandler extends DefaultHandler {
 
 	String funcion = "";
 	String nick = "";
 	String pass = "";
+	
+	public RestHandler() {
+		this.setServeIcon(false);
+	}
 
+	/**
+	 * Atiende una conexion y respondo el pedido o devuelve mensaje de error.
+	 * 
+	 * @since 16-10-2011
+	 * @author Paul
+	 */
+	@SuppressWarnings("static-access")
 	public void handle(String target, HttpServletRequest baseRequest,
 			HttpServletResponse response, int dispatch) throws IOException,
 			ServletException {
-
-		StringTokenizer tokens = new StringTokenizer(
-				baseRequest.getRequestURI(), "/");
-		if (tokens.hasMoreElements()) {
-			funcion = (String) tokens.nextElement();
-		}
-		if (tokens.hasMoreElements()) {
-			nick = (String) tokens.nextElement();
-		}
-		if (tokens.hasMoreElements()) {
-			pass = (String) tokens.nextElement();
-		}
 		
-		if(UsuarioManager.getInstance().validarUsuario(nick,pass) || funcion.equalsIgnoreCase(FuncionRest.POSTUSUARIO)){
-			if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.GET)) {
-				try {
-					atenderGet(baseRequest, response);
-				} catch (Exception e) {
-					// TODO error en get
-					LogManager.getInstance(RestHandler.class).error("No se pude realizar el GET. Detalle: " + e.getMessage());
-				}
-			} else {
-				if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.POST)) {
+		try {
+			
+			
+			StringTokenizer tokens = new StringTokenizer(
+					baseRequest.getRequestURI(), "/");
+			if (tokens.hasMoreElements()) {
+				funcion = (String) tokens.nextElement();
+			}
+			if (tokens.hasMoreElements()) {
+				nick = (String) tokens.nextElement();
+				nick = nick.toLowerCase().replace(" ", "");
+			}
+			if (tokens.hasMoreElements()) {
+				pass = (String) tokens.nextElement();
+			}
+
+			
+			if(this.funcion.equals("favicon.ico")){
+
+				response.setContentType("text/html");
+				response.setCharacterEncoding("UTF-8");
+				Request request = this.getRequest(baseRequest);
+				response.setStatus(response.SC_OK);
+				request.setHandled(true);
+				return;
+			
+			}
+			
+			
+			if (UsuarioManager.getInstance().validarUsuario(nick, pass)
+					|| funcion.equalsIgnoreCase(FuncionRest.POSTUSUARIO)) {
+				if (baseRequest.getMethod().equalsIgnoreCase(HttpMethods.GET)) {
 					try {
-						atenderPost(baseRequest);
+						atenderGet(baseRequest, response);
 					} catch (Exception e) {
-						// TODO error en post
-						LogManager.getInstance(RestHandler.class).error("No se pude realizar el POST. Detalle: " + e.getMessage());
+						
+						
+						if(funcion.equals("favicon.ico")) 
+						
+						this.responderError(
+								HttpServletResponse.SC_BAD_REQUEST,
+								"No se pudo realizar el GET. Detalle: "
+										+ e.toString(), baseRequest, response);
+						LogManager.getInstance(RestHandler.class).error(
+								"No se pudo realizar el GET. Detalle: "
+										+ e.toString());
+						System.out.println("No se pudo realizar el GET. Detalle: "
+								+ e.toString());
 					}
 				} else {
-					// TODO error
-					LogManager.getInstance(RestHandler.class).error("Función desconocida. No es un GET ni un POST. Contacte al Soporte Técnico.");
+					if (baseRequest.getMethod().equalsIgnoreCase(
+							HttpMethods.POST)) {
+						try {
+							atenderPost(baseRequest);
+						} catch (Exception e) {
+							
+							this.responderError(
+									HttpServletResponse.SC_BAD_REQUEST,
+									"No se pudo realizar el POST. Detalle: "
+											+ e.toString(), baseRequest,
+									response);
+							LogManager.getInstance(RestHandler.class).error(
+									"No se pudo realizar el POST. Detalle: "
+											+ e.toString());
+							System.out.println("No se pudo realizar el POST. Detalle: "
+									+ e.toString());
+						}
+					} else {
+						this.responderError(
+								HttpServletResponse.SC_BAD_REQUEST,
+								"Funcion desconocida. No es un GET ni un POST. Contacte al Soporte Tecnico.",
+								baseRequest, response);
+						LogManager
+								.getInstance(RestHandler.class)
+								.error("Funcion desconocida. No es un GET ni un POST. Contacte al Soporte Tecnico.");
+						System.out.println("Funcion desconocida. No es un GET ni un POST. Contacte al Soporte Tecnico.");
+					}
 				}
+			} else {
+				this.responderError(HttpServletResponse.SC_FORBIDDEN,
+						"El usuario y/o password son incorrectos.",
+						baseRequest, response);
+				LogManager.getInstance(RestHandler.class).error(
+						"El usuario y/o password son incorrectos.");
+				System.out.println("El usuario y/o password son incorrectos.");
 			}
-		}else{
-			//TODO: error validacion de usuario
-			LogManager.getInstance(RestHandler.class).error("El usuario y/o contraseña son incorrectos.");
+		} catch (Exception e) {
+			this.responderError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+					"Error interno del servidor: " + e.toString(), baseRequest,
+					response);
+			LogManager.getInstance(RestHandler.class).error(
+					"Error interno del servidor: " + e.toString());
+			System.out.println("Error interno del servidor: " + e.toString());
+			
 		}
 	}
 
 	/**
-	 * Atiende los pedidos de POST.
+	 * Atiende los pedidos del tipo POST.
 	 * 
-	 * @since 08-10-2011
-	 * @author Paul
 	 * @param baseRequest
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	private void atenderPost(HttpServletRequest baseRequest) throws Exception {
 
-		Request req = (baseRequest instanceof Request ? (Request) baseRequest: HttpConnection.getCurrentConnection().getRequest());
-		
+		Request req = getRequest(baseRequest);
+
 		if (funcion.equalsIgnoreCase(FuncionRest.POSTRECLAMO)) {
 			InputStream instream = baseRequest.getInputStream();
 			InputStreamReader isReader = new InputStreamReader(instream);
 			Gson gson = new Gson();
-			ReclamoAndrac reclamoAndrac= gson.fromJson(isReader, ReclamoAndrac.class);
+			ReclamoAndrac reclamoAndrac = gson.fromJson(isReader,
+					ReclamoAndrac.class);
 			IUsuario user = UsuarioManager.getInstance().getUsuarioFromDB(nick);
-			IReclamo reclamo = ReclamoManager.getInstance().toReclamoInt(reclamoAndrac,user);
+			IReclamo reclamo = ReclamoManager.getInstance().toReclamoInt(
+					reclamoAndrac, user);
 			ReclamoManager.getInstance().guardarReclamo(reclamo);
 			req.setHandled(true);
-			MailWilsonD.getInstance().enviarMail(reclamo.getMailCiudadanoGeneradorReclamo(), 
-					"Accion Ciudadana - Activacion de reclamo", MailWilsonD.getInstance().armarTextoCambioEstados(reclamo.getEstadoDescripcion(), reclamo));
-			
+			MailWilsonD.getInstance().enviarMail(
+					reclamo.getMailCiudadanoGeneradorReclamo(),
+					"Accion Ciudadana - Activacion de reclamo",
+					MailWilsonD.getInstance().armarTextoCambioEstados(
+							reclamo.getEstadoDescripcion(), reclamo));
+
 		} else if (funcion.equalsIgnoreCase(FuncionRest.POSTUSUARIO)) {
 			InputStream instream = baseRequest.getInputStream();
 			InputStreamReader isReader = new InputStreamReader(instream);
 			Gson gson = new Gson();
-			IUsuario usuario = UsuarioManager.getInstance().toUsuarioInt(gson.fromJson(isReader, UsuarioAndrac.class));
+			IUsuario usuario = UsuarioManager.getInstance().toUsuarioInt(
+					gson.fromJson(isReader, UsuarioAndrac.class));
 			UsuarioManager.getInstance().guardarUsuario(usuario);
 			req.setHandled(true);
-			MailWilsonD.getInstance().enviarMail(usuario.getMail(), 
-					"Accion Ciudadana - Bienvenido", MailWilsonD.getInstance().armarTextoBienvenida(usuario));
-			
+			MailWilsonD.getInstance().enviarMail(usuario.getMail(),
+					"Accion Ciudadana - Bienvenido",
+					MailWilsonD.getInstance().armarTextoBienvenida(usuario));
+
 		} else {
-			throw new Exception("Función desconocida.");
+			throw new Exception("Funcion desconocida.");
 		}
 	}
 
-	private void atenderGet(HttpServletRequest baseRequest,	HttpServletResponse response) throws Exception {
+	/**
+	 * Atiende los pedidos del tipo GET.
+	 * 
+	 * @param baseRequest
+	 * @param response
+	 * @throws Exception
+	 */
+	private void atenderGet(HttpServletRequest baseRequest,
+			HttpServletResponse response) throws Exception {
 
-		Request req = (baseRequest instanceof Request ? (Request) baseRequest: HttpConnection.getCurrentConnection().getRequest());
+		Request req = getRequest(baseRequest);
 
 		if (funcion.equalsIgnoreCase(FuncionRest.GETRECLAMOS)) {
 			atenderReclamos(response, req);
@@ -134,33 +218,85 @@ public class RestHandler extends AbstractHandler {
 
 	}
 
-	private void atenderPerfilUsuario(HttpServletResponse response, Request req)throws Exception {
-		try{
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
+	/**
+	 * Envia datos de perfil de un usuario.
+	 * 
+	 * @param response
+	 * @param req
+	 * @throws Exception
+	 */
+	private void atenderPerfilUsuario(HttpServletResponse response, Request req)
+			throws Exception {
+		try {
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
 
-		UsuarioMovil usr = UsuarioManager.getInstance().getPerfil(nick);
+			UsuarioMovil usr = UsuarioManager.getInstance().getPerfil(nick);
 
-		response.getWriter().write(new Gson().toJson(usr));
-		req.setHandled(true);
-		}catch(Exception e){
-			throw new Exception("No se pudo obtener el perfil del usuario. Detalle: " + e.getMessage());
+			response.getWriter().write(new Gson().toJson(usr));
+			req.setHandled(true);
+		} catch (Exception e) {
+			throw new Exception(
+					"No se pudo obtener el perfil del usuario. Detalle: "
+							+ e.getMessage());
 		}
 	}
 
-	private void atenderReclamos(HttpServletResponse response, Request req)	throws Exception {
-		try{
-		List<ReclamoAndrac> listaReclamosAndrac = ReclamoManager.getInstance()
-				.toReclamoAndrac(ReclamoManager.getInstance().obtenerTodosReclamos(nick));
+	/**
+	 * Envia lista de reclamos realizados por un usuario.
+	 * 
+	 * @param response
+	 * @param req
+	 * @throws Exception
+	 */
+	private void atenderReclamos(HttpServletResponse response, Request req)
+			throws Exception {
+		try {
+			List<ReclamoAndrac> listaReclamosAndrac = ReclamoManager
+					.getInstance().toReclamoAndrac(
+							ReclamoManager.getInstance().obtenerTodosReclamos(
+									nick));
 
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
 
-		response.getWriter().write(new Gson().toJson(listaReclamosAndrac));
-		req.setHandled(true);
-		}catch(Exception e){
-			throw new Exception("No se pudo obtener los reclamos del usuario. Detalle: "+e.getMessage());
+			response.getWriter().write(new Gson().toJson(listaReclamosAndrac));
+			req.setHandled(true);
+		} catch (Exception e) {
+			throw new Exception(
+					"No se pudo obtener los reclamos del usuario. Detalle: "
+							+ e.getMessage());
 		}
 	}
 
+	/**
+	 * Manda una respuesta con el codigo y mensage de error.
+	 * 
+	 * @since 16-10-2011
+	 * @author Paul
+	 * @param codigoError
+	 * @param mensajeError
+	 * @param baseRequest
+	 * @param response
+	 */
+	private void responderError(int codigoError, String mensajeError,
+			HttpServletRequest baseRequest, HttpServletResponse response) {
+		Request req = getRequest(baseRequest);
+
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		try {
+			response.sendError(codigoError, mensajeError);
+		} catch (IOException e) {
+			LogManager.getInstance(RestHandler.class).error(
+					"Fallo tratando responder ERROR.");
+		}
+		req.setHandled(true);
+	}
+
+	private Request getRequest(HttpServletRequest baseRequest) {
+		Request req = (baseRequest instanceof Request ? (Request) baseRequest
+				: HttpConnection.getCurrentConnection().getRequest());
+		return req;
+	}
 }
