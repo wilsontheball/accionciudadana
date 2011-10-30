@@ -35,6 +35,11 @@ h1 {
 	width: 114px;
 }
 
+.loading{
+	background: transparent url(/images/loader.gif) 0 3px no-repeat;
+	height: 16px;
+	width: 16px;	
+}
 .titleRow {
 	background-color: #214977;
 }

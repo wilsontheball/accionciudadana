@@ -38,7 +38,6 @@ public class HomePageCiudadano extends BasePage{
 	private DataGrid gridUltimosModificadosCiudadano;
 	
 	public HomePageCiudadano(final PageParameters parameters){
-		
 		try {
 			Configuracion.getInstance().cargarConfiguracion();
 		} catch (ConfiguracionException e) {

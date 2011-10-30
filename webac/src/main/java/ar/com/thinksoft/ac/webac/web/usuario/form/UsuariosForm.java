@@ -129,6 +129,7 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 		dialogEliminar.add(new AjaxLink("eliminarUsuario") {
 			@Override
 			public void onClick(AjaxRequestTarget target) {
+				dialogEliminar.close(target);
 				Usuario usuario = (Usuario) grid.getSelectedItems().iterator()
 						.next().getObject();
 				_self.eliminarUsuarioDeReclamos(usuario);
@@ -142,10 +143,10 @@ public class UsuariosForm extends Form<UsuarioFilterObject> {
 									usuario));
 				} catch (MailException e) {
 					LogFwk.getInstance(UsuarioPage.class).error(
-							"No se pudo enviar el mail de eliminaci�n. Detalle: "
+							"No se pudo enviar el mail de eliminacion. Detalle: "
 									+ e.getMessage());
 				}
-				dialogEliminar.close(target);
+				
 				setResponsePage(UsuarioPage.class);
 				setRedirect(true);
 			}

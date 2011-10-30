@@ -2,6 +2,7 @@ var buttonDisabled = true;
 
 $(document).ready(function() {
 	validarCampos();
+	bloquearPantalla();
 });
 
 function validarCampos(){

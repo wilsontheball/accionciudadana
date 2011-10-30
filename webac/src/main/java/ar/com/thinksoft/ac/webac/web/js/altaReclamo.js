@@ -1,7 +1,6 @@
 var buttonDisabled = true;
 
 $(document).ready(function() {
-	
 	$('input[type=file]').change(function(){
 		$('.imagen').empty();
 		var ruta = $('input[type=file]').val();
@@ -16,7 +15,7 @@ $(document).ready(function() {
 	});
 	
 	validarCampos();
-	
+	bloquearPantalla();
 });
 
 
@@ -25,8 +24,6 @@ function validarCampos(){
 	buttonDisabled =  validarSiEsNull($('#calleIncidente')[0]) || validarSiEsNull($('#alturaIncidente')[0]) || 
 			validarSiEsNull($('#ciudadanoIncidente')[0]) || validarSiEsNull($('#tipoIncidente')[0]) || 
 			validarSiEsNull($('#barrioIncidente')[0]);
-	
-	// || validarSiEsNull($('.imageUploader')[0])
 	
 	$('.guardarReclamo').attr('disabled',buttonDisabled);
 	

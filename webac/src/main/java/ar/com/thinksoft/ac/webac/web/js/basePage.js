@@ -80,6 +80,30 @@ function funcionOnChangeCampoIsNull(elem){
  * FUNCIONES MAGICAS INTERNAS
  */
 
+function bloquearPantalla(){
+	$('.buttonSubmit').click(function(){
+		$.blockUI({
+			message:  '<h1> Procesando </h1>',
+			fadeIn: 700, 
+            fadeOut: 700,
+			css: { 
+	            padding: '15px', 
+	            backgroundColor: '#000000', 
+	            '-webkit-border-radius': '10px', 
+	            '-moz-border-radius': '10px', 
+	            opacity: .6, 
+	            color: '#FFFFFF'
+            	} 
+		}); 
+	});
+}
+
+function validarRepeticiones(){
+	compararConfirmacionPassword();
+	compararConfirmacionMail();
+	validarCamposVacios();
+}
+
 function validarSiEsNull(elem){
 	return (elem.value == "" || elem.value == null || elem.value == undefined);
 }
@@ -117,8 +141,6 @@ function compararConfirmacionMail(){
 function validarCamposVacios(){
 	if(validarCampos()){
 		$('.error')[0].textContent = "Hay campos obligatorios que se encuentran vacios.";
-		$('#'+elem.id).css('background-color','#FE6565');
 	}
 	$('.error')[0].textContent = "";
-	$('#'+elem.id).css('background-color','');
 }

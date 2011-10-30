@@ -24,11 +24,12 @@ import ar.com.thinksoft.ac.webac.web.usuario.perfil.PerfilPage;
 public abstract class BasePage extends WebPage {
 
 	public BasePage() {
-
+			
 			add(CSSPackageResource.getHeaderContribution(BasePage.class,"../css/BasePage.css"));
 			add(CSSPackageResource.getHeaderContribution(BasePage.class,"../css/jquery-ui.css"));
 			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/jquery.js"));
 			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/jquery-ui.js"));
+			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/jquery.blockUI.js"));
 			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/basePage.js"));
 			this.appendLinks();
 
