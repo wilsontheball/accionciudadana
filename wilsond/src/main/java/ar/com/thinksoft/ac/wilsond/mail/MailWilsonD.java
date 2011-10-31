@@ -38,7 +38,7 @@ public class MailWilsonD {
 		Properties props = new Properties();
 		// Nombre del host de correo, es smtp.gmail.com
 		props.setProperty("mail.smtp.host", ConfiguracionWilsonD.getInstance().getSmtp());
-		// TLS si est· disponible
+		// TLS si est√° disponible
 		props.setProperty("mail.smtp.starttls.enable", ConfiguracionWilsonD.getInstance().getTLS().toString());
 		// Puerto de gmail para envio de correos
 		props.setProperty("mail.smtp.port",ConfiguracionWilsonD.getInstance().getPuerto());
@@ -75,7 +75,7 @@ public class MailWilsonD {
 	
 	public String armarTextoCambioEstados(String estado, IReclamo reclamo){
 		String texto =  "Su reclamo con detalle: \n\n"+
-						"DirecciÛn: " + reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + "\n" +
+						"Direcci√≥n: " + reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + "\n" +
 						"Tipo de incidente: " + reclamo.getTipoIncidente() + "\n" +
 						"Barrio: " + reclamo.getBarrioIncidente() + "\n" + 
 						"Comuna: " + reclamo.getComunaIncidente() + "\n" +
@@ -84,16 +84,16 @@ public class MailWilsonD {
 		if(reclamo.getObservaciones()!=null && reclamo.getObservaciones() != "")
 			texto = texto + "Observaciones: " + reclamo.getObservaciones() + "\n\n";
 		
-		texto = texto + "se encuentra actualmente en estado: " + estado + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAcciÛn Ciudadana";
+		texto = texto + "se encuentra actualmente en estado: " + estado + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAcci√≥n Ciudadana";
 		 
 		return texto;
 	}
 
 	public String armarTextoBienvenida(IUsuario user) {
-		return user.getNombreUsuario()+ ":\n\n" + "Le damos la bienvenida a AcciÛn Ciudadana.\n"+
-		"Ya puede iniciar reclamos y saber el estado de los mismos a travÈs del tiempo.\n"+
-		"Puede acceder con su usuario desde la aplicaciÛn Android o desde nuestra web: www.accion-ciudadana.com.ar.\n"+
-		"No dude en contactarse con nosotros para cualquier consulta.\n\nAcciÛn Ciudadana";
+		return user.getNombreUsuario()+ ":\n\n" + "Le damos la bienvenida a Acci√≥n Ciudadana.\n"+
+		"Ya puede iniciar reclamos y saber el estado de los mismos a trav√©s del tiempo.\n"+
+		"Puede acceder con su usuario desde la aplicaci√≥n Android o desde nuestra web: www.accion-ciudadana.com.ar.\n"+
+		"No dude en contactarse con nosotros para cualquier consulta.\n\nAcci√≥n Ciudadana";
 	}
 
 }
