@@ -60,7 +60,7 @@ public class UsuarioNuevoForm extends Form<Usuario> {
 				if(usuarios.size()==0 && !_self.usuarioIsValido(usuario)){
 					new RegistroManager().registrar(usuario);
 					try {
-						MailManager.getInstance().enviarMail(usuario.getMail(), "Accion Ciudadana - Bienvenido", MailManager.getInstance().armarTextoBienvenida(usuario));
+						MailManager.getInstance().enviarMail(usuario.getMail(), "Acción Ciudadana - Bienvenido", MailManager.getInstance().armarTextoBienvenida(usuario));
 					} catch (MailException e) {
 						LogFwk.getInstance(RegistroPage.class).error("No se pudo enviar el mail de bienvenida. Detalle: " + e.getMessage());
 					}
@@ -69,7 +69,7 @@ public class UsuarioNuevoForm extends Form<Usuario> {
 				}else{
 					_self.addOrReplace(new Label("errorLabel",
 							"El nombre de usuario ya se encuentra en nuestra Base de Datos. Por favor, ingrese otro." +
-				                    			"Si el problema persiste, no dude en consultar al soporte t�cnico."));
+				                    			"Si el problema persiste, no dude en consultar al soporte técnico."));
 				}
 			}
 		});

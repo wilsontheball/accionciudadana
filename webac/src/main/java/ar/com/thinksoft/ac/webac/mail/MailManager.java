@@ -37,7 +37,7 @@ public class MailManager {
 		Properties props = new Properties();
 		// Nombre del host de correo, es smtp.gmail.com
 		props.setProperty("mail.smtp.host", Configuracion.getInstance().getSmtp());
-		// TLS si está disponible
+		// TLS si esta disponible
 		props.setProperty("mail.smtp.starttls.enable", Configuracion.getInstance().getTLS().toString());
 		// Puerto de gmail para envio de correos
 		props.setProperty("mail.smtp.port",Configuracion.getInstance().getPuerto());
@@ -79,7 +79,7 @@ public class MailManager {
 	
 	public String armarTextoCambioEstados(String estado, IReclamo reclamo){
 		String texto =  "Su reclamo con detalle: \n\n"+
-						"Dirección: " + reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + "\n" +
+						"DirecciÃ³n: " + reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + "\n" +
 						"Tipo de incidente: " + reclamo.getTipoIncidente() + "\n" +
 						"Barrio: " + reclamo.getBarrioIncidente() + "\n" + 
 						"Comuna: " + reclamo.getComunaIncidente() + "\n" +
@@ -88,14 +88,14 @@ public class MailManager {
 		if(reclamo.getObservaciones()!=null && reclamo.getObservaciones() != "")
 			texto = texto + "Observaciones: " + reclamo.getObservaciones() + "\n\n";
 		
-		texto = texto + "se encuentra actualmente en estado: " + estado + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAcción Ciudadana";
+		texto = texto + "se encuentra actualmente en estado: " + estado + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAcciÃ³n Ciudadana";
 		 
 		return texto;
 	}
 	
 	public String armarTextoCambioPrioridad(String prioridad, IReclamo reclamo){
 		String texto = 	"Su reclamo con detalle: \n\n"+
-						"Dirección: " + reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + "\n" +
+						"DirecciÃ³n: " + reclamo.getCalleIncidente() + " " + reclamo.getAlturaIncidente() + "\n" +
 						"Tipo de incidente: " + reclamo.getTipoIncidente() + "\n" +
 						"Barrio: " + reclamo.getBarrioIncidente() + "\n" + 
 						"Comuna: " + reclamo.getComunaIncidente() + "\n" +
@@ -104,21 +104,21 @@ public class MailManager {
 		if(reclamo.getObservaciones()!=null && reclamo.getObservaciones() != "")
 			texto = texto + "Observaciones: " + reclamo.getObservaciones() + "\n\n";
 		
-		texto = texto + "se encuentra actualmente con prioridad: " + prioridad + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAcción Ciudadana";
+		texto = texto + "se encuentra actualmente con prioridad: " + prioridad + ".\nLo mantendremos informado acerca del mismo.\nMuchas gracias.\n\nAcciÃ³n Ciudadana";
 	
 		return texto;
 	}
 	
 	public String armarTextoBienvenida(IUsuario user) {
-		return user.getNombreUsuario()+ ":\n\n" + "Le damos la bienvenida a Acción Ciudadana.\n"+
-		"Ya puede iniciar reclamos y saber el estado de los mismos a través del tiempo.\n"+
-		"Puede acceder con su usuario desde la aplicación Android o desde nuestra web: www.accion-ciudadana.com.ar.\n"+
-		"No dude en contactarse con nosotros para cualquier consulta.\n\nAcción Ciudadana";
+		return user.getNombreUsuario()+ ":\n\n" + "Le damos la bienvenida a AcciÃ³n Ciudadana.\n"+
+		"Ya puede iniciar reclamos y saber el estado de los mismos a travÃ©s del tiempo.\n"+
+		"Puede acceder con su usuario desde la aplicaciÃ³n Android o desde nuestra web: www.accion-ciudadana.com.ar.\n"+
+		"No dude en contactarse con nosotros para cualquier consulta.\n\nAcciÃ³n Ciudadana";
 	}
 
 	public String armarTextoEliminacion(Usuario usuario) {
-		return usuario.getNombreUsuario()+ ":\n\n" + "Su cuenta ha sido eliminada de Acción Ciudadana.\n"+
-		"No dude en contactarse con nosotros para cualquier consulta.\n\nAcción Ciudadana";
+		return usuario.getNombreUsuario()+ ":\n\n" + "Su cuenta ha sido eliminada de AcciÃ³n Ciudadana.\n"+
+		"No dude en contactarse con nosotros para cualquier consulta.\n\nAcciÃ³n Ciudadana";
 	}
 
 }
