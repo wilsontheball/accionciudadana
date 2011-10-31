@@ -54,7 +54,7 @@ public class Unificador {
 	    	Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
 	    	listaReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
 	    	for(IReclamo reclamo:listaReclamos){
-	    		//Si el reclamo es mayor a un año, lo cancelo.
+	    		//Si el reclamo es mayor a un aÃ±o, lo cancelo.
 	    		try {
 					if(reclamoMayorAnio(reclamo))
 						try {
