@@ -1,10 +1,11 @@
 package ar.com.thinksoft.ac.andrac.pantallas;
 
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -34,7 +35,7 @@ import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
  * Pantalla de la camara de fotos. Saca foto si se hace un clic sobre la
  * pantalla o se presiona el boton de la camara.
  * 
- * @since 14-10-2010
+ * @since 01-11-2010
  * @author Paul
  */
 public class CamaraView extends Activity implements SurfaceHolder.Callback {
@@ -43,8 +44,15 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	static final int FOTO_MODE = 0;
 	private static final String TAG = "CamaraView";
 	private Camera camara;
+
+	// Tamanio de archivo de foto maximo 1Mb
+	private static final int MAX_SIZE_FILE = 1024 * 1024;
+
+	// Tamanio buscado de la foto
 	private final int fotoWidth = 640;
 	private final int fotoHeight = 480;
+
+	private boolean preview = false;
 	boolean previewRunning = false;
 	// private Context mContext = this;
 	private SurfaceView surfaceView;
@@ -63,19 +71,34 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 				camara.startPreview();
 
 				// Pasa la imagen al repo
-				guardarImagenEnRepo(imageData);
+				setFotoEnRepo(imageData);
+
+				String nombreArchivo = "foto-" + getHoraConFormato();
+
+				int escala = 1;
+				if (imageData.length > MAX_SIZE_FILE) {
+					escala = Math.round(imageData.length / MAX_SIZE_FILE);
+					Log.d(TAG, "Se achiva la imagen X " + escala);
+				}
+
+				if (archivarFoto(imageData, escala, nombreArchivo)) {
+					setNombreFotoEnRepo(nombreArchivo);
+					Log.d(TAG, "Se guardo la foto en el archivo.");
+				} else {
+					Log.e(TAG, "No se pudo guardar al foto en el archivo.");
+				}
 
 				// Carga la devolucion.
 				Intent resultado = new Intent();
 				resultado.putExtra(FUN, SACAR_FOTO);
 				setResult(Activity.RESULT_OK, resultado);
-				Log.d(this.getClass().getName(), "Se saco una foto.");
+				Log.d(TAG, "Se saco una foto.");
 			} else {
 				// Carga la devolucion.
 				Intent resultado = new Intent();
 				resultado.putExtra(FUN, SACAR_FOTO);
 				setResult(Activity.RESULT_CANCELED, resultado);
-				Log.d(this.getClass().getName(), "Se cancelo sacar foto.");
+				Log.d(TAG, "Se cancelo sacar foto.");
 			}
 			finish();
 		}
@@ -105,18 +128,8 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
-	protected void onResume() {
-		Log.e(TAG, "onResume");
-		super.onResume();
-	}
-
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-	}
-
-	protected void onStop() {
-		Log.e(TAG, "onStop");
-		super.onStop();
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
@@ -124,27 +137,12 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 		camara = Camera.open();
 		if (camara != null) {
 			Parameters param = camara.getParameters();
-			List<Size> dimensiones = param.getSupportedPictureSizes();
-			Size dimension = camara.new Size(this.fotoWidth, this.fotoHeight);
-			if (!dimensiones.contains(dimension)) {
-				Log.e(TAG, "**** Dimension NO aceptada! ****");
-				Log.e(TAG, "**** Dimensiones permitidas ****");
-				for (Object o : dimensiones) {
-					Size s = (Size) o;
-					Log.e(TAG, s.width + " : " + s.height);
-				}
-				// Se toma la menor dimension.
-				dimension = dimensiones.get(0);
-				Log.e(TAG, "Dimension aceptada: " + dimension.width + "-"
-						+ dimension.height);
-			}
-			param.setPictureSize(dimension.width, dimension.height);
-			camara.setParameters(param);
+			camara.setParameters(configurarTamFoto(param));
 		} else {
 			Intent resultado = new Intent();
 			resultado.putExtra(FUN, SACAR_FOTO);
 			setResult(Activity.RESULT_CANCELED, resultado);
-			Log.d(this.getClass().getName(), "Se cancelo sacar foto.");
+			Log.d(TAG, "Se cancelo sacar foto.");
 			finish();
 		}
 	}
@@ -191,18 +189,6 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 		this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
 	}
 
-	// /**
-	// * Saca foto cuando se hace clic sobre la pantalla.
-	// *
-	// * @since 07-09-2011
-	// * @author Paul
-	// * @param v
-	// * La View.
-	// */
-	// public void onClick(View v) {
-	// mCamera.takePicture(null, null, mPictureCallback);
-	// }
-
 	/**
 	 * Saca foto cuando se pulsa el BOTON DE CAMARA.
 	 * 
@@ -226,44 +212,37 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 		return true;
 	}
 
-	public static boolean storeByteImage(Context mContext, byte[] imageData,
-			int quality, String expName) {
-
-		File sdImageMainDirectory = new File("/sdcard");
-		FileOutputStream fileOutputStream = null;
+	/**
+	 * Guarda la foto escalada en un archivo JPEG.
+	 * 
+	 * @param datos
+	 * @param escala
+	 * @param nombreArchivo
+	 * @return
+	 */
+	public boolean archivarFoto(byte[] datos, int escala, String nombreArchivo) {
 
 		try {
-
 			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inSampleSize = 5;
-
-			Bitmap myImage = BitmapFactory.decodeByteArray(imageData, 0,
-					imageData.length, options);
-
-			fileOutputStream = new FileOutputStream(
-					sdImageMainDirectory.toString() + "/image.jpg");
-
+			options.inSampleSize = escala;
+			Bitmap bitmap = BitmapFactory.decodeByteArray(datos, 0,
+					datos.length, options);
+			FileOutputStream fileOutputStream = openFileOutput(nombreArchivo,
+					Context.MODE_PRIVATE);
 			BufferedOutputStream bos = new BufferedOutputStream(
 					fileOutputStream);
-
-			myImage.compress(CompressFormat.JPEG, quality, bos);
-
+			bitmap.compress(CompressFormat.JPEG, 100, bos);
+			bitmap.recycle();
 			bos.flush();
 			bos.close();
-
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Log.e(TAG, "No se encontro el archivo: " + e);
 			return false;
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "No se grabo el archivo: " + e);
 			return false;
 		}
-
 		return true;
-	}
-
-	public void guardarImagenEnRepo(byte[] imagen) {
-		((Aplicacion) this.getApplication()).getRepositorio().setImagen(imagen);
 	}
 
 	/**
@@ -290,5 +269,60 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 		setResult(Activity.RESULT_CANCELED, resultado);
 		Log.d(this.getClass().getName(), "Se cancelo sacar foto.");
 		this.finish();
+	}
+
+	/**
+	 * Configura tamanio de la foto en los parametros de la camara.
+	 * 
+	 * @since 01-11-2011
+	 * @author Paul
+	 * @param param
+	 * @return
+	 */
+	private Parameters configurarTamFoto(Parameters param) {
+		List<Size> dimensiones = param.getSupportedPictureSizes();
+
+		Size dimension = camara.new Size(this.fotoWidth, this.fotoHeight);
+		if (!dimensiones.contains(dimension)) {
+
+			Log.e(TAG, "**** Dimension NO aceptada para foto! ****");
+			Log.e(TAG, "**** Dimensiones de foto permitidas ****");
+			for (Object o : dimensiones) {
+				Size s = (Size) o;
+				Log.e(TAG, s.width + "x" + s.height);
+			}
+
+			// Se toma la menor dimension.
+			dimension = dimensiones.get(0);
+			Log.e(TAG, "Dimension elegida: " + dimension.width + "x"
+					+ dimension.height);
+		}
+		param.setPictureSize(dimension.width, dimension.height);
+		return param;
+	}
+
+	/* ***** Getters y Stetters ***** */
+
+	public static String getHoraConFormato() {
+		Date date = new java.util.Date();
+		SimpleDateFormat formatter = new java.text.SimpleDateFormat("hh-mm-ss");
+		return formatter.format(date);
+	}
+
+	public void setFotoEnRepo(byte[] imagen) {
+		((Aplicacion) this.getApplication()).getRepositorio().setImagen(imagen);
+	}
+
+	public void setNombreFotoEnRepo(String nombre) {
+		((Aplicacion) this.getApplication()).getRepositorio().setNombreFoto(
+				nombre);
+	}
+
+	public void setPreview(boolean preview) {
+		this.preview = preview;
+	}
+
+	public boolean isPreview() {
+		return preview;
 	}
 }

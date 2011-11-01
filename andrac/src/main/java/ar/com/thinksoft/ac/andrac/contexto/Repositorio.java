@@ -12,7 +12,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.ImagenMovil;
 /**
  * Buzon intermedio para intercambiar datos entre los procesos.
  * 
- * @since 14-10-2011
+ * @since 01-11-2011
  * @author Paul
  */
 public class Repositorio {
@@ -23,6 +23,9 @@ public class Repositorio {
 	// Almacenan temporalmente Usuario y Pass en una sesion.
 	private String nick = null;
 	private String pass = null;
+
+	// Almacen intermedio para el nombre del archivo de foto.
+	private String nombreFoto = null;
 
 	// Almacen intermedio para la foto. De esta forma no hace falta un archivo.
 	private byte[] imagenBytes = null;
@@ -180,6 +183,14 @@ public class Repositorio {
 
 	public byte[] getImagen() {
 		return this.imagenBytes;
+	}
+
+	public void setNombreFoto(String nombre) {
+		this.nombreFoto = nombre;
+	}
+
+	public String getNombreFoto() {
+		return this.nombreFoto;
 	}
 
 	public Usuario getPerfilUsuario() {

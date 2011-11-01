@@ -1,11 +1,10 @@
 package ar.com.thinksoft.ac.andrac.pantallas;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
-
-import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -40,6 +39,8 @@ import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
 import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
+
+import com.google.gson.Gson;
 
 /**
  * Maneja creacion de un reclamo.
@@ -139,7 +140,10 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				// Se saco una foto.
 				ImageView preview = (ImageView) this
 						.findViewById(R.id.fotoPreview);
-				Bitmap foto = this.getFotoPreview(this.getRepo().getImagen());
+				// Bitmap foto =
+				// this.getFotoPreview(this.getRepo().getImagen());
+				Bitmap foto = this.getFotoPreview(this.getRepo()
+						.getNombreFoto());
 				if (foto != null) {
 					preview.setImageBitmap(foto);
 				} else {
@@ -492,6 +496,26 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	 */
 	private Bitmap getFotoPreview(byte[] imagen) {
 		return BitmapFactory.decodeByteArray(imagen, 0, imagen.length, null);
+	}
+
+	/**
+	 * Convierte array de foto a Bitmap para preview.
+	 * 
+	 * @since 11-09-2011
+	 * @author Paul
+	 * @param nombreArchivo
+	 *            Nombre del archivo.
+	 * @return Imagen en formato Bitmap.
+	 */
+	private Bitmap getFotoPreview(String nombreArchivo) {
+		try {
+			FileInputStream stream = openFileInput(nombreArchivo);
+			return BitmapFactory.decodeStream(stream);
+		} catch (Exception e) {
+			Log.e(this.getClass().getSimpleName(), "No encontro: "
+					+ nombreArchivo + e);
+			return null;
+		}
 	}
 
 	/**
