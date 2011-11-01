@@ -12,11 +12,21 @@ label
 {
    padding:2px;
    text-align:right;
-   margin:10px 2px; 
+   margin:4px 2px; 
    display: block;
-   
+   font-family: "Trebuchet MS",Geneva,Arial,Helvetica,sans-serif;
+	font-size: 15px;
 }
 
+input{
+	font-family: "Trebuchet MS",Geneva,Arial,Helvetica,sans-serif;
+	font-size: 15px;	
+}
+
+select{
+	font-family: "Trebuchet MS",Geneva,Arial,Helvetica,sans-serif;
+	font-size: 15px;	
+}
 .block{
    margin:10px 2px; 
    font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;

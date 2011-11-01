@@ -359,6 +359,11 @@ public class Reclamo implements IReclamo,Serializable{
 				reclamo.setAsociadoReclamo();
 				this.getReclamosAsociados().add(reclamo);
 				reclamo.setReclamoPadreId(this.getId());
+				for(IReclamo r : reclamo.getReclamosAsociados()){
+					r.setReclamoPadreId(this.getId());
+					ReclamoManager.getInstance().guardarReclamo(r);
+				}
+				
 				definirPrioridadUnificado(reclamo);
 				ReclamoManager.getInstance().guardarReclamo(this);
 				ReclamoManager.getInstance().guardarReclamo(reclamo);

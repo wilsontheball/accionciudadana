@@ -24,11 +24,12 @@ import ar.com.thinksoft.ac.webac.web.usuario.perfil.PerfilPage;
 public abstract class BasePage extends WebPage {
 
 	public BasePage() {
-
+			
 			add(CSSPackageResource.getHeaderContribution(BasePage.class,"../css/BasePage.css"));
 			add(CSSPackageResource.getHeaderContribution(BasePage.class,"../css/jquery-ui.css"));
 			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/jquery.js"));
 			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/jquery-ui.js"));
+			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/jquery.blockUI.js"));
 			add(JavascriptPackageResource.getHeaderContribution(BasePage.class,"../js/basePage.js"));
 			this.appendLinks();
 
@@ -82,16 +83,15 @@ public abstract class BasePage extends WebPage {
 		MetaDataRoleAuthorizationStrategy.authorize(usuarioLink, RENDER, "ADMIN");
 		add(usuarioLink);
 		
-		add(new BookmarkablePageLink<IPageLink>("downloadLink", DownloadPage.class));
+		add(new BookmarkablePageLink<IPageLink>("downloadLink", this.getClass()));
+		add(new BookmarkablePageLink<IPageLink>("manualAndroidLink",DownloadPage.class).setParameter("type", "manualAndroid"));
+		add(new BookmarkablePageLink<IPageLink>("descargarAppLink",DownloadPage.class).setParameter("type", "appAndroid"));
 		
 		BookmarkablePageLink<IPageLink> configLink = new BookmarkablePageLink<IPageLink>("configLink",ConfiguracionPage.class);
 		MetaDataRoleAuthorizationStrategy.authorize(configLink, RENDER, "ADMIN");
 		add(configLink);
 		
 		BookmarkablePageLink<IPageLink> ayudaLink = new BookmarkablePageLink<IPageLink>("ayudaLink", AyudaPage.class);
-		MetaDataRoleAuthorizationStrategy.authorize(ayudaLink, RENDER, "ADMIN");
-		MetaDataRoleAuthorizationStrategy.authorize(ayudaLink, RENDER,"OPERADOR");
-		MetaDataRoleAuthorizationStrategy.authorize(ayudaLink, RENDER,"CIUDADANO");
 		add(ayudaLink);
 
 	}

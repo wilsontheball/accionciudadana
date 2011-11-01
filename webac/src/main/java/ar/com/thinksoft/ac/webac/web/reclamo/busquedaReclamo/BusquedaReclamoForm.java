@@ -20,6 +20,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -40,7 +41,6 @@ import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
 import ar.com.thinksoft.ac.webac.logging.LogFwk;
 import ar.com.thinksoft.ac.webac.predicates.PredicatePorCiudadano;
-import ar.com.thinksoft.ac.webac.predicates.PredicatePorEstado;
 import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.usuario.Usuario;
@@ -86,7 +86,15 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		
 		add(new TextField<String>("alturaIncidente",this.createBind(model,"alturaIncidente")));
 		
-		add(new TextField<String>("CiudadanoGeneradorReclamo",this.createBind(model,"CiudadanoGeneradorReclamo")));
+		Label usuario = new Label("CiudadanoGeneradorReclamoLabel","Usuario");
+		MetaDataRoleAuthorizationStrategy.authorize(usuario, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(usuario, RENDER,"OPERADOR");
+		add(usuario);
+
+		TextField<String> ciudadanoGenerador = new TextField<String>("CiudadanoGeneradorReclamo",this.createBind(model,"CiudadanoGeneradorReclamo"));
+		MetaDataRoleAuthorizationStrategy.authorize(ciudadanoGenerador, RENDER, "ADMIN");
+		MetaDataRoleAuthorizationStrategy.authorize(ciudadanoGenerador, RENDER, "OPERADOR");
+		add(ciudadanoGenerador);
 		
 		add(new TextField<String>("FechaReclamo",this.createBind(model,"FechaReclamo")));
 		
@@ -116,13 +124,16 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 		add(new Button("busqueda"){
 				@Override
 				public void onSubmit() {
-					IReclamo reclamo = _self.getModelObject();
+					IReclamo reclamoFiltro = _self.getModelObject();
+
 					AccionCiudadanaSession session = (AccionCiudadanaSession) getSession();
 					
 					if (!session.getRoles().hasAnyRole(_self.createRolesNeededForAdmin())) 
-						reclamo.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
+						reclamoFiltro.setCiudadanoGeneradorReclamo(ciudadano.getNombreUsuario());
 					
-					listDataProvider = new ListDataProvider<IReclamo>(ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo));
+					List<IReclamo> listaReclamosFiltrados = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamoFiltro);
+					
+					listDataProvider = new ListDataProvider<IReclamo>(listaReclamosFiltrados);
 					grid.setDefaultModelObject(new DataProviderAdapter(listDataProvider));
 				}
 			});
@@ -340,7 +351,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																						 .setWrapText(true)
             																						 .setSizeUnit(SizeUnit.PX),
             																						 
-            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(50)
+            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(60)
             																			  .setWrapText(true)
             																			  .setReorderable(true)
             																			  .setResizable(true)
@@ -352,7 +363,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																			  .setResizable(true)
             																			  .setSizeUnit(SizeUnit.PX), 																			  
             
-            new PropertyColumn("comunaCol",new Model<String>("Comuna"), "comunaIncidente").setInitialSize(80)
+            new PropertyColumn("comunaCol",new Model<String>("Comuna"), "comunaIncidente").setInitialSize(100)
             																			  .setWrapText(true)
             																			  .setReorderable(true)
             																			  .setResizable(true)
@@ -363,12 +374,12 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																				.setResizable(true)
             																		 		.setSizeUnit(SizeUnit.PX),
             																						
-            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(150)
+            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(160)
             																		.setReorderable(true)
             																		.setResizable(true)
             																		.setSizeUnit(SizeUnit.PX),
             																					 
-            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(80)
+            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(100)
             																				.setReorderable(true)
             																				.setResizable(true)
             																				.setSizeUnit(SizeUnit.PX),
@@ -378,7 +389,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
             																				 .setResizable(true)
             																				 .setSizeUnit(SizeUnit.PX),
             																						  
-            new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(100)
+            new PropertyColumn("ciudadanoCol",new Model<String>("Ciudadano"), "CiudadanoGeneradorReclamo").setInitialSize(150)
           																							.setWrapText(true)
           																							.setReorderable(true)
             																						.setResizable(true)
@@ -408,7 +419,7 @@ public class BusquedaReclamoForm extends Form<IReclamo> {
 			reclamos = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamo);
 		} else{
 	  	//obtain a list of objects for the report
-	     reclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorEstado().filtrarNot(EnumEstadosReclamo.asociado.getEstado()));
+	     reclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
 		}
 		
 	    // pass parameters to the report

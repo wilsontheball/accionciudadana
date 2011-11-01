@@ -1,5 +1,9 @@
 @CHARSET "UTF-8";
 
+label{
+	font-family: "Trebuchet MS",Geneva,Arial,Helvetica,sans-serif;
+	font-size: 15px;
+}
 
 .login {
 	text-align:center;
@@ -11,6 +15,11 @@
    margin:10px 2px; 
    font-family: "Trebuchet MS", Geneva, Arial, Helvetica, sans-serif;
    font-size: 15px;
+}
+
+input{
+	font-family: "Trebuchet MS",Geneva,Arial,Helvetica,sans-serif;
+	font-size: 15px;	
 }
 
 .texto{

@@ -4,7 +4,7 @@ package ar.com.thinksoft.ac.webac.login.exceptions;
 public class UserNotFoundException extends RuntimeException {
 	
 	public UserNotFoundException(String usuario) {
-		super("El usuario \""+ usuario +"\" no se encuentra registrado en la aplicacion");
+		super("El usuario no se encuentra registrado en el sistema o ha ingresado mal la clave.");
 	}
 
 }

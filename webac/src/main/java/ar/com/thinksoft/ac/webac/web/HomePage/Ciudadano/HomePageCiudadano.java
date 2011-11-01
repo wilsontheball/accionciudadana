@@ -13,9 +13,12 @@ import org.apache.wicket.model.Model;
 import wicket.contrib.gmap.GMap2;
 import wicket.contrib.gmap.api.GLatLng;
 import wicket.contrib.gmap.api.GMarker;
+import ar.com.thinksoft.ac.intac.EnumEstadosReclamo;
 import ar.com.thinksoft.ac.intac.IReclamo;
 import ar.com.thinksoft.ac.webac.AccionCiudadanaSession;
 import ar.com.thinksoft.ac.webac.exceptions.ConfiguracionException;
+import ar.com.thinksoft.ac.webac.predicates.PredicatePorUUID;
+import ar.com.thinksoft.ac.webac.reclamo.Reclamo;
 import ar.com.thinksoft.ac.webac.reclamo.ReclamoManager;
 import ar.com.thinksoft.ac.webac.web.HomePage.HomePage;
 import ar.com.thinksoft.ac.webac.web.base.BasePage;
@@ -35,7 +38,6 @@ public class HomePageCiudadano extends BasePage{
 	private DataGrid gridUltimosModificadosCiudadano;
 	
 	public HomePageCiudadano(final PageParameters parameters){
-		
 		try {
 			Configuracion.getInstance().cargarConfiguracion();
 		} catch (ConfiguracionException e) {
@@ -62,26 +64,59 @@ public class HomePageCiudadano extends BasePage{
 		map.setDraggingEnabled(true);
 		map.setDoubleClickZoomEnabled(true);
 		map.setScrollWheelZoomEnabled(true);
-		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
+		
+		String usuario = ((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario();
+		IReclamo reclamoFiltro = new Reclamo();
+		reclamoFiltro.setCiudadanoGeneradorReclamo(usuario);
+		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamoFiltro);
 		for(IReclamo reclamo : listReclamos){
-			if(reclamo.getCiudadanoGeneradorReclamo().equals(((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario()) && reclamo.isNotDown()){
-				double latitud = Double.valueOf(reclamo.getLatitudIncidente());
-				double longitud = Double.valueOf(reclamo.getLongitudIncidente());
-				map.addOverlay(new GMarker(new GLatLng(latitud,longitud)));
+			
+			if(reclamo.isNotDown()){
+				marcarReclamoEnMapa(map, reclamo);
+			}else{
+				if(EnumEstadosReclamo.asociado.getEstado().equals(reclamo.getEstadoDescripcion())){
+					if(reclamo.getReclamoPadreId()!=null && reclamo.getReclamoPadreId() != ""){
+						List<IReclamo> reclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorUUID().filtrar(reclamo.getReclamoPadreId()));
+						if(reclamos.get(0).isNotDown()){
+							marcarReclamoEnMapa(map, reclamo);
+						}
+					}
+				}
 			}
 		}
 		
 		return map;
 	}
+
+	private void marcarReclamoEnMapa(GMap2 map, IReclamo reclamo) {
+		if(reclamo.getLatitudIncidente()!=null && reclamo.getLongitudIncidente()!=null){
+			double latitud = Double.valueOf(reclamo.getLatitudIncidente());
+			double longitud = Double.valueOf(reclamo.getLongitudIncidente());
+			map.addOverlay(new GMarker(new GLatLng(latitud,longitud)));
+		}
+	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void armarGrillaActiva() {
-		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerTodosReclamos();
+		String usuario = ((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario();
+		IReclamo reclamoFiltro = new Reclamo();
+		reclamoFiltro.setCiudadanoGeneradorReclamo(usuario);
+		List<IReclamo> listReclamos = ReclamoManager.getInstance().obtenerReclamosFiltrados(reclamoFiltro);
 		List<IReclamo> listCiudadano = new ArrayList<IReclamo>();
 		
 		for(IReclamo reclamo : listReclamos){
-			if(reclamo.getCiudadanoGeneradorReclamo().equals(((AccionCiudadanaSession)getSession()).getUsuario().getNombreUsuario()) && reclamo.isNotDown())
+			if(reclamo.isNotDown())
 				listCiudadano.add(reclamo);
+			else{
+				if(EnumEstadosReclamo.asociado.getEstado().equals(reclamo.getEstadoDescripcion())){
+					if(reclamo.getReclamoPadreId()!=null && reclamo.getReclamoPadreId() != ""){
+						List<IReclamo> reclamos = ReclamoManager.getInstance().obtenerReclamosFiltradosConPredicates(new PredicatePorUUID().filtrar(reclamo.getReclamoPadreId()));
+						if(reclamos.get(0).isNotDown()){
+							listCiudadano.add(reclamo);
+						}
+					}
+				}
+			}
 		}
 		
 		ListDataProvider<IReclamo> listDataProvider = new ListDataProvider<IReclamo>(listCiudadano);
@@ -92,7 +127,7 @@ public class HomePageCiudadano extends BasePage{
             																						 .setWrapText(true)
             																						 .setSizeUnit(SizeUnit.PX),
             																						 
-            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(50)
+            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(60)
             																			  .setWrapText(true)
             																			  .setReorderable(true)
             																			  .setResizable(true)
@@ -104,22 +139,22 @@ public class HomePageCiudadano extends BasePage{
             																			  .setResizable(true)
             																			  .setSizeUnit(SizeUnit.PX),
             																				
-            new PropertyColumn("fechaCol",new Model<String>("Fecha de alta"), "FechaReclamo").setInitialSize(80)
+            new PropertyColumn("fechaCol",new Model<String>("Fecha de alta"), "FechaReclamo").setInitialSize(100)
             																				.setReorderable(true)
             																				.setResizable(true)
             																		 		.setSizeUnit(SizeUnit.PX),
             																						
-            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(130)
+            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(140)
             																		.setReorderable(true)
             																		.setResizable(true)
             																		.setSizeUnit(SizeUnit.PX),
             																					 
-            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(80)
+            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(110)
             																				 .setReorderable(true)
             																				 .setResizable(true)
             																				 .setSizeUnit(SizeUnit.PX),
             																				 
-            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(80)
+            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(110)
                  																				.setReorderable(true)
                  																				.setResizable(true)
                  																				.setSizeUnit(SizeUnit.PX)
@@ -127,10 +162,6 @@ public class HomePageCiudadano extends BasePage{
 		
 		gridActivosCiudadano = new DefaultDataGrid("gridCiudadano", new DataProviderAdapter(listDataProvider), cols);
 		gridActivosCiudadano.setRowsPerPage(7);
-        gridActivosCiudadano.setClickRowToSelect(true);
-        gridActivosCiudadano.setAllowSelectMultiple(true);
-        gridActivosCiudadano.setClickRowToDeselect(true);
-        gridActivosCiudadano.setCleanSelectionOnPageChange(false);
         
 	}
 	
@@ -146,7 +177,7 @@ public class HomePageCiudadano extends BasePage{
             																						 .setWrapText(true)
             																						 .setSizeUnit(SizeUnit.PX),
             																						 
-            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(50)
+            new PropertyColumn("alturaCol",new Model<String>("Altura"), "alturaIncidente").setInitialSize(60)
             																			  .setWrapText(true)
             																			  .setReorderable(true)
             																			  .setResizable(true)
@@ -159,22 +190,22 @@ public class HomePageCiudadano extends BasePage{
             																			  .setSizeUnit(SizeUnit.PX),
             																				
             new PropertyColumn("fechaCol",new Model<String>("Fecha de modificacion"), "FechaUltimaModificacionReclamo")
-            																				.setInitialSize(80)
+            																				.setInitialSize(140)
             																				.setReorderable(true)
             																				.setResizable(true)
             																		 		.setSizeUnit(SizeUnit.PX),
             																						
-            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(130)
+            new PropertyColumn("tipoCol",new Model<String>("Tipo"), "tipoIncidente").setInitialSize(140)
             																		.setReorderable(true)
             																		.setResizable(true)
             																		.setSizeUnit(SizeUnit.PX),
             																					 
-            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(80)
+            new PropertyColumn("prioridadCol",new Model<String>("Prioridad"), "Prioridad").setInitialSize(90)
             																				 .setReorderable(true)
             																				 .setResizable(true)
             																				 .setSizeUnit(SizeUnit.PX),
            
-            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(80)
+            new PropertyColumn("estadoCol",new Model<String>("Estado"), "EstadoDescripcion").setInitialSize(90)
              																				.setReorderable(true)
              																				.setResizable(true)
              																				.setSizeUnit(SizeUnit.PX)
@@ -182,10 +213,6 @@ public class HomePageCiudadano extends BasePage{
 		
 		gridUltimosModificadosCiudadano = new DefaultDataGrid("gridUltimosModificadosCiudadano", new DataProviderAdapter(listDataProvider), cols);
 		gridUltimosModificadosCiudadano.setRowsPerPage(7);
-		gridUltimosModificadosCiudadano.setClickRowToSelect(true);
-		gridUltimosModificadosCiudadano.setAllowSelectMultiple(true);
-		gridUltimosModificadosCiudadano.setClickRowToDeselect(true);
-		gridUltimosModificadosCiudadano.setCleanSelectionOnPageChange(false);
         
 	}
 
