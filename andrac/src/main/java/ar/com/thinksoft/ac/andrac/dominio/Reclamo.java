@@ -253,7 +253,17 @@ public class Reclamo extends ReclamoMovil {
 
 	public void setEstadoDescripcion(String estado) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public String getReclamoPadreId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setReclamoPadreId(String id) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
