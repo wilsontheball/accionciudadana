@@ -563,6 +563,5 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				Context.MODE_PRIVATE);
 		stream.write(reclamoString.getBytes());
 		stream.close();
-		Log.d(this.getClass().getName(), "Se guardo archivo: " + nombreArchivo);
 	}
 }

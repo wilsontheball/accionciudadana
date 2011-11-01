@@ -220,12 +220,8 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 			this.camara.takePicture(null, null, this.pictureCallback);
 		} else if (keyCode == KeyEvent.KEYCODE_CAMERA) {
 			// XXX No hace nada.
-		} else if (keyCode == KeyEvent.KEYCODE_BACK
-				|| keyCode == KeyEvent.KEYCODE_HOME) {
-			// Se pasa para arriba.
-			super.onKeyDown(keyCode, event);
 		} else {
-			// XXX No hace nada.
+			super.onKeyDown(keyCode, event);
 		}
 		return true;
 	}
