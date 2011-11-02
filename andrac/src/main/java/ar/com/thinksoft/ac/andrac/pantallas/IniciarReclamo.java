@@ -45,8 +45,8 @@ import com.google.gson.Gson;
 /**
  * Maneja creacion de un reclamo.
  * 
- * @since 10-10-2011
- * @author Hernan
+ * @since 01-11-2011
+ * @author Paul
  */
 public class IniciarReclamo extends Activity implements LocationListener {
 
@@ -191,8 +191,8 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	/**
 	 * Valida los datos, arma el reclamo y lo envia.
 	 * 
-	 * @since 07-10-2011
-	 * @author Hernan
+	 * @since 01-11-2011
+	 * @author Paul
 	 * @param v
 	 */
 	public void crearReclamo(View v) {
@@ -206,13 +206,17 @@ public class IniciarReclamo extends Activity implements LocationListener {
 		String observ = ((EditText) findViewById(R.id.observaciones)).getText()
 				.toString();
 
+		// Este campo puede ser nulo
+		String nombreFoto = this.getRepo().getNombreFoto();
+
 		if (((EditText) this.findViewById(R.id.latitud)).isEnabled()) {
 			if (((EditText) findViewById(R.id.latitud)).getText().toString()
 					.length() == 0) {
 				mostrarAdvertencia(ERR_COORD_VACIO);
 			} else {
 				this.getRepo().publicarReclamoGPS(tipo, barrio,
-						this.latitudActual, this.longitudActual, observ);
+						this.latitudActual, this.longitudActual, observ,
+						nombreFoto);
 				this.ejecutarFuncionREST(FuncionRest.POSTRECLAMO);
 			}
 		} else {
@@ -220,7 +224,6 @@ public class IniciarReclamo extends Activity implements LocationListener {
 					.length() == 0) {
 				mostrarAdvertencia(ERR_CALLE_VACIO);
 			} else {
-
 				if (((EditText) findViewById(R.id.altura)).getText().toString()
 						.length() == 0) {
 					mostrarAdvertencia(ERR_ALTURA_VACIO);
@@ -230,7 +233,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 					String altura = ((EditText) findViewById(R.id.altura))
 							.getText().toString();
 					this.getRepo().publicarReclamoDireccion(tipo, barrio,
-							calle, altura, observ);
+							calle, altura, observ, nombreFoto);
 					this.ejecutarFuncionREST(FuncionRest.POSTRECLAMO);
 				}
 			}
@@ -499,9 +502,9 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	}
 
 	/**
-	 * Convierte array de foto a Bitmap para preview.
+	 * Obtiene a Bitmap para preview.
 	 * 
-	 * @since 11-09-2011
+	 * @since 01-11-2011
 	 * @author Paul
 	 * @param nombreArchivo
 	 *            Nombre del archivo.
@@ -565,8 +568,8 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	/**
 	 * Guarda un reclamo en la memoria del celular.
 	 * 
-	 * @since 09-10-2011
-	 * @author Hernan
+	 * @since 01-11-2011
+	 * @author Paul
 	 * @param reclamo
 	 *            Reclamo a guardar.
 	 * @throws IOException
@@ -577,6 +580,9 @@ public class IniciarReclamo extends Activity implements LocationListener {
 		String fechaConFormato = reclamo.getFechaReclamo().replace('/', '-');
 		String nombreArchivo = reclamo.getTipoIncidente() + " "
 				+ fechaConFormato + " " + getRepo().getHoraConFormato();
+
+		// Quita la imagen para achicar el espacio. Igual queda el nombre.
+		reclamo.setImagen(null);
 
 		// Se convierte el objeto a array de byte.
 		Gson gson = new Gson();

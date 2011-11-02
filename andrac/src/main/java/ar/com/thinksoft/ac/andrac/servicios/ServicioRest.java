@@ -1,5 +1,6 @@
 package ar.com.thinksoft.ac.andrac.servicios;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,6 +28,7 @@ import android.os.ResultReceiver;
 import android.util.Log;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
+import ar.com.thinksoft.ac.andrac.dominio.Imagen;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.dominio.Usuario;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
@@ -55,7 +57,7 @@ public class ServicioRest extends IntentService {
 	/**
 	 * Atiende la creacion de un servicio.
 	 * 
-	 * @since 14-10-2011
+	 * @since 01-11-2011
 	 * @author Paul
 	 */
 	@Override
@@ -180,6 +182,14 @@ public class ServicioRest extends IntentService {
 		// XXX Completa datos faltantes
 		// this.completarUbicacion(reclamo);
 
+		// Obtiene la imagen.
+		if (reclamo.getNombreImagen() != null) {
+			byte[] foto = this.getFoto(reclamo.getNombreImagen());
+			if (foto != null) {
+				reclamo.setImagen(new Imagen(foto, Imagen.TIPO_JPG));
+			}
+		}
+
 		StringEntity entidad = new StringEntity(new Gson().toJson(reclamo));
 		Header header = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");
 		entidad.setContentEncoding(header);
@@ -211,6 +221,28 @@ public class ServicioRest extends IntentService {
 		HttpPost post = new HttpPost(url + "/" + FuncionRest.POSTUSUARIO);
 		post.setEntity(entidad);
 		return new DefaultHttpClient().execute(post);
+	}
+
+	/**
+	 * Obtiene array de foto.
+	 * 
+	 * @since 01-11-2011
+	 * @author Paul
+	 * @param nombreArchivo
+	 *            Nombre del archivo.
+	 * @return Imagen en byte[] o null si no lo pudo obtener.
+	 */
+	private byte[] getFoto(String nombreArchivo) {
+		try {
+			FileInputStream stream = openFileInput(nombreArchivo);
+			byte[] bytes = new byte[stream.available()];
+			stream.read(bytes);
+			return bytes;
+		} catch (Exception e) {
+			Log.e(this.getClass().getSimpleName(), "No encontro: "
+					+ nombreArchivo + e);
+			return null;
+		}
 	}
 
 	/**

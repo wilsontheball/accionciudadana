@@ -147,22 +147,22 @@ public class Repositorio {
 	}
 
 	public void publicarReclamoDireccion(String tipo, String barrio,
-			String calle, String altura, String observacion) {
+			String calle, String altura, String observacion, String nombreFoto) {
 
-		Imagen imagen = new Imagen(this.getImagen(), ImagenMovil.TIPO_JPG);
 		String fecha = this.getFechaConFormato();
 		Reclamo reclamo = new Reclamo(calle, altura, null, null, tipo, fecha,
-				fecha, this.getNick(), observacion, barrio, imagen);
+				fecha, this.getNick(), observacion, barrio, nombreFoto, null);
 		this.setReclamoAEnviar(reclamo);
 	}
 
 	public boolean publicarReclamoGPS(String tipo, String barrio,
-			double latitud, double longitud, String observacion) {
+			double latitud, double longitud, String observacion,
+			String nombreFoto) {
 
-		Imagen imagen = new Imagen(this.getImagen(), ImagenMovil.TIPO_JPG);
 		String fecha = this.getFechaConFormato();
 		Reclamo reclamo = new Reclamo(null, null, latitud + "", longitud + "",
-				tipo, fecha, fecha, this.getNick(), observacion, barrio, imagen);
+				tipo, fecha, fecha, this.getNick(), observacion, barrio,
+				nombreFoto, null);
 		this.setReclamoAEnviar(reclamo);
 		return true;
 	}
