@@ -4,10 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import ar.com.thinksoft.ac.andrac.dominio.Imagen;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.dominio.Usuario;
-import ar.com.thinksoft.ac.intac.utils.classes.ImagenMovil;
 
 /**
  * Buzon intermedio para intercambiar datos entre los procesos.

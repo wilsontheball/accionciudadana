@@ -15,9 +15,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.adapter.ReclamoGuardadoAdapter;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
@@ -31,7 +31,7 @@ import com.google.gson.Gson;
 /**
  * La clase se encarga de manejar el listado de reclamos guardados por usuario.
  * 
- * @since 14-10-2011
+ * @since 02-11-2011
  * @author Paul
  */
 public class ListaReclamosGuardados extends Activity {
@@ -46,17 +46,13 @@ public class ListaReclamosGuardados extends Activity {
 	private int posicionReclamo = 0;
 
 	// Almacena reclamos para pasarlos al listener
-	private Reclamo[] reclamosGuardados;
+	private ArrayList<Reclamo> reclamosGuardados = new ArrayList<Reclamo>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.reclamos_guardados);
-	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
 		// Obtiene los reclamos guardados del usuario.
 		try {
 			this.obtenerReclamosGuardados();
@@ -65,10 +61,18 @@ public class ListaReclamosGuardados extends Activity {
 		} catch (IOException e) {
 			Log.e(this.getClass().getName(), "No se pudo leer reclamo");
 		}
-		// Carga el listado con los reclamos guardados
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		Reclamo[] arrayReclamos = new Reclamo[this.reclamosGuardados.size()];
+		this.reclamosGuardados.toArray(arrayReclamos);
+
+		// Muestra el listado con los reclamos guardados
 		ListView listado = (ListView) findViewById(R.id.reclamos_list);
-		listado.setAdapter(new ReclamoGuardadoAdapter(this,
-				this.reclamosGuardados));
+		listado.setAdapter(new ReclamoGuardadoAdapter(this, arrayReclamos));
 		listado.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int posicion, long id) {
@@ -80,7 +84,7 @@ public class ListaReclamosGuardados extends Activity {
 	/**
 	 * Crea la ventana de Dialogo. (Se hace de esta forma en Android 2.2)
 	 * 
-	 * @since 14-10-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 */
 	@Override
@@ -103,7 +107,7 @@ public class ListaReclamosGuardados extends Activity {
 			return new AlertDialog.Builder(ListaReclamosGuardados.this)
 					.setIcon(R.drawable.alert_dialog_icon)
 					.setTitle(R.string.no_enviado)
-					.setMessage(this.armarResumen(this.getReclamoGuardado()))
+					.setMessage("Aca va el Resumen...")
 					.setNegativeButton(R.string.cancelar,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -126,6 +130,27 @@ public class ListaReclamosGuardados extends Activity {
 									ejecutarFuncion(FuncionRest.POSTRECLAMO);
 								}
 							}).create();
+		}
+	}
+
+	/**
+	 * Actualiza la ventana de dialogo antes de mostrarla.
+	 * 
+	 * @since 02-11-2011
+	 * @author Paul
+	 */
+	@Override
+	protected void onPrepareDialog(int indice, Dialog dialog) {
+
+		if (indice >= 0) {
+			Reclamo reclamo = this.reclamosGuardados.get(indice);
+			if (reclamo != null) {
+				this.setReclamoGuardado(reclamo);
+				this.setPosicionReclamo(indice);
+				((AlertDialog) dialog).setMessage(this.armarResumen(reclamo));
+			} else {
+				Log.e(this.getClass().getName(), "Reclamo obtenido es null!");
+			}
 		}
 	}
 
@@ -169,7 +194,7 @@ public class ListaReclamosGuardados extends Activity {
 	 */
 	private void mostrarDialogo(int indice) {
 		if (indice >= 0) {
-			Reclamo reclamo = reclamosGuardados[indice];
+			Reclamo reclamo = reclamosGuardados.get(indice);
 			if (reclamo != null) {
 				this.setReclamoGuardado(reclamo);
 				this.setPosicionReclamo(indice);
@@ -184,19 +209,29 @@ public class ListaReclamosGuardados extends Activity {
 	 * Borra un reclamo de la lista segun la posicion dada. Refresca la
 	 * pantalla.
 	 * 
-	 * @since 10-10-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 * @param posicion
 	 * @return
 	 */
 	private void borrarReclamoLista(int posicion) {
 
+		// Actualiza la lista de reclamos.
+		Reclamo reclamoABorrar = this.reclamosGuardados.remove(posicion);
+
+		// Borra archivo de la foto si existe.
+		String nombreFoto = reclamoABorrar.getNombreImagen();
+		if (nombreFoto != null) {
+			this.deleteFile(nombreFoto);
+		}
+
+		// Borra archivo de reclamo.
 		String[] nombresArchivos = this.fileList();
 		String nombreArchivo = nombresArchivos[posicion];
 		this.deleteFile(nombreArchivo);
 
+		// Recarga la vista
 		this.onStart();
-
 	}
 
 	/**
@@ -219,25 +254,22 @@ public class ListaReclamosGuardados extends Activity {
 	/**
 	 * Obtiene los reclamos guardados de la memoria
 	 * 
-	 * @since 09-10-2011
-	 * @author Hernan
+	 * @since 02-11-2011
+	 * @author Paul
 	 * @throws FileNotFoundException
 	 */
 	private void obtenerReclamosGuardados() throws FileNotFoundException,
 			IOException {
-		String[] nombresArchivos = this.fileList();
 
-		ArrayList<Reclamo> listaReclamos = new ArrayList<Reclamo>();
+		String[] nombresArchivos = this.fileList();
 		FileInputStream stream;
 		for (int i = 0; i < nombresArchivos.length; i++) {
-			stream = openFileInput(nombresArchivos[i]);
-			listaReclamos.add(reclamoFromStream(stream));
-		}
-
-		this.reclamosGuardados = new Reclamo[listaReclamos.size()];
-
-		for (int i = 0; i < listaReclamos.size(); i++) {
-			this.reclamosGuardados[i] = listaReclamos.get(i);
+			Log.i(this.getClass().getSimpleName(), "Archivo guardado: "
+					+ nombresArchivos[i]);
+			if (nombresArchivos[i].contains("rec")) {
+				stream = openFileInput(nombresArchivos[i]);
+				this.reclamosGuardados.add(reclamoFromStream(stream));
+			}
 		}
 	}
 
@@ -268,13 +300,13 @@ public class ListaReclamosGuardados extends Activity {
 	/**
 	 * Guarda el reclamo a enviar en el repositorio.
 	 * 
-	 * @since 14-10-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 * @param indice
 	 *            Posicion del reclamo.
 	 */
 	private void setReclamoAEnviar(int indice) {
-		this.getRepo().setReclamoAEnviar(this.reclamosGuardados[indice]);
+		this.getRepo().setReclamoAEnviar(this.reclamosGuardados.get(indice));
 	}
 
 	/**

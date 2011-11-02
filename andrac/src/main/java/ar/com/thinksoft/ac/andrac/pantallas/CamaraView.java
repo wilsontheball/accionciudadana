@@ -35,7 +35,7 @@ import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
  * Pantalla de la camara de fotos. Saca foto si se hace un clic sobre la
  * pantalla o se presiona el boton de la camara.
  * 
- * @since 01-11-2010
+ * @since 02-11-2010
  * @author Paul
  */
 public class CamaraView extends Activity implements SurfaceHolder.Callback {
@@ -73,7 +73,7 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 				// Pasa la imagen al repo
 				setFotoEnRepo(imageData);
 
-				String nombreArchivo = "foto-" + getHoraConFormato();
+				String nombreArchivo = "foto " + getHoraConFormato();
 
 				int escala = 1;
 				if (imageData.length > MAX_SIZE_FILE) {
@@ -213,39 +213,6 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	}
 
 	/**
-	 * Guarda la foto escalada en un archivo JPEG.
-	 * 
-	 * @param datos
-	 * @param escala
-	 * @param nombreArchivo
-	 * @return
-	 */
-	public boolean archivarFoto(byte[] datos, int escala, String nombreArchivo) {
-
-		try {
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inSampleSize = escala;
-			Bitmap bitmap = BitmapFactory.decodeByteArray(datos, 0,
-					datos.length, options);
-			FileOutputStream fileOutputStream = openFileOutput(nombreArchivo,
-					Context.MODE_PRIVATE);
-			BufferedOutputStream bos = new BufferedOutputStream(
-					fileOutputStream);
-			bitmap.compress(CompressFormat.JPEG, 100, bos);
-			bitmap.recycle();
-			bos.flush();
-			bos.close();
-		} catch (FileNotFoundException e) {
-			Log.e(TAG, "No se encontro el archivo: " + e);
-			return false;
-		} catch (IOException e) {
-			Log.e(TAG, "No se grabo el archivo: " + e);
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Captura foto. Responde al apretar boton Tomar Foto.
 	 * 
 	 * @since 11-09-2011
@@ -299,6 +266,42 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 		}
 		param.setPictureSize(dimension.width, dimension.height);
 		return param;
+	}
+
+	/**
+	 * Guarda la foto escalada en un archivo JPEG.
+	 * 
+	 * @since 02-11-2011
+	 * @author Paul
+	 * @param datos
+	 * @param escala
+	 * @param nombreArchivo
+	 * @return
+	 */
+	private boolean archivarFoto(byte[] datos, int escala, String nombreArchivo) {
+
+		Log.i(TAG, "Archiva foto: " + datos.length + "byte escala: " + escala);
+		try {
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inSampleSize = escala;
+			Bitmap bitmap = BitmapFactory.decodeByteArray(datos, 0,
+					datos.length, options);
+			FileOutputStream fileOutputStream = openFileOutput(nombreArchivo,
+					Context.MODE_PRIVATE);
+			BufferedOutputStream bos = new BufferedOutputStream(
+					fileOutputStream);
+			boolean resultado = bitmap.compress(CompressFormat.JPEG, 100, bos);
+			bitmap.recycle();
+			bos.flush();
+			bos.close();
+			return resultado;
+		} catch (FileNotFoundException e) {
+			Log.e(TAG, "No se encontro el archivo: " + e);
+			return false;
+		} catch (IOException e) {
+			Log.e(TAG, "No se grabo el archivo: " + e);
+			return false;
+		}
 	}
 
 	/* ***** Getters y Stetters ***** */

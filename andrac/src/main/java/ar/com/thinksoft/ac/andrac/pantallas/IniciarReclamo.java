@@ -45,7 +45,7 @@ import com.google.gson.Gson;
 /**
  * Maneja creacion de un reclamo.
  * 
- * @since 01-11-2011
+ * @since 02-11-2011
  * @author Paul
  */
 public class IniciarReclamo extends Activity implements LocationListener {
@@ -568,7 +568,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	/**
 	 * Guarda un reclamo en la memoria del celular.
 	 * 
-	 * @since 01-11-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 * @param reclamo
 	 *            Reclamo a guardar.
@@ -578,7 +578,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 
 		// Se crea el nombre de archivo.
 		String fechaConFormato = reclamo.getFechaReclamo().replace('/', '-');
-		String nombreArchivo = reclamo.getTipoIncidente() + " "
+		String nombreArchivo = "rec " + reclamo.getTipoIncidente() + " "
 				+ fechaConFormato + " " + getRepo().getHoraConFormato();
 
 		// Quita la imagen para achicar el espacio. Igual queda el nombre.

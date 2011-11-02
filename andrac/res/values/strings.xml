@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-	<string name="version">1.91</string>
-	<string name="app_name">Acción Ciudadana 1.91</string>
+	<string name="version">1.92</string>
+	<string name="app_name">Acción Ciudadana 1.92</string>
 	<string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
 	<string name="login_titulo">Autenticación</string>
 	<string name="nick_name">Usuario</string>
@@ -25,6 +25,9 @@
 	<string name="calle">Calle</string>
 	<string name="altura">Altura</string>
 	<string name="campos_opcionales">Datos opcionales:</string>
+	<string name="campos_restringidos">Usuario y contraseña solo pueden contener
+		minúsculas, sin espacios.</string>
+	<string name="campos_obligatorios">Datos obligatorios:</string>
 	<string name="login_exito">Autentificación Exitosa!</string>
 	<string name="cerrar_aplicacion">Aplicación Finalizada.</string>
 	<string name="advertencia">Error</string>
