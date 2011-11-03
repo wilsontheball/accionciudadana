@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<style name="Button" parent="@android:style/Widget.Button">
-		<item name="android:gravity">center_vertical|center_horizontal</item>
-		<item name="android:textColor">#FFFFFFFF</item>
-		<item name="android:shadowColor">#FF000000</item>
-		<item name="android:shadowDx">0</item>
-		<item name="android:shadowDy">-1</item>
-		<item name="android:shadowRadius">0.2</item>
-		<item name="android:textSize">18sp</item>
-		<item name="android:textStyle">bold</item>
-		<item name="android:focusable">true</item>
-		<item name="android:clickable">true</item>
-		<item name="android:background">@drawable/custom_button</item>
+		<!-- <item name="android:gravity">center_vertical|center_horizontal</item> 
+			<item name="android:textColor">#FFFFFFFF</item> <item name="android:shadowColor">#FF000000</item> 
+			<item name="android:shadowDx">0</item> <item name="android:shadowDy">-1</item> 
+			<item name="android:shadowRadius">0.2</item> <item name="android:textSize">18sp</item> 
+			<item name="android:textStyle">bold</item> <item name="android:focusable">true</item> 
+			<item name="android:clickable">true</item> <item name="android:background">@drawable/custom_button</item> -->
 	</style>
+
+	<style name="Theme.Transparent" parent="android:Theme">
+		<item name="android:windowIsTranslucent">true</item>
+		<item name="android:windowBackground">@android:color/transparent</item>
+		<item name="android:windowContentOverlay">@null</item>
+		<item name="android:windowNoTitle">true</item>
+		<item name="android:windowIsFloating">true</item>
+		<item name="android:backgroundDimEnabled">false</item>
+		<item name="android:windowAnimationStyle">@style/Animations.SplashScreen</item>
+	</style>
+
+	<style name="Animations" parent="@android:Animation" />
+
+	<style name="Animations.SplashScreen">
+		<item name="android:windowEnterAnimation">@anim/appear</item>
+		<item name="android:windowExitAnimation">@anim/disappear</item>
+	</style>
+
 </resources>

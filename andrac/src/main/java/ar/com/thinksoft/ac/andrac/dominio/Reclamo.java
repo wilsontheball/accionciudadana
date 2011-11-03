@@ -11,7 +11,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.ReclamoMovil;
 /**
  * Representa un reclamo de usuario.
  * 
- * @since 07-10-2011
+ * @since 01-11-2011
  * @author Paul
  */
 public class Reclamo extends ReclamoMovil {
@@ -20,10 +20,12 @@ public class Reclamo extends ReclamoMovil {
 	// XXX Se sobreescribe atributo del padre. Habria que hacerlo bien.
 	protected Imagen fotoIncidente;
 
+	protected String nombreImagen;
+
 	public Reclamo(String calle, String altura, String latitud,
 			String longitud, String tipo, String fecha,
 			String fechaModificacion, String ciudadano, String observaciones,
-			String barrio, Imagen imagen) {
+			String barrio, String nombreFoto, Imagen imagen) {
 		this.setCalleIncidente(calle);
 		this.setAlturaIncidente(altura);
 		this.setLatitudIncidente(latitud);
@@ -35,15 +37,8 @@ public class Reclamo extends ReclamoMovil {
 		this.setObservaciones(observaciones);
 		this.setBarrioIncidente(barrio);
 		this.setComunaIncidentePorBarrio(barrio);
+		this.setNombreImagen(nombreFoto);
 		this.setImagen(imagen);
-	}
-	
-	public void setReclamoPadreId(String id){
-		
-	}
-	
-	public String getReclamoPadreId(){
-		return "";
 	}
 
 	// Para evitar CAST
@@ -261,7 +256,25 @@ public class Reclamo extends ReclamoMovil {
 
 	public void setEstadoDescripcion(String estado) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public String getReclamoPadreId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setReclamoPadreId(String id) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setNombreImagen(String nombreImagen) {
+		this.nombreImagen = nombreImagen;
+	}
+
+	public String getNombreImagen() {
+		return nombreImagen;
 	}
 
 }
