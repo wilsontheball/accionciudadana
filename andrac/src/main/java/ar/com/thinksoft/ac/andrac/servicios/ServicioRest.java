@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -66,102 +67,128 @@ public class ServicioRest extends IntentService {
 		String funcion = intent.getStringExtra(FUN);
 		Log.d(this.getClass().getName(), "Funcion: " + funcion);
 
+		// Almacena temporalmente la respuesta.
+		HttpResponse respuestaHttp = null;
+
+		// Por defecto devuelve ERROR.
+		int retorno = ERROR;
+
 		Bundle bundle = new Bundle();
 		try {
 			bundle.putString(FUN, funcion);
 			receptor.send(RUN, bundle);
 			if (FuncionRest.GETRECLAMOS.equals(funcion)) {
 				// Funcion GET Reclamos.
-				this.getReclamos(this.getRepo().getUrlServer(), this.getRepo()
-						.getNick(), this.getRepo().getPass());
+				respuestaHttp = this.getReclamos(this.getRepo().getUrlServer(),
+						this.getRepo().getNick(), this.getRepo().getPass());
 			} else if (FuncionRest.GETPERFIL.equals(funcion)) {
 				// Funcion GET Perfil.
-				this.getPerfil(this.getRepo().getUrlServer(), this.getRepo()
-						.getNick(), this.getRepo().getPass());
+				respuestaHttp = this.getPerfil(this.getRepo().getUrlServer(),
+						this.getRepo().getNick(), this.getRepo().getPass());
 			} else if (FuncionRest.POSTRECLAMO.equals(funcion)) {
 				// Funcion POST Reclamo.
-				this.postReclamo(this.getRepo().getUrlServer(), this.getRepo()
-						.getNick(), this.getRepo().getPass(), this.getRepo()
-						.getReclamoAEnviar());
+				respuestaHttp = this.postReclamo(this.getRepo().getUrlServer(),
+						this.getRepo().getNick(), this.getRepo().getPass(),
+						this.getRepo().getReclamoAEnviar());
 			} else if (FuncionRest.POSTUSUARIO.equals(funcion)) {
 				// Funcion POST Usuario.
-				this.postUsuario(this.getRepo().getUrlServer(), this.getRepo()
-						.getUsuarioARegistrar());
+				respuestaHttp = this.postUsuario(this.getRepo().getUrlServer(),
+						this.getRepo().getUsuarioARegistrar());
 			} else {
-				// Funcion desconocida!
-				bundle.putString(FUN, funcion);
-				receptor.send(ERROR, bundle);
-				this.stopSelf();
+				// Funcion desconocida.
 				Log.e(this.getClass().getName(), "Funcion desconocida!");
-				return;
+				throw new Exception("Funcion desconocida!");
 			}
-			bundle.putString(FUN, funcion);
-			receptor.send(FIN, bundle);
-			this.stopSelf();
+			retorno = FIN;
 		} catch (ClientProtocolException e) {
-			bundle.putString(FUN, funcion);
-			receptor.send(ERROR, bundle);
-			this.stopSelf();
-			Log.e(this.getClass().getName(), e.toString());
+			retorno = ERROR;
+			Log.e(this.getClass().getName(), "Error HTTP: " + e.toString());
 		} catch (IOException e) {
-			bundle.putString(FUN, funcion);
-			receptor.send(ERROR, bundle);
-			this.stopSelf();
+			retorno = ERROR;
 			Log.e(this.getClass().getName(), e.toString());
 		} catch (Exception e) {
-			bundle.putString(FUN, funcion);
-			receptor.send(ERROR, bundle);
-			this.stopSelf();
+			retorno = ERROR;
 			Log.e(this.getClass().getName(), e.toString());
+		} finally {
+			int codigoHttp = respuestaHttp != null ? respuestaHttp
+					.getStatusLine().getStatusCode() : -1;
+			String razon = respuestaHttp != null ? respuestaHttp
+					.getStatusLine().getReasonPhrase() : "Desconocida.";
+			if (retorno == FIN && codigoHttp == HttpURLConnection.HTTP_OK) {
+				retorno = FIN;
+				Log.i(this.getClass().getName(), "HTTP FIN. Retorno: "
+						+ retorno + " CodigoHTTP: " + codigoHttp + " Razon: "
+						+ razon);
+			} else {
+				retorno = ERROR;
+				Log.e(this.getClass().getName(), "HTTP ERROR. Retorno: "
+						+ retorno + " CodigoHTTP: " + codigoHttp + " Razon: "
+						+ razon);
+			}
+			bundle.putString(FUN, funcion);
+			receptor.send(retorno, bundle);
+			this.stopSelf();
 		}
 	}
 
 	/**
 	 * Obtiene los reclamos del servidor Rest.
 	 * 
-	 * @since 08-10-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 * @param url
 	 *            URL del servidor.
+	 * @return HttpResponse
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
-	private void getReclamos(String url, String nick, String pass)
+	private HttpResponse getReclamos(String url, String nick, String pass)
 			throws ClientProtocolException, IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETRECLAMOS + "/"
 				+ nick + "/" + pass);
 		HttpResponse httpResponse = httpClient.execute(method);
-		InputStream is = httpResponse.getEntity().getContent();
-		Gson gson = new Gson();
-		Reader reader = new InputStreamReader(is);
-		Type collectionType = new TypeToken<List<Reclamo>>() {
-		}.getType();
-		List<Reclamo> reclamos = gson.fromJson(reader, collectionType);
-		this.getRepo().setReclamosUsuario(reclamos);
+
+		// Si la respuesta no es de tipo HTTP_OK no hace nada.
+		if (httpResponse.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK) {
+			InputStream is = httpResponse.getEntity().getContent();
+			Gson gson = new Gson();
+			Reader reader = new InputStreamReader(is);
+			Type collectionType = new TypeToken<List<Reclamo>>() {
+			}.getType();
+			List<Reclamo> reclamos = gson.fromJson(reader, collectionType);
+			this.getRepo().setReclamosUsuario(reclamos);
+		}
+		return httpResponse;
 	}
 
 	/**
 	 * Obtiene perfil de usuario del servidor Rest.
 	 * 
-	 * @since 29-09-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 * @param url
 	 *            URL del servidor.
+	 * @return HttpResponse
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
-	private void getPerfil(String url, String nick, String pass)
+	private HttpResponse getPerfil(String url, String nick, String pass)
 			throws ClientProtocolException, IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETPERFIL + "/"
 				+ nick + "/" + pass);
 		HttpResponse httpResponse = httpClient.execute(method);
-		InputStream is = httpResponse.getEntity().getContent();
-		Gson gson = new Gson();
-		Reader reader = new InputStreamReader(is);
-		Usuario perfil = gson.fromJson(reader, Usuario.class);
-		this.getRepo().setPerfilUsuario(perfil);
+
+		// Si la respuesta no es de tipo HTTP_OK no hace nada.
+		if (httpResponse.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK) {
+			InputStream is = httpResponse.getEntity().getContent();
+			Gson gson = new Gson();
+			Reader reader = new InputStreamReader(is);
+			Usuario perfil = gson.fromJson(reader, Usuario.class);
+			this.getRepo().setPerfilUsuario(perfil);
+		}
+		return httpResponse;
 	}
 
 	/**
