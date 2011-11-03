@@ -1,91 +1,192 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="match_parent"
-	android:layout_height="match_parent" android:gravity="center"
-	android:scrollbarAlwaysDrawVerticalTrack="true">
-	<LinearLayout android:orientation="vertical"
-		android:layout_width="match_parent" android:layout_height="match_parent"
-		android:gravity="center_horizontal" android:isScrollContainer="true">
-		<TextView android:layout_width="wrap_content"
-			android:focusable="true" android:focusableInTouchMode="true"
-			android:layout_height="wrap_content" android:gravity="center"
-			android:paddingBottom="2dip" android:textAppearance="@android:style/TextAppearance.Large"
-			android:textColor="@color/color_texto" android:text="@string/iniciar_reclamo" />
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:gravity="center"
-			android:paddingBottom="2dip" android:textColor="@color/color_texto"
-			android:textAppearance="@android:style/TextAppearance.Small"
-			android:text="@string/login_sub_titulo" />
-		<LinearLayout android:orientation="vertical"
-			android:layout_width="match_parent" android:gravity="center_horizontal"
-			android:layout_marginLeft="20dip" android:layout_marginRight="20dip"
-			android:isScrollContainer="true" android:layout_height="match_parent"
-			android:weightSum="1" android:layout_weight="0.58">
-			<Spinner android:layout_height="wrap_content" android:id="@+id/tipo_incidente"
-				android:layout_width="match_parent" />
-			<Spinner android:layout_height="wrap_content" android:id="@+id/tipo_barrio"
-				android:layout_width="match_parent" />
-			<Spinner android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/ubicacion" />
-			<LinearLayout android:orientation="horizontal"
-				android:layout_width="match_parent" android:layout_height="wrap_content">
-				<LinearLayout android:orientation="vertical"
-					android:layout_width="match_parent" android:layout_height="wrap_content"
-					android:layout_weight="1">
-					<EditText android:id="@+id/latitud" android:layout_width="match_parent"
-						android:layout_height="wrap_content" android:inputType="text"
-						android:editable="false" android:textAppearance="@android:style/TextAppearance.Large"
-						android:hint="@string/latitud" android:enabled="false"
-						android:focusable="false" android:clickable="false"
-						android:maxLength="9" android:layout_weight="1" />
-					<EditText android:id="@+id/longitud" android:layout_width="match_parent"
-						android:layout_height="wrap_content" android:inputType="text"
-						android:editable="false" android:textAppearance="@android:style/TextAppearance.Large"
-						android:hint="@string/longitud" android:enabled="false"
-						android:focusable="false" android:clickable="false"
-						android:maxLength="9" android:layout_weight="1" />
-				</LinearLayout>
-				<Button android:id="@+id/boton_gps" android:onClick="obtenerCoordenada"
-					android:layout_height="match_parent" android:layout_width="wrap_content"
-					android:text="@string/gps" android:enabled="false"
-					android:layout_margin="15dip" />
-			</LinearLayout>
-			<EditText android:id="@+id/calle" android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:inputType="text"
-				android:textAppearance="@android:style/TextAppearance.Large"
-				android:hint="@string/calle" />
-			<EditText android:id="@+id/altura" android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:inputType="number"
-				android:textAppearance="@android:style/TextAppearance.Large"
-				android:hint="@string/altura" android:maxLength="5" />
-			<LinearLayout android:orientation="vertical"
-				android:layout_width="match_parent" android:layout_height="wrap_content"
-				android:weightSum="1" android:gravity="center">
-				<ImageView android:id="@+id/fotoPreview"
-					android:layout_width="wrap_content" android:layout_height="wrap_content"
-					android:src="@drawable/ic_contact_picture" android:layout_weight="1"
-					android:adjustViewBounds="true" />
-				<Button android:id="@+id/boton_foto" android:text="@string/cargar_foto"
-					android:layout_height="wrap_content" android:layout_width="wrap_content"
-					android:enabled="true" android:layout_margin="10dip"
-					android:onClick="tomarFoto" />
-			</LinearLayout>
-			<EditText android:id="@+id/observaciones"
-				android:layout_width="match_parent" android:layout_height="wrap_content"
-				android:textAppearance="@android:style/TextAppearance.Large"
-				android:hint="@string/observaciones" android:inputType="textMultiLine"
-				android:maxLines="3" />
-			<LinearLayout android:orientation="horizontal"
-				android:layout_width="match_parent" android:layout_height="wrap_content">
-				<Button android:id="@+id/boton_registrar"
-					android:layout_height="wrap_content" android:layout_width="match_parent"
-					android:enabled="true" android:layout_margin="5dip" android:text="@string/ok"
-					android:onClick="crearReclamo" android:layout_weight="1" />
-				<Button android:id="@+id/boton_cancelar"
-					android:layout_height="wrap_content" android:layout_width="match_parent"
-					android:enabled="true" android:layout_margin="5dip" android:text="@string/cancelar"
-					android:onClick="cancelar" android:layout_weight="1" />
-			</LinearLayout>
-		</LinearLayout>
-	</LinearLayout>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:scrollbarAlwaysDrawVerticalTrack="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:isScrollContainer="true"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:paddingBottom="2dip"
+            android:text="@string/iniciar_reclamo"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:textColor="@color/color_texto" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="2dip"
+            android:text="@string/login_sub_titulo"
+            android:textAppearance="@android:style/TextAppearance.Small"
+            android:textColor="@color/color_texto" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:layout_weight="0.58"
+            android:gravity="center_horizontal"
+            android:isScrollContainer="true"
+            android:orientation="vertical"
+            android:weightSum="1" >
+
+            <Spinner
+                android:id="@+id/tipo_incidente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/tipo_barrio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/ubicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <EditText
+                        android:id="@+id/latitud"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:editable="false"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:hint="@string/latitud"
+                        android:inputType="text"
+                        android:maxLength="9"
+                        android:textAppearance="@android:style/TextAppearance.Large" />
+
+                    <EditText
+                        android:id="@+id/longitud"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:editable="false"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:hint="@string/longitud"
+                        android:inputType="text"
+                        android:maxLength="9"
+                        android:textAppearance="@android:style/TextAppearance.Large" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/boton_gps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="15dip"
+                    android:enabled="false"
+                    android:onClick="obtenerCoordenada"
+                    android:text="@string/gps" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/calle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/calle"
+                android:inputType="text"
+                android:textAppearance="@android:style/TextAppearance.Large" />
+
+            <EditText
+                android:id="@+id/altura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/altura"
+                android:inputType="number"
+                android:maxLength="5"
+                android:textAppearance="@android:style/TextAppearance.Large" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:weightSum="1" >
+
+                <ImageView
+                    android:id="@+id/fotoPreview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_contact_picture" />
+
+                <Button
+                    android:id="@+id/boton_foto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dip"
+                    android:enabled="true"
+                    android:onClick="tomarFoto"
+                    android:text="@string/cargar_foto" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/observaciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/observaciones"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:textAppearance="@android:style/TextAppearance.Large" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/boton_registrar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dip"
+                    android:layout_weight="1"
+                    android:enabled="true"
+                    android:onClick="crearReclamo"
+                    android:text="@string/ok" />
+
+                <Button
+                    android:id="@+id/boton_cancelar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dip"
+                    android:layout_weight="1"
+                    android:enabled="true"
+                    android:onClick="cancelar"
+                    android:text="@string/cancelar" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
 </ScrollView>

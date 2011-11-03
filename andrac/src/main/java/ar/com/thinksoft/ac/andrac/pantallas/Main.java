@@ -9,10 +9,14 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 import ar.com.thinksoft.ac.andrac.R;
@@ -37,8 +41,11 @@ public class Main extends Activity {
 	private final int REGISTRAR_USUARIO = 4;
 
 	// Nombres de los items de la lista.
+	// private String[] ventanas = { "Iniciar Reclamo", "Reclamos Enviados",
+	// "Reclamos Guardados", "Perfil Usuario", "Registrar Usuario" };
+
 	private String[] ventanas = { "Iniciar Reclamo", "Reclamos Enviados",
-			"Reclamos Guardados", "Perfil Usuario", "Registrar Usuario" };
+			"Reclamos Guardados" };
 
 	/**
 	 * Se encarga de la creacion de la ventana.
@@ -76,6 +83,14 @@ public class Main extends Activity {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+
+		ImageView imagen = (ImageView) findViewById(R.id.imageView1);
+
+		if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			imagen.setVisibility(View.VISIBLE);
+		} else {
+			imagen.setVisibility(View.GONE);
+		}
 		this.getWindow().setBackgroundDrawableResource(R.drawable.wallpaper);
 	}
 
@@ -130,11 +145,56 @@ public class Main extends Activity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			this.salir();
 			return true;
-		} else if (keyCode == KeyEvent.KEYCODE_MENU) {
+		}
+		// else if (keyCode == KeyEvent.KEYCODE_MENU) {
+		// this.mostrarVentanaConfiguracion();
+		// return true;
+		// }
+		else {
+			return super.onKeyDown(keyCode, event);
+		}
+	}
+
+	/**
+	 * Detecta el boton Menu para mostrar el menu de Configuracion.
+	 * 
+	 * @since 01-11-11
+	 * @author Marian
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.configuracion, menu);
+		return true;
+	}
+
+	/**
+	 * Detecta si se presiono el boton Menu para mostrar la ventana de
+	 * Configuracion.
+	 * 
+	 * @since 01-11-11
+	 * @author Marian
+	 */
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.config_svr:
 			this.mostrarVentanaConfiguracion();
 			return true;
-		} else {
-			return super.onKeyDown(keyCode, event);
+		case R.id.about_ac:
+			this.mostrarVentanaAcercaDeAC();
+			return true;
+		case R.id.profile:
+			this.ejecutarFuncion(FuncionRest.GETPERFIL);
+			return true;
+		case R.id.new_usr:
+			this.mostrarVentanaRegistro();
+			return true;
+		case R.id.logout:
+			this.salir();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -207,13 +267,13 @@ public class Main extends Activity {
 		case RECLAMOS_GUARDADOS:
 			this.mostrarVentanaReclamosGuardados();
 			break;
-		case PERFIL_USUARIO:
-			this.ejecutarFuncion(FuncionRest.GETPERFIL);
-			// this.iniciarServicioRest(FuncionRest.GETPERFIL);
-			break;
-		case REGISTRAR_USUARIO:
-			this.mostrarVentanaRegistro();
-			break;
+		// case PERFIL_USUARIO:
+		// this.ejecutarFuncion(FuncionRest.GETPERFIL);
+		// // this.iniciarServicioRest(FuncionRest.GETPERFIL);
+		// break;
+		// case REGISTRAR_USUARIO:
+		// this.mostrarVentanaRegistro();
+		// break;
 		default:
 			break;
 		}
@@ -316,7 +376,30 @@ public class Main extends Activity {
 	 * @author Paul
 	 */
 	private void mostrarVentanaConfiguracion() {
-		this.startActivity(new Intent(this, Configuracion.class));
+		// this.startActivity(new Intent(this, Configuracion.class));
+		Intent intent = new Intent(this, MainPreference.class);
+		startActivity(intent);
+	}
+
+	/**
+	 * Muestra la ventana de Acerca de AC
+	 * 
+	 * @since 2-11-2011
+	 * @author Marian
+	 */
+	private void mostrarVentanaAcercaDeAC() {
+
+		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+		alertDialog.setTitle("Thinksoft somos");
+		alertDialog
+				.setMessage("\nFerrabone, Marianela\nLiaous, Pavel\nPacín, Hernán\nParedes, Adriel\nTarrío Pagés, Matías\n\n ^_^ **** ^_^");
+		alertDialog.setButton("Cerrar", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		alertDialog.setIcon(R.drawable.icono);
+		alertDialog.show();
 	}
 
 }

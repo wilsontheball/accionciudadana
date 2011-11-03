@@ -11,6 +11,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -447,11 +448,20 @@ public class Login extends Activity implements ReceptorRest {
 	 * @author Paul
 	 */
 	private void obtenerURL() {
-		SharedPreferences preferencias = getSharedPreferences(
-				Configuracion.class.getName(), MODE_WORLD_READABLE);
-		String url = preferencias.getString(Configuracion.ANDRAC_URL, null);
-		String puerto = preferencias.getString(Configuracion.ANDRAC_PUERTO,
-				null);
+		// SharedPreferences preferencias = getSharedPreferences(
+		// Configuracion.class.getName(), MODE_WORLD_READABLE);
+		// String url = preferencias.getString(Configuracion.ANDRAC_URL, null);
+		// String puerto = preferencias.getString(Configuracion.ANDRAC_PUERTO,
+		// null);
+
+		SharedPreferences preferencias = PreferenceManager
+				.getDefaultSharedPreferences(this);
+
+		// FIXME hay que ir a buscarlos a los xml? =P
+		String url = preferencias.getString("url",
+				"www.accion-ciudadana.com.ar");
+		String puerto = preferencias.getString("puerto", "6060");
+
 		if (url == null || url.length() == 0) {
 			url = getString(R.string.url_estandar);
 		}
