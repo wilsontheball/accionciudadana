@@ -1,11 +1,10 @@
 package ar.com.thinksoft.ac.andrac.pantallas;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
-
-import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -41,11 +40,13 @@ import ar.com.thinksoft.ac.intac.EnumBarriosReclamo;
 import ar.com.thinksoft.ac.intac.EnumTipoReclamo;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 
+import com.google.gson.Gson;
+
 /**
  * Maneja creacion de un reclamo.
  * 
- * @since 10-10-2011
- * @author Hernan
+ * @since 02-11-2011
+ * @author Paul
  */
 public class IniciarReclamo extends Activity implements LocationListener {
 
@@ -139,7 +140,10 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				// Se saco una foto.
 				ImageView preview = (ImageView) this
 						.findViewById(R.id.fotoPreview);
-				Bitmap foto = this.getFotoPreview(this.getRepo().getImagen());
+				// Bitmap foto =
+				// this.getFotoPreview(this.getRepo().getImagen());
+				Bitmap foto = this.getFotoPreview(this.getRepo()
+						.getNombreFoto());
 				if (foto != null) {
 					preview.setImageBitmap(foto);
 				} else {
@@ -187,8 +191,8 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	/**
 	 * Valida los datos, arma el reclamo y lo envia.
 	 * 
-	 * @since 07-10-2011
-	 * @author Hernan
+	 * @since 01-11-2011
+	 * @author Paul
 	 * @param v
 	 */
 	public void crearReclamo(View v) {
@@ -202,13 +206,17 @@ public class IniciarReclamo extends Activity implements LocationListener {
 		String observ = ((EditText) findViewById(R.id.observaciones)).getText()
 				.toString();
 
+		// Este campo puede ser nulo
+		String nombreFoto = this.getRepo().getNombreFoto();
+
 		if (((EditText) this.findViewById(R.id.latitud)).isEnabled()) {
 			if (((EditText) findViewById(R.id.latitud)).getText().toString()
 					.length() == 0) {
 				mostrarAdvertencia(ERR_COORD_VACIO);
 			} else {
 				this.getRepo().publicarReclamoGPS(tipo, barrio,
-						this.latitudActual, this.longitudActual, observ);
+						this.latitudActual, this.longitudActual, observ,
+						nombreFoto);
 				this.ejecutarFuncionREST(FuncionRest.POSTRECLAMO);
 			}
 		} else {
@@ -216,7 +224,6 @@ public class IniciarReclamo extends Activity implements LocationListener {
 					.length() == 0) {
 				mostrarAdvertencia(ERR_CALLE_VACIO);
 			} else {
-
 				if (((EditText) findViewById(R.id.altura)).getText().toString()
 						.length() == 0) {
 					mostrarAdvertencia(ERR_ALTURA_VACIO);
@@ -226,7 +233,7 @@ public class IniciarReclamo extends Activity implements LocationListener {
 					String altura = ((EditText) findViewById(R.id.altura))
 							.getText().toString();
 					this.getRepo().publicarReclamoDireccion(tipo, barrio,
-							calle, altura, observ);
+							calle, altura, observ, nombreFoto);
 					this.ejecutarFuncionREST(FuncionRest.POSTRECLAMO);
 				}
 			}
@@ -495,6 +502,26 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	}
 
 	/**
+	 * Obtiene a Bitmap para preview.
+	 * 
+	 * @since 01-11-2011
+	 * @author Paul
+	 * @param nombreArchivo
+	 *            Nombre del archivo.
+	 * @return Imagen en formato Bitmap.
+	 */
+	private Bitmap getFotoPreview(String nombreArchivo) {
+		try {
+			FileInputStream stream = openFileInput(nombreArchivo);
+			return BitmapFactory.decodeStream(stream);
+		} catch (Exception e) {
+			Log.e(this.getClass().getSimpleName(), "No encontro: "
+					+ nombreArchivo + e);
+			return null;
+		}
+	}
+
+	/**
 	 * Devuelve latitud de Medrano.
 	 * 
 	 * @since 07-10-2011
@@ -541,8 +568,8 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	/**
 	 * Guarda un reclamo en la memoria del celular.
 	 * 
-	 * @since 09-10-2011
-	 * @author Hernan
+	 * @since 02-11-2011
+	 * @author Paul
 	 * @param reclamo
 	 *            Reclamo a guardar.
 	 * @throws IOException
@@ -551,8 +578,11 @@ public class IniciarReclamo extends Activity implements LocationListener {
 
 		// Se crea el nombre de archivo.
 		String fechaConFormato = reclamo.getFechaReclamo().replace('/', '-');
-		String nombreArchivo = reclamo.getTipoIncidente() + " "
+		String nombreArchivo = "rec " + reclamo.getTipoIncidente() + " "
 				+ fechaConFormato + " " + getRepo().getHoraConFormato();
+
+		// Quita la imagen para achicar el espacio. Igual queda el nombre.
+		reclamo.setImagen(null);
 
 		// Se convierte el objeto a array de byte.
 		Gson gson = new Gson();

@@ -13,14 +13,13 @@ import android.widget.EditText;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
-import ar.com.thinksoft.ac.andrac.listener.TextCorrector;
 import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 
 /**
  * La clase se encarga de manejar la pantalla de Registro.
  * 
- * @since 24-10-2011
+ * @since 03-11-2011
  * @author Paul
  */
 public class Registro extends Activity {
@@ -30,6 +29,7 @@ public class Registro extends Activity {
 	private final int PASS_NO_COINCIDE = 3;
 	private final int MAIL_NO_COINCIDE = 4;
 	private final int REGISTRO_FALLO = 5;
+	private final int USUARIO_DUPLICADO = 6;
 
 	// Almacena titulo de la ventana de alerta
 	private String tituloAlerta = "";
@@ -39,22 +39,13 @@ public class Registro extends Activity {
 	/**
 	 * Se encarga de la creacion de la ventana.
 	 * 
-	 * @since 24-10-2011
+	 * @since 19-07-2011
 	 * @author Paul
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.registro);
-
-		// Se restringen algunos campos a minusculas y numeros.
-		EditText campoNick = (EditText) findViewById(R.id.nick);
-		campoNick.addTextChangedListener(new TextCorrector(campoNick));
-		EditText campoPass = (EditText) findViewById(R.id.pass);
-		campoPass.addTextChangedListener(new TextCorrector(campoPass));
-		EditText campoPassConfirm = (EditText) findViewById(R.id.pass_confirm);
-		campoPassConfirm.addTextChangedListener(new TextCorrector(
-				campoPassConfirm));
 	}
 
 	/**
@@ -132,6 +123,12 @@ public class Registro extends Activity {
 			Log.e(this.getClass().getName(),
 					"Fallo al ejecutar: "
 							+ data.getStringExtra(ServicioRest.FUN));
+		} else if (resultCode == ServicioRest.DUPLICADO) {
+			// Fallo el envio de registro.
+			this.mostrarDialogo(USUARIO_DUPLICADO);
+			Log.e(this.getClass().getName(),
+					"Fallo al ejecutar: "
+							+ data.getStringExtra(ServicioRest.FUN));
 		} else if (resultCode == Activity.RESULT_FIRST_USER) {
 			// Usuario cancelo el registro.
 			Log.d(this.getClass().getName(), "Usuario cancelo ejecucion: "
@@ -189,7 +186,7 @@ public class Registro extends Activity {
 	/**
 	 * Muestra una ventana de dialogo con un boton para cerrarla.
 	 * 
-	 * @since 23-08-2011
+	 * @since 03-11-2011
 	 * @author Paul
 	 */
 	private void mostrarDialogo(int tipo) {
@@ -216,7 +213,10 @@ public class Registro extends Activity {
 			this.tituloAlerta = getString(R.string.advertencia);
 			this.mensageAlerta = getString(R.string.registro_fallido);
 			break;
-
+		case USUARIO_DUPLICADO:
+			this.tituloAlerta = getString(R.string.advertencia);
+			this.mensageAlerta = getString(R.string.usuario_duplicado);
+			break;
 		default:
 			return;
 		}

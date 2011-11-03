@@ -1,94 +1,114 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-	<string name="version">1.10</string>
-	<string name="app_name">Acción Ciudadana 1.10</string>
-	<string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
-	<string name="login_titulo">Autenticación</string>
-	<string name="nick_name">Usuario</string>
-	<string name="password">Contraseña</string>
-	<string name="password_confirm">Repetir contraseña</string>
-	<string name="ok">Aceptar</string>
-	<string name="enviar">Enviar</string>
-	<string name="cancelar">Cancelar</string>
-	<string name="borrar">Borrar</string>
-	<string name="guardar">Guardar</string>
-	<string name="entrar">Entrar</string>
-	<string name="salir">Salir</string>
-	<string name="registro">Registro</string>
-	<string name="registro_titulo">Registración</string>
-	<string name="dni">DNI</string>
-	<string name="mail">e-mail</string>
-	<string name="mail_confirm">Repetir e-mail</string>
-	<string name="nombre">Nombre</string>
-	<string name="apellido">Apellido</string>
-	<string name="telefono">Teléfono</string>
-	<string name="calle">Calle</string>
-	<string name="altura">Altura</string>
-	<string name="campos_restringidos">Usuario y contraseña solo pueden contener
-		minúsculas, sin espacios.</string>
-	<string name="campos_opcionales">Datos opcionales:</string>
-	<string name="campos_obligatorios">Datos obligatorios:</string>
-	<string name="login_exito">Autentificación Exitosa!</string>
-	<string name="cerrar_aplicacion">Aplicación Finalizada.</string>
-	<string name="advertencia">Error</string>
-	<string name="nick_pass_fail">Usuario y/o contraseña incorrecto.</string>
-	<string name="atencion">Atención!</string>
-	<string name="campo_vacio">Todos los campos deben ser completados!</string>
-	<string name="campo_calle_vacio">El campo calle debe ser completado!</string>
-	<string name="campo_altura_vacio">El campo altura debe ser completado!</string>
-	<string name="campo_coord_vacio">El campo coordenada GPS debe ser completado!
+
+    <string name="version">1.12</string>
+    <string name="app_name">Acción Ciudadana 1.12</string>
+    <string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
+    <string name="login_titulo">Autenticación</string>
+    <string name="nick_name">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="password_confirm">Repetir contraseña</string>
+    <string name="ok">Aceptar</string>
+    <string name="enviar">Enviar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="borrar">Borrar</string>
+    <string name="guardar">Guardar</string>
+    <string name="entrar">Entrar</string>
+    <string name="salir">Salir</string>
+    <string name="registro">Registro</string>
+    <string name="registro_titulo">Registración</string>
+    <string name="dni">DNI</string>
+    <string name="mail">e-mail</string>
+    <string name="mail_confirm">Repetir e-mail</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="telefono">Teléfono</string>
+    <string name="calle">Calle</string>
+    <string name="altura">Altura</string>
+    <string name="campos_restringidos">Usuario y contraseña solo pueden contener
+		minúsculas, sin espacios.
 	</string>
-	<string name="mail_no_coincide">Mail ingresado no coincide con su repetición!
+    <string name="campos_opcionales">Datos opcionales:</string>
+    <string name="campos_obligatorios">Datos obligatorios:</string>
+    <string name="login_exito">Autentificación Exitosa!</string>
+    <string name="cerrar_aplicacion">Aplicación Finalizada.</string>
+    <string name="advertencia">Error</string>
+    <string name="nick_pass_fail">Usuario y/o contraseña incorrecto.</string>
+    <string name="atencion">Atención!</string>
+    <string name="campo_vacio">Todos los campos deben ser completados!</string>
+    <string name="campo_calle_vacio">El campo calle debe ser completado!</string>
+    <string name="campo_altura_vacio">El campo altura debe ser completado!</string>
+    <string name="campo_coord_vacio">El campo coordenada GPS debe ser completado!
 	</string>
-	<string name="pass_no_coincide">Contraseña ingresada no coincide con su repetición!
+    <string name="mail_no_coincide">Mail ingresado no coincide con su repetición!
 	</string>
-	<string name="confirmar_registro">Su registro ha sido exitoso. Se mandó un e-mail a
+    <string name="pass_no_coincide">Contraseña ingresada no coincide con su repetición!
+	</string>
+    <string name="usuario_duplicado">El usuario ingresado ya existe en el sistema.
+	    Ingrese otro nombre de usuario. Disculpe las molestias.  </string>
+    <string name="confirmar_registro">Su registro ha sido exitoso. Se mandó un e-mail a
 		su
 		casilla de correo.
 	</string>
-	<string name="observaciones">Observaciones</string>
-	<string name="cargar_foto">Cargar Foto</string>
-	<string name="recordar_pass">Recordar la contraseña?</string>
-	<string name="latitud">Latitud</string>
-	<string name="longitud">Longitud</string>
-	<string name="reclamo_enviado">Su reclamo ha sido enviado.</string>
-	<string name="reclamo_no_enviado">En este momento no se pudo enviar su reclamo. El
+    <string name="observaciones">Observaciones</string>
+    <string name="cargar_foto">Cargar Foto</string>
+    <string name="recordar_pass">Recordar la contraseña?</string>
+    <string name="latitud">Latitud</string>
+    <string name="longitud">Longitud</string>
+    <string name="reclamo_enviado">Su reclamo ha sido enviado.</string>
+    <string name="reclamo_no_enviado">En este momento no se pudo enviar su reclamo. El
 		mismo se guardará en la "Lista de Reclamos Guardados" para que lo
-		pueda enviar en otro momento.</string>
-	<string name="reclamo_no_reenviado">En este momento no se puede enviar su reclamo.
-		Verifique la conexión a internet e intentelo nuevamente.</string>
-	<string name="reclamo_no_guardado">No se ha podido guardar su reclamo. Asegurese de
-		tener permisos para guardar en la memoria.</string>
-	<string name="no_enviado">No enviado</string>
-	<string name="iniciar_reclamo">Iniciar Reclamo</string>
-	<string name="tipodeincidente_prompt">Tipo de Incidente</string>
-	<string name="gps">GPS</string>
-	<string name="atras">Atrás</string>
-	<string name="capturar">Tomar Foto</string>
-	<string name="gps_inaccesible">Por favor habilite su GPS para obtener coordenada.
+		pueda enviar en otro momento.
 	</string>
-	<string name="server_inaccesible">No se pudo realizar la autenticación en este
+    <string name="reclamo_no_reenviado">En este momento no se puede enviar su reclamo.
+		Verifique la conexión a internet e intentelo nuevamente.
+	</string>
+    <string name="reclamo_no_guardado">No se ha podido guardar su reclamo. Asegurese de
+		tener permisos para guardar en la memoria.
+	</string>
+    <string name="no_enviado">No enviado</string>
+    <string name="iniciar_reclamo">Iniciar Reclamo</string>
+    <string name="tipodeincidente_prompt">Tipo de Incidente</string>
+    <string name="gps">GPS</string>
+    <string name="atras">Atrás</string>
+    <string name="capturar">Tomar Foto</string>
+    <string name="gps_inaccesible">Por favor habilite su GPS para obtener coordenada.
+	</string>
+    <string name="server_inaccesible">No se pudo realizar la autenticación en este
 		momento. Intentelo mas tarde. Disculpe las molestias.
 	</string>
-	<string name="registro_fallido">No se pudo realizar la registración en este
+    <string name="registro_fallido">No se pudo realizar la registración en este
 		momento. Intentelo mas tarde. Disculpe las molestias.
 	</string>
-	<string name="obteniendo_reclamos">Obteniendo reclamos...</string>
-	<string name="obteniendo_perfil">Obteniendo datos de perfil...</string>
-	<string name="procesando">Procesando...</string>
-	<string name="perfil_titulo">Perfil de Usuario</string>
-	<string name="error_conexion_servidor">Servidor no está funcionando. Intente conectarse
-		mas tarde. Disculpe las molestias.</string>
-	<string name="error_inesperado">Esto es realmente embarazoso. No tenemos ni puta
-		idea que paso... Reinicia y manejalo.</string>
-	<string name="mensaje_error_conexion">No se pudo conectar al servidor. Revise su conexión
-		de Internet.</string>
-	<string name="config_svr">Configuración</string>
-	<string name="svr_url">URL del servidor:</string>
-	<string name="svr_puerto">Puerto del servidor:</string>
-	<string name="config_guardada">Configuración guardada.</string>
-	<string-array name="ubicacion_array">
-		<item>Ubicación por Coordenada GPS</item>
-		<item>Ubicación por Calle y Altura</item>
-	</string-array>
+    <string name="obteniendo_reclamos">Obteniendo reclamos...</string>
+    <string name="obteniendo_perfil">Obteniendo datos de perfil...</string>
+    <string name="enviando_reclamo">Enviando reclamo...</string>
+    <string name="enviando_registro">Registrando usuario...</string>
+    <string name="procesando">Procesando...</string>
+    <string name="perfil_titulo">Perfil de Usuario</string>
+    <string name="error_servicio">Servicio no está disponible en este momento.</string>
+    <string name="error_conexion">Error de Conexión</string>
+    <string name="error_conexion_servidor">Servidor no está funcionando. Intente conectarse
+		mas tarde. Disculpe las molestias.
+	</string>
+    <string name="error_inesperado">Esto es realmente embarazoso. No tenemos ni puta
+		idea que paso... Reinicia y manejalo.
+	</string>
+    <string name="mensaje_error_conexion">No se pudo conectar al servidor. Revise su conexión
+		de Internet.
+	</string>
+    <string name="new_usr">Registrar Usuario</string>
+    <string name="profile">Perfil Usuario</string>
+    <string name="config_svr">Configuración</string>
+    <string name="about_ac">Acerca de AC</string>
+    <string name="logout">Salir</string>
+    <string name="svr_url">URL del servidor:</string>
+    <string name="svr_puerto">Puerto del servidor:</string>
+    <string name="config_guardada">Configuración guardada.</string>
+
+    <string-array name="ubicacion_array">
+        <item>Ubicación por Coordenada GPS</item>
+        <item>Ubicación por Calle y Altura</item>
+    </string-array>
+
 </resources>
