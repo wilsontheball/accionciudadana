@@ -48,6 +48,9 @@ public class ListaReclamosGuardados extends Activity {
 	// Almacena reclamos para pasarlos al listener
 	private ArrayList<Reclamo> reclamosGuardados = new ArrayList<Reclamo>();
 
+	// Almacena nombres de los archivos de reclamo guardados
+	private ArrayList<String> nombresArchivos = new ArrayList<String>();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -218,17 +221,19 @@ public class ListaReclamosGuardados extends Activity {
 
 		// Actualiza la lista de reclamos.
 		Reclamo reclamoABorrar = this.reclamosGuardados.remove(posicion);
+		String nombreArchivo = nombresArchivos.remove(posicion);
 
 		// Borra archivo de la foto si existe.
 		String nombreFoto = reclamoABorrar.getNombreImagen();
 		if (nombreFoto != null) {
 			this.deleteFile(nombreFoto);
+			Log.i(this.getClass().getSimpleName(), "Borra foto: " + nombreFoto);
 		}
 
 		// Borra archivo de reclamo.
-		String[] nombresArchivos = this.fileList();
-		String nombreArchivo = nombresArchivos[posicion];
 		this.deleteFile(nombreArchivo);
+		Log.i(this.getClass().getSimpleName(), "Borra reclamo: "
+				+ nombreArchivo);
 
 		// Recarga la vista
 		this.onStart();
@@ -269,6 +274,7 @@ public class ListaReclamosGuardados extends Activity {
 			if (nombresArchivos[i].contains("rec")) {
 				stream = openFileInput(nombresArchivos[i]);
 				this.reclamosGuardados.add(reclamoFromStream(stream));
+				this.nombresArchivos.add(nombresArchivos[i]);
 			}
 		}
 	}

@@ -42,6 +42,8 @@
 	</string>
 	<string name="pass_no_coincide">Contraseña ingresada no coincide con su repetición!
 	</string>
+	<string name="usuario_duplicado">El usuario ingresado ya existe en el sistema.
+		Ingrese otro nombre de usuario. Disculpe las molestias.	</string>
 	<string name="confirmar_registro">Su registro fue exitoso. Ya puede utilizar el
 		sistema. Se mandó un e-mail a su casilla de correo electrónico.
 	</string>

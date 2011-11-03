@@ -28,7 +28,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * Pantalla transparente que maneja los servicios y pide autentificacion.
  * 
- * @since 14-10-2011
+ * @since 03-11-2011
  * @author Paul
  * 
  */
@@ -244,7 +244,7 @@ public class Login extends Activity implements ReceptorRest {
 	/**
 	 * Atiende los resultados de los servicios REST.
 	 * 
-	 * @since 02-11-2011
+	 * @since 03-11-2011
 	 * @author Paul
 	 */
 	public void onReceiveResult(int resultCode, Bundle funcionData) {
@@ -264,15 +264,6 @@ public class Login extends Activity implements ReceptorRest {
 			// Vuelve a la ventana anterior.
 			this.salirDePantalla(funcion, RESULT_OK);
 			break;
-		case ServicioRest.ERROR:
-			// Servicio Fallo!
-			// Cierra dialogo procesando.
-			this.cerrarProcesando();
-			// Limpia nick y pass.
-			this.setDatosLogin(null, null);
-			// Vuelve a la ventana anterior.
-			this.salirDePantalla(funcion, RESULT_CANCELED);
-			break;
 		case ServicioRest.ALIEN:
 			// Fallo Usuario y/o Pass!
 			// Cierra dialogo procesando.
@@ -281,6 +272,15 @@ public class Login extends Activity implements ReceptorRest {
 			this.setDatosLogin(null, null);
 			// Muestra mensaje de error de Login.
 			this.mostrarDialogo(LOGIN_FAIL);
+			break;
+		default:
+			// Servicio Fallo!
+			// Cierra dialogo procesando.
+			this.cerrarProcesando();
+			// Limpia nick y pass.
+			this.setDatosLogin(null, null);
+			// Vuelve a la ventana anterior.
+			this.salirDePantalla(funcion, RESULT_CANCELED);
 			break;
 		}
 	}

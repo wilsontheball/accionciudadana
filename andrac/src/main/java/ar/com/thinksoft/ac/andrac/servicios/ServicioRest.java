@@ -49,6 +49,7 @@ public class ServicioRest extends IntentService {
 	public static final int FIN = 1;
 	public static final int ERROR = -1;
 	public static final int ALIEN = -2;
+	public static final int DUPLICADO = -3;
 	public static final String FUN = "funcion";
 	public static final String REC = "receptor";
 
@@ -59,7 +60,7 @@ public class ServicioRest extends IntentService {
 	/**
 	 * Atiende la creacion de un servicio.
 	 * 
-	 * @since 02-11-2011
+	 * @since 03-11-2011
 	 * @author Paul
 	 */
 	@Override
@@ -117,14 +118,21 @@ public class ServicioRest extends IntentService {
 					.getStatusLine().getReasonPhrase() : "Timeout?";
 			if (retorno == FIN && codigoHttp == HttpURLConnection.HTTP_OK) {
 				retorno = FIN;
-				Log.i(this.getClass().getName(), "HTTP EXITO FIN. Retorno: "
+				Log.i(this.getClass().getName(), "HTTP_OK FIN. Retorno: "
 						+ retorno + " CodigoHTTP: " + codigoHttp + " Razon: "
 						+ razon);
 			} else if (codigoHttp == HttpURLConnection.HTTP_FORBIDDEN) {
 				retorno = ALIEN;
-				Log.e(this.getClass().getName(), "HTTP FORBIDDEN. Retorno: "
-						+ retorno + " CodigoHTTP: " + codigoHttp + " Razon: "
-						+ razon);
+				Log.e(this.getClass().getName(),
+						"HTTP_FORBIDDEN ALIEN. Retorno: " + retorno
+								+ " CodigoHTTP: " + codigoHttp + " Razon: "
+								+ razon);
+			} else if (codigoHttp == HttpURLConnection.HTTP_CONFLICT) {
+				retorno = DUPLICADO;
+				Log.e(this.getClass().getName(),
+						"HTTP_CONFLICT DUPLICADO. Retorno: " + retorno
+								+ " CodigoHTTP: " + codigoHttp + " Razon: "
+								+ razon);
 			} else {
 				retorno = ERROR;
 				Log.e(this.getClass().getName(), "HTTP ERROR. Retorno: "
