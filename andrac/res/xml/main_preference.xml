@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="Configuración" >
+
+    <EditTextPreference
+        android:defaultValue="@string/url_estandar"
+        android:inputType="text"
+        android:key="url"
+        android:persistent="true"
+        android:title="@string/svr_url" >
+    </EditTextPreference>
+
+    <EditTextPreference
+        android:defaultValue="@string/puerto_estandar"
+        android:inputType="text"
+        android:key="puerto"
+        android:persistent="true"
+        android:title="@string/svr_puerto" >
+    </EditTextPreference>
+
+</PreferenceScreen>

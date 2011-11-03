@@ -1,10 +1,12 @@
 package ar.com.thinksoft.ac.andrac.servicios;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -27,6 +29,7 @@ import android.os.ResultReceiver;
 import android.util.Log;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
+import ar.com.thinksoft.ac.andrac.dominio.Imagen;
 import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 import ar.com.thinksoft.ac.andrac.dominio.Usuario;
 import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
@@ -37,7 +40,7 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Se encarga de correr en 2do plano todas las funciones de conexion a servidor.
  * 
- * @since 16-10-2011
+ * @since 02-11-2011
  * @author Paul
  */
 public class ServicioRest extends IntentService {
@@ -45,12 +48,10 @@ public class ServicioRest extends IntentService {
 	public static final int RUN = 0;
 	public static final int FIN = 1;
 	public static final int ERROR = -1;
+	public static final int ALIEN = -2;
+	public static final int DUPLICADO = -3;
 	public static final String FUN = "funcion";
-	public static final String HTTP_COD = "codigo";
 	public static final String REC = "receptor";
-
-	// Almacena temporalmente la respuesta.
-	HttpResponse respuestaHttp = null;
 
 	public ServicioRest() {
 		super("ServicioRest");
@@ -59,7 +60,7 @@ public class ServicioRest extends IntentService {
 	/**
 	 * Atiende la creacion de un servicio.
 	 * 
-	 * @since 16-10-2011
+	 * @since 03-11-2011
 	 * @author Paul
 	 */
 	@Override
@@ -68,30 +69,33 @@ public class ServicioRest extends IntentService {
 		String funcion = intent.getStringExtra(FUN);
 		Log.d(this.getClass().getName(), "Funcion: " + funcion);
 
-		Bundle bundle = new Bundle();
-		int codigoHttp = -1;
+		// Almacena temporalmente la respuesta.
+		HttpResponse respuestaHttp = null;
+
+		// Por defecto devuelve ERROR.
 		int retorno = ERROR;
+
+		Bundle bundle = new Bundle();
 		try {
 			bundle.putString(FUN, funcion);
 			receptor.send(RUN, bundle);
 			if (FuncionRest.GETRECLAMOS.equals(funcion)) {
 				// Funcion GET Reclamos.
-				this.getReclamos(this.getRepo().getUrlServer(), this.getRepo()
-						.getNick(), this.getRepo().getPass());
+				respuestaHttp = this.getReclamos(this.getRepo().getUrlServer(),
+						this.getRepo().getNick(), this.getRepo().getPass());
 			} else if (FuncionRest.GETPERFIL.equals(funcion)) {
 				// Funcion GET Perfil.
-				this.getPerfil(this.getRepo().getUrlServer(), this.getRepo()
-						.getNick(), this.getRepo().getPass());
+				respuestaHttp = this.getPerfil(this.getRepo().getUrlServer(),
+						this.getRepo().getNick(), this.getRepo().getPass());
 			} else if (FuncionRest.POSTRECLAMO.equals(funcion)) {
 				// Funcion POST Reclamo.
-				this.setRespuestaHttp(this.postReclamo(this.getRepo()
-						.getUrlServer(), this.getRepo().getNick(), this
-						.getRepo().getPass(), this.getRepo()
-						.getReclamoAEnviar()));
+				respuestaHttp = this.postReclamo(this.getRepo().getUrlServer(),
+						this.getRepo().getNick(), this.getRepo().getPass(),
+						this.getRepo().getReclamoAEnviar());
 			} else if (FuncionRest.POSTUSUARIO.equals(funcion)) {
 				// Funcion POST Usuario.
-				this.setRespuestaHttp(this.postUsuario(this.getRepo()
-						.getUrlServer(), this.getRepo().getUsuarioARegistrar()));
+				respuestaHttp = this.postUsuario(this.getRepo().getUrlServer(),
+						this.getRepo().getUsuarioARegistrar());
 			} else {
 				// Funcion desconocida.
 				Log.e(this.getClass().getName(), "Funcion desconocida!");
@@ -108,77 +112,97 @@ public class ServicioRest extends IntentService {
 			retorno = ERROR;
 			Log.e(this.getClass().getName(), e.toString());
 		} finally {
-			codigoHttp = this.getRespuestaHttp() != null ? this
-					.getRespuestaHttp().getStatusLine().getStatusCode() : -1;
-			bundle.putInt(HTTP_COD, codigoHttp);
+			int codigoHttp = respuestaHttp != null ? respuestaHttp
+					.getStatusLine().getStatusCode() : -1;
+			String razon = respuestaHttp != null ? respuestaHttp
+					.getStatusLine().getReasonPhrase() : "Timeout?";
+			if (retorno == FIN && codigoHttp == HttpURLConnection.HTTP_OK) {
+				retorno = FIN;
+				Log.i(this.getClass().getName(), "HTTP_OK FIN. Retorno: "
+						+ retorno + " CodigoHTTP: " + codigoHttp + " Razon: "
+						+ razon);
+			} else if (codigoHttp == HttpURLConnection.HTTP_FORBIDDEN) {
+				retorno = ALIEN;
+				Log.e(this.getClass().getName(),
+						"HTTP_FORBIDDEN ALIEN. Retorno: " + retorno
+								+ " CodigoHTTP: " + codigoHttp + " Razon: "
+								+ razon);
+			} else if (codigoHttp == HttpURLConnection.HTTP_CONFLICT) {
+				retorno = DUPLICADO;
+				Log.e(this.getClass().getName(),
+						"HTTP_CONFLICT DUPLICADO. Retorno: " + retorno
+								+ " CodigoHTTP: " + codigoHttp + " Razon: "
+								+ razon);
+			} else {
+				retorno = ERROR;
+				Log.e(this.getClass().getName(), "HTTP ERROR. Retorno: "
+						+ retorno + " CodigoHTTP: " + codigoHttp + " Razon: "
+						+ razon);
+			}
 			bundle.putString(FUN, funcion);
 			receptor.send(retorno, bundle);
-			Log.e(this.getClass().getName(), "STOP. Retorno: " + retorno
-					+ " CodigoHTTP: " + codigoHttp);
 			this.stopSelf();
 		}
-	}
-
-	@Override
-	public void onDestroy() {
-		Log.i(this.getClass().getName(), "Llamaron a onDestroy()...");
-		super.onDestroy();
 	}
 
 	/**
 	 * Obtiene los reclamos del servidor Rest.
 	 * 
-	 * @since 16-10-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 * @param url
 	 *            URL del servidor.
+	 * @return HttpResponse
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
-	private void getReclamos(String url, String nick, String pass)
+	private HttpResponse getReclamos(String url, String nick, String pass)
 			throws ClientProtocolException, IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETRECLAMOS + "/"
 				+ nick + "/" + pass);
-		this.setRespuestaHttp(httpClient.execute(method));
-		if (this.getRespuestaHttp().getStatusLine().getStatusCode() != 200) {
-			throw new ClientProtocolException();
+		HttpResponse httpResponse = httpClient.execute(method);
+
+		// Si la respuesta no es de tipo HTTP_OK no hace nada.
+		if (httpResponse.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK) {
+			InputStream is = httpResponse.getEntity().getContent();
+			Gson gson = new Gson();
+			Reader reader = new InputStreamReader(is);
+			Type collectionType = new TypeToken<List<Reclamo>>() {
+			}.getType();
+			List<Reclamo> reclamos = gson.fromJson(reader, collectionType);
+			this.getRepo().setReclamosUsuario(reclamos);
 		}
-		InputStream is = this.getRespuestaHttp().getEntity().getContent();
-		Gson gson = new Gson();
-		Reader reader = new InputStreamReader(is);
-		Type collectionType = new TypeToken<List<Reclamo>>() {
-		}.getType();
-		List<Reclamo> reclamos = gson.fromJson(reader, collectionType);
-		this.getRepo().setReclamosUsuario(reclamos);
+		return httpResponse;
 	}
 
 	/**
 	 * Obtiene perfil de usuario del servidor Rest.
 	 * 
-	 * @since 16-10-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 * @param url
 	 *            URL del servidor.
+	 * @return HttpResponse
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
-	private void getPerfil(String url, String nick, String pass)
+	private HttpResponse getPerfil(String url, String nick, String pass)
 			throws ClientProtocolException, IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETPERFIL + "/"
 				+ nick + "/" + pass);
-		this.setRespuestaHttp(httpClient.execute(method));
-		Log.i(this.getClass().getName(), "HTTP Respuesta: "
-				+ this.getRespuestaHttp().getStatusLine().toString());
-		if (this.getRespuestaHttp().getStatusLine().getStatusCode() != 200) {
-			throw new ClientProtocolException();
+		HttpResponse httpResponse = httpClient.execute(method);
+
+		// Si la respuesta no es de tipo HTTP_OK no hace nada.
+		if (httpResponse.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK) {
+			InputStream is = httpResponse.getEntity().getContent();
+			Gson gson = new Gson();
+			Reader reader = new InputStreamReader(is);
+			Usuario perfil = gson.fromJson(reader, Usuario.class);
+			this.getRepo().setPerfilUsuario(perfil);
 		}
-		InputStream is = this.getRespuestaHttp().getEntity().getContent();
-		Gson gson = new Gson();
-		Reader reader = new InputStreamReader(is);
-		Usuario perfil = gson.fromJson(reader, Usuario.class);
-		this.getRepo().setPerfilUsuario(perfil);
+		return httpResponse;
 	}
 
 	/**
@@ -198,6 +222,14 @@ public class ServicioRest extends IntentService {
 
 		// XXX Completa datos faltantes
 		// this.completarUbicacion(reclamo);
+
+		// Obtiene la imagen.
+		if (reclamo.getNombreImagen() != null) {
+			byte[] foto = this.getFoto(reclamo.getNombreImagen());
+			if (foto != null) {
+				reclamo.setImagen(new Imagen(foto, Imagen.TIPO_JPG));
+			}
+		}
 
 		StringEntity entidad = new StringEntity(new Gson().toJson(reclamo));
 		Header header = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");
@@ -230,6 +262,28 @@ public class ServicioRest extends IntentService {
 		HttpPost post = new HttpPost(url + "/" + FuncionRest.POSTUSUARIO);
 		post.setEntity(entidad);
 		return new DefaultHttpClient().execute(post);
+	}
+
+	/**
+	 * Obtiene array de foto.
+	 * 
+	 * @since 01-11-2011
+	 * @author Paul
+	 * @param nombreArchivo
+	 *            Nombre del archivo.
+	 * @return Imagen en byte[] o null si no lo pudo obtener.
+	 */
+	private byte[] getFoto(String nombreArchivo) {
+		try {
+			FileInputStream stream = openFileInput(nombreArchivo);
+			byte[] bytes = new byte[stream.available()];
+			stream.read(bytes);
+			return bytes;
+		} catch (Exception e) {
+			Log.e(this.getClass().getSimpleName(), "No encontro: "
+					+ nombreArchivo + e);
+			return null;
+		}
 	}
 
 	/**
@@ -333,15 +387,5 @@ public class ServicioRest extends IntentService {
 				altura + " " + calle + ", " + "Buenos Aires, Argentina", 0)
 				.get(0);
 		// XXX Hasta aqui probando Goeocoder....
-	}
-
-	/* ************ Getters y Setters ************* */
-
-	private HttpResponse getRespuestaHttp() {
-		return respuestaHttp;
-	}
-
-	private void setRespuestaHttp(HttpResponse respuestaHttp) {
-		this.respuestaHttp = respuestaHttp;
 	}
 }
