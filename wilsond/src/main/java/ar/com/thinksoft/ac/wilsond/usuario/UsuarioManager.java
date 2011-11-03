@@ -92,5 +92,16 @@ private static UsuarioManager instance;
 		Repositorio.getInstancia().store(usuario);
 		
 	}
+
+	public boolean isUsuarioExistente(String nick) {
+		List<IUsuario> listaUsuarios = Repositorio.getInstancia().query(IUsuario.class);
+		
+		for(IUsuario usuario:listaUsuarios){
+			if(nick.equals(usuario.getNombreUsuario()))
+				return true;
+		}
+		
+		return false;
+	}
 	
 }
