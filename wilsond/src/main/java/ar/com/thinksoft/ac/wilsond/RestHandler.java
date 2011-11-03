@@ -151,7 +151,7 @@ public class RestHandler extends DefaultHandler {
 				req.setHandled(true);
 				MailWilsonD.getInstance().enviarMail(usuario.getMail(),"Accion Ciudadana - Bienvenido",MailWilsonD.getInstance().armarTextoBienvenida(usuario));
 			}else{
-				this.responderError(HttpServletResponse.SC_FORBIDDEN,"El usuario ya existe en la Base de Datos.",baseRequest, response);
+				this.responderError(HttpServletResponse.SC_CONFLICT,"El usuario ya existe en la Base de Datos.",baseRequest, response);
 				LogManager.getInstance(RestHandler.class).error("El usuario ya existe en la Base de Datos.");
 				System.out.println("El usuario ya existe en la Base de Datos.");
 			}
