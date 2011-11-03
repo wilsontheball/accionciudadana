@@ -28,7 +28,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.FuncionRest;
 /**
  * La clase se encarga de manejar la pantalla Home.
  * 
- * @since 14-10-2011
+ * @since 03-11-2011
  * @author Paul
  */
 public class Main extends Activity {
@@ -37,8 +37,8 @@ public class Main extends Activity {
 	private final int INICIAR_RECLAMO = 0;
 	private final int LISTA_RECLAMOS = 1;
 	private final int RECLAMOS_GUARDADOS = 2;
-	private final int PERFIL_USUARIO = 3;
-	private final int REGISTRAR_USUARIO = 4;
+	// private final int PERFIL_USUARIO = 3;
+	// private final int REGISTRAR_USUARIO = 4;
 
 	// Nombres de los items de la lista.
 	// private String[] ventanas = { "Iniciar Reclamo", "Reclamos Enviados",
@@ -59,7 +59,6 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		// TODO Hacer que se muestre la info de ayuda por cada item
 		// Carga el listado con las funcionalidades.
 		ListView listado = (ListView) findViewById(R.id.list);
 		listado.setAdapter(new ArrayAdapter<String>(Main.this,
@@ -384,22 +383,21 @@ public class Main extends Activity {
 	/**
 	 * Muestra la ventana de Acerca de AC
 	 * 
-	 * @since 2-11-2011
+	 * @since 03-11-2011
 	 * @author Marian
 	 */
 	private void mostrarVentanaAcercaDeAC() {
 
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-		alertDialog.setTitle("Thinksoft somos");
-		alertDialog
-				.setMessage("\nFerrabone, Marianela\nLiaous, Pavel\nPacín, Hernán\nParedes, Adriel\nTarrío Pagés, Matías\n\n ^_^ **** ^_^");
-		alertDialog.setButton("Cerrar", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}
-		});
+		alertDialog.setTitle(getString(R.string.thinksoft));
+		alertDialog.setMessage(getString(R.string.eqipo));
+		alertDialog.setButton(getString(R.string.atras),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
 		alertDialog.setIcon(R.drawable.icono);
 		alertDialog.show();
 	}
-
 }
