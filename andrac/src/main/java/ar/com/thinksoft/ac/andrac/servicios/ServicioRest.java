@@ -40,7 +40,7 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Se encarga de correr en 2do plano todas las funciones de conexion a servidor.
  * 
- * @since 14-10-2011
+ * @since 02-11-2011
  * @author Paul
  */
 public class ServicioRest extends IntentService {
@@ -48,6 +48,7 @@ public class ServicioRest extends IntentService {
 	public static final int RUN = 0;
 	public static final int FIN = 1;
 	public static final int ERROR = -1;
+	public static final int ALIEN = -2;
 	public static final String FUN = "funcion";
 	public static final String REC = "receptor";
 
@@ -58,7 +59,7 @@ public class ServicioRest extends IntentService {
 	/**
 	 * Atiende la creacion de un servicio.
 	 * 
-	 * @since 01-11-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 */
 	@Override
@@ -113,10 +114,15 @@ public class ServicioRest extends IntentService {
 			int codigoHttp = respuestaHttp != null ? respuestaHttp
 					.getStatusLine().getStatusCode() : -1;
 			String razon = respuestaHttp != null ? respuestaHttp
-					.getStatusLine().getReasonPhrase() : "Desconocida.";
+					.getStatusLine().getReasonPhrase() : "Timeout?";
 			if (retorno == FIN && codigoHttp == HttpURLConnection.HTTP_OK) {
 				retorno = FIN;
-				Log.i(this.getClass().getName(), "HTTP FIN. Retorno: "
+				Log.i(this.getClass().getName(), "HTTP EXITO FIN. Retorno: "
+						+ retorno + " CodigoHTTP: " + codigoHttp + " Razon: "
+						+ razon);
+			} else if (codigoHttp == HttpURLConnection.HTTP_FORBIDDEN) {
+				retorno = ALIEN;
+				Log.e(this.getClass().getName(), "HTTP FORBIDDEN. Retorno: "
 						+ retorno + " CodigoHTTP: " + codigoHttp + " Razon: "
 						+ razon);
 			} else {

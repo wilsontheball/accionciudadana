@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-	<string name="version">1.92</string>
-	<string name="app_name">Acción Ciudadana 1.92</string>
+	<string name="version">1.93</string>
+	<string name="app_name">Acción Ciudadana 1.93</string>
 	<string name="login_sub_titulo">Proyecto Acción Ciudadana</string>
 	<string name="login_titulo">Autenticación</string>
 	<string name="nick_name">Usuario</string>
@@ -42,9 +42,8 @@
 	</string>
 	<string name="pass_no_coincide">Contraseña ingresada no coincide con su repetición!
 	</string>
-	<string name="confirmar_registro">Su registro ha sido exitoso. Se mandó un e-mail a
-		su
-		casilla de correo.
+	<string name="confirmar_registro">Su registro fue exitoso. Ya puede utilizar el
+		sistema. Se mandó un e-mail a su casilla de correo electrónico.
 	</string>
 	<string name="observaciones">Observaciones</string>
 	<string name="cargar_foto">Cargar Foto</string>
@@ -75,8 +74,12 @@
 	</string>
 	<string name="obteniendo_reclamos">Obteniendo reclamos...</string>
 	<string name="obteniendo_perfil">Obteniendo datos de perfil...</string>
+	<string name="enviando_reclamo">Enviando reclamo...</string>
+	<string name="enviando_registro">Registrando usuario...</string>
 	<string name="procesando">Procesando...</string>
 	<string name="perfil_titulo">Perfil de Usuario</string>
+	<string name="error_servicio">Servicio no está disponible en este momento.
+	</string>
 	<string name="error_conexion">Error de Conexión</string>
 	<string name="error_inesperado">Esto es realmente embarazoso. No tenemos ni puta
 		idea que paso... Reinicia y manejalo.</string>

@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
@@ -39,7 +38,7 @@ public class Login extends Activity implements ReceptorRest {
 
 	private static final int LOGIN = 0;
 	private static final int LOGIN_FAIL = 1;
-	private static final int SERVER_ERROR = 2;
+	private static final int ERROR_SERVICIO = 2;
 	private static final int CAMPOS_VACIOS = 3;
 
 	private static final String ANDRAC_NICK = "andrac_nick";
@@ -112,7 +111,7 @@ public class Login extends Activity implements ReceptorRest {
 	/**
 	 * Crea la ventana de dialogo. (Se hace de esta forma en Android 2.2)
 	 * 
-	 * @since 12-10-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 */
 	@Override
@@ -138,15 +137,21 @@ public class Login extends Activity implements ReceptorRest {
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									setDatosLogin(getNick(), getPass());
-									if (isGuardarPass()) {
-										guardarPreferencias(getNick(),
-												getPass());
+									if (getNick().length() == 0
+											|| getNick().length() == 0) {
+										dialog.cancel();
+										mostrarDialogo(CAMPOS_VACIOS);
 									} else {
-										guardarPreferencias(null, null);
+										setDatosLogin(getNick(), getPass());
+										if (isGuardarPass()) {
+											guardarPreferencias(getNick(),
+													getPass());
+										} else {
+											guardarPreferencias(null, null);
+										}
+										ejecutarFuncion(funcionAEjecutar);
+										dialog.cancel();
 									}
-									ejecutarFuncion(funcionAEjecutar);
-									dialog.cancel();
 								}
 							})
 					.setNegativeButton(R.string.cancelar,
@@ -162,6 +167,40 @@ public class Login extends Activity implements ReceptorRest {
 								}
 							}).create();
 			break;
+		case LOGIN_FAIL:
+			// Dialogo de error en Login. Permite hacer Login de vuelta.
+			dialogo = new AlertDialog.Builder(Login.this)
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(tituloDialogo)
+					.setMessage(mensageDialogo)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// Cierra dialogo.
+									dialog.cancel();
+									// Muestra Login.
+									mostrarDialogo(LOGIN);
+								}
+							}).create();
+			break;
+		case CAMPOS_VACIOS:
+			// Dialogo de campos vacios. Permite hacer Login de vuelta.
+			dialogo = new AlertDialog.Builder(Login.this)
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(tituloDialogo)
+					.setMessage(mensageDialogo)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// Cierra dialogo.
+									dialog.cancel();
+									// Muestra Login.
+									mostrarDialogo(LOGIN);
+								}
+							}).create();
+			break;
 		default:
 			// Dialogo comun de Error.
 			dialogo = new AlertDialog.Builder(Login.this)
@@ -172,7 +211,9 @@ public class Login extends Activity implements ReceptorRest {
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
+									// Cierra dialogo.
 									dialog.cancel();
+									// Vuelve a la ventana anterior.
 									salirDePantalla(funcionAEjecutar,
 											RESULT_CANCELED);
 								}
@@ -203,7 +244,7 @@ public class Login extends Activity implements ReceptorRest {
 	/**
 	 * Atiende los resultados de los servicios REST.
 	 * 
-	 * @since 28-09-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 */
 	public void onReceiveResult(int resultCode, Bundle funcionData) {
@@ -212,23 +253,34 @@ public class Login extends Activity implements ReceptorRest {
 				+ resultCode + "]");
 		switch (resultCode) {
 		case ServicioRest.RUN:
-			// Servicio Arranco: Muestra dialogo procesando.
+			// Servicio Arranco!
+			// Muestra dialogo procesando.
 			mostrarProcesando(funcion);
 			break;
 		case ServicioRest.FIN:
-			// Servicio Finalizo: Cierra dialogo procesando.
+			// Servicio Finalizo Exitosamente!
+			// Cierra dialogo procesando.
 			this.cerrarProcesando();
 			// Vuelve a la ventana anterior.
 			this.salirDePantalla(funcion, RESULT_OK);
 			break;
 		case ServicioRest.ERROR:
+			// Servicio Fallo!
+			// Cierra dialogo procesando.
+			this.cerrarProcesando();
 			// Limpia nick y pass.
 			this.setDatosLogin(null, null);
-
-			// Servicio Fallo: Cierra dialogo procesando.
-			this.cerrarProcesando();
 			// Vuelve a la ventana anterior.
 			this.salirDePantalla(funcion, RESULT_CANCELED);
+			break;
+		case ServicioRest.ALIEN:
+			// Fallo Usuario y/o Pass!
+			// Cierra dialogo procesando.
+			this.cerrarProcesando();
+			// Limpia nick y pass.
+			this.setDatosLogin(null, null);
+			// Muestra mensaje de error de Login.
+			this.mostrarDialogo(LOGIN_FAIL);
 			break;
 		}
 	}
@@ -236,7 +288,7 @@ public class Login extends Activity implements ReceptorRest {
 	/**
 	 * Muestra una ventana de dialogo segun la necesidad.
 	 * 
-	 * @since 23-08-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 */
 	private void mostrarDialogo(int codigo) {
@@ -251,9 +303,9 @@ public class Login extends Activity implements ReceptorRest {
 			this.mensageDialogo = getString(R.string.nick_pass_fail);
 			this.showDialog(codigo);
 			break;
-		case SERVER_ERROR:
+		case ERROR_SERVICIO:
 			this.tituloDialogo = getString(R.string.advertencia);
-			this.mensageDialogo = getString(R.string.server_inaccesible);
+			this.mensageDialogo = getString(R.string.error_servicio);
 			this.showDialog(codigo);
 			break;
 		case CAMPOS_VACIOS:
@@ -270,7 +322,7 @@ public class Login extends Activity implements ReceptorRest {
 	 * Muestra una ventana dialogo "Procesando". Al hacer clic en el boton
 	 * finaliza servicio que corre en este momento.
 	 * 
-	 * @since 07-10-2011
+	 * @since 02-11-2011
 	 * @author Paul
 	 * @param mensaje
 	 *            Texto que se va a mostrar en el dialogo.
@@ -280,12 +332,15 @@ public class Login extends Activity implements ReceptorRest {
 
 		this.procesando = new ProgressDialog(Login.this);
 
-		// TODO Agregar mensaje al Bunldle!!!!!!!!!!!!!!!!!!
-		String mensaje = "no tiene mensaje!!";
+		String mensaje = "mensaje!";
 		if (FuncionRest.GETRECLAMOS.equals(funcion)) {
 			mensaje = getString(R.string.obteniendo_reclamos);
 		} else if (FuncionRest.GETPERFIL.equals(funcion)) {
 			mensaje = getString(R.string.obteniendo_perfil);
+		} else if (FuncionRest.POSTRECLAMO.equals(funcion)) {
+			mensaje = getString(R.string.enviando_reclamo);
+		} else if (FuncionRest.POSTUSUARIO.equals(funcion)) {
+			mensaje = getString(R.string.enviando_registro);
 		} else {
 			Log.e(this.getClass().getName(), "Funcion sin mensaje: " + funcion);
 			mensaje = getString(R.string.procesando);
@@ -319,7 +374,16 @@ public class Login extends Activity implements ReceptorRest {
 		}
 	}
 
+	/**
+	 * Crea un servicio para ejcutar la funcion.
+	 * 
+	 * @since 28-09-2011
+	 * @author Paul
+	 * @param funcion
+	 *            Nombre de la funcion a ejecutar.
+	 */
 	private void ejecutarFuncion(String funcion) {
+
 		try {
 			// Crea un servicio.
 			this.servicioRest = new Intent(Intent.ACTION_SYNC, null, this,
@@ -329,9 +393,7 @@ public class Login extends Activity implements ReceptorRest {
 			this.startService(servicioRest);
 
 		} catch (Exception e) {
-			// TODO: mostrar error!!!!
-			Toast.makeText(this, "Fallo iniciar servicio: " + funcionAEjecutar,
-					Toast.LENGTH_SHORT).show();
+			mostrarDialogo(ERROR_SERVICIO);
 			Log.e(this.getClass().getName(), "Fallo iniciar servicio: "
 					+ funcionAEjecutar);
 		}
