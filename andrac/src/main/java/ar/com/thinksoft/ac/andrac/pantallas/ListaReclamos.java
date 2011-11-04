@@ -22,7 +22,7 @@ import ar.com.thinksoft.ac.andrac.dominio.Reclamo;
 /**
  * La clase se encarga de manejar el listado de reclamos realizados por usuario.
  * 
- * @since 10-10-2011
+ * @since 04-11-2011
  * @author Paul
  */
 public class ListaReclamos extends Activity {
@@ -84,7 +84,6 @@ public class ListaReclamos extends Activity {
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		// TODO Definir la vista fachera del dialogo
 
 		switch (id) {
 		case ERROR:
@@ -196,18 +195,24 @@ public class ListaReclamos extends Activity {
 	/**
 	 * Arma el resumen de detalle de un reclamo.
 	 * 
-	 * @since 10-10-2011
+	 * @since 04-11-2011
 	 * @author Paul
 	 * @param reclamo
 	 * @return
 	 */
 	private String armarResumen(Reclamo reclamo) {
 
+		// Obsevaciones puede estar en null.
+		String observaciones = reclamo.getObservaciones();
+		if (observaciones == null) {
+			observaciones = "";
+		}
+
 		String resumen = reclamo.getTipoIncidente() + "\n"
 				+ reclamo.getBarrioIncidente() + "\n"
 				+ reclamo.getCalleIncidente() + " "
 				+ reclamo.getAlturaIncidente() + "\n"
-				+ reclamo.getFechaReclamo() + "\n" + reclamo.getObservaciones();
+				+ reclamo.getFechaReclamo() + "\n" + observaciones;
 		return resumen;
 
 	}

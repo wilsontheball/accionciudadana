@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-	<string name="version">1.12</string>
-	<string name="app_name">Acción Ciudadana 1.12</string>
+	<string name="version">1.14</string>
+	<string name="app_name">Acción Ciudadana</string>
 	<string name="thinksoft">Thinksoft</string>
 	<string name="eqipo">Ferrabone, Marianela\nLiaous, Pavel\nPacín,
 		Hernán\nParedes, Adriel\nTarrío Pagés, Matías</string>
@@ -104,9 +104,14 @@
 	<string name="config_svr">Configuración</string>
 	<string name="about_ac">Acerca de AC</string>
 	<string name="logout">Salir</string>
-	<string name="svr_url">URL del servidor:</string>
-	<string name="svr_puerto">Puerto del servidor:</string>
+	<string name="svr_url">URL del servidor</string>
+	<string name="svr_puerto">Puerto del servidor</string>
+	<string name="svr_timeout">TimeOut conexión [seg]</string>
+	<string name="key_url">url</string>
+	<string name="key_puerto">puerto</string>
+	<string name="key_timeout">timeout</string>
 	<string name="config_guardada">Configuración guardada.</string>
+	<string name="configuracion">Configuración</string>
 
 	<string-array name="ubicacion_array">
 		<item>Ubicación por Coordenada GPS</item>

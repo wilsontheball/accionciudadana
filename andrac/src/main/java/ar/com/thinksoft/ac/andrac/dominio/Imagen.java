@@ -8,6 +8,7 @@ import ar.com.thinksoft.ac.intac.utils.classes.ImagenMovil;
  * @since 07-10-2011
  * @author Paul
  */
+@SuppressWarnings("serial")
 public class Imagen extends ImagenMovil {
 
 	public Imagen(byte[] bytes, String contentType) {

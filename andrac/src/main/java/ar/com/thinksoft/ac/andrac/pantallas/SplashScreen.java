@@ -1,16 +1,11 @@
-/**
- * 
- */
 package ar.com.thinksoft.ac.andrac.pantallas;
 
-import android.R.bool;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import ar.com.thinksoft.ac.andrac.R;
-import ar.com.thinksoft.ac.andrac.servicios.ServicioRest;
 
 /**
  * @since 01-11-11

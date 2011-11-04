@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="Configuración" >
+	android:title="@string/configuracion">
 
-    <EditTextPreference
-        android:defaultValue="@string/url_estandar"
-        android:inputType="text"
-        android:key="url"
-        android:persistent="true"
-        android:title="@string/svr_url" >
-    </EditTextPreference>
+	<EditTextPreference android:defaultValue="@string/url_estandar"
+		android:hint="@string/url_estandar" android:inputType="text"
+		android:key="@string/key_url" android:persistent="true" android:title="@string/svr_url">
+	</EditTextPreference>
 
-    <EditTextPreference
-        android:defaultValue="@string/puerto_estandar"
-        android:inputType="text"
-        android:key="puerto"
-        android:persistent="true"
-        android:title="@string/svr_puerto" >
-    </EditTextPreference>
+	<EditTextPreference android:defaultValue="@string/puerto_estandar"
+		android:hint="@string/puerto_estandar" android:inputType="text"
+		android:key="@string/key_puerto" android:persistent="true"
+		android:title="@string/svr_puerto">
+	</EditTextPreference>
+
+	<EditTextPreference android:defaultValue="@string/timeout_estandar"
+		android:hint="@string/timeout_estandar" android:inputType="number"
+		android:key="@string/key_timeout" android:persistent="true"
+		android:title="@string/svr_timeout">
+	</EditTextPreference>
 
 </PreferenceScreen>

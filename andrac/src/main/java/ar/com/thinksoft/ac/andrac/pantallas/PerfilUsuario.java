@@ -14,7 +14,7 @@ import ar.com.thinksoft.ac.andrac.dominio.Usuario;
  * Se encarga de presentar los datos de perfil de usuario y da la posibilidad de
  * modificarlos.
  * 
- * @since 29-09-2011
+ * @since 03-11-2011
  * @author Paul
  */
 public class PerfilUsuario extends Activity {
@@ -84,47 +84,23 @@ public class PerfilUsuario extends Activity {
 		((EditText) findViewById(R.id.nombre)).setText(nombre);
 	}
 
-	private String getNombre() {
-		return ((EditText) findViewById(R.id.nombre)).getText().toString();
-	}
-
 	private void setApellido(String apellido) {
 		((EditText) findViewById(R.id.apellido)).setText(apellido);
-	}
-
-	private String getApellido() {
-		return ((EditText) findViewById(R.id.apellido)).getText().toString();
 	}
 
 	private void setUsuario(String usuario) {
 		((EditText) findViewById(R.id.nick)).setText(usuario);
 	}
 
-	private String getUsuario() {
-		return ((EditText) findViewById(R.id.nick)).getText().toString();
-	}
-
 	private void setDNI(String dni) {
 		((EditText) findViewById(R.id.dni)).setText(dni + "");
-	}
-
-	private String getDNI() {
-		return ((EditText) findViewById(R.id.dni)).getText().toString();
 	}
 
 	private void setMail(String mail) {
 		((EditText) findViewById(R.id.mail)).setText(mail);
 	}
 
-	private String getMail() {
-		return ((EditText) findViewById(R.id.mail)).getText().toString();
-	}
-
 	private void setTelefono(String telefono) {
 		((EditText) findViewById(R.id.tel)).setText(telefono + "");
-	}
-
-	private String getTelefono() {
-		return ((EditText) findViewById(R.id.tel)).getText().toString();
 	}
 }

@@ -45,7 +45,7 @@ import com.google.gson.Gson;
 /**
  * Maneja creacion de un reclamo.
  * 
- * @since 02-11-2011
+ * @since 03-11-2011
  * @author Paul
  */
 public class IniciarReclamo extends Activity implements LocationListener {
@@ -290,15 +290,18 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				 */
 				@Override
 				public void onFinish() {
-					if(procesando != null){
+					if (procesando != null) {
 						procesando.dismiss();
+						procesando = null;
 					}
 					// Muestra la coordenada de Medrano
 					latitudActual = getPlanBLatitud();
 					longitudActual = getPlanBLongitud();
 					mostrarCoordenada(latitudActual, longitudActual);
 					// Desactiva GPS
-					locationManager.removeUpdates(IniciarReclamo.this);
+					if (locationManager != null) {
+						locationManager.removeUpdates(IniciarReclamo.this);
+					}
 				}
 			}.start();
 		} catch (Exception e) {
@@ -488,19 +491,6 @@ public class IniciarReclamo extends Activity implements LocationListener {
 	private void setBotonGpsHabilitado(boolean valor) {
 		((Button) this.findViewById(R.id.boton_gps)).setEnabled(valor);
 		((Button) this.findViewById(R.id.boton_gps)).setFocusable(valor);
-	}
-
-	/**
-	 * Convierte array de foto a Bitmap para preview.
-	 * 
-	 * @since 11-09-2011
-	 * @author Paul
-	 * @param imagen
-	 *            Imagen en formato de array de byte.
-	 * @return Imagen en formato Bitmap.
-	 */
-	private Bitmap getFotoPreview(byte[] imagen) {
-		return BitmapFactory.decodeByteArray(imagen, 0, imagen.length, null);
 	}
 
 	/**

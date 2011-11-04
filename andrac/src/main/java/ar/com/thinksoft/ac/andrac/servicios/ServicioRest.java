@@ -8,25 +8,28 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.params.AllClientPNames;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.ResultReceiver;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import ar.com.thinksoft.ac.andrac.R;
 import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
 import ar.com.thinksoft.ac.andrac.contexto.Repositorio;
 import ar.com.thinksoft.ac.andrac.dominio.Imagen;
@@ -40,7 +43,7 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Se encarga de correr en 2do plano todas las funciones de conexion a servidor.
  * 
- * @since 02-11-2011
+ * @since 04-11-2011
  * @author Paul
  */
 public class ServicioRest extends IntentService {
@@ -52,6 +55,8 @@ public class ServicioRest extends IntentService {
 	public static final int DUPLICADO = -3;
 	public static final String FUN = "funcion";
 	public static final String REC = "receptor";
+
+	private DefaultHttpClient clienteHttp;
 
 	public ServicioRest() {
 		super("ServicioRest");
@@ -76,9 +81,11 @@ public class ServicioRest extends IntentService {
 		int retorno = ERROR;
 
 		Bundle bundle = new Bundle();
+
 		try {
 			bundle.putString(FUN, funcion);
 			receptor.send(RUN, bundle);
+
 			if (FuncionRest.GETRECLAMOS.equals(funcion)) {
 				// Funcion GET Reclamos.
 				respuestaHttp = this.getReclamos(this.getRepo().getUrlServer(),
@@ -104,13 +111,13 @@ public class ServicioRest extends IntentService {
 			retorno = FIN;
 		} catch (ClientProtocolException e) {
 			retorno = ERROR;
-			Log.e(this.getClass().getName(), "Error HTTP: " + e.toString());
+			Log.e(this.getClass().getName(), "HTTP_Excepcion: " + e.toString());
 		} catch (IOException e) {
 			retorno = ERROR;
-			Log.e(this.getClass().getName(), e.toString());
+			Log.e(this.getClass().getName(), "IO_Excepcion: " + e.toString());
 		} catch (Exception e) {
 			retorno = ERROR;
-			Log.e(this.getClass().getName(), e.toString());
+			Log.e(this.getClass().getName(), "Excepcion: " + e.toString());
 		} finally {
 			int codigoHttp = respuestaHttp != null ? respuestaHttp
 					.getStatusLine().getStatusCode() : -1;
@@ -148,7 +155,7 @@ public class ServicioRest extends IntentService {
 	/**
 	 * Obtiene los reclamos del servidor Rest.
 	 * 
-	 * @since 02-11-2011
+	 * @since 04-11-2011
 	 * @author Paul
 	 * @param url
 	 *            URL del servidor.
@@ -158,10 +165,10 @@ public class ServicioRest extends IntentService {
 	 */
 	private HttpResponse getReclamos(String url, String nick, String pass)
 			throws ClientProtocolException, IOException {
-		DefaultHttpClient httpClient = new DefaultHttpClient();
+
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETRECLAMOS + "/"
 				+ nick + "/" + pass);
-		HttpResponse httpResponse = httpClient.execute(method);
+		HttpResponse httpResponse = getClienteHttp().execute(method);
 
 		// Si la respuesta no es de tipo HTTP_OK no hace nada.
 		if (httpResponse.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK) {
@@ -179,7 +186,7 @@ public class ServicioRest extends IntentService {
 	/**
 	 * Obtiene perfil de usuario del servidor Rest.
 	 * 
-	 * @since 02-11-2011
+	 * @since 04-11-2011
 	 * @author Paul
 	 * @param url
 	 *            URL del servidor.
@@ -189,10 +196,10 @@ public class ServicioRest extends IntentService {
 	 */
 	private HttpResponse getPerfil(String url, String nick, String pass)
 			throws ClientProtocolException, IOException {
-		DefaultHttpClient httpClient = new DefaultHttpClient();
+
 		HttpGet method = new HttpGet(url + "/" + FuncionRest.GETPERFIL + "/"
 				+ nick + "/" + pass);
-		HttpResponse httpResponse = httpClient.execute(method);
+		HttpResponse httpResponse = getClienteHttp().execute(method);
 
 		// Si la respuesta no es de tipo HTTP_OK no hace nada.
 		if (httpResponse.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK) {
@@ -208,7 +215,7 @@ public class ServicioRest extends IntentService {
 	/**
 	 * Manda un reclamo al servidor Rest.
 	 * 
-	 * @since 10-10-2011
+	 * @since 04-11-2011
 	 * @author Paul
 	 * @param url
 	 *            URL del servidor.
@@ -220,8 +227,16 @@ public class ServicioRest extends IntentService {
 	private HttpResponse postReclamo(String url, String nick, String pass,
 			Reclamo reclamo) throws ClientProtocolException, IOException {
 
-		// XXX Completa datos faltantes
-		// this.completarUbicacion(reclamo);
+		// Primero chequea la conexion para no perder tiempo.
+		// HttpResponse respuesta = getClienteHttp().execute(new
+		// HttpTrace(url));
+		// if (respuesta.getStatusLine().getStatusCode() !=
+		// HttpURLConnection.HTTP_OK) {
+		// Log.e(this.getClass().getName(), "Fallo la conexion!");
+		// return respuesta;
+		// } else {
+		// Log.d(this.getClass().getName(), "Hay conexion!");
+		// }
 
 		// Obtiene la imagen.
 		if (reclamo.getNombreImagen() != null) {
@@ -238,13 +253,13 @@ public class ServicioRest extends IntentService {
 		HttpPost post = new HttpPost(url + "/" + FuncionRest.POSTRECLAMO + "/"
 				+ nick + "/" + pass);
 		post.setEntity(entidad);
-		return new DefaultHttpClient().execute(post);
+		return getClienteHttp().execute(post);
 	}
 
 	/**
 	 * Manda un usuario al servidor Rest. No se manda nick ni pass.
 	 * 
-	 * @since 08-10-2011
+	 * @since 04-11-2011
 	 * @author Paul
 	 * @param url
 	 *            URL del servidor.
@@ -255,13 +270,25 @@ public class ServicioRest extends IntentService {
 	 */
 	private HttpResponse postUsuario(String url, Usuario usuario)
 			throws ClientProtocolException, IOException {
+
+		// Primero chequea la conexion para no perder tiempo.
+		// HttpResponse respuesta = getClienteHttp().execute(new
+		// HttpTrace(url));
+		// if (respuesta.getStatusLine().getStatusCode() !=
+		// HttpURLConnection.HTTP_OK) {
+		// Log.e(this.getClass().getName(), "Fallo la conexion!");
+		// return respuesta;
+		// } else {
+		// Log.d(this.getClass().getName(), "Hay conexion!");
+		// }
+
 		StringEntity entidad = new StringEntity(new Gson().toJson(usuario));
 		Header header = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");
 		entidad.setContentEncoding(header);
 
 		HttpPost post = new HttpPost(url + "/" + FuncionRest.POSTUSUARIO);
 		post.setEntity(entidad);
-		return new DefaultHttpClient().execute(post);
+		return getClienteHttp().execute(post);
 	}
 
 	/**
@@ -298,94 +325,31 @@ public class ServicioRest extends IntentService {
 	}
 
 	/**
-	 * Completa ubicacion de incidente con Geocoding segun lo que falta.
+	 * Devuelve de forma lazy Cliente configurado para conexion HTTP.
 	 * 
-	 * @since 08-10-2011
+	 * @since 04-11-2011
 	 * @author Paul
-	 * @param reclamo
-	 * @throws IOException
+	 * @return DefaultHttpClient.
 	 */
-	private void completarUbicacion(Reclamo reclamo) throws IOException {
-
-		Address direccion = null;
-		if ((reclamo.getLatitudIncidente() != null)
-				&& (reclamo.getLatitudIncidente() != null)) {
-			// Completa calle y altura.
-			String calle = null;
-			String altura = null;
-			direccion = this.coordenadaADireccion(
-					reclamo.getLatitudIncidente(),
-					reclamo.getLongitudIncidente());
-			String lineaDir = direccion.getAddressLine(0);
-			StringTokenizer tokens = new StringTokenizer(lineaDir, " ");
-			if (tokens.hasMoreElements()) {
-				// altura = (String) tokens.nextElement();
-				altura = direccion.getSubThoroughfare();
+	private DefaultHttpClient getClienteHttp() {
+		if (this.clienteHttp == null) {
+			SharedPreferences preferencias = PreferenceManager
+					.getDefaultSharedPreferences(this);
+			String timeoutStr = preferencias.getString(
+					getString(R.string.key_timeout), null);
+			if (timeoutStr == null || timeoutStr.length() == 0) {
+				timeoutStr = getString(R.string.timeout_estandar);
 			}
-			if (tokens.hasMoreElements()) {
-				// calle = (String) tokens.toString();
-				calle = direccion.getThoroughfare();
-			}
-			Log.d(this.getClass().getName(), "GEO obtuvo direccion: " + calle
-					+ " " + altura);
-			reclamo.setAlturaIncidente(altura);
-			reclamo.setCalleIncidente(calle);
-		} else if ((reclamo.getCalleIncidente() != null)
-				&& (reclamo.getAlturaIncidente() != null)) {
-			// Completa latitud y longitud.
-			direccion = this.direccionACoordenada(reclamo.getCalleIncidente(),
-					reclamo.getAlturaIncidente());
-			Log.d(this.getClass().getName(), "GEO obtuvo coordenada: "
-					+ direccion.getLatitude() + ", " + direccion.getLongitude());
-			reclamo.setLatitudIncidente(direccion.getLatitude() + "");
-			reclamo.setLongitudIncidente(direccion.getLongitude() + "");
-		} else {
-			// No se puede completar.
-			Log.e(this.getClass().getName(), "Reclamo incompleto!");
-			throw new IOException("Reclamo incompleto!");
+			// Se transforma a milisegundos
+			int timeout = new Integer(timeoutStr).intValue() * 1000;
+			HttpParams httpParameters = new BasicHttpParams();
+			httpParameters.setParameter(AllClientPNames.CONNECTION_TIMEOUT,
+					timeout);
+			httpParameters.setParameter(AllClientPNames.SO_TIMEOUT, timeout);
+			// httpParameters.setParameter(AllClientPNames.HTTP_CONTENT_CHARSET,
+			// HTTP.UTF_8);
+			this.clienteHttp = new DefaultHttpClient(httpParameters);
 		}
-	}
-
-	/**
-	 * Convierte una coordenada a una direccion con Geocoding.
-	 * 
-	 * @since 08-10-2011
-	 * @author Paul
-	 * @param latitud
-	 * @param longitud
-	 * @return Direccion obtenida.
-	 * @throws IOException
-	 */
-	private Address coordenadaADireccion(String unaLatitud, String unaLongitud)
-			throws IOException {
-
-		Double latitud = new Double(unaLatitud);
-		Double longitud = new Double(unaLongitud);
-		// XXX Probando Goeocoder....
-		Geocoder geocoder = new Geocoder(ServicioRest.this);
-		return geocoder.getFromLocation(latitud, longitud, 1).get(0);
-		// XXX Hasta aqui probando Goeocoder....
-
-	}
-
-	/**
-	 * Convierte una direccion a una coordenada con Geocoding.
-	 * 
-	 * @since 08-10-2011
-	 * @author Paul
-	 * @param calle
-	 * @param altura
-	 * @return
-	 * @throws IOException
-	 */
-	private Address direccionACoordenada(String calle, String altura)
-			throws IOException {
-
-		// XXX Probando Goeocoder....
-		Geocoder geocoder = new Geocoder(ServicioRest.this);
-		return geocoder.getFromLocationName(
-				altura + " " + calle + ", " + "Buenos Aires, Argentina", 0)
-				.get(0);
-		// XXX Hasta aqui probando Goeocoder....
+		return this.clienteHttp;
 	}
 }

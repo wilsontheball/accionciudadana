@@ -1,82 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ar.com.thinksoft.ac.andrac"
-    android:versionCode="0"
-    android:versionName="@string/version" >
+	package="ar.com.thinksoft.ac.andrac" android:versionCode="0"
+	android:versionName="@string/version">
+	<application android:icon="@drawable/icono" android:label="@string/app_name"
+		android:name=".contexto.Aplicacion" android:theme="@style/CustomTheme">
+		<activity android:configChanges="keyboard|keyboardHidden|orientation"
+			android:name=".pantallas.SplashScreen" android:theme="@style/Theme.Transparent">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN">
+				</action>
 
-    <application
-        android:icon="@drawable/icono"
-        android:label="@string/app_name"
-        android:name=".contexto.Aplicacion"
-        android:theme="@style/CustomTheme" >
-        <activity
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:name=".pantallas.SplashScreen"
-            android:theme="@style/Theme.Transparent" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" >
-                </action>
+				<category android:name="android.intent.category.LAUNCHER">
+				</category>
+			</intent-filter>
+		</activity>
+		<activity android:configChanges="keyboard|keyboardHidden|orientation"
+			android:name=".pantallas.Main">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" >
-                </category>
-            </intent-filter>
-        </activity>
-        <activity
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:name=".pantallas.Main" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:configChanges="keyboard|keyboardHidden|orientation"
+			android:name=".pantallas.Login" android:theme="@android:style/Theme.NoDisplay" />
+		<activity android:configChanges="keyboard|keyboardHidden|orientation"
+			android:name=".pantallas.Registro" />
+		<activity android:configChanges="keyboard|keyboardHidden|orientation"
+			android:name=".pantallas.ListaReclamos" />
+		<activity android:configChanges="keyboard|keyboardHidden|orientation"
+			android:name=".pantallas.IniciarReclamo" />
+		<activity android:configChanges="keyboard|keyboardHidden|orientation"
+			android:name=".pantallas.CamaraView" />
+		<activity android:configChanges="keyboard|keyboardHidden|orientation"
+			android:name=".pantallas.PerfilUsuario" />
+		<activity android:configChanges="keyboard|keyboardHidden|orientation"
+			android:name=".pantallas.ListaReclamosGuardados" />
+		<activity android:configChanges="keyboard|keyboardHidden|orientation"
+			android:name=".pantallas.Configuracion" />
+		<activity android:configChanges="keyboard|keyboardHidden|orientation"
+			android:name=".pantallas.MainPreference" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:name=".pantallas.Login"
-            android:theme="@android:style/Theme.NoDisplay" />
-        <activity
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:name=".pantallas.Registro" />
-        <activity
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:name=".pantallas.ListaReclamos" />
-        <activity
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:name=".pantallas.IniciarReclamo" />
-        <activity
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:name=".pantallas.CamaraView" />
-        <activity
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:name=".pantallas.PerfilUsuario" />
-        <activity
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:name=".pantallas.ListaReclamosGuardados" />
-        <activity
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:name=".pantallas.Configuracion" />
-        <activity
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:name=".pantallas.MainPreference" />
+		<service android:enabled="true" android:name=".servicios.ServicioRest" />
+	</application>
 
-        <service
-            android:enabled="true"
-            android:name=".servicios.ServicioRest" />
-    </application>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+	<uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
-    <uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" />
+	<uses-feature android:name="android.hardware.camera" />
+	<uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="8" />
+	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="8" />
 
 </manifest>

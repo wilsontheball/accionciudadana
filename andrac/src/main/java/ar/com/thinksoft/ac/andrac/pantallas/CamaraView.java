@@ -35,7 +35,7 @@ import ar.com.thinksoft.ac.andrac.contexto.Aplicacion;
  * Pantalla de la camara de fotos. Saca foto si se hace un clic sobre la
  * pantalla o se presiona el boton de la camara.
  * 
- * @since 02-11-2010
+ * @since 04-11-2010
  * @author Paul
  */
 public class CamaraView extends Activity implements SurfaceHolder.Callback {
@@ -108,7 +108,7 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	protected void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 
-		Log.e(TAG, "onCreate");
+		Log.d(TAG, "onCreate");
 
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
@@ -133,7 +133,7 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
-		Log.e(TAG, "surfaceCreated");
+		Log.d(TAG, "surfaceCreated");
 		camara = Camera.open();
 		if (camara != null) {
 			Parameters param = camara.getParameters();
@@ -148,7 +148,7 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-		Log.e(TAG, "surfaceChanged");
+		Log.d(TAG, "surfaceChanged");
 
 		// XXX stopPreview() will crash if preview is not running
 		if (previewRunning) {
@@ -169,7 +169,7 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		Log.e(TAG, "surfaceDestroyed");
+		Log.d(TAG, "surfaceDestroyed");
 		camara.stopPreview();
 		previewRunning = false;
 		camara.release();
@@ -192,7 +192,7 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 	/**
 	 * Saca foto cuando se pulsa el BOTON DE CAMARA.
 	 * 
-	 * @since 14-10-2011
+	 * @since 04-11-2011
 	 * @author Paul
 	 * @param keyCode
 	 *            Codigo del boton presionado.
@@ -207,7 +207,8 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 		} else if (keyCode == KeyEvent.KEYCODE_CAMERA) {
 			// XXX No hace nada.
 		} else {
-			super.onKeyDown(keyCode, event);
+			// XXX Por las dudas bloqueo las demas teclas.
+			// super.onKeyDown(keyCode, event);
 		}
 		return true;
 	}
@@ -253,15 +254,15 @@ public class CamaraView extends Activity implements SurfaceHolder.Callback {
 		if (!dimensiones.contains(dimension)) {
 
 			Log.e(TAG, "**** Dimension NO aceptada para foto! ****");
-			Log.e(TAG, "**** Dimensiones de foto permitidas ****");
+			Log.d(TAG, "**** Dimensiones de foto permitidas ****");
 			for (Object o : dimensiones) {
 				Size s = (Size) o;
-				Log.e(TAG, s.width + "x" + s.height);
+				Log.d(TAG, s.width + "x" + s.height);
 			}
 
 			// Se toma la menor dimension.
 			dimension = dimensiones.get(0);
-			Log.e(TAG, "Dimension elegida: " + dimension.width + "x"
+			Log.d(TAG, "Dimension elegida: " + dimension.width + "x"
 					+ dimension.height);
 		}
 		param.setPictureSize(dimension.width, dimension.height);
