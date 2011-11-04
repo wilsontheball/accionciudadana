@@ -444,7 +444,7 @@ public class Login extends Activity implements ReceptorRest {
 	/**
 	 * Obtiene url y puerto guardados en el registro del telefono.
 	 * 
-	 * @since 14-10-2011
+	 * @since 03-11-2011
 	 * @author Paul
 	 */
 	private void obtenerURL() {
@@ -457,10 +457,10 @@ public class Login extends Activity implements ReceptorRest {
 		SharedPreferences preferencias = PreferenceManager
 				.getDefaultSharedPreferences(this);
 
-		// FIXME hay que ir a buscarlos a los xml? =P
 		String url = preferencias.getString("url",
-				"www.accion-ciudadana.com.ar");
-		String puerto = preferencias.getString("puerto", "6060");
+				getString(R.string.url_estandar));
+		String puerto = preferencias.getString("puerto",
+				getString(R.string.puerto_estandar));
 
 		if (url == null || url.length() == 0) {
 			url = getString(R.string.url_estandar);
