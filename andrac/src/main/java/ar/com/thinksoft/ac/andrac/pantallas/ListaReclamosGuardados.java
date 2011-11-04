@@ -31,16 +31,13 @@ import com.google.gson.Gson;
 /**
  * La clase se encarga de manejar el listado de reclamos guardados por usuario.
  * 
- * @since 02-11-2011
+ * @since 03-11-2011
  * @author Paul
  */
 public class ListaReclamosGuardados extends Activity {
 
 	// Codigo de error de envio de reclamo
 	private final int ERROR_ENVIO = -1;
-
-	// Almacena reclamo para mostrar su detalle
-	private Reclamo reclamoGuardado = null;
 
 	// Almacena posicion del reclamo en la lista
 	private int posicionReclamo = 0;
@@ -139,7 +136,7 @@ public class ListaReclamosGuardados extends Activity {
 	/**
 	 * Actualiza la ventana de dialogo antes de mostrarla.
 	 * 
-	 * @since 02-11-2011
+	 * @since 03-11-2011
 	 * @author Paul
 	 */
 	@Override
@@ -148,7 +145,6 @@ public class ListaReclamosGuardados extends Activity {
 		if (indice >= 0) {
 			Reclamo reclamo = this.reclamosGuardados.get(indice);
 			if (reclamo != null) {
-				this.setReclamoGuardado(reclamo);
 				this.setPosicionReclamo(indice);
 				((AlertDialog) dialog).setMessage(this.armarResumen(reclamo));
 			} else {
@@ -192,14 +188,13 @@ public class ListaReclamosGuardados extends Activity {
 	/**
 	 * Muestra una ventana de dialogo con el detalle de reclamo.
 	 * 
-	 * @since 14-10-2011
+	 * @since 03-11-2011
 	 * @author Paul
 	 */
 	private void mostrarDialogo(int indice) {
 		if (indice >= 0) {
 			Reclamo reclamo = reclamosGuardados.get(indice);
 			if (reclamo != null) {
-				this.setReclamoGuardado(reclamo);
 				this.setPosicionReclamo(indice);
 				this.showDialog(indice);
 			}
@@ -346,13 +341,4 @@ public class ListaReclamosGuardados extends Activity {
 	private void setPosicionReclamo(int posicionReclamo) {
 		this.posicionReclamo = posicionReclamo;
 	}
-
-	private Reclamo getReclamoGuardado() {
-		return reclamoGuardado;
-	}
-
-	private void setReclamoGuardado(Reclamo reclamoGuardado) {
-		this.reclamoGuardado = reclamoGuardado;
-	}
-
 }

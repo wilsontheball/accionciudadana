@@ -106,7 +106,10 @@
 	<string name="logout">Salir</string>
 	<string name="svr_url">URL del servidor:</string>
 	<string name="svr_puerto">Puerto del servidor:</string>
+	<string name="key_url">url</string>
+	<string name="key_puerto">puerto</string>
 	<string name="config_guardada">Configuración guardada.</string>
+	<string name="configuracion">Configuración</string>
 
 	<string-array name="ubicacion_array">
 		<item>Ubicación por Coordenada GPS</item>
