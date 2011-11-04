@@ -290,7 +290,9 @@ public class IniciarReclamo extends Activity implements LocationListener {
 				 */
 				@Override
 				public void onFinish() {
-					procesando.dismiss();
+					if(procesando != null){
+						procesando.dismiss();
+					}
 					// Muestra la coordenada de Medrano
 					latitudActual = getPlanBLatitud();
 					longitudActual = getPlanBLongitud();

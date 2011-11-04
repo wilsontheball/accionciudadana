@@ -188,8 +188,10 @@ public class ReclamoManager {
 			reclamo.setComunaIncidentePorBarrio(reclamoAndroid.getBarrioIncidente());
 			
 			IImagen imagenAndrac = reclamoAndroid.getImagen();
-			IImagen imagenWebac = new Imagen(imagenAndrac.getBytes(), imagenAndrac.getContentType(), reclamo.getId());
-			reclamo.setImagen(imagenWebac);
+			if(imagenAndrac!=null){
+				IImagen imagenWebac = new Imagen(imagenAndrac.getBytes(), imagenAndrac.getContentType(), reclamo.getId());
+				reclamo.setImagen(imagenWebac);
+			}
 			
 			return reclamo;
 		
